@@ -1,0 +1,5 @@
+python-werkzeug (0.1~svn3830-1) experimental; urgency=low
+
+  * Initial release. Closes: #433991
+
+ -- Noah Slater <nslater@bytesexual.org>  Fri, 20 Jul 2007 20:53:52 +0100

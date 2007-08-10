@@ -1,0 +1,25 @@
+Source: python-werkzeug
+Section: python
+Priority: optional
+Maintainer: Noah Slater <nslater@bytesexual.org>
+Uploaders: Debian Python Modules Team
+ <python-modules-team@lists.alioth.debian.org>
+Standards-Version: 3.7.2
+Build-Depends: cdbs (>= 0.4.42), debhelper (>= 5.0.37.2), python-dev
+Build-Depends-Indep: help2man, python-docutils, python-jinja (>= 1.1-1),
+ python-pygments, python-setuptools (>= 0.6b3-1), python-support (>= 0.6.4)
+
+Package: python-werkzeug
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}, python-wsgiref
+Priority: optional
+Description: a collection of various utilities for WSGI applications
+ Werkzeug is a collection of various utilities for WSGI applications. It
+ features request and response objects as well as a powerful url dispatcher and
+ a debugging system.
+ .
+ Combine multiple small utilities together to build the framework of your
+ application. Together with a bunch of other utilities and middlewares you can
+ easily create your own custom application backend.
+ .
+  Homepage: http://werkzeug.pocoo.org/
