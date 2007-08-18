@@ -12,14 +12,15 @@ Build-Depends-Indep: help2man, python-docutils, python-jinja (>= 1.1-1),
 Package: python-werkzeug
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, python-wsgiref
+Suggests: python-jinja, python-sqlalchemy
 Priority: optional
-Description: a collection of various utilities for WSGI applications
- Werkzeug is a collection of various utilities for WSGI applications. It
- features request and response objects as well as a powerful url dispatcher and
- a debugging system.
+Description: a collection of utilities for WSGI applications
+ The Web Server Gateway Interface (WSGI) is a standard interface between web
+ server software and web applicaions written in Python.
  .
- Combine multiple small utilities together to build the framework of your
- application. Together with a bunch of other utilities and middlewares you can
- easily create your own custom application backend.
+ Werkzeug is a lightweight library for interfacing with WSGI. It features
+ request and response objects, an interactive debugging system and a powerful
+ URI dispatcher. Combine with with your choice of third party libraries and
+ middleware to easily create a custom application framework.
  .
   Homepage: http://werkzeug.pocoo.org/
