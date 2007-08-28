@@ -11,7 +11,7 @@ Build-Depends-Indep: help2man, python-docutils, python-jinja (>= 1.1-1),
 
 Package: python-werkzeug
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-wsgiref
+Depends: ${python:Depends}, ${misc:Depends}, python (>= 2.5) | python-wsgiref
 Suggests: python-jinja, python-sqlalchemy
 Priority: optional
 Description: a collection of utilities for WSGI applications
