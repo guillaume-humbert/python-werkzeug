@@ -18,6 +18,7 @@ include /usr/share/cdbs/1/class/python-distutils.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
 DEB_PYTHON_INSTALL_ARGS_ALL += --single-version-externally-managed
+DEB_PYTHON_PRIVATE_MODULES_DIRS = -X /usr/share/python-werkzeug
 
 UPSTREAM_REPOSITORY_ADDRESS = http://trac.pocoo.org/repos/werkzeug/trunk
 
