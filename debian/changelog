@@ -1,8 +1,8 @@
 python-werkzeug (0.1~svn3830-2) UNRELEASED; urgency=low
 
-  * XS-Vcs-Svn, XS-Vcs-Browser and Homepage fields added
+  * Vcs-Svn, Vcs-Browser and Homepage fields added
 
- -- Piotr Ożarowski <piotr@debian.org>  Sat, 22 Sep 2007 16:54:36 +0200
+ -- Piotr Ożarowski <piotr@debian.org>  Sat,  6 Oct 2007 23:47:20 +0200
 
 python-werkzeug (0.1~svn3830-1) experimental; urgency=low
 
