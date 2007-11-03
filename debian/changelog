@@ -5,9 +5,9 @@ python-werkzeug (0.1~svn3830-2) UNRELEASED; urgency=low
 
   [ Noah Slater ]
   * Tweaked debian/copyright file for ordering consistency.
-  * Remove surplus Priority control field.
+  * Removed surplus Priority control field.
 
- -- Noah Slater <nslater@bytesexual.org>  Sat, 03 Nov 2007 00:46:30 +0000
+ -- Noah Slater <nslater@bytesexual.org>  Sat, 03 Nov 2007 00:47:49 +0000
 
 python-werkzeug (0.1~svn3830-1) experimental; urgency=low
 
