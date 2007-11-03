@@ -1,3 +1,12 @@
+python-werkzeug (0.1~svn3830-2) unstable; urgency=low
+
+  * Removed surplus Priority control field.
+  * Added Vcs-Svn, Vcs-Browser and Homepage control fields.
+  * Replaced Build-Depends on python-dev with python.
+  * Tweaked debian/copyright file for ordering consistency.
+
+ -- Noah Slater <nslater@bytesexual.org>  Sat, 03 Nov 2007 01:10:16 +0000
+
 python-werkzeug (0.1~svn3830-1) experimental; urgency=low
 
   * Initial release. Closes: #433991
