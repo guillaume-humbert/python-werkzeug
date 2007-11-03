@@ -16,7 +16,6 @@ Package: python-werkzeug
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, python (>= 2.5) | python-wsgiref
 Suggests: python-jinja, python-sqlalchemy
-Priority: optional
 Description: a collection of utilities for WSGI applications
  The Web Server Gateway Interface (WSGI) is a standard interface between web
  server software and web applicaions written in Python.
