@@ -1,13 +1,10 @@
 python-werkzeug (0.1~svn3830-2) UNRELEASED; urgency=low
 
-  [ Piotr Ożarowski ]
-  * Vcs-Svn, Vcs-Browser and Homepage fields added.
-
-  [ Noah Slater ]
-  * Tweaked debian/copyright file for ordering consistency.
   * Removed surplus Priority control field.
+  * Added Vcs-Svn, Vcs-Browser and Homepage control fields.
+  * Tweaked debian/copyright file for ordering consistency.
 
- -- Noah Slater <nslater@bytesexual.org>  Sat, 03 Nov 2007 00:47:49 +0000
+ -- Noah Slater <nslater@bytesexual.org>  Sat, 03 Nov 2007 00:53:05 +0000
 
 python-werkzeug (0.1~svn3830-1) experimental; urgency=low
 
