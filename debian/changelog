@@ -1,4 +1,4 @@
-python-werkzeug (0.1~svn3830-2) UNRELEASED; urgency=low
+python-werkzeug (0.1~svn3830-2) unstable; urgency=low
 
   * Removed surplus Priority control field.
   * Added Vcs-Svn, Vcs-Browser and Homepage control fields.
