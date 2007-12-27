@@ -13,7 +13,8 @@ Vcs-Browser: http://svn.debian.org/wsvn/python-modules/packages/python-werkzeug/
 Package: python-werkzeug
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, python (>= 2.5) | python-wsgiref
-Suggests: ipython, python-jinja, python-sqlalchemy
+Recommends: python-simplejson
+Suggests: ipython, python-jinja, python-setuptools, python-sqlalchemy
 Description: a collection of utilities for WSGI applications
  The Web Server Gateway Interface (WSGI) is a standard interface between web
  server software and web applicaions written in Python.
