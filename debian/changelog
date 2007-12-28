@@ -1,9 +1,12 @@
 python-werkzeug (0.1-1) unstable; urgency=low
 
   * New upstream release.
+  * New debian/watch file.
+  * Added new Recommends/Suggests dependancies.
+  * Remove unused Build-Depends-Indep packages.
   * Updated Standards-Version to 3.7.3.
 
- -- Noah Slater <nslater@bytesexual.org>  Thu, 27 Dec 2007 22:16:20 +0000
+ -- Noah Slater <nslater@bytesexual.org>  Fri, 28 Dec 2007 11:09:34 +0000
 
 python-werkzeug (0.1~svn3830-2) unstable; urgency=low
 
