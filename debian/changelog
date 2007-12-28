@@ -2,7 +2,7 @@ python-werkzeug (0.1-1) unstable; urgency=low
 
   * New upstream release.
   * New debian/watch file.
-  * Added new Recommends/Suggests dependancies.
+  * Added new Recommends/Suggests dependencies.
   * Remove unused Build-Depends-Indep packages.
   * Updated Standards-Version to 3.7.3.
 
