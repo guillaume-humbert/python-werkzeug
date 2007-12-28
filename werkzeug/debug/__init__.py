@@ -19,6 +19,13 @@ from werkzeug.debug.util import ThreadedStream, Namespace, get_uid, \
 from werkzeug.utils import url_decode
 
 
+try:
+    system_exceptions = (GeneratorExist,)
+except NameError:
+    system_exceptions = ()
+system_exceptions += (SystemExit, KeyboardInterrupt)
+
+
 class DebuggedApplication(object):
     """
     Enables debugging support for a given application::
@@ -33,9 +40,11 @@ class DebuggedApplication(object):
     THIS IS A GAPING SECURITY HOLE IF PUBLICLY ACCESSIBLE!
     """
 
-    def __init__(self, application, evalex=False):
+    def __init__(self, application, evalex=False,
+                 request_key='werkzeug.request'):
         self.evalex = bool(evalex)
         self.application = application
+        self.request_key = request_key
         self.tracebacks = {}
 
     def __call__(self, environ, start_response):
@@ -88,8 +97,10 @@ class DebuggedApplication(object):
             appiter = self.application(environ, start_response)
             for line in appiter:
                 yield line
+        except system_exceptions, e:
+            raise e
         except:
-            ThreadedStream.install(environ)
+            ThreadedStream.install()
             exc_info = sys.exc_info()
             try:
                 headers = [('Content-Type', 'text/html; charset=utf-8')]
@@ -97,7 +108,7 @@ class DebuggedApplication(object):
             except:
                 pass
             debug_context = self.create_debug_context(environ, exc_info)
-            yield debug_page(debug_context).encode('utf-8')
+            yield debug_page(debug_context)
 
         if hasattr(appiter, 'close'):
             appiter.close()
@@ -116,7 +127,7 @@ class DebuggedApplication(object):
         frames = []
         frame_map = {}
         tb_uid = None
-        if ThreadedStream.can_interact():
+        if not environ['wsgi.run_once'] and not environ['wsgi.multiprocess']:
             tb_uid = get_uid()
             frame_map = self.tracebacks[tb_uid] = {}
 
@@ -128,7 +139,8 @@ class DebuggedApplication(object):
             if not tb.tb_frame.f_locals.get('__traceback_hide__', False):
                 if tb_uid and not simple:
                     frame_uid = get_uid()
-                    frame_map[frame_uid] = InteractiveDebugger(self, tb.tb_frame)
+                    frame_map[frame_uid] = InteractiveDebugger(self,
+                                                               tb.tb_frame)
                 else:
                     frame_uid = None
                 frame = get_frame_info(tb, simple=simple)
@@ -159,7 +171,11 @@ class DebuggedApplication(object):
 
         # finialize plain traceback and write it to stderr
         try:
-            exvalstr = ': ' + str(exception_value)
+            if isinstance(exception_value, unicode):
+                exception_value = exception_value.encode('utf-8')
+            else:
+                exception_value = str(exception_value)
+            exvalstr = ': ' + exception_value
         except:
             exvalstr = ''
         write(extypestr + exvalstr)
@@ -172,7 +188,7 @@ class DebuggedApplication(object):
         # WSGI environment
         req_vars = []
         if not simple:
-            request = environ.get('werkzeug.request')
+            request = environ.get(self.request_key)
             if request is not None:
                 for varname in dir(request):
                     if varname.startswith('_'):
@@ -189,7 +205,7 @@ class DebuggedApplication(object):
         return Namespace(
             evalex =          self.evalex,
             exception_type =  extypestr,
-            exception_value = str(exception_value),
+            exception_value = exception_value,
             frames =          frames,
             last_frame =      frames[-1],
             plaintb =         plaintb,
@@ -213,8 +229,8 @@ class InteractiveDebugger(code.InteractiveInterpreter):
         self.buffer = []
 
     def runsource(self, source):
+        ThreadedStream.push()
         prompt = self.prompt
-        sys.stdout.push()
         try:
             source_to_eval = ''.join(self.buffer + [source])
             if code.InteractiveInterpreter.runsource(self,
@@ -226,7 +242,7 @@ class InteractiveDebugger(code.InteractiveInterpreter):
                 del self.buffer[:]
         finally:
             source = source.encode('utf-8')
-            return prompt + source + sys.stdout.release()
+            return prompt + source + ThreadedStream.fetch()
 
     def runcode(self, code):
         try:

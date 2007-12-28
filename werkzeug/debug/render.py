@@ -11,12 +11,13 @@
 import pprint
 from os.path import dirname, join
 
-from werkzeug.minitmpl import Template
+from werkzeug.templates import Template
 from werkzeug.debug.util import Namespace
 
 
 def get_template(name):
-    return Template(load_resource(name).decode('utf-8'))
+    return Template.from_file(join(dirname(__file__), 'shared', name),
+                              unicode_mode=False)
 
 
 def load_resource(res):
@@ -85,7 +86,7 @@ def var_table(var):
             typ = 'empty'
         else:
             typ = 'list'
-            value = [safe_pformat(item) for item in var]
+        value = [safe_pformat(item) for item in var]
 
     # others
     else:

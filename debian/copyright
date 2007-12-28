@@ -1,6 +1,6 @@
-Upstream source from: <http://werkzeug.pocoo.org/>
+Package author: Noah Slater <nslater@bytesexual.org>
 
-Upstream source command: REVISION=3830 ./debian/rules get-orig-source
+Upstream source from: <http://werkzeug.pocoo.org/>
 
 Files: *
 Copyright: Copyright (C) 2006, 2007 Armin Ronacher
