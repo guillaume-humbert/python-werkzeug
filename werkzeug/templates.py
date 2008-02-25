@@ -3,8 +3,8 @@ r"""
     werkzeug.templates
     ~~~~~~~~~~~~~~~~~~
 
-    A very simple Python "Template Engine". In fact it just recognizes
-    PHP like blocks and executes the code in them::
+    This template engine recognizes ASP/PHP like blocks and executes the code
+    in them::
 
         t = Template('<% for u in users %>${u['username']}\n<% endfor %>')
         t.render(users=[{'username': 'John'},
@@ -30,7 +30,9 @@ r"""
     Syntax Elements
     ---------------
 
-    Printing Variables::
+    Printing Variables:
+
+    .. sourcecode:: text
 
         $variable
         $variable.attribute[item](some, function)(calls)
@@ -39,19 +41,25 @@ r"""
     Keep in mind that the print statement adds a newline after the call or
     a whitespace if it ends with a comma.
 
-    For Loops::
+    For Loops:
+
+    .. sourcecode:: text
 
         <% for item in seq %>
             ...
         <% endfor %>
 
-    While Loops::
+    While Loops:
+
+    .. sourcecode:: text
 
         <% while expression %>
             <%py break / continue %>
         <% endwhile %>
 
-    If Conditions::
+    If Conditions:
+
+    .. sourcecode:: text
 
         <% if expression %>
             ...
@@ -61,7 +69,9 @@ r"""
             ...
         <% endif %>
 
-    Python Expressions::
+    Python Expressions:
+
+    .. sourcecode:: text
 
         <%py
             ...
@@ -72,14 +82,18 @@ r"""
         %>
 
     Note on python expressions:  You cannot start a loop in a python block
-    and continue it in another one.  This example does *not* work::
+    and continue it in another one.  This example does *not* work:
+
+    .. sourcecode:: text
 
         <%python
             for item in seq:
         %>
             ...
 
-    Comments::
+    Comments:
+
+    .. sourcecode:: text
 
         <%#
             This is a comment
@@ -92,28 +106,32 @@ r"""
     If you try to access a missing variable you will get back an `Undefined`
     object.  You can iterate over such an object or print it and it won't
     fail.  However every other operation will raise an error.  To test if a
-    variable is undefined you can use this expression::
+    variable is undefined you can use this expression:
+
+    .. sourcecode:: text
 
         <% if variable is Undefined %>
             ...
         <% endif %>
 
-    Copyright notice: The `parse_data` method uses the string interpolation
-    algorithm by Ka-Ping Yee which originally was part of `ltpl20.py`_
 
-    .. _ltipl20.py: http://lfw.org/python/Itpl20.py
-
-
-    :copyright: 2006 by Armin Ronacher, Ka-Ping Yee.
+    :copyright: 2006-2008 by Armin Ronacher, Ka-Ping Yee.
     :license: BSD License.
 """
 import sys
 import re
 import __builtin__ as builtins
 from compiler import ast, parse
+from compiler.consts import SC_LOCAL, SC_GLOBAL, SC_FREE, SC_CELL
 from compiler.pycodegen import ModuleCodeGenerator
 from tokenize import PseudoToken
 from werkzeug import utils
+
+
+# Copyright notice: The `parse_data` method uses the string interpolation
+# algorithm by Ka-Ping Yee which originally was part of `ltpl20.py`_
+#
+# .. _ltipl20.py: http://lfw.org/python/Itpl20.py
 
 
 token_re = re.compile('%s|%s|%s(?i)' % (
@@ -130,6 +148,8 @@ undefined = type('UndefinedType', (object,), {
     '__repr__': lambda x: 'Undefined',
     '__str__':  lambda x: ''
 })()
+runtime_vars = dict.fromkeys(('Undefined', '__to_unicode', '__context',
+                              '__write', '__write_many'))
 
 
 def call_stmt(func, args, lineno):
@@ -169,6 +189,11 @@ def transform(node, filename):
         node.filename = filename
         if node.__class__ in (ast.Printnl, ast.Print):
             node.dest = ast.Name('__context')
+        elif node.__class__ is ast.Const and isinstance(node.value, str):
+            try:
+                node.value.decode('ascii')
+            except UnicodeError:
+                node.value = node.value.decode('utf-8')
         nodes.extend(node.getChildNodes())
     return root
 
@@ -192,6 +217,8 @@ class Parser(object):
         raise TemplateSyntaxError(msg, self.filename, self.lineno)
 
     def parse_python(self, expr, type='exec'):
+        if isinstance(expr, unicode):
+            expr = '\xef\xbb\xbf' + expr.encode('utf-8')
         try:
             node = parse(expr, type)
         except SyntaxError, e:
@@ -223,16 +250,20 @@ class Parser(object):
                 elif name == 'if':
                     add(self.parse_if(args))
                 else:
-                    self.fail('unknown directive %S' % name)
+                    self.fail('unknown directive %s' % name)
         if needle:
             self.fail('unexpected end of template')
         return ast.Stmt(result, lineno=start_lineno)
 
     def parse_loop(self, args, type):
         rv = self.parse_python('%s %s: pass' % (type, args), 'exec').nodes[0]
-        tag, value, rv.body = self.parse(('end' + type,))
+        tag, value, rv.body = self.parse(('end' + type, 'else'))
         if value:
-            self.fail('unexpected data after end' + type)
+            self.fail('unexpected data after ' + tag)
+        if tag == 'else':
+            tag, value, rv.else_ = self.parse(('end' + type,))
+            if value:
+                self.fail('unexpected data after else')
         return rv
 
     def parse_if(self, args):
@@ -346,7 +377,7 @@ class Context(object):
         self._buffer = []
         self._write = self._buffer.append
         _extend = self._buffer.extend
-        self._namespace.update(
+        self.runtime = dict(
             Undefined=undefined,
             __to_unicode=self.to_unicode,
             __context=self,
@@ -368,16 +399,31 @@ class Context(object):
             return rv.encode(self.encoding, self.errors)
         return rv
 
-    def __getitem__(self, key):
-        if key in self._namespace:
+    def __getitem__(self, key, default=undefined):
+        try:
             return self._namespace[key]
-        return getattr(builtins, key, undefined)
+        except KeyError:
+            return getattr(builtins, key, default)
+
+    def get(self, key, default=None):
+        return self.__getitem__(key, default)
 
     def __setitem__(self, key, value):
         self._namespace[key] = value
 
     def __delitem__(self, key):
         del self._namespace[key]
+
+
+class TemplateCodeGenerator(ModuleCodeGenerator):
+
+    def __init__(self, node, filename):
+        ModuleCodeGenerator.__init__(self, transform(node, filename))
+
+    def _nameOp(self, prefix, name):
+        if name in runtime_vars:
+            return self.emit(prefix + '_GLOBAL', name)
+        return ModuleCodeGenerator._nameOp(self, prefix, name)
 
 
 class Template(object):
@@ -396,9 +442,9 @@ class Template(object):
                  errors='strict', unicode_mode=True):
         if isinstance(source, str):
             source = source.decode(encoding, errors)
-        node = Parser(tokenize('\n'.join(source.splitlines()),
+        node = Parser(tokenize(u'\n'.join(source.splitlines()),
                                filename), filename).parse()
-        self.code = ModuleCodeGenerator(transform(node, filename)).getCode()
+        self.code = TemplateCodeGenerator(node, filename).getCode()
         self.filename = filename
         self.encoding = encoding
         self.errors = errors
@@ -406,6 +452,7 @@ class Template(object):
 
     def from_file(cls, file, encoding='utf-8', errors='strict',
                   unicode_mode=True):
+        """Load a template from a file."""
         close = False
         if isinstance(file, basestring):
             f = open(file, 'r')
@@ -420,10 +467,15 @@ class Template(object):
     from_file = classmethod(from_file)
 
     def render(self, *args, **kwargs):
+        """
+        This function accepts either a dict or some keyword arguments which
+        will then be the context the template is evaluated in.  The return
+        value will be the rendered template.
+        """
         ns = self.default_context.copy()
         ns.update(*args, **kwargs)
         context = Context(ns, self.encoding, self.errors)
-        exec self.code in {}, context
+        exec self.code in context.runtime, context
         return context.get_value(self.unicode_mode)
 
     def substitute(self, *args, **kwargs):

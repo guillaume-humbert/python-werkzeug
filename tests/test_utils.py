@@ -7,10 +7,20 @@
     :license: BSD license.
 """
 import sys
+from datetime import datetime
 from os import path
 from py.test import raises
 from werkzeug.utils import *
+from werkzeug.wrappers import BaseResponse
+from werkzeug.http import parse_date
 from werkzeug.test import Client
+
+
+def test_import_patch():
+    import werkzeug
+    from werkzeug import __all__ as public_methods
+    for name in public_methods:
+        getattr(werkzeug, name)
 
 
 def test_multidict():
@@ -106,15 +116,25 @@ def test_multidict():
     popped = md.popitemlist()
     assert popped in [('b', [2]), ('c', [3])]
 
+    # type conversion
+    md = MultiDict({'a': '4', 'b': ['2', '3']})
+    assert md.get('a', type=int) == 4
+    assert md.getlist('b', type=int) == [2, 3]
+
 
 def test_combined_multidict():
-    d1 = MultiDict([('foo', 1)])
-    d2 = MultiDict([('bar', 2)])
+    d1 = MultiDict([('foo', '1')])
+    d2 = MultiDict([('bar', '2'), ('bar', '3')])
     d = CombinedMultiDict([d1, d2])
 
     # lookup
-    assert d['foo'] == 1
-    assert d['bar'] == 2
+    assert d['foo'] == '1'
+    assert d['bar'] == '2'
+    assert d.getlist('bar') == ['2', '3']
+
+    # type lookup
+    assert d.get('foo', type=int) == 1
+    assert d.getlist('bar', type=int) == [2, 3]
 
     # get key errors for missing stuff
     raises(KeyError, 'd["missing"]')
@@ -151,6 +171,10 @@ def test_headers():
     assert headers.get('x-Bar') == '1'
     assert headers.get('Content-Type') == 'text/plain'
 
+    # type conversion
+    assert headers.get('x-bar', type=int) == 1
+    assert headers.getlist('x-bar', type=int) == [1, 2]
+
     # copying
     a = Headers([('foo', 'bar')])
     b = a.copy()
@@ -159,13 +183,13 @@ def test_headers():
     assert b.getlist('foo') == ['bar']
 
 
-def test_lazy_property():
+def test_cached_property():
     foo = []
     class A(object):
         def prop(self):
             foo.append(42)
             return 42
-        prop = lazy_property(prop)
+        prop = cached_property(prop)
 
     a = A()
     p = a.prop
@@ -175,17 +199,17 @@ def test_lazy_property():
 
     foo = []
     class A(object):
-        def prop(self):
+        def _prop(self):
             foo.append(42)
             return 42
-        prop = lazy_property(prop, name='propval')
+        prop = cached_property(_prop, name='prop')
+        del _prop
 
     a = A()
     p = a.prop
     q = a.prop
-    r = a.propval
-    assert p == q == r == 42
-    assert foo == [42, 42]
+    assert p == q == 42
+    assert foo == [42]
 
 
 def test_environ_property():
@@ -195,8 +219,9 @@ def test_environ_property():
         string = environ_property('string')
         missing = environ_property('missing', 'spam')
         read_only = environ_property('number', read_only=True)
-        number = environ_property('number', convert=int)
-        broken_number = environ_property('broken_number', convert=int)
+        number = environ_property('number', load_func=int)
+        broken_number = environ_property('broken_number', load_func=int)
+        date = environ_property('date', None, parse_date, http_date)
 
     a = A()
     assert a.string == 'abc'
@@ -204,6 +229,9 @@ def test_environ_property():
     raises(AttributeError, 'a.read_only = "something"')
     assert a.number == 42
     assert a.broken_number == None
+    assert a.date is None
+    a.date = datetime(2008, 1, 22, 10, 0, 0, 0)
+    assert a.environ['date'] == 'Tue, 22 Jan 2008 10:00:00 GMT'
 
 
 def test_quoting():
@@ -212,12 +240,23 @@ def test_quoting():
     assert url_quote_plus('foo bar') == 'foo+bar'
     assert url_unquote_plus('foo+bar') == 'foo bar'
     assert url_encode({'a': None, 'b': 'foo bar'}) == 'b=foo+bar'
+    assert url_fix(u'http://de.wikipedia.org/wiki/Elf (Begriffsklärung)') == \
+           'http://de.wikipedia.org/wiki/Elf%20%28Begriffskl%C3%A4rung%29'
+
+
+test_href_tool = '>>> from werkzeug import Href\n\n' + Href.__doc__
 
 
 def test_escape():
+    assert escape(None) == ''
+    assert escape(42) == '42'
     assert escape('<>') == '&lt;&gt;'
     assert escape('"foo"') == '"foo"'
     assert escape('"foo"', True) == '&quot;foo&quot;'
+
+
+def test_unescape():
+    assert unescape('&lt;&auml;&gt;') == u'<ä>'
 
 
 def test_create_environ():
@@ -264,6 +303,51 @@ def test_shared_data_middleware():
     assert ''.join(app_iter).strip() == 'NOT FOUND'
 
 
+def test_run_wsgi_app():
+    def foo(environ, start_response):
+        start_response('200 OK', [('Content-Type', 'text/plain')])
+        yield '1'
+        yield '2'
+        yield '3'
+
+    app_iter, status, headers = run_wsgi_app(foo, {})
+    assert status == '200 OK'
+    assert headers == [('Content-Type', 'text/plain')]
+    assert app_iter.next() == '1'
+    assert app_iter.next() == '2'
+    assert app_iter.next() == '3'
+    raises(StopIteration, app_iter.next)
+
+    got_close = []
+    class CloseIter(object):
+        def __init__(self):
+            self.iterated = False
+        def __iter__(self):
+            return self
+        def close(self):
+            got_close.append(None)
+        def next(self):
+            if self.iterated:
+                raise StopIteration()
+            self.iterated = True
+            return 'bar'
+
+    def bar(environ, start_response):
+        start_response('200 OK', [('Content-Type', 'text/plain')])
+        return CloseIter()
+
+    app_iter, status, headers = run_wsgi_app(bar, {})
+    assert status == '200 OK'
+    assert headers == [('Content-Type', 'text/plain')]
+    assert app_iter.next() == 'bar'
+    raises(StopIteration, app_iter.next)
+    app_iter.close()
+
+    assert run_wsgi_app(bar, {}, True)[0] == ['bar']
+
+    assert len(got_close) == 2
+
+
 def test_date_funcs():
     assert http_date(0) == 'Thu, 01 Jan 1970 00:00:00 GMT'
     assert cookie_date(0) == 'Thu, 01-Jan-1970 00:00:00 GMT'
@@ -289,3 +373,64 @@ test_get_current_url = '''
 >>> x(env, strip_querystring=True)
 'http://example.org/blub/foo'
 '''
+
+
+def test_dates():
+    assert cookie_date(0) == 'Thu, 01-Jan-1970 00:00:00 GMT'
+    assert cookie_date(datetime(1970, 1, 1)) == 'Thu, 01-Jan-1970 00:00:00 GMT'
+    assert http_date(0) == 'Thu, 01 Jan 1970 00:00:00 GMT'
+    assert http_date(datetime(1970, 1, 1)) == 'Thu, 01 Jan 1970 00:00:00 GMT'
+
+
+def test_cookies():
+    assert parse_cookie('dismiss-top=6; CP=null*; PHPSESSID=0a539d42abc001cd'
+                        'c762809248d4beed; a=42') == {
+        'CP':           u'null*',
+        'PHPSESSID':    u'0a539d42abc001cdc762809248d4beed',
+        'a':            u'42',
+        'dismiss-top':  u'6'
+    }
+    assert set(dump_cookie('foo', 'bar baz blub', 360, httponly=True,
+                           sync_expires=False).split('; ')) == \
+           set(['HttpOnly', 'Max-Age=360', 'Path=/', 'foo=bar baz blub'])
+    assert parse_cookie('fo234{=bar blub=Blah') == {'blub': 'Blah'}
+
+
+def test_responder():
+    def foo(environ, start_response):
+        return BaseResponse('Test')
+    client = Client(responder(foo), BaseResponse)
+    response = client.get('/')
+    assert response.status_code == 200
+    assert response.data == 'Test'
+
+
+def test_import_string():
+    import cgi
+    assert import_string('cgi.escape') is cgi.escape
+    assert import_string('cgi:escape') is cgi.escape
+    assert import_string('XXXXXXXXXXXX', True) is None
+    assert import_string('cgi.XXXXXXXXXXXX', True) is None
+    raises(ImportError, "import_string('XXXXXXXXXXXXXXXX')")
+    raises(AttributeError, "import_string('cgi.XXXXXXXXXX')")
+
+
+def test_find_modules():
+    assert list(find_modules('werkzeug.debug')) == ['werkzeug.debug.render',
+                                                    'werkzeug.debug.util']
+
+
+def test_html_builder():
+    assert html.p('Hello World') == '<p>Hello World</p>'
+    assert html.a('Test', href='#') == '<a href="#">Test</a>'
+    assert html.br() == '<br>'
+    assert xhtml.br() == '<br />'
+    assert html.img(src='foo') == '<img src="foo">'
+    assert xhtml.img(src='foo') == '<img src="foo" />'
+    assert html.html(
+        html.head(
+            html.title('foo'),
+            html.script(type='text/javascript')
+        )
+    ) == '<html><head><title>foo</title><script type="text/javascript">' \
+         '</script></head></html>'

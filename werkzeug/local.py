@@ -3,46 +3,68 @@
     werkzeug.local
     ~~~~~~~~~~~~~~
 
-    Special class to manage request local objects as globals.  This is a
-    wrapper around `py.magic.greenlet.getcurrent` if available and
-    `threading.currentThread`.
+    Sooner or later you have some things you want to have in every single view
+    or helper function or whatever.  In PHP the way to go are global
+    variables.  However that is not possible in WSGI applications without a
+    major drawback:  As soon as you operate on the global namespace your
+    application is not thread safe any longer.
 
-    Use it like this::
+    The python standard library comes with a utility called "thread locals".
+    A thread local is a global object where you can put stuff on and get back
+    later in a thread safe way.  That means whenever you set or get an object
+    to / from a thread local object the thread local object checks in which
+    thread you are and delivers the correct value.
 
-        from werkzeug import Local, LocalManager, ClosingIterator
+    This however has a few disadvantages.  For example beside threads there
+    are other ways to handle concurrency in Python.  A very popular approach
+    are greenlets.  Also, whether every request gets its own thread is not
+    guaranteed in WSGI.  It could be that a request is reusing a thread from
+    before and data is left in the thread local object.
+
+
+    Nutshell
+    --------
+
+    Here a simple example how you can use werkzeug.local::
+
+        from werkzeug import Local, LocalManager
 
         local = Local()
         local_manager = LocalManager([local])
 
-        def view(request):
-            return Response('...')
-
         def application(environ, start_response):
-            request = Request(environ)
-            local.request = request
-            response = view(request)
-            return ClosingIterator(response(environ, start_response),
-                                   local_manager.cleanup)
-
-    Additionally you can use the `make_middleware` middleware factory to
-    accomplish the same::
-
-        from werkzeug import Local, LocalManager, ClosingIterator
-
-        local = Local()
-        local_manager = LocalManager([local])
-
-        def view(request):
-            return Response('...')
-
-        def application(environ, start_response):
-            request = Request(environ)
-            local.request = request
-            return view(request)(environ, start_response)
+            local.request = request = Request(environ)
+            ...
 
         application = local_manager.make_middleware(application)
 
-    :copyright: 2007 by Armin Ronacher.
+    Now what this code does is binding request to `local.request`.  Every
+    other piece of code executed after this assignment in the same context can
+    safely access local.request and will get the same request object.  The
+    `make_middleware` method on the local manager ensures that everything is
+    cleaned up after the request.
+
+    The same context means the same greenlet (if you're using greenlets) in
+    the same thread and same process.
+
+    If a request object is not yet set on the local object and you try to
+    access it you will get an `AttributeError`.  You can use `getattr` to avoid
+    that::
+
+        def get_request():
+            return getattr(local, 'request', None)
+
+    This will try to get the request or return `None` if the request is not
+    (yet?) available.
+
+    Note that local objects cannot manage themselves, for that you need a local
+    manager.  You can pass a local manager multiple locals or add additionals
+    later by appending them to `manager.locals` and everytime the manager
+    cleans up it will clean up all the data left in the locals for this
+    context.
+
+
+    :copyright: 2007-2008 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
 try:
@@ -50,80 +72,76 @@ try:
     get_current_greenlet = greenlet.getcurrent
     del greenlet
 except (RuntimeError, ImportError):
-    get_current_greenlet = lambda: None
+    get_current_greenlet = int
 try:
-    from thread import get_ident as get_current_thread
-    from threading import Lock
+    from thread import get_ident as get_current_thread, allocate_lock
 except ImportError:
-    from dummy_thread import get_ident as get_current_thread
-    from dummy_threading import Lock
-from werkzeug.utils import ClosingIterator
+    from dummy_thread import get_ident as get_current_thread, allocate_lock
+from werkzeug.utils import ClosingIterator, _patch_wrapper
 
 
-def get_ident():
-    """
-    Return a unique number for the current greenlet in the current thread.
-    """
-    return hash((get_current_thread(), get_current_greenlet()))
+# get the best ident function.  if greenlets are not installed we can
+# savely just use the builtin thread function and save a python methodcall
+# and the cost of caculating a hash.
+if get_current_greenlet is int:
+    get_ident = get_current_thread
+else:
+    get_ident = lambda: hash((get_current_thread(), get_current_greenlet()))
 
 
 class Local(object):
+    __slots__ = ('__storage__', '__lock__')
 
     def __init__(self):
-        self.__dict__.update(
-            __storage={},
-            __lock=Lock()
-        )
+        object.__setattr__(self, '__storage__', {})
+        object.__setattr__(self, '__lock__', allocate_lock())
 
     def __iter__(self):
-        return self.__dict__['__storage'].iteritems()
+        return self.__storage__.iteritems()
 
     def __call__(self, proxy):
         """Create a proxy for a name."""
         return LocalProxy(self, proxy)
 
     def __getattr__(self, name):
-        self.__dict__['__lock'].acquire()
+        self.__lock__.acquire()
         try:
-            ident = get_ident()
-            if ident not in self.__dict__['__storage']:
-                raise AttributeError(name)
             try:
-                return self.__dict__['__storage'][ident][name]
+                return self.__storage__[get_ident()][name]
             except KeyError:
                 raise AttributeError(name)
         finally:
-            self.__dict__['__lock'].release()
+            self.__lock__.release()
 
     def __setattr__(self, name, value):
-        self.__dict__['__lock'].acquire()
+        self.__lock__.acquire()
         try:
             ident = get_ident()
-            storage = self.__dict__['__storage']
+            storage = self.__storage__
             if ident in storage:
                 storage[ident][name] = value
             else:
                 storage[ident] = {name: value}
         finally:
-            self.__dict__['__lock'].release()
+            self.__lock__.release()
 
     def __delattr__(self, name):
-        self.__dict__['__lock'].acquire()
+        self.__lock__.acquire()
         try:
-            ident = get_ident()
-            if ident not in self.__dict__['__storage']:
-                raise AttributeError(name)
             try:
-                del self.__dict__['__storage'][ident][name]
+                del self.__storage__[get_ident()][name]
             except KeyError:
                 raise AttributeError(name)
         finally:
-            self.__dict__['__lock'].release()
+            self.__lock__.release()
 
 
 class LocalManager(object):
     """
-    Manages local objects.
+    Local objects cannot manage themselves. For that you need a local manager.
+    You can pass a local manager multiple locals or add them later by
+    appending them to `manager.locals`.  Everytime the manager cleans up it,
+    will clean up all the data left in the locals for this context.
     """
 
     def __init__(self, locals=None):
@@ -136,22 +154,22 @@ class LocalManager(object):
                 self.locals = [locals]
 
     def get_ident(self):
-        """Returns the current identifier for this context."""
+        """
+        Return the context identifier the local objects use internally for
+        this context.  You cannot override this method to change the behavior
+        but use it to link other context local objects (such as SQLAlchemy's
+        scoped sessions) to the Werkzeug locals.
+        """
         return get_ident()
 
     def cleanup(self):
         """
-        Call this at the request end to clean up all data stored for
-        the current greenlet / thread.
+        Manually clean up the data in the locals for this context.  Call this
+        at the end of the request or use `make_middleware()`.
         """
         ident = self.get_ident()
         for local in self.locals:
-            d = local.__dict__
-            d['__lock'].acquire()
-            try:
-                d['__storage'].pop(ident, None)
-            finally:
-                d['__lock'].release()
+            local.__storage__.pop(ident, None)
 
     def make_middleware(self, app):
         """
@@ -159,8 +177,7 @@ class LocalManager(object):
         request end.
         """
         def application(environ, start_response):
-            return ClosingIterator(app(environ, start_response),
-                                   self.cleanup)
+            return ClosingIterator(app(environ, start_response), self.cleanup)
         return application
 
     def middleware(self, func):
@@ -176,14 +193,7 @@ class LocalManager(object):
         will have all the arguments copied from the inner application
         (name, docstring, module).
         """
-        new_func = self.make_middleware(func)
-        try:
-            new_func.__name__ = func.__name__
-            new_func.__doc__ = func.__doc__
-            new_func.__module__ = func.__module__
-        except:
-            pass
-        return new_func
+        return _patch_wrapper(func, self.make_middleware(func))
 
     def __repr__(self):
         return '<%s storages: %d>' % (
@@ -200,10 +210,10 @@ class LocalProxy(object):
 
     Example usage::
 
-        from werkzeug import Local, LocalProxy
+        from werkzeug import Local
         l = Local()
-        request = LocalProxy(l, "request")
-        user = LocalProxy(l, "user")
+        request = l('request')
+        user = l('user')
 
     Whenever something is bound to l.user / l.request the proxy objects
     will forward all operations.  If no object is bound a `RuntimeError`

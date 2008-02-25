@@ -1,3 +1,12 @@
+python-werkzeug (0.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Corrected Uploaders.
+  * Corrected Vcs-Browser.
+  * Corrected Debian numbered version dependency.
+
+ -- Noah Slater <nslater@bytesexual.org>  Mon, 25 Feb 2008 10:30:54 +0000
+
 python-werkzeug (0.1-1) unstable; urgency=low
 
   * New upstream release.
