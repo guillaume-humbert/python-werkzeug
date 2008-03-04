@@ -1,3 +1,9 @@
+python-werkzeug (0.2-2) unstable; urgency=low
+
+  * Added Depends on python-pkg-resources. Closes: #468704
+
+ -- Noah Slater <nslater@bytesexual.org>  Tue, 04 Mar 2008 23:40:55 +0000
+
 python-werkzeug (0.2-1) unstable; urgency=low
 
   * New upstream release.
