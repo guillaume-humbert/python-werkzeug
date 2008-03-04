@@ -1,0 +1,33 @@
+python-werkzeug (0.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Corrected Uploaders.
+  * Corrected Vcs-Browser.
+  * Corrected Debian numbered version dependency.
+
+ -- Noah Slater <nslater@bytesexual.org>  Mon, 25 Feb 2008 10:30:54 +0000
+
+python-werkzeug (0.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * New debian/watch file.
+  * Added new Recommends/Suggests dependencies.
+  * Remove unused Build-Depends-Indep packages.
+  * Updated Standards-Version to 3.7.3.
+
+ -- Noah Slater <nslater@bytesexual.org>  Fri, 28 Dec 2007 11:09:34 +0000
+
+python-werkzeug (0.1~svn3830-2) unstable; urgency=low
+
+  * Removed surplus Priority control field.
+  * Added Vcs-Svn, Vcs-Browser and Homepage control fields.
+  * Replaced Build-Depends on python-dev with python.
+  * Tweaked debian/copyright file for ordering consistency.
+
+ -- Noah Slater <nslater@bytesexual.org>  Sat, 03 Nov 2007 01:10:16 +0000
+
+python-werkzeug (0.1~svn3830-1) experimental; urgency=low
+
+  * Initial release. Closes: #433991
+
+ -- Noah Slater <nslater@bytesexual.org>  Fri, 20 Jul 2007 20:53:52 +0100
