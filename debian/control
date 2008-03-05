@@ -17,7 +17,7 @@ Recommends: python-simplejson
 Suggests: ipython, python-jinja, python-pkg-resources, python-sqlalchemy
 Description: a collection of utilities for WSGI applications
  The Web Server Gateway Interface (WSGI) is a standard interface between web
- server software and web applicaions written in Python.
+ server software and web applications written in Python.
  .
  Werkzeug is a lightweight library for interfacing with WSGI. It features
  request and response objects, an interactive debugging system and a powerful
