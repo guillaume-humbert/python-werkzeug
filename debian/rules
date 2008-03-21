@@ -18,3 +18,8 @@ include /usr/share/cdbs/1/class/python-distutils.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
 DEB_PYTHON_INSTALL_ARGS_ALL += --single-version-externally-managed
+
+get-orig-source:
+	uscan --force-download
+
+.PHONY: get-orig-source
