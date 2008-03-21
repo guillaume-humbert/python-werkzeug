@@ -1,3 +1,9 @@
+python-werkzeug (0.2-3) UNSTABLE; urgency=low
+
+  * General standards improvement.
+
+ -- Noah Slater <nslater@bytesexual.org>  Fri, 21 Mar 2008 02:03:07 +0000
+
 python-werkzeug (0.2-2) unstable; urgency=low
 
   * Added Depends on python-pkg-resources. Closes: #468704
