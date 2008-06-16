@@ -1,19 +1,12 @@
-X-Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
-X-Debianized-By: Noah Slater <nslater@bytesexual.org>
-X-Debianized-Date: Fri, 20 Jul 2007 20:53:52 +0100
-X-Source-Downloaded-From: http://werkzeug.pocoo.org/download
-X-Source-Get-Original: ./debian/rules get-orig-source
-X-Upstream-Author: Pocoo
+Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
+Packaged-By: Noah Slater <nslater@bytesexual.org>
+Packaged-Date: Fri, 20 Jul 2007 20:53:52 +0100
+Original-Source-Location: http://werkzeug.pocoo.org/download
+Original-Source-Command: ./debian/rules get-orig-source
 
 Files: *
 Copyright: Copyright 2008, Armin Ronacher
  Copyright 2008, Georg Brandl
-License: BSD
-
-Files: debian/*
-Copyright: Copyright 2008, Noah Slater <nslater@bytesexual.org>
-License: GAP
-
 License: BSD
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -39,6 +32,8 @@ License: BSD
  IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  OF SUCH DAMAGE.
 
+Files: debian/*
+Copyright: Copyright 2008, Noah Slater <nslater@bytesexual.org>
 License: GAP
  Copying and distribution of this package, with or without modification, are
  permitted in any medium without royalty provided the copyright notice and this
