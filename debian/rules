@@ -2,19 +2,27 @@
 
 # This file is part of the python-werkzeug package.
 
-# Copyright (C) 2007 Noah Slater <nslater@bytesexual.org>.
+# Copyright 2008, Noah Slater <nslater@bytesexual.org>
 
 # Copying and distribution of this file, with or without modification, are
 # permitted in any medium without royalty provided the copyright notice and this
 # notice are preserved.
-
-# Makefile used by dpkg-buildpackage to create a deb file.
 
 DEB_PYTHON_SYSTEM := pysupport
 
 include /usr/share/cdbs/1/rules/buildcore.mk
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/python-distutils.mk
-include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
 DEB_PYTHON_INSTALL_ARGS_ALL += --single-version-externally-managed
+
+common-install-indep::
+	mkdir -p debian/python-werkzeug/usr/share/doc/python-werkzeug
+	rm debian/python-werkzeug/usr/docs/README
+	mv debian/python-werkzeug/usr/docs debian/python-werkzeug/usr/share/doc/python-werkzeug/html
+	chmod 644 debian/python-werkzeug/usr/lib/python2.5/site-packages/werkzeug/debug/shared/*
+
+get-orig-source:
+	uscan --force-download
+
+.PHONY: get-orig-source

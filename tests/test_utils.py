@@ -157,8 +157,8 @@ def test_headers():
 
     # list conversion
     assert headers.to_list() == [
-        ('X-Foo', 'bar'),
-        ('Content-Type', 'foo/bar')
+        ('Content-Type', 'foo/bar'),
+        ('X-Foo', 'bar')
     ]
 
     # defaults
@@ -218,10 +218,12 @@ def test_environ_property():
 
         string = environ_property('string')
         missing = environ_property('missing', 'spam')
-        read_only = environ_property('number', read_only=True)
+        read_only = environ_property('number')
         number = environ_property('number', load_func=int)
         broken_number = environ_property('broken_number', load_func=int)
-        date = environ_property('date', None, parse_date, http_date)
+        date = environ_property('date', None, parse_date, http_date,
+                                read_only=False)
+        foo = environ_property('foo')
 
     a = A()
     assert a.string == 'abc'
@@ -416,8 +418,10 @@ def test_import_string():
 
 
 def test_find_modules():
-    assert list(find_modules('werkzeug.debug')) == ['werkzeug.debug.render',
-                                                    'werkzeug.debug.util']
+    assert list(find_modules('werkzeug.debug')) == \
+        ['werkzeug.debug.console', 'werkzeug.debug.render',
+         'werkzeug.debug.repr', 'werkzeug.debug.tbtools',
+         'werkzeug.debug.utils']
 
 
 def test_html_builder():
@@ -434,3 +438,27 @@ def test_html_builder():
         )
     ) == '<html><head><title>foo</title><script type="text/javascript">' \
          '</script></head></html>'
+
+
+def test_shareddatamiddleware_get_file_loader():
+    app = SharedDataMiddleware(None, {})
+    assert callable(app.get_file_loader('foo'))
+
+
+def test_validate_arguments():
+    take_none = lambda: None
+    take_two = lambda a, b: None
+    take_two_one_default = lambda a, b=0: None
+
+    assert validate_arguments(take_two, (1, 2,), {}) == ((1, 2), {})
+    assert validate_arguments(take_two, (1,), {'b': 2}) == ((1, 2), {})
+    assert validate_arguments(take_two_one_default, (1,), {}) == ((1, 0), {})
+    assert validate_arguments(take_two_one_default, (1, 2), {}) == ((1, 2), {})
+
+    raises(ArgumentValidationError, validate_arguments, take_two, (), {})
+
+    assert validate_arguments(take_none, (1, 2,), {'c': 3}) == ((), {})
+    raises(ArgumentValidationError,
+           validate_arguments, take_none, (1,), {}, drop_extra=False)
+    raises(ArgumentValidationError,
+           validate_arguments, take_none, (), {'a': 1}, drop_extra=False)

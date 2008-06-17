@@ -1,3 +1,15 @@
+python-werkzeug (0.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Moved default documentation location per Debian policy.
+  * Fixed permissions of shared files.
+  * Added python-genshi and python-lxml to Suggests.
+  * Removed python-jinja and python-sqlalchemy from Suggests.
+  * Updated debian/copyright per latest proposed format.
+  * Updated Standards-Version to 3.8.0.
+
+ -- Noah Slater <nslater@bytesexual.org>  Tue, 17 Jun 2008 22:35:18 +0100
+
 python-werkzeug (0.2-2) unstable; urgency=low
 
   * Added Depends on python-pkg-resources. Closes: #468704
