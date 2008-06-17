@@ -1,11 +1,14 @@
 python-werkzeug (0.3-1) unstable; urgency=low
 
   * New upstream release.
-  * Additions to debian/rules to correct new installation problems.
-  * Updated debian/copyright per latest format proposal.
-  * Updated Standards-Version.
+  * Moved default documentation location per Debian policy.
+  * Fixed permissions of shared files.
+  * Added python-genshi and python-lxml to Suggests.
+  * Removed python-jinja and python-sqlalchemy from Suggests.
+  * Updated debian/copyright per latest proposed format.
+  * Updated Standards-Version to 3.8.0.
 
- -- Noah Slater <nslater@bytesexual.org>  Mon, 16 Jun 2008 19:46:26 +0100
+ -- Noah Slater <nslater@bytesexual.org>  Tue, 17 Jun 2008 22:35:18 +0100
 
 python-werkzeug (0.2-2) unstable; urgency=low
 
@@ -28,7 +31,7 @@ python-werkzeug (0.1-1) unstable; urgency=low
   * New debian/watch file.
   * Added new Recommends/Suggests dependencies.
   * Remove unused Build-Depends-Indep packages.
-  * Updated Standards-Version.
+  * Updated Standards-Version to 3.7.3.
 
  -- Noah Slater <nslater@bytesexual.org>  Fri, 28 Dec 2007 11:09:34 +0000
 
