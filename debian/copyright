@@ -1,12 +1,11 @@
-Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
-Packaged-By: Noah Slater <nslater@bytesexual.org>
-Packaged-Date: Fri, 20 Jul 2007 20:53:52 +0100
-Original-Source-Location: http://werkzeug.pocoo.org/download
-Original-Source-Command: ./debian/rules get-orig-source
+Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat?action=recall&rev=179
+Upstream-Name: Werkzeug
+Upstream-Maintainer: Armin Ronacher <armin.ronacher@active-4.com>
+Upstream-Source: http://werkzeug.pocoo.org/download
 
 Files: *
-Copyright: Copyright 2008, Armin Ronacher
- Copyright 2008, Georg Brandl
+Copyright: Copyright 2008, Armin Ronacher <armin.ronacher@active-4.com>
+ Copyright 2008, Georg Brandl <g.brandl@gmx.net>
 License: BSD
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
