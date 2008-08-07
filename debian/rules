@@ -23,7 +23,8 @@ common-install-indep::
 	mv debian/python-werkzeug/usr/docs debian/python-werkzeug/usr/share/doc/python-werkzeug/html
 	chmod 644 debian/python-werkzeug/usr/lib/python2.5/site-packages/werkzeug/debug/shared/*
 
+# @@ only works from source directory, see #494141
 get-orig-source:
-	uscan --force-download
+	uscan --force-download --repack --rename --destdir .
 
 .PHONY: get-orig-source
