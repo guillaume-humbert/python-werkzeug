@@ -24,7 +24,6 @@ common-install-indep::
 	chmod 644 debian/python-werkzeug/usr/lib/python2.5/site-packages/werkzeug/debug/shared/*
 
 # @@ only works from source directory, see #494141
+.PHONY: get-orig-source
 get-orig-source:
 	uscan --force-download --repack --rename --destdir .
-
-.PHONY: get-orig-source
