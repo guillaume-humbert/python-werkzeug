@@ -1,9 +1,14 @@
 python-werkzeug (0.3.1-2) UNRELEASED; urgency=low
 
+  [ Noah Slater ]
   * Added debian/README.source for upstream source information.
   * Updated debian/control with improved short description.
   * Updated debian/copyright per latest proposed format.
   * Updated debian/rules with standard uscan options for get-orig-source.
+
+  [ Sandro Tosi ]
+  * debian/control
+    - switch Vcs-Browser field to viewsvn
 
  -- Noah Slater <nslater@bytesexual.org>  Thu, 07 Aug 2008 21:40:40 +0100
 
