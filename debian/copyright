@@ -44,8 +44,6 @@ License: GAP
 Files: werkzeug/debug/shared/jquery.js
 Copyright: Copyright 2008, John Resig
 License: MIT | GPL-2
- On Debian systems the full text of the GNU General Public License (Version 2)
- can be found in the `/usr/share/common-licenses/GPL-2' file.
 
 License: MIT
  Copyright (c) 2008 John Resig, http://jquery.com/
@@ -68,3 +66,7 @@ License: MIT
  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+License: GPL-2
+ On Debian systems the full text of the GNU General Public License (Version 2)
+ can be found in the `/usr/share/common-licenses/GPL-2' file.
