@@ -22,9 +22,10 @@ common-install-indep::
 	rm debian/python-werkzeug/usr/docs/README
 	mv debian/python-werkzeug/usr/docs debian/python-werkzeug/usr/share/doc/python-werkzeug/html
 	chmod 644 debian/python-werkzeug/usr/lib/python2.5/site-packages/werkzeug/debug/shared/*
-	rm -f debian/python-werkzeug/usr/lib/python2.5/site-packages/werkzeug/debug/shared/jquery.js
+
+binary-install/python-werkzeug::
 	dh_link usr/share/javascript/jquery/jquery.js \
-	    usr/lib/python2.5/site-packages/werkzeug/debug/shared/jquery.js
+	    usr/share/python-support/python-werkzeug/werkzeug/debug/shared/jquery.js
 
 # @@ only works from source directory, see #494141
 .PHONY: get-orig-source
