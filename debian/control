@@ -1,7 +1,7 @@
 Source: python-werkzeug
 Section: python
 Priority: optional
-Maintainer: Noah Slater <nslater@bytesexual.org>
+Maintainer: Noah Slater <nslater@tumbolia.org>
 Uploaders: Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
 Standards-Version: 3.8.0
 Build-Depends: cdbs (>= 0.4.42), debhelper (>= 5.0.37.2), python
@@ -12,7 +12,8 @@ Vcs-Browser: http://svn.debian.org/viewsvn/python-modules/packages/python-werkze
 
 Package: python-werkzeug
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python (>= 2.5) | python-wsgiref
+Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery,
+ python (>= 2.5) | python-wsgiref
 Recommends: python-simplejson
 Suggests: ipython, python-genshi, python-pkg-resources, python-lxml
 Description: collection of utilities for WSGI applications
@@ -21,5 +22,5 @@ Description: collection of utilities for WSGI applications
  .
  Werkzeug is a lightweight library for interfacing with WSGI. It features
  request and response objects, an interactive debugging system and a powerful
- URI dispatcher. Combine with with your choice of third party libraries and
+ URI dispatcher. Combine with your choice of third party libraries and
  middleware to easily create a custom application framework.

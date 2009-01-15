@@ -1,22 +1,19 @@
-python-werkzeug (0.3.1-2) UNRELEASED; urgency=low
+python-werkzeug (0.4.1-1) experimental; urgency=low
 
-  [ Noah Slater ]
+  * New upstream release.
   * Added debian/README.source for upstream source information.
-  * Updated debian/control with improved short description.
+  * Updated debian/control with improved short and long description.
   * Updated debian/copyright per latest proposed format.
   * Updated debian/rules with standard uscan options for get-orig-source.
+  * Updated Vcs-Browser field to point to viewsvn.
 
-  [ Sandro Tosi ]
-  * debian/control
-    - switch Vcs-Browser field to viewsvn
-
- -- Noah Slater <nslater@bytesexual.org>  Thu, 07 Aug 2008 21:40:40 +0100
+ -- Noah Slater <nslater@tumbolia.org>  Wed, 14 Jan 2009 16:08:54 +0000
 
 python-werkzeug (0.3.1-1) unstable; urgency=high
 
   * New upstream release, fixes a security issue.
 
- -- Noah Slater <nslater@bytesexual.org>  Wed, 25 Jun 2008 19:32:07 +0100
+ -- Noah Slater <nslater@tumbolia.org>  Wed, 25 Jun 2008 19:32:07 +0100
 
 python-werkzeug (0.3-1) unstable; urgency=low
 
@@ -28,13 +25,13 @@ python-werkzeug (0.3-1) unstable; urgency=low
   * Updated debian/copyright per latest proposed format.
   * Updated Standards-Version to 3.8.0.
 
- -- Noah Slater <nslater@bytesexual.org>  Tue, 17 Jun 2008 22:35:18 +0100
+ -- Noah Slater <nslater@tumbolia.org>  Tue, 17 Jun 2008 22:35:18 +0100
 
 python-werkzeug (0.2-2) unstable; urgency=low
 
   * Added Depends on python-pkg-resources. Closes: #468704
 
- -- Noah Slater <nslater@bytesexual.org>  Tue, 04 Mar 2008 23:40:55 +0000
+ -- Noah Slater <nslater@tumbolia.org>  Tue, 04 Mar 2008 23:40:55 +0000
 
 python-werkzeug (0.2-1) unstable; urgency=low
 
@@ -43,7 +40,7 @@ python-werkzeug (0.2-1) unstable; urgency=low
   * Corrected Vcs-Browser.
   * Corrected Debian numbered version dependency.
 
- -- Noah Slater <nslater@bytesexual.org>  Mon, 25 Feb 2008 10:30:54 +0000
+ -- Noah Slater <nslater@tumbolia.org>  Mon, 25 Feb 2008 10:30:54 +0000
 
 python-werkzeug (0.1-1) unstable; urgency=low
 
@@ -53,7 +50,7 @@ python-werkzeug (0.1-1) unstable; urgency=low
   * Remove unused Build-Depends-Indep packages.
   * Updated Standards-Version to 3.7.3.
 
- -- Noah Slater <nslater@bytesexual.org>  Fri, 28 Dec 2007 11:09:34 +0000
+ -- Noah Slater <nslater@tumbolia.org>  Fri, 28 Dec 2007 11:09:34 +0000
 
 python-werkzeug (0.1~svn3830-2) unstable; urgency=low
 
@@ -62,10 +59,10 @@ python-werkzeug (0.1~svn3830-2) unstable; urgency=low
   * Replaced Build-Depends on python-dev with python.
   * Tweaked debian/copyright file for ordering consistency.
 
- -- Noah Slater <nslater@bytesexual.org>  Sat, 03 Nov 2007 01:10:16 +0000
+ -- Noah Slater <nslater@tumbolia.org>  Sat, 03 Nov 2007 01:10:16 +0000
 
 python-werkzeug (0.1~svn3830-1) experimental; urgency=low
 
   * Initial release. Closes: #433991
 
- -- Noah Slater <nslater@bytesexual.org>  Fri, 20 Jul 2007 20:53:52 +0100
+ -- Noah Slater <nslater@tumbolia.org>  Fri, 20 Jul 2007 20:53:52 +0100
