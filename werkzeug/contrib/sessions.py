@@ -43,14 +43,14 @@
             return response(environ, start_response)
 
 
-    :copyright: 2007 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 import re
 import os
-from os import path, unlink
+from os import path
 from time import time
-from random import Random, random
+from random import random
 try:
     from hashlib import sha1
 except ImportError:
@@ -217,6 +217,8 @@ class FilesystemSessionStore(SessionStore):
     def delete(self, session):
         fn = self.get_session_filename(session.sid)
         try:
+            # Late import because Google Appengine won't allow os.unlink
+            from os import unlink
             unlink(fn)
         except OSError:
             pass

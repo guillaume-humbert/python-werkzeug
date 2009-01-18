@@ -17,7 +17,7 @@
     decoded into an unicode object if possible and if it makes sense.
 
 
-    :copyright: 2007-2008 by Armin Ronacher, Georg Brandl.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 import tempfile
@@ -27,7 +27,7 @@ from werkzeug.http import HTTP_STATUS_CODES, Accept, CacheControl, \
      parse_accept_header, parse_cache_control_header, parse_etags, \
      parse_date, generate_etag, is_resource_modified, unquote_etag, \
      quote_etag, parse_set_header, parse_authorization_header, \
-     parse_www_authenticate_header
+     parse_www_authenticate_header, remove_entity_headers
 from werkzeug.utils import MultiDict, CombinedMultiDict, FileStorage, \
      Headers, EnvironHeaders, cached_property, environ_property, \
      get_current_url, create_environ, url_encode, run_wsgi_app, get_host, \
@@ -126,7 +126,12 @@ class BaseRequest(object):
             def my_wsgi_app(request):
                 return Response('Hello World!')
         """
-        return _patch_wrapper(f, lambda *a: f(cls(a[-2]))(*a[-2:]))
+        #: return a callable that wraps the -2nd argument with the request
+        #: and calls the function with all the arguments up to that one and
+        #: the request.  The return value is then called with the latest
+        #: two arguments.  This makes it possible to use this decorator for
+        #: both methods and standalone WSGI functions.
+        return _patch_wrapper(f, lambda *a: f(*a[:-2]+(cls(a[-2]),))(*a[-2:]))
     application = classmethod(application)
 
     def _get_file_stream(self):
@@ -207,9 +212,9 @@ class BaseRequest(object):
         members:
 
         - `filename` - The name of the uploaded file, as a Python string.
-        - `type` - The content type of the uploaded file.
-        - `data` - The raw content of the uploaded file.
+        - `content_type` - The content type of the uploaded file.
         - `read()` - Read from the stream.
+        - `save()` - Save the upload into a file or file pointer.
 
         Note that `files` will only contain data if the request method was POST
         and the ``<form>`` that posted to the request had
@@ -547,6 +552,10 @@ class BaseResponse(object):
                 get_current_url(environ, root_only=True),
                 self.headers['Location']
             )
+        if 100 <= self.status_code < 200 or self.status_code == 204:
+            self.headers['Content-Length'] = 0
+        elif self.status_code == 304:
+            remove_entity_headers(self.headers)
 
     def close(self):
         """Close the wrapped response if possible."""
@@ -564,7 +573,8 @@ class BaseResponse(object):
         if environ['REQUEST_METHOD'] == 'HEAD':
             resp = ()
         elif 100 <= self.status_code < 200 or self.status_code in (204, 304):
-            self.headers['Content-Length'] = 0
+            # no response for 204/304.  the headers are adapted accordingly
+            # by fix_headers()
             resp = ()
         else:
             resp = self.iter_encoded()
@@ -700,14 +710,13 @@ class ETagResponseMixin(object):
         but modifies the object in-place.
         """
         environ = getattr(request_or_environ, 'environ', request_or_environ)
-        if environ['REQUEST_METHOD'] not in ('GET', 'HEAD'):
-            return
-        self.headers['Date'] = http_date()
-        if 'content-length' in self.headers:
-            self.headers['Content-Length'] = len(self.data)
-        if not is_resource_modified(environ, self.headers.get('etag'), None,
-                                    self.headers.get('last-modified')):
-            self.status_code = 304
+        if environ['REQUEST_METHOD'] in ('GET', 'HEAD'):
+            self.headers['Date'] = http_date()
+            if 'content-length' in self.headers:
+                self.headers['Content-Length'] = len(self.data)
+            if not is_resource_modified(environ, self.headers.get('etag'), None,
+                                        self.headers.get('last-modified')):
+                self.status_code = 304
         return self
 
     def add_etag(self, overwrite=False, weak=False):

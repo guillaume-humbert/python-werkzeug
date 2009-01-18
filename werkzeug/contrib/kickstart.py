@@ -19,7 +19,7 @@
     added in a trivial way. These loaders provide a template interface similar
     to the one that Django uses.
 
-    :copyright: 2007-2008 by Marek Kubica, Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 from os import path
@@ -27,7 +27,6 @@ from werkzeug.wrappers import Request as RequestBase, Response as ResponseBase
 from werkzeug.templates import Template
 from werkzeug.exceptions import HTTPException
 from werkzeug.routing import RequestRedirect
-from werkzeug.contrib.sessions import FilesystemSessionStore
 
 __all__ = ['Request', 'Response', 'TemplateNotFound', 'TemplateLoader',
            'GenshiTemplateLoader', 'Application']

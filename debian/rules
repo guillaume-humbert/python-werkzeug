@@ -1,8 +1,6 @@
 #!/usr/bin/make -f
 
-# This file is part of the python-werkzeug package.
-
-# Copyright 2008, Noah Slater <nslater@bytesexual.org>
+# Copyright 2009, Noah Slater <nslater@tumbolia.org>
 
 # Copying and distribution of this file, with or without modification, are
 # permitted in any medium without royalty provided the copyright notice and this
@@ -16,13 +14,20 @@ include /usr/share/cdbs/1/class/python-distutils.mk
 
 DEB_PYTHON_INSTALL_ARGS_ALL += --single-version-externally-managed
 
+# @@ workaround for #486848
+binary-arch binary-indep: build
+
 common-install-indep::
 	mkdir -p debian/python-werkzeug/usr/share/doc/python-werkzeug
 	rm debian/python-werkzeug/usr/docs/README
 	mv debian/python-werkzeug/usr/docs debian/python-werkzeug/usr/share/doc/python-werkzeug/html
-	chmod 644 debian/python-werkzeug/usr/lib/python2.5/site-packages/werkzeug/debug/shared/*
+	chmod 644 debian/python-werkzeug/usr/lib/*/site-packages/werkzeug/debug/shared/*
 
-get-orig-source:
-	uscan --force-download
+binary-install/python-werkzeug::
+	dh_link usr/share/javascript/jquery/jquery.js \
+	    usr/share/python-support/python-werkzeug/werkzeug/debug/shared/jquery.js
 
+# @@ only works from source directory, see #494141
 .PHONY: get-orig-source
+get-orig-source:
+	uscan --force-download --rename --download-version=$(DEB_UPSTREAM_VERSION) --destdir .

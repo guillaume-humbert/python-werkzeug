@@ -7,7 +7,7 @@
     them are used by the request and response wrappers but especially for
     middleware development it makes sense to use them without the wrappers.
 
-    :copyright: 2007-2008 by Armin Ronacher, Georg Brandl.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 import re
@@ -30,11 +30,13 @@ from werkzeug._internal import _patch_wrapper, _decode_unicode, \
      _empty_stream, _iter_modules, _ExtendedCookie, _ExtendedMorsel, \
      _StorageHelper, _DictAccessorProperty, _dump_date, \
      _parse_signature
-from werkzeug.http import generate_etag, parse_etags
+from werkzeug.http import generate_etag, parse_etags, \
+     remove_entity_headers
 
 
 _format_re = re.compile(r'\$(%s|\{%s\})' % (('[a-zA-Z_][a-zA-Z0-9_]*',) * 2))
 _entity_re = re.compile(r'&([^;]+);')
+_missing = object()
 
 
 class MultiDict(dict):
@@ -466,6 +468,10 @@ class Headers(object):
     From Werkzeug 0.3 onwards, the `KeyError` raised by this class is also a
     subclass of the `BadRequest` HTTP exception and will render a page for a
     ``400 BAD REQUEST`` if catched in a catch-all for HTTP exceptions.
+
+    Headers is mostly compatible with the Python wsgiref.headers.Headers
+    class, with the exception of __getitem__.  wsgiref will return None for
+    `headers['missing']`, whereas `Headers` will raise a KeyError.
     """
 
     #: the key error this class raises.  Because of circular dependencies
@@ -483,15 +489,8 @@ class Headers(object):
         if _list is None:
             _list = []
         self._list = _list
-        if isinstance(defaults, dict):
-            for key, value in defaults.iteritems():
-                if isinstance(value, (tuple, list)):
-                    for v in value:
-                        self._list.append((key, v))
-                else:
-                    self._list.append((key, value))
-        elif defaults is not None:
-            self._list[:] = defaults
+        if defaults is not None:
+            self.extend(defaults)
 
     def linked(cls, headerlist):
         """Create a new `Headers` object that uses the list of headers passed
@@ -508,7 +507,12 @@ class Headers(object):
         return cls(_list=headerlist)
     linked = classmethod(linked)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key, _index_operation=True):
+        if _index_operation:
+            if isinstance(key, (int, long)):
+                return self._list[key]
+            elif isinstance(key, slice):
+                return self.__class__(self._list[key])
         ikey = key.lower()
         for k, v in self._list:
             if k.lower() == ikey:
@@ -539,7 +543,7 @@ class Headers(object):
         because no encoding takes place.
         """
         try:
-            rv = self[key]
+            rv = self.__getitem__(key, _index_operation=False)
         except KeyError:
             return default
         if type is None:
@@ -569,6 +573,14 @@ class Headers(object):
                 result.append(v)
         return result
 
+    def get_all(self, name):
+        """Return a list of all the values for the named field.
+
+        This method is compatible with the wsgiref `Headers` method
+        of the same name.
+        """
+        return self.getlist(name)
+
     def iteritems(self, lower=False):
         for key, value in self:
             if lower:
@@ -597,11 +609,20 @@ class Headers(object):
         values.
         """
         if isinstance(iterable, dict):
-            iterable = iterable.iteritems()
-        for key, value in iterable:
-            self.add(key, value)
+            for key, value in iterable.iteritems():
+                if isinstance(value, (tuple, list)):
+                    for v in value:
+                        self.add(key, v)
+                else:
+                    self.add(key, value)
+        else:
+            for key, value in iterable:
+                self.add(key, value)
 
-    def __delitem__(self, key):
+    def __delitem__(self, key, _index_operation=True):
+        if _index_operation and isinstance(key, (int, long, slice)):
+            del self._list[key]
+            return
         key = key.lower()
         new = []
         for k, v in self._list:
@@ -609,12 +630,33 @@ class Headers(object):
                 new.append((k, v))
         self._list[:] = new
 
-    remove = __delitem__
+    def remove(self, key):
+        """Remove a key."""
+        return self.__delitem__(key, _index_operation=False)
+
+    def pop(self, key=None, default=_missing):
+        """Removes a key or index."""
+        if key is None:
+            return self._list.pop()
+        if isinstance(key, (int, long)):
+            return self._list.pop(key)
+        try:
+            rv = self[key]
+            self.remove(key)
+        except KeyError:
+            if default is not _missing:
+                return default
+            raise
+        return rv
+
+    def popitem(self):
+        """Removes a key or index and returns a (key, value) item."""
+        return self.pop()
 
     def __contains__(self, key):
         """Check if a key is present."""
         try:
-            self[key]
+            self.__getitem__(key, _index_operation=False)
         except KeyError:
             return False
         return True
@@ -625,26 +667,79 @@ class Headers(object):
         """Yield ``(key, value)`` tuples."""
         return iter(self._list)
 
-    def add(self, key, value):
-        """add a new header tuple to the list"""
-        self._list.append((key, value))
+    def __len__(self):
+        return len(self._list)
+
+    def add(self, _key, _value, **_kw):
+        """Add a new header tuple to the list.
+
+        Keyword arguments can specify additional parameters for the header
+        value, with underscores converted to dashes::
+
+        >>> d = Headers()
+        >>> d.add('Content-Type', 'text/plain')
+        >>> d.add('Content-Disposition', 'attachment', filename='foo.png')
+
+        *New in 0.4.1*: keyword arguments were added for wsgiref
+        compatibility.
+        """
+        if not _kw:
+            self._list.append((_key, _value))
+        else:
+            segments = []
+            if _value is not None:
+                segments.append(_value)
+            for key, value in _kw.iteritems():
+                key = key.replace('_', '-')
+                if value is None:
+                    segments.append(key)
+                else:
+                    value = value.replace('\\', r'\\').replace('"', r'\"')
+                    segments.append('%s="%s"' % (key, value))
+            self._list.append((_key, '; '.join(segments)))
+
+    def add_header(self, _key, _value, **_kw):
+        """Add a new header tuple to the list.
+
+        An alias for `add`, compatible with the wsgiref `Headers` method of
+        the same name.
+        """
+        self.add(_key, _value, **_kw)
 
     def clear(self):
         """clears all headers"""
         del self._list[:]
 
     def set(self, key, value):
-        """remove all header tuples for key and add
-        a new one
+        """remove all header tuples for key and add a new one.  The newly
+        added key either appears at the end of the list if there was no
+        entry or replaces the first one.
         """
         lc_key = key.lower()
         for idx, (old_key, old_value) in enumerate(self._list):
             if old_key.lower() == lc_key:
+                # replace first ocurrence
                 self._list[idx] = (key, value)
-                return
-        self.add(key, value)
+                break
+        else:
+            return self.add(key, value)
+        self._list[idx + 1:] = [(k, v) for k, v in self._list[idx + 1:]
+                                if k.lower() != lc_key]
 
-    __setitem__ = set
+    def setdefault(self, key, value):
+        """Return the first value of key, setting to value if not already
+        present."""
+        if key in self:
+            return self[key]
+        self.set(key, value)
+        return value
+
+    def __setitem__(self, key, value):
+        """Like `set()` but also supports index/slice based setting."""
+        if isinstance(key, (slice, int, long)):
+            self._list[key] = value
+        else:
+            self.set(key, value)
 
     def to_list(self, charset='utf-8'):
         """Convert the headers into a list and converts the unicode header
@@ -666,6 +761,14 @@ class Headers(object):
 
     def __copy__(self):
         return self.copy()
+
+    def __str__(self, charset='utf-8'):
+        """Returns formatted headers suitable for HTTP transmission."""
+        strs = []
+        for key, value in self.to_list(charset):
+            strs.append('%s: %s' % (key, value))
+        strs.append('\r\n')
+        return '\r\n'.join(strs)
 
     def __repr__(self):
         return '%s(%r)' % (
@@ -689,13 +792,15 @@ class EnvironHeaders(Headers):
 
     def linked(cls, environ):
         raise TypeError('%r object is always linked to environment, '
-                        'no separate initializer' % self.__class__.__name__)
+                        'no separate initializer' % cls.__name__)
     linked = classmethod(linked)
 
     def __eq__(self, other):
         return self is other
 
-    def __getitem__(self, key):
+    def __getitem__(self, key, _index_operation=False):
+        # _index_operation is a no-op for this class as there is no index but
+        # used because get() calls it.
         key = key.upper().replace('-', '_')
         if key in ('CONTENT_TYPE', 'CONTENT_LENGTH'):
             return self.environ[key]
@@ -746,6 +851,9 @@ class SharedDataMiddleware(object):
     This will then serve the ``shared_files`` folder in the `myapplication`
     python package.
     """
+
+    # TODO: use wsgi.file_wrapper or something, just don't yield everything
+    # at once.  Also consider switching to BaseResponse
 
     def __init__(self, app, exports, disallow=None, cache=True):
         self.app = app
@@ -822,14 +930,20 @@ class SharedDataMiddleware(object):
             data = stream.read()
         finally:
             stream.close()
-        headers = [('Content-Type', mime_type), ('Cache-Control', 'public')]
+
+        headers = [('Cache-Control', 'public')]
         if self.cache:
             etag = generate_etag(data)
             headers += [('Expires', expiry), ('ETag', etag)]
             if parse_etags(environ.get('HTTP_IF_NONE_MATCH')).contains(etag):
+                remove_entity_headers(headers)
                 start_response('304 Not Modified', headers)
                 return []
 
+        headers.extend((
+            ('Content-Type', mime_type),
+            ('Content-Length', str(len(data)))
+        ))
         start_response('200 OK', headers)
         return [data]
 
@@ -935,6 +1049,15 @@ class Href(object):
 
     >>> href(is_=42)
     '/foo?is=42'
+    >>> href({'foo': 'bar'})
+    '/foo?foo=bar'
+
+    Combining of both methods is not allowed:
+
+    >>> href({'foo': 'bar'}, bar=42)
+    Traceback (most recent call last):
+      ...
+    TypeError: keyword arguments and query-dicts can't be combined
 
     Accessing attributes on the href object creates a new href object with
     the attribute name as prefix:
@@ -942,13 +1065,24 @@ class Href(object):
     >>> bar_href = href.bar
     >>> bar_href("blub")
     '/foo/bar/blub'
+
+    If `sort` is set to `True` the items are sorted by `key` or the default
+    sorting algorithm:
+
+    >>> href = Href("/", sort=True)
+    >>> href(a=1, b=2, c=3)
+    '/?a=1&b=2&c=3'
+
+    *new in Werkzeug 0.5*: `sort` and `key` were added.
     """
 
-    def __init__(self, base='./', charset='utf-8'):
+    def __init__(self, base='./', charset='utf-8', sort=False, key=None):
         if not base:
             base = './'
         self.base = base
         self.charset = charset
+        self.sort = sort
+        self.key = key
 
     def __getattr__(self, name):
         if name[:2] == '__':
@@ -956,15 +1090,18 @@ class Href(object):
         base = self.base
         if base[-1:] != '/':
             base += '/'
-        return Href(urlparse.urljoin(base, name), self.charset)
+        return Href(urlparse.urljoin(base, name), self.charset, self.sort,
+                    self.key)
 
     def __call__(self, *path, **query):
-        if query:
-            if path and isinstance(path[-1], dict):
-                query, path = path[-1], path[:-1]
-            else:
-                query = dict([(k.endswith('_') and k[:-1] or k, v)
-                              for k, v in query.items()])
+        if path and isinstance(path[-1], dict):
+            if query:
+                raise TypeError('keyword arguments and query-dicts '
+                                'can\'t be combined')
+            query, path = path[-1], path[:-1]
+        elif query:
+            query = dict([(k.endswith('_') and k[:-1] or k, v)
+                          for k, v in query.items()])
         path = '/'.join([url_quote(x, self.charset) for x in path
                          if x is not None]).lstrip('/')
         rv = self.base
@@ -973,7 +1110,8 @@ class Href(object):
                 rv += '/'
             rv = urlparse.urljoin(rv, path)
         if query:
-            rv += '?' + url_encode(query, self.charset)
+            rv += '?' + url_encode(query, self.charset, sort=self.sort,
+                                   key=self.key)
         return str(rv)
 
 
@@ -1098,6 +1236,8 @@ class HTMLBuilder(object):
                 if key.endswith('_'):
                     key = key[:-1]
                 if key in self._boolean_attributes:
+                    if not value:
+                        continue
                     value = self._dialect == 'xhtml' and '="%s"' % key or ''
                 else:
                     value = '="%s"' % escape(value, True)
@@ -1106,7 +1246,8 @@ class HTMLBuilder(object):
                 write(self._dialect == 'xhtml' and ' />' or '>')
                 return ''.join(buffer)
             write('>')
-            children_as_string = ''.join(children)
+            children_as_string = ''.join(unicode(x) for x in children
+                                         if x is not None)
             if children_as_string:
                 if tag in self._plaintext_elements:
                     children_as_string = escape(children_as_string)
@@ -1142,7 +1283,16 @@ def parse_form_data(environ, stream_factory=None, charset='utf-8',
     stream = _empty_stream
     form = []
     files = []
-    storage = _StorageHelper(environ, stream_factory)
+    storage = _StorageHelper(
+        fp=environ['wsgi.input'],
+        environ={
+            'REQUEST_METHOD':           environ['REQUEST_METHOD'],
+            'CONTENT_TYPE':             environ.get('CONTENT_TYPE',''),
+            'CONTENT_LENGTH':           environ.get('CONTENT_LENGTH',''),
+            'werkzeug.stream_factory':  stream_factory
+        },
+        keep_blank_values=True
+    )
     if storage.file:
         stream = storage.file
     if storage.list is not None:
@@ -1179,10 +1329,10 @@ def get_content_type(mimetype, charset):
 
 
 def format_string(string, context):
-    """String-template format a string::
+    """String-template format a string:
 
-        >>> format_string('$foo and ${foo}s', dict(foo=42))
-        '42 and 42s'
+    >>> format_string('$foo and ${foo}s', dict(foo=42))
+    '42 and 42s'
 
     This does not do any attribute lookup etc.  For more advanced string
     formattings have a look at the `werkzeug.template` module.
@@ -1217,22 +1367,29 @@ def url_decode(s, charset='utf-8', decode_keys=False, include_empty=True,
     return MultiDict(tmp)
 
 
-def url_encode(obj, charset='utf-8', encode_keys=False):
+def url_encode(obj, charset='utf-8', encode_keys=False, sort=False, key=None):
     """URL encode a dict/`MultiDict`.  If a value is `None` it will not appear
     in the result string.  Per default only values are encoded into the target
     charset strings.  If `encode_keys` is set to ``True`` unicode keys are
     supported too.
+
+    If `sort` is set to `True` the items are sorted by `key` or the default
+    sorting algorithm.
+
+    *new in Werkzeug 0.5*: `sort` and `key` were added.
     """
     if isinstance(obj, MultiDict):
         items = obj.lists()
     elif isinstance(obj, dict):
         items = []
-        for key, value in obj.iteritems():
-            if not isinstance(value, (tuple, list)):
-                value = [value]
-            items.append((key, value))
+        for k, v in obj.iteritems():
+            if not isinstance(v, (tuple, list)):
+                v = [v]
+            items.append((k, v))
     else:
         items = obj or ()
+    if sort:
+        items.sort(key=key)
     tmp = []
     for key, values in items:
         if encode_keys and isinstance(key, unicode):
@@ -1521,9 +1678,7 @@ def append_slash_redirect(environ, code=301):
     query_string = environ['QUERY_STRING']
     if query_string:
         new_path += '?' + query_string
-    if not new_path.startswith('/'):
-        new_path = '/' + new_path
-    return redirect(new_path)
+    return redirect(new_path, code)
 
 
 def responder(f):
@@ -1645,6 +1800,8 @@ def create_environ(path='/', base_url=None, query_string=None, method='GET',
                 server_port = '80'
             elif scheme == 'https':
                 server_port = '443'
+            else:
+                server_port = ''
             server_name = netloc
         if qs or fragment:
             raise ValueError('base url cannot contain a query string '

@@ -11,7 +11,7 @@
     library.
 
 
-    :copyright: 2007-2008 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 from types import ModuleType
@@ -52,7 +52,7 @@ all_by_module = {
                              'HeaderSet', 'parse_authorization_header',
                              'parse_www_authenticate_header',
                              'WWWAuthenticate', 'Authorization',
-                             'HTTP_STATUS_CODES'],
+                             'remove_entity_headers', 'HTTP_STATUS_CODES'],
     'werkzeug.wrappers':    ['BaseResponse', 'BaseRequest', 'Request',
                              'Response', 'AcceptMixin', 'ETagRequestMixin',
                              'ETagResponseMixin', 'ResponseStreamMixin',

@@ -38,7 +38,7 @@
     .. _wsgiref: http://cheeseshop.python.org/pypi/wsgiref
 
 
-    :copyright: 2007-2008 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 import os
@@ -99,6 +99,9 @@ if have_wsgiref:
 
         def log_message(self, format, *args):
             _log('info', format, args)
+
+        def address_string(self):
+            return self.client_address[0]
 
 
 def make_server(host, port, app=None, threaded=False, processes=1,

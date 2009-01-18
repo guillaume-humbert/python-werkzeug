@@ -1,6 +1,64 @@
 Werkzeug Changelog
 ==================
 
+Version 0.4.1
+-------------
+(Bugfix release, releaesd on January 11th 2009)
+
+- `werkzeug.contrib.cache.Memcached` accepts now objects that
+  implementt the memcache.Client interface as alternative to a list of
+  strings with server addresses.
+  There is also now a `GAEMemcachedCache` that connects to the Google
+  appengine cache.
+- explicitly convert secret keys to bytestrings now because Python
+  2.6 no longer does that.
+- `url_encode` and all interfaces that call it, support ordering of
+  options now which however is disabled by default.
+- the development server no longer resolves the addresses of clients.
+- Fixed a typo in `werkzeug.test` that broke `File`.
+- `Map.bind_to_environ` uses the `Host` header now if available.
+- Fixed `BaseCache.get_dict` (#345)
+- `werkzeug.test.Client` can now run the application buffered in which
+  case the application is properly closed automatically.
+- Fixed `Headers.set` (#354).  Caused header duplication before.
+- Fixed `Headers.pop` (#349).  default parameter was not properly
+  handled.
+- Fixed UnboundLocalError in `create_environ` (#351)
+- `Headers` is more compatible with wsgiref now.
+- `Template.render` accepts multidicts now.
+
+Version 0.4
+-----------
+(codename Schraubenzieher, released on November 23rd 2008)
+
+- `Client` supports an empty `data` argument now.
+- fixed a bug in `Response.application` that made it impossible to use it
+  as method decorator.
+- the session system should work on appengine now
+- the secure cookie works properly in load balanced environments with
+  different cpu architectures now.
+- `CacheControl.no_cache` and `CacheControl.private` behavior changed to
+  reflect the possibilities of the HTTP RFC.  Setting these attributes to
+  `None` or `True` now sets the value to "the empty value".
+  More details in the documentation.
+- fixed `werkzeug.contrib.atom.AtomFeed.__call__`. (#338)
+- `BaseResponse.make_conditional` now always returns `self`.  Previously
+  it didn't for post requests and such.
+- fixed a bug in boolean attribute handling of `html` and `xhtml`.
+- added graceful error handling to the debugger pastebin feature.
+- added a more list like interface to `Headers` (slicing and indexing
+  works now)
+- fixed a bug with the `__setitem__` method of `Headers` that didn't
+  properly remove all keys on replacing.
+- added `remove_entity_headers` which removes all entity headers from
+  a list of headers (or a `Headers` object)
+- the responses now automatically call `remove_entity_headers` if the
+  status code is 304.
+- fixed a bug with `Href` query parameter handling.  Previously the last
+  item of a call to `Href` was not handled properly if it was a dict.
+- headers now support a `pop` operation to better work with environ
+  properties.
+
 
 Version 0.3.1
 -------------

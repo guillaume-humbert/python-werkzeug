@@ -5,7 +5,7 @@
 
     WSGI application traceback debugger.
 
-    :copyright: 2008 by Georg Brandl, Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 from os.path import join, dirname, basename, isfile
@@ -65,7 +65,8 @@ class DebuggedApplication(object):
             if hasattr(app_iter, 'close'):
                 app_iter.close()
             traceback = get_current_traceback(skip=1, show_hidden_frames=
-                                              self.show_hidden_frames)
+                                              self.show_hidden_frames,
+                                              ignore_system_exceptions=True)
             for frame in traceback.frames:
                 self.frames[frame.id] = frame
             self.tracebacks[traceback.id] = traceback
@@ -103,7 +104,7 @@ class DebuggedApplication(object):
     def paste_traceback(self, request, traceback):
         """Paste the traceback and return a JSON response."""
         paste_id = traceback.paste()
-        return Response('{"url": "http://paste.pocoo.org/show/%d/", "id": %d}'
+        return Response('{"url": "http://paste.pocoo.org/show/%s/", "id": %s}'
                         % (paste_id, paste_id), mimetype='application/json')
 
     def get_source(self, request, frame):

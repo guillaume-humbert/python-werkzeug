@@ -43,7 +43,7 @@
     ['<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"',
      '  "http://www.w3.org/TR/html4/loose.dtd">']
 
-    :copyright: 2007 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 from time import time
@@ -51,7 +51,6 @@ from random import random
 from urllib import urlencode
 from cStringIO import StringIO
 from mimetypes import guess_type
-from werkzeug.wrappers import BaseResponse
 from werkzeug.utils import create_environ, run_wsgi_app
 
 
@@ -65,7 +64,7 @@ def encode_multipart(values):
 
     This method does not accept unicode strings!
     """
-    boundary = '-----------=_Part_%s%s' (time(), random())
+    boundary = '-----------=_Part_%s%s' % (time(), random())
     lines = []
     for key, value in values.iteritems():
         if isinstance(value, File):
@@ -109,11 +108,11 @@ class File(object):
                     raise ValueError('no filename for provided')
                 filename = fd.name
         if mimetype is None:
-            mimetype = guess_type(filename)
-        self.filename = fileanme
+            mimetype = guess_type(filename)[0]
+        self.filename = filename
         self.mimetype = mimetype or 'application/octet-stream'
 
-    def getattr(self, name):
+    def __getattr__(self, name):
         return getattr(self.stream, name)
 
     def __repr__(self):
@@ -147,7 +146,7 @@ class Client(object):
              data=None, input_stream=None, content_type=None,
              content_length=0, errors_stream=None, multithread=False,
              multiprocess=False, run_once=False, environ_overrides=None,
-             as_tuple=False):
+             as_tuple=False, buffered=False):
         """Takes the same arguments as the `create_environ` function from the
         utility module with some additions.
 
@@ -205,8 +204,12 @@ class Client(object):
 
         `run_once`
             The run_once flag for the WSGI Environment.  Defaults to `False`.
+
+        `buffered`
+            Set this to true to buffer the application run.  This will
+            automatically close the application for you as well.
         """
-        if input_stream is None and data and method in ('PUT', 'POST'):
+        if input_stream is None and data is not None and method in ('PUT', 'POST'):
             need_multipart = False
             if isinstance(data, basestring):
                 assert content_type is not None, 'content type required'
@@ -246,7 +249,7 @@ class Client(object):
                                      multiprocess, run_once)
         if environ_overrides:
             environ.update(environ_overrides)
-        rv = run_wsgi_app(self.application, environ)
+        rv = run_wsgi_app(self.application, environ, buffered=buffered)
         response = self.response_wrapper(*rv)
         if as_tuple:
             return environ, response

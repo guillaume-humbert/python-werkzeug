@@ -19,8 +19,8 @@
       
       <div class="toc">
         <h4>Table of Contents</h4>
-        <ul><li><a class="reference" href="#diving-in" id="id1" name="id1">Diving In</a></li>
-<li><a class="reference" href="#the-client" id="id2" name="id2">The Client</a></li>
+        <ul><li><a class="reference internal" href="#diving-in" id="id1">Diving In</a></li>
+<li><a class="reference internal" href="#the-client" id="id2">The Client</a></li>
 </ul>
       </div>
       
@@ -29,8 +29,8 @@ from an interactive Python session.  In theory that is pretty simple because
 you can fake a WSGI environment and call the application with a dummy
 <cite>start_response</cite> and iterate over the application iterator, but there are
 argumentably better ways to interact with an application.</p>
-<div class="section">
-<h3 id="diving-in">Diving In</h3>
+<div class="section" id="diving-in">
+<h3>Diving In</h3>
 <p>Werkzeug provides a <cite>Client</cite> object which you can pass a WSGI application (and
 optionally a response wrapper) which you can use to send virtual requests to
 the application.</p>
@@ -39,14 +39,14 @@ iterator, the status and finally a list of headers.  The default response
 wrapper returns a tuple.  Because response objects have the same signature,
 you can use them as response wrapper, ideally by subclassing them and hooking
 in test functionality.</p>
-<div class="syntax"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">from</span> <span class="nn">werkzeug</span> <span class="k">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">BaseResponse</span><span class="p">,</span> <span class="n">test_app</span>
+<div class="syntax"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">Client</span><span class="p">,</span> <span class="n">BaseResponse</span><span class="p">,</span> <span class="n">test_app</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">test_app</span><span class="p">,</span> <span class="n">BaseResponse</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span>
 <span class="go">200</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span>
 <span class="go">Headers([(&#39;Content-Type&#39;, &#39;text/html; charset=utf-8&#39;)])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">response_body</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[:</span><span class="mf">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[:</span><span class="mf">2</span><span class="p">]</span>
 <span class="go">[&#39;&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&#39;,</span>
 <span class="go"> &#39;  &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;&#39;]</span>
 </pre></div>
@@ -62,8 +62,8 @@ in test functionality.</p>
 <span class="go"> &#39;  &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;&#39;]</span>
 </pre></div>
 </div>
-<div class="section">
-<h3 id="the-client">The Client</h3>
+<div class="section" id="the-client">
+<h3>The Client</h3>
 <dl>
 <dt><strong>class</strong> <cite id="werkzeug.test.Client">Client</cite></dt>
 <dd><p class="first">This class allows to send requests to a wrapped application.</p>
@@ -81,7 +81,7 @@ wrapper just returns a tuple.</p>
 </dd>
 </dl>
 <dl>
-<dt><cite id="werkzeug.test.Client.open">open</cite> <tt class="func-signature docutils literal"><span class="pre">(path='/',</span> <span class="pre">base_url=None,</span> <span class="pre">query_string=None,</span> <span class="pre">method='GET',</span> <span class="pre">data=None,</span> <span class="pre">input_stream=None,</span> <span class="pre">content_type=None,</span> <span class="pre">content_length=0,</span> <span class="pre">errors_stream=None,</span> <span class="pre">multithread=False,</span> <span class="pre">multiprocess=False,</span> <span class="pre">run_once=False,</span> <span class="pre">environ_overrides=None,</span> <span class="pre">as_tuple=False)</span></tt></dt>
+<dt><cite id="werkzeug.test.Client.open">open</cite> <tt class="func-signature docutils literal"><span class="pre">(path='/',</span> <span class="pre">base_url=None,</span> <span class="pre">query_string=None,</span> <span class="pre">method='GET',</span> <span class="pre">data=None,</span> <span class="pre">input_stream=None,</span> <span class="pre">content_type=None,</span> <span class="pre">content_length=0,</span> <span class="pre">errors_stream=None,</span> <span class="pre">multithread=False,</span> <span class="pre">multiprocess=False,</span> <span class="pre">run_once=False,</span> <span class="pre">environ_overrides=None,</span> <span class="pre">as_tuple=False,</span> <span class="pre">buffered=False)</span></tt></dt>
 <dd><p class="first">Takes the same arguments as the <cite>create_environ</cite> function from the
 utility module with some additions.</p>
 <p>The first parameter should be the path of the request which defaults to
@@ -127,6 +127,9 @@ type.</dd>
 <cite>False</cite>.</dd>
 <dt><cite>run_once</cite></dt>
 <dd>The run_once flag for the WSGI Environment.  Defaults to <cite>False</cite>.</dd>
+<dt><cite>buffered</cite></dt>
+<dd>Set this to true to buffer the application run.  This will
+automatically close the application for you as well.</dd>
 </dl>
 </dd>
 </dl>

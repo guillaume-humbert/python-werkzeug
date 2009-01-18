@@ -6,8 +6,8 @@
     This module provides a class called `AtomFeed` which can be used
     to generate Atom feeds.
 
-    :copyright: Copyright 2007 by Armin Ronacher, Marian Sigler.
-    :license: GNU GPL.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
+    :license: BSD.
 """
 from datetime import datetime
 from werkzeug.utils import escape
@@ -207,7 +207,7 @@ class AtomFeed(object):
 
     def __call__(self, environ, start_response):
         """Use the class as WSGI response object."""
-        return self.get_response(environ, start_response)
+        return self.get_response()(environ, start_response)
 
     def __unicode__(self):
         return self.to_string()
