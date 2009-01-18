@@ -21,7 +21,7 @@ common-install-indep::
 	mkdir -p debian/python-werkzeug/usr/share/doc/python-werkzeug
 	rm debian/python-werkzeug/usr/docs/README
 	mv debian/python-werkzeug/usr/docs debian/python-werkzeug/usr/share/doc/python-werkzeug/html
-	chmod 644 debian/python-werkzeug/usr/lib/python2.5/site-packages/werkzeug/debug/shared/*
+	chmod 644 debian/python-werkzeug/usr/lib/*/site-packages/werkzeug/debug/shared/*
 
 binary-install/python-werkzeug::
 	dh_link usr/share/javascript/jquery/jquery.js \
@@ -30,4 +30,4 @@ binary-install/python-werkzeug::
 # @@ only works from source directory, see #494141
 .PHONY: get-orig-source
 get-orig-source:
-	uscan --force-download --repack --rename --destdir .
+	uscan --force-download --rename --download-version=$(DEB_UPSTREAM_VERSION) --destdir .

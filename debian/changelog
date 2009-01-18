@@ -5,9 +5,9 @@ python-werkzeug (0.4.1-1) experimental; urgency=low
   * Updated debian/control, updated Vcs-Browser.
   * Updated debian/control, updated Description.
   * Updated debian/copyright, updated for latest format proposal.
-  * Updated debian/rules, added standard uscan options for get-orig-source.
+  * Updated debian/rules, improved uscan options for get-orig-source.
 
- -- Noah Slater <nslater@tumbolia.org>  Thu, 15 Jan 2009 17:35:16 +0000
+ -- Noah Slater <nslater@tumbolia.org>  Sun, 18 Jan 2009 20:01:23 +0000
 
 python-werkzeug (0.3.1-1) unstable; urgency=high
 
