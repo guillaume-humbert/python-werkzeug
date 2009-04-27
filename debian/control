@@ -12,8 +12,7 @@ Vcs-Browser: http://svn.debian.org/viewsvn/python-modules/packages/python-werkze
 
 Package: python-werkzeug
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery,
- python (>= 2.5) | python-wsgiref
+Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery
 Recommends: python-simplejson
 Suggests: ipython, python-genshi, python-pkg-resources, python-lxml
 Description: collection of utilities for WSGI applications
