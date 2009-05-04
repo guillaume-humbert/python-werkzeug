@@ -6,16 +6,21 @@
 # permitted in any medium without royalty provided the copyright notice and this
 # notice are preserved.
 
-DEB_PYTHON_SYSTEM := pysupport
+export PYTHONPATH=$(abspath $(CURDIR))
 
-include /usr/share/cdbs/1/rules/buildcore.mk
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/python-distutils.mk
+%:
+	dh $@
 
-DEB_PYTHON_INSTALL_ARGS_ALL += --single-version-externally-managed
+#DEB_PYTHON_SYSTEM := pysupport
+
+#include /usr/share/cdbs/1/rules/buildcore.mk
+#include /usr/share/cdbs/1/rules/debhelper.mk
+#include /usr/share/cdbs/1/class/python-distutils.mk
+
+#DEB_PYTHON_INSTALL_ARGS_ALL += --single-version-externally-managed
 
 # @@ workaround for #486848
-binary-arch binary-indep: build
+#binary-arch binary-indep: build
 
 #common-install-indep::
 #	mkdir -p debian/python-werkzeug/usr/share/doc/python-werkzeug
@@ -28,6 +33,6 @@ binary-arch binary-indep: build
 #	    usr/share/pyshared/python-werkzeug/werkzeug/debug/shared/jquery.js
 
 # @@ only works from source directory, see #494141
-.PHONY: get-orig-source
-get-orig-source:
-	uscan --force-download --rename --download-version=$(DEB_UPSTREAM_VERSION) --destdir .
+#.PHONY: get-orig-source
+# get-orig-source:
+#	uscan --force-download --rename --download-version=$(DEB_UPSTREAM_VERSION) --destdir .
