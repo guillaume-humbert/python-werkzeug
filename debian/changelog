@@ -2,9 +2,11 @@ python-werkzeug (0.5-1) experimental; urgency=low
 
   * New upstream release.
   * Updated debian/control, removed Depends on python-wsgiref.
+  * Updated debian/control, updated Build-Depends on debhelper to 7.2.11.
   * Updated debian/rules, use /usr/share/pyshared directory. Closes: #517302
+  *
 
- -- Noah Slater <nslater@tumbolia.org>  Mon, 27 Apr 2009 16:08:54 +0100
+ -- Noah Slater <nslater@tumbolia.org>  Thu, 14 May 2009 16:56:46 +0100
 
 python-werkzeug (0.4.1-1) experimental; urgency=low
 

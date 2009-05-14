@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Noah Slater <nslater@tumbolia.org>
 Uploaders: Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
 Standards-Version: 3.8.0
-Build-Depends: debhelper (>= 5.0.37.2), python, python-sphinx
+Build-Depends: debhelper (>= 7.2.11), python, python-sphinx
 Build-Depends-Indep: python-setuptools (>= 0.6b3), python-support (>= 0.6.4)
 Homepage: http://werkzeug.pocoo.org/
 Vcs-Svn: svn://svn.debian.org/python-modules/packages/python-werkzeug/trunk/
