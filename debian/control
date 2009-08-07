@@ -2,18 +2,19 @@ Source: python-werkzeug
 Section: python
 Priority: optional
 Maintainer: Noah Slater <nslater@tumbolia.org>
-Uploaders: Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
-Standards-Version: 3.8.0
-Build-Depends: cdbs (>= 0.4.42), debhelper (>= 5.0.37.2), python
-Build-Depends-Indep: python-setuptools (>= 0.6b3), python-support (>= 0.6.4)
+Uploaders: Piotr Ożarowski <piotr@debian.org>,
+ Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
+Standards-Version: 3.8.2
+Build-Depends: debhelper (>= 7.2.11), python, python-sphinx
+Build-Depends-Indep: python-setuptools (>= 0.6b3), python-support (>= 0.6.4),
+ python-simplejson, python-nose, python-lxml
 Homepage: http://werkzeug.pocoo.org/
 Vcs-Svn: svn://svn.debian.org/python-modules/packages/python-werkzeug/trunk/
 Vcs-Browser: http://svn.debian.org/viewsvn/python-modules/packages/python-werkzeug/trunk/
 
 Package: python-werkzeug
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery,
- python (>= 2.5) | python-wsgiref
+Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery
 Recommends: python-simplejson
 Suggests: ipython, python-genshi, python-pkg-resources, python-lxml
 Description: collection of utilities for WSGI applications

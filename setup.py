@@ -35,9 +35,8 @@ Features
 
 -   an interactive debugger
 
--   wrapper around wsgiref that works around some of the limitations
-    and bugs, adds threading and fork support for test environments
-    and adds an automatic reloader.
+-   A simple WSGI server with support for threading and forking
+    with an automatic reloader.
 
 -   a flexible URL routing system with REST support.
 
@@ -51,36 +50,23 @@ The `Werkzeug tip <http://dev.pocoo.org/hg/werkzeug-main/archive/tip.zip#egg=Wer
 is installable via `easy_install` with ``easy_install Werkzeug==dev``.
 """
 import os
-import ez_setup
-ez_setup.use_setuptools()
-
-from setuptools import setup, Feature
-
-
-data_files = []
-documentation_path = 'docs/build'
-if os.path.exists(documentation_path):
-    documentation_files = []
-    for fn in os.listdir(documentation_path):
-        if not fn.startswith('.'):
-            fn = os.path.join(documentation_path, fn)
-            if os.path.isfile(fn):
-                documentation_files.append(fn)
-    data_files.append(('docs', documentation_files))
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 
 setup(
     name='Werkzeug',
-    version='0.4.1',
+    version='0.5.1',
     url='http://werkzeug.pocoo.org/',
     license='BSD',
     author='Armin Ronacher',
     author_email='armin.ronacher@active-4.com',
     description='The Swiss Army knife of Python web development',
     long_description=__doc__,
-    zip_safe=False,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
@@ -89,21 +75,9 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    packages=['werkzeug', 'werkzeug.debug'],
-    data_files=data_files,
+    packages=['werkzeug', 'werkzeug.debug', 'werkzeug.contrib'],
     package_data={
         'werkzeug.debug': ['shared/*', 'templates/*']
     },
-    features={
-        'contrib': Feature('optional contribute addon modules',
-            standard=True,
-            packages=['werkzeug.contrib']
-        )
-    },
-    platforms='any',
-    include_package_data=True,
-    extras_require={
-        'plugin': ['setuptools>=0.6a2'],
-        'wsgiref': ['wsgiref']
-    }
+    platforms='any'
 )

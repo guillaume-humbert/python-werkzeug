@@ -6,28 +6,34 @@
 # permitted in any medium without royalty provided the copyright notice and this
 # notice are preserved.
 
-DEB_PYTHON_SYSTEM := pysupport
+#export DH_VERBOSE=1
+export PYTHONPATH=$(abspath $(CURDIR))
+PKGDIR=$(CURDIR)/debian/python-werkzeug/
 
-include /usr/share/cdbs/1/rules/buildcore.mk
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/python-distutils.mk
+-include /usr/share/python/python.mk
+ifeq (,$(py_libdir))
+    py_libdir = /usr/lib/python$(subst python,,$(1))/site-packages
+endif
 
-DEB_PYTHON_INSTALL_ARGS_ALL += --single-version-externally-managed
+%:
+	dh $@
 
-# @@ workaround for #486848
-binary-arch binary-indep: build
-
-common-install-indep::
-	mkdir -p debian/python-werkzeug/usr/share/doc/python-werkzeug
-	rm debian/python-werkzeug/usr/docs/README
-	mv debian/python-werkzeug/usr/docs debian/python-werkzeug/usr/share/doc/python-werkzeug/html
-	chmod 644 debian/python-werkzeug/usr/lib/*/site-packages/werkzeug/debug/shared/*
-
-binary-install/python-werkzeug::
+override_dh_auto_install:
+	python setup.py install \
+		--single-version-externally-managed \
+		--install-layout=deb \
+		--root $(PKGDIR)
+	touch $(PKGDIR)$(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/shared/.noinit
+	touch $(PKGDIR)$(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/templates/.noinit
 	dh_link usr/share/javascript/jquery/jquery.js \
-	    usr/share/python-support/python-werkzeug/werkzeug/debug/shared/jquery.js
+	  $(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/shared/jquery.js
+	dh_link usr/share/javascript/jquery/jquery.js \
+	  /usr/share/doc/python-werkzeug/html/_static/jquery.js
+	dh_link /usr/share/doc/python-werkzeug/html/_sources \
+		/usr/share/doc/python-werkzeug/rst
 
-# @@ only works from source directory, see #494141
-.PHONY: get-orig-source
-get-orig-source:
-	uscan --force-download --rename --download-version=$(DEB_UPSTREAM_VERSION) --destdir .
+clean:
+	dh $@
+	make -C docs clean
+	find $(CURDIR) -name '*\.py[co]' -delete
+	rm -rf build

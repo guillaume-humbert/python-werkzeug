@@ -1,3 +1,22 @@
+python-werkzeug (0.5.1-1) unstable; urgency=low
+
+  [ Noah Slater ]
+  * New upstream release (0.5). Closes: #536465
+  * Updated debian/control, removed Depends on python-wsgiref.
+  * Updated debian/control, updated Build-Depends on debhelper to 7.2.11.
+  * Updated debian/rules, use /usr/share/pyshared directory. Closes: #517302
+
+  [ Piotr Ożarowski ]
+  * New upstream release (0.5.1)
+  * New build dependencies:
+    - python-simplejson (to build docs)
+    - python-nose and python-lxml (to run tests)
+  * Use dh sequencer instead of CDBS. Closes: #526577
+  * Standards-Version bumped to 3.8.2 (no changes needed)
+  * Add myself to Uploaders
+
+ -- Piotr Ożarowski <piotr@debian.org>  Fri, 07 Aug 2009 19:44:53 +0200
+
 python-werkzeug (0.4.1-1) experimental; urgency=low
 
   * New upstream release. Closes: #511553

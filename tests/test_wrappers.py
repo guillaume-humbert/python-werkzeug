@@ -8,7 +8,10 @@
     :license: BSD license.
 """
 import pickle
-from py.test import raises
+from StringIO import StringIO
+
+from nose.tools import assert_raises
+
 from datetime import datetime, timedelta
 from werkzeug.wrappers import *
 from werkzeug.utils import MultiDict
@@ -16,8 +19,7 @@ from werkzeug.test import Client
 
 
 class RequestTestResponse(BaseResponse):
-    """
-    Subclass of the normal response class we use to test response
+    """Subclass of the normal response class we use to test response
     and base classes.  Has some methods to test if things in the
     response match.
     """
@@ -30,8 +32,7 @@ class RequestTestResponse(BaseResponse):
         return self.body_data[key]
 
 
-def request_test_app(environ, start_response):
-    """Small test app."""
+def request_demo_app(environ, start_response):
     request = BaseRequest(environ)
     assert 'werkzeug.request' in environ
     start_response('200 OK', [('Content-Type', 'text/plain')])
@@ -56,7 +57,7 @@ def prepare_environ_pickle(environ):
     return result
 
 
-def assert_request_test_environ(environ, method):
+def assert_environ(environ, method):
     assert environ['REQUEST_METHOD'] == method
     assert environ['PATH_INFO'] == '/'
     assert environ['SCRIPT_NAME'] == ''
@@ -66,7 +67,8 @@ def assert_request_test_environ(environ, method):
 
 
 def test_base_request():
-    client = Client(request_test_app, RequestTestResponse)
+    """Base request behavior"""
+    client = Client(request_demo_app, RequestTestResponse)
 
     # get requests
     response = client.get('/?foo=bar&foo=hehe')
@@ -75,7 +77,7 @@ def test_base_request():
     assert response['form'] == MultiDict()
     assert response['form_as_list'] == []
     assert response['data'] == ''
-    assert_request_test_environ(response['environ'], 'GET')
+    assert_environ(response['environ'], 'GET')
 
     # post requests with form data
     response = client.post('/?blub=blah', data='foo=blub+hehe&blah=42',
@@ -87,7 +89,7 @@ def test_base_request():
     # currently we do not guarantee that the values are ordered correctly
     # for post data.
     ## assert response['form_as_list'] == [('foo', ['blub hehe']), ('blah', ['42'])]
-    assert_request_test_environ(response['environ'], 'POST')
+    assert_environ(response['environ'], 'POST')
 
     # post requests with json data
     json = '{"foo": "bar", "blub": "blah"}'
@@ -98,6 +100,7 @@ def test_base_request():
 
 
 def test_base_response():
+    """Base respone behavior"""
     # unicode
     response = BaseResponse(u'öäü')
     assert response.data == 'öäü'
@@ -118,6 +121,7 @@ def test_base_response():
 
 
 def test_type_forcing():
+    """Response Type forcing"""
     def wsgi_application(environ, start_response):
         start_response('200 OK', [('Content-Type', 'text/html')])
         return ['Hello World!']
@@ -139,10 +143,11 @@ def test_type_forcing():
         assert response.content_type == 'text/html'
 
     # without env, no arbitrary conversion
-    raises(TypeError, "SpecialResponse.force_type(wsgi_application)")
+    assert_raises(TypeError, "SpecialResponse.force_type(wsgi_application)")
 
 
 def test_accept_mixin():
+    """Accept request-wrapper mixin"""
     request = Request({
         'HTTP_ACCEPT':  'text/xml,application/xml,application/xhtml+xml,'
                         'text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5',
@@ -150,27 +155,28 @@ def test_accept_mixin():
         'HTTP_ACCEPT_ENCODING': 'gzip,deflate',
         'HTTP_ACCEPT_LANGUAGE': 'en-us,en;q=0.5'
     })
-    assert request.accept_mimetypes == Accept([
+    assert request.accept_mimetypes == CharsetAccept([
         ('text/xml', 1), ('image/png', 1), ('application/xml', 1),
         ('application/xhtml+xml', 1), ('text/html', 0.9),
         ('text/plain', 0.8), ('*/*', 0.5)
     ])
-    assert request.accept_charsets == Accept([
+    assert request.accept_charsets == CharsetAccept([
         ('ISO-8859-1', 1), ('utf-8', 0.7), ('*', 0.7)
     ])
-    assert request.accept_encodings == Accept([('gzip', 1), ('deflate', 1)])
-    assert request.accept_languages == Accept([('en-us', 1), ('en', 0.5)])
+    assert request.accept_encodings == CharsetAccept([('gzip', 1), ('deflate', 1)])
+    assert request.accept_languages == CharsetAccept([('en-us', 1), ('en', 0.5)])
 
 
 def test_etag_request_mixin():
+    """ETag request-wrapper mixin"""
     request = Request({
-        'HTTP_CACHE_CONTROL':       'private, no-cache',
+        'HTTP_CACHE_CONTROL':       'no-store, no-cache',
         'HTTP_IF_MATCH':            'w/"foo", bar, "baz"',
         'HTTP_IF_NONE_MATCH':       'w/"foo", bar, "baz"',
         'HTTP_IF_MODIFIED_SINCE':   'Tue, 22 Jan 2008 11:18:44 GMT',
         'HTTP_IF_UNMODIFIED_SINCE': 'Tue, 22 Jan 2008 11:18:44 GMT'
     })
-    assert request.cache_control.private
+    assert request.cache_control.no_store
     assert request.cache_control.no_cache
 
     for etags in request.if_match, request.if_none_match:
@@ -184,6 +190,7 @@ def test_etag_request_mixin():
 
 
 def test_user_agent_mixin():
+    """User agent request-wrapper mixin"""
     user_agents = [
         ('Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US; rv:1.8.1.11) '
          'Gecko/20071127 Firefox/2.0.0.11', 'firefox', 'macos', '2.0.0.11',
@@ -197,6 +204,7 @@ def test_user_agent_mixin():
          'google', None, '2.1', None)
     ]
     for ua, browser, platform, version, lang in user_agents:
+        print locals()
         request = Request({'HTTP_USER_AGENT': ua})
         assert request.user_agent.browser == browser
         assert request.user_agent.platform == platform
@@ -205,6 +213,7 @@ def test_user_agent_mixin():
 
 
 def test_etag_response_mixin():
+    """ETag response-wrapper mixin"""
     response = Response('Hello World')
     assert response.get_etag() == (None, None)
     response.add_etag()
@@ -222,6 +231,7 @@ def test_etag_response_mixin():
 
 
 def test_response_stream_mixin():
+    """Response stream response-wrapper mixin"""
     response = Response()
     response.stream.write('Hello ')
     response.stream.write('World!')
@@ -230,10 +240,15 @@ def test_response_stream_mixin():
 
 
 def test_common_response_descriptors_mixin():
+    """Common response descriptors response-wrapper mixin"""
     response = Response()
     response.mimetype = 'text/html'
     assert response.mimetype == 'text/html'
     assert response.content_type == 'text/html; charset=utf-8'
+    assert response.mimetype_params == {'charset': 'utf-8'}
+    response.mimetype_params['x-foo'] = 'yep'
+    del response.mimetype_params['charset']
+    assert response.content_type == 'text/html; x-foo=yep'
 
     now = datetime.utcnow().replace(microsecond=0)
 
@@ -266,7 +281,48 @@ def test_common_response_descriptors_mixin():
     assert response.headers['Content-Language'] == 'en-US, fr'
 
 
+def test_common_request_descriptors_mixin():
+    """Common request descriptors request-wrapper mixin"""
+    request = Request.from_values(content_type='text/html; charset=utf-8',
+                                  content_length='23',
+                                  headers={
+        'Referer':      'http://www.example.com/',
+        'Date':         'Sat, 28 Feb 2009 19:04:35 GMT',
+        'Max-Forwards': '10',
+        'Pragma':       'no-cache'
+    })
+
+    assert request.content_type == 'text/html; charset=utf-8'
+    assert request.mimetype == 'text/html'
+    assert request.mimetype_params == {'charset': 'utf-8'}
+    assert request.content_length == 23
+    assert request.referrer == 'http://www.example.com/'
+    assert request.date == datetime(2009, 2, 28, 19, 4, 35)
+    assert request.max_forwards == 10
+    assert 'no-cache' in request.pragma
+
+
 def test_shallow_mode():
+    """Request object shallow mode"""
     request = Request({'QUERY_STRING': 'foo=bar'}, shallow=True)
     assert request.args['foo'] == 'bar'
-    raises(RuntimeError, lambda: request.form['foo'])
+    assert_raises(RuntimeError, lambda: request.form['foo'])
+
+
+def test_form_parsing_failed():
+    """Form parsing failed calls method on request object"""
+    errors = []
+    class TestRequest(Request):
+        def _form_parsing_failed(self, error):
+            errors.append(error)
+    data = (
+        '--blah\r\n'
+    )
+    data = TestRequest.from_values(input_stream=StringIO(data),
+                                   content_length=len(data),
+                                   content_type='multipart/form-data; boundary=foo',
+                                   method='POST')
+    assert not data.files
+    assert not data.form
+    assert len(errors) == 1
+    assert isinstance(errors[0], ValueError)
