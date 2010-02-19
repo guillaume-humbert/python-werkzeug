@@ -32,8 +32,13 @@ override_dh_auto_install:
 	dh_link /usr/share/doc/python-werkzeug/html/_sources \
 		/usr/share/doc/python-werkzeug/rst
 
+override_dh_fixperms:
+	find $(PKGDIR) -name '*\.png' -exec chmod -x '{}' \;
+	dh_fixperms
+
 clean:
-	dh $@
+	rm -rf build
+	dh_clean
 	make -C docs clean
 	find $(CURDIR) -name '*\.py[co]' -delete
-	rm -rf build
+	find $(CURDIR) \( -name '\._*' -o -name '\.DS_Store' \) -delete

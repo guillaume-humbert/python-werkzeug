@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Noah Slater <nslater@tumbolia.org>
 Uploaders: Piotr Ożarowski <piotr@debian.org>,
  Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
-Standards-Version: 3.8.2
+Standards-Version: 3.8.4
 Build-Depends: debhelper (>= 7.2.11), python, python-sphinx
 Build-Depends-Indep: python-setuptools (>= 0.6b3), python-support (>= 0.6.4),
  python-simplejson, python-nose, python-lxml
@@ -15,8 +15,8 @@ Vcs-Browser: http://svn.debian.org/viewsvn/python-modules/packages/python-werkze
 Package: python-werkzeug
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery
-Recommends: python-simplejson
-Suggests: ipython, python-genshi, python-pkg-resources, python-lxml
+Recommends: python-simplejson | python (>= 2.6), python-openssl
+Suggests: ipython, python-genshi, python-pkg-resources, python-lxml, python-memcache
 Description: collection of utilities for WSGI applications
  The Web Server Gateway Interface (WSGI) is a standard interface between web
  server software and web applications written in Python.

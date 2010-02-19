@@ -4,7 +4,7 @@ Upstream-Maintainer: Armin Ronacher <armin.ronacher@active-4.com>
 Upstream-Source: http://werkzeug.pocoo.org/download
 
 Files: *
-Copyright: Copyright 2009, the Werkzeug Team
+Copyright: Copyright 2009-2010, the Werkzeug Team
 License: BSD
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are
