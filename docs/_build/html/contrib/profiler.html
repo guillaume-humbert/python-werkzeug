@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -9,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.5.1dev'
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -19,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Lint Validation Middleware" href="lint.html">
     <link rel="prev" title="Fixers" href="fixers.html">
@@ -34,7 +35,7 @@
       <ul class="navigation">
         <li class="indexlink"><a href="../index.html">Overview</a></li>
         <li><a href="fixers.html">&laquo; Fixers</a></li>
-        <li class="active"><a href="">WSGI Application Profiler</a></li>
+        <li class="active"><a href="#">WSGI Application Profiler</a></li>
         <li><a href="lint.html">Lint Validation Middleware &raquo;</a></li>
       </ul>
       <div class="body">
@@ -42,7 +43,7 @@
   <div class="section" id="module-werkzeug.contrib.profiler">
 <h1>WSGI Application Profiler<a class="headerlink" href="#module-werkzeug.contrib.profiler" title="Permalink to this headline">¶</a></h1>
 <p>This module provides a simple WSGI profiler middleware for finding
-bottlenecks in web application.  It uses the <tt class="xref docutils literal"><span class="pre">profile</span></tt> or
+bottlenecks in web application.  It uses the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/profile.html#module-profile"><tt class="xref docutils literal"><span class="pre">profile</span></tt></a> or
 <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/profile.html#module-cProfile"><tt class="xref docutils literal"><span class="pre">cProfile</span></tt></a> module to do the profiling and writes the stats to the
 stream provided (defaults to stderr).</p>
 <p>Example usage:</p>
@@ -52,8 +53,7 @@ stream provided (defaults to stderr).</p>
 </div>
 <dl class="class">
 <dt id="werkzeug.contrib.profiler.MergeStream">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.profiler.</tt><tt class="descname">MergeStream</tt><big>(</big><em>*streams</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.profiler.MergeStream" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.profiler.</tt><tt class="descname">MergeStream</tt><big>(</big><em>*streams</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.profiler.MergeStream" title="Permalink to this definition">¶</a></dt>
 <dd><p>An object that redirects <cite>write</cite> calls to multiple streams.
 Use this to log to both <cite>sys.stdout</cite> and a file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;profiler.log&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
@@ -65,13 +65,12 @@ Use this to log to both <cite>sys.stdout</cite> and a file:</p>
 
 <dl class="class">
 <dt id="werkzeug.contrib.profiler.ProfilerMiddleware">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.profiler.</tt><tt class="descname">ProfilerMiddleware</tt><big>(</big><em>app</em>, <em>stream=None</em>, <em>sort_by=('time'</em>, <em>'calls')</em>, <em>restrictions=()</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.profiler.ProfilerMiddleware" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.profiler.</tt><tt class="descname">ProfilerMiddleware</tt><big>(</big><em>app</em>, <em>stream=None</em>, <em>sort_by=('time'</em>, <em>'calls')</em>, <em>restrictions=()</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.profiler.ProfilerMiddleware" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simple profiler middleware.  Wraps a WSGI application and profiles
 a request.  This intentionally buffers the response so that timings are
 more exact.</p>
 <p>For the exact meaning of <cite>sort_by</cite> and <cite>restrictions</cite> consult the
-<tt class="xref docutils literal"><span class="pre">profile</span></tt> documentation.</p>
+<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/profile.html#module-profile"><tt class="xref docutils literal"><span class="pre">profile</span></tt></a> documentation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

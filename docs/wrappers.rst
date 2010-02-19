@@ -1,12 +1,14 @@
-========
-Wrappers
-========
+.. _wrappers:
+
+==========================
+Request / Response Objects
+==========================
 
 .. module:: werkzeug
 
-You can import all these objects directly from :mod:`werkzeug`.  Wrappers wrap
-the WSGI environment or the return value from a WSGI application so that it
-is another WSGI application (wraps a whole application).
+You can import all these objects directly from :mod:`werkzeug`.  The request
+and response objects wrap the WSGI environment or the return value from a WSGI
+application so that it is another WSGI application (wraps a whole application).
 
 How they Work
 =============
@@ -43,6 +45,34 @@ a helper for that.  The above code can be rewritten like this::
 
 The `application` is still a valid WSGI application that accepts the
 environment and `start_response` callable.
+
+
+Mutability and Reusability of Wrappers
+======================================
+
+The implementation of the Werkzeug request and response objects are trying
+to guard you from common pitfals by disallowing certain things as much as
+possible.  This serves two purposes: high performance and avoiding of
+pitfalls.
+
+For the request object the following rules apply:
+
+1. The request object is immutable.  Modifications are not supported by
+   default, you may however replace the immutable attributes with mutable
+   attributes if you need to modify it.
+2. The request object may be shared in the same thread, but is not thread
+   safe itself.  If you need to access it from multiple threads, use
+   locks around calls.
+3. It's not possible to pickle the request object.
+
+FOr the response object the following rules apply:
+
+1. The response object is mutable
+2. The response object can be pickled or copied after `freeze()` was
+   called.
+3. Since Werkzeug 0.6 it's save to use the same response object for
+   multiple WSGI responses.
+4. It's possible to create copies using `copy.deepcopy`.
 
 
 Base Wrappers
@@ -96,6 +126,8 @@ are available by mixing in various mixin classes or using :class:`Request` and
       object.  See :func:`wrap_file` for more details.
 
    .. automethod:: __call__
+
+   .. automethod:: _ensure_sequence
 
 
 Mixin Classes

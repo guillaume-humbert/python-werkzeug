@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -8,8 +9,8 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css">
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:   '',
-        VERSION:    '0.5.1dev'
+        URL_ROOT:   '#',
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -19,25 +20,25 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="#">
     <link rel="next" title="Installation" href="installation.html">
     
   </head>
   <body>
     <div class="page">
       <div class="header">
-        <h1 class="heading"><a href=""
+        <h1 class="heading"><a href="#"
           title="back to the documentation overview"><span>Werkzeug</span></a></h1>
       </div>
       <ul class="navigation">
-        <li class="active"><a href="">Documentation Overview</a></li>
+        <li class="active"><a href="#">Documentation Overview</a></li>
         <li><a href="installation.html">Installation &raquo;</a></li>
       </ul>
       <div class="body">
         <div id="toc">
           <h3>Table Of Contents</h3>
           <div class="inner"><ul>
-<li><a class="reference external" href="">Documentation Overview</a><ul>
+<li><a class="reference external" href="#">Documentation Overview</a><ul>
 <li><a class="reference external" href="#getting-started">Getting Started</a><ul>
 </ul>
 </li>
@@ -64,12 +65,13 @@
         
   <div class="section" id="documentation-overview">
 <h1>Documentation Overview<a class="headerlink" href="#documentation-overview" title="Permalink to this headline">¶</a></h1>
-<p>Welcome to the Werkzeug 0.5.1 documentation.  You can find different
+<p>Welcome to the Werkzeug 0.6 documentation.  You can find different
 editions of the <a class="reference external" href="http://werkzeug.pocoo.org/documentation/">documentation online</a>.</p>
 <div class="section" id="getting-started">
 <h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p>If you are new to Werkzeug or WSGI development in general you
 should start here.</p>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference external" href="installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference external" href="installation.html#installing-a-released-version">Installing a released version</a></li>
@@ -105,14 +107,17 @@ should start here.</p>
 </li>
 </ul>
 </div>
+</div>
 <div class="section" id="serving-and-testing">
 <h2>Serving and Testing<a class="headerlink" href="#serving-and-testing" title="Permalink to this headline">¶</a></h2>
 <p>The development server and testing support and management script
 utilities are covered here:</p>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference external" href="serving.html">Serving WSGI Applications</a><ul>
 <li class="toctree-l2"><a class="reference external" href="serving.html#virtual-hosts">Virtual Hosts</a></li>
 <li class="toctree-l2"><a class="reference external" href="serving.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference external" href="serving.html#ssl">SSL</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="test.html">Test Utilities</a><ul>
@@ -138,11 +143,14 @@ utilities are covered here:</p>
 </li>
 </ul>
 </div>
+</div>
 <div class="section" id="reference">
 <h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference external" href="wrappers.html">Wrappers</a><ul>
+<li class="toctree-l1"><a class="reference external" href="wrappers.html">Request / Response Objects</a><ul>
 <li class="toctree-l2"><a class="reference external" href="wrappers.html#how-they-work">How they Work</a></li>
+<li class="toctree-l2"><a class="reference external" href="wrappers.html#mutability-and-reusability-of-wrappers">Mutability and Reusability of Wrappers</a></li>
 <li class="toctree-l2"><a class="reference external" href="wrappers.html#base-wrappers">Base Wrappers</a></li>
 <li class="toctree-l2"><a class="reference external" href="wrappers.html#mixin-classes">Mixin Classes</a></li>
 </ul>
@@ -157,17 +165,19 @@ utilities are covered here:</p>
 <li class="toctree-l2"><a class="reference external" href="routing.html#custom-converters">Custom Converters</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="local.html">Context Locals</a><ul>
-<li class="toctree-l2"><a class="reference external" href="local.html#objects">Objects</a></li>
+<li class="toctree-l1"><a class="reference external" href="wsgi.html">WSGI Helpers</a><ul>
+<li class="toctree-l2"><a class="reference external" href="wsgi.html#iterator-stream-helpers">Iterator / Stream Helpers</a></li>
+<li class="toctree-l2"><a class="reference external" href="wsgi.html#environ-helpers">Environ Helpers</a></li>
+<li class="toctree-l2"><a class="reference external" href="wsgi.html#convenience-helpers">Convenience Helpers</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="utils.html">Utilities</a><ul>
-<li class="toctree-l2"><a class="reference external" href="utils.html#middlewares">Middlewares</a></li>
-<li class="toctree-l2"><a class="reference external" href="utils.html#wsgi-helpers">WSGI Helpers</a></li>
-<li class="toctree-l2"><a class="reference external" href="utils.html#url-helpers">URL Helpers</a></li>
-<li class="toctree-l2"><a class="reference external" href="utils.html#html-helpers">HTML Helpers</a></li>
-<li class="toctree-l2"><a class="reference external" href="utils.html#http-helpers">HTTP Helpers</a></li>
-<li class="toctree-l2"><a class="reference external" href="utils.html#general-helpers">General Helpers</a></li>
+<li class="toctree-l1"><a class="reference external" href="http.html">HTTP Utilties</a><ul>
+<li class="toctree-l2"><a class="reference external" href="http.html#date-functions">Date Functions</a></li>
+<li class="toctree-l2"><a class="reference external" href="http.html#form-data-parsing">Form Data Parsing</a></li>
+<li class="toctree-l2"><a class="reference external" href="http.html#header-parsing">Header Parsing</a></li>
+<li class="toctree-l2"><a class="reference external" href="http.html#header-utilities">Header Utilities</a></li>
+<li class="toctree-l2"><a class="reference external" href="http.html#conditional-response-helpers">Conditional Response Helpers</a></li>
+<li class="toctree-l2"><a class="reference external" href="http.html#constants">Constants</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference external" href="datastructures.html">Data Structures</a><ul>
@@ -176,12 +186,20 @@ utilities are covered here:</p>
 <li class="toctree-l2"><a class="reference external" href="datastructures.html#others">Others</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference external" href="utils.html">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference external" href="utils.html#url-helpers">URL Helpers</a></li>
+<li class="toctree-l2"><a class="reference external" href="utils.html#html-helpers">HTML Helpers</a></li>
+<li class="toctree-l2"><a class="reference external" href="utils.html#general-helpers">General Helpers</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference external" href="templates.html">Mini Templates</a><ul>
 <li class="toctree-l2"><a class="reference external" href="templates.html#syntax-elements">Syntax Elements</a></li>
 <li class="toctree-l2"><a class="reference external" href="templates.html#missing-variables">Missing Variables</a></li>
 <li class="toctree-l2"><a class="reference external" href="templates.html#the-template-class">The Template Class</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference external" href="local.html">Context Locals</a></li>
+<li class="toctree-l1"><a class="reference external" href="middlewares.html">Middlewares</a></li>
 <li class="toctree-l1"><a class="reference external" href="exceptions.html">HTTP Exceptions</a><ul>
 <li class="toctree-l2"><a class="reference external" href="exceptions.html#usage-example">Usage Example</a></li>
 <li class="toctree-l2"><a class="reference external" href="exceptions.html#error-classes">Error Classes</a></li>
@@ -193,10 +211,12 @@ utilities are covered here:</p>
 </li>
 </ul>
 </div>
+</div>
 <div class="section" id="deployment">
 <h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h2>
 <p>This section covers running your application in production on a web
 server such as Apache or lighttpd.</p>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference external" href="deployment/index.html">Application Deployment</a><ul>
 <li class="toctree-l2"><a class="reference external" href="deployment/cgi.html">CGI</a><ul>
@@ -214,6 +234,7 @@ server such as Apache or lighttpd.</p>
 <li class="toctree-l3"><a class="reference external" href="deployment/fastcgi.html#creating-a-fcgi-file">Creating a <cite>.fcgi</cite> file</a></li>
 <li class="toctree-l3"><a class="reference external" href="deployment/fastcgi.html#configuring-lighttpd">Configuring lighttpd</a></li>
 <li class="toctree-l3"><a class="reference external" href="deployment/fastcgi.html#configuring-nginx">Configuring nginx</a></li>
+<li class="toctree-l3"><a class="reference external" href="deployment/fastcgi.html#debugging">Debugging</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference external" href="deployment/proxying.html">HTTP Proxying</a><ul>
@@ -225,10 +246,12 @@ server such as Apache or lighttpd.</p>
 </li>
 </ul>
 </div>
+</div>
 <div class="section" id="contributed-modules">
 <h2>Contributed Modules<a class="headerlink" href="#contributed-modules" title="Permalink to this headline">¶</a></h2>
 <p>A lot of useful code contributed by the community is shipped with Werkzeug
 as part of the <cite>contrib</cite> module:</p>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference external" href="contrib/index.html">Contributed Modules</a><ul>
 <li class="toctree-l2"><a class="reference external" href="contrib/atom.html">Atom Syndication</a></li>
@@ -258,8 +281,10 @@ as part of the <cite>contrib</cite> module:</p>
 </li>
 </ul>
 </div>
+</div>
 <div class="section" id="additional-information">
 <h2>Additional Information<a class="headerlink" href="#additional-information" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference external" href="terms.html">Important Terms</a><ul>
 <li class="toctree-l2"><a class="reference external" href="terms.html#wsgi">WSGI</a></li>
@@ -288,6 +313,7 @@ as part of the <cite>contrib</cite> module:</p>
 </ul>
 </li>
 </ul>
+</div>
 <p>If you can’t find the information you’re looking for, have a look at the
 index or try to find it using the search function:</p>
 <ul class="simple">

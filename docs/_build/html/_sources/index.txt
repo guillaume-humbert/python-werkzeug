@@ -42,10 +42,13 @@ Reference
 
    wrappers
    routing
-   local
-   utils
+   wsgi
+   http
    datastructures
+   utils
    templates
+   local
+   middlewares
    exceptions
 
 Deployment

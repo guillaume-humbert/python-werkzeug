@@ -10,7 +10,7 @@ from datetime import datetime
 from nose.tools import assert_raises
 
 from werkzeug.http import *
-from werkzeug.utils import http_date
+from werkzeug.utils import http_date, redirect
 from werkzeug.datastructures import *
 
 
@@ -34,6 +34,20 @@ def test_mime_accept():
     assert a['text/plain'] == 0.8
     assert a['foo/bar'] == 0.5
     assert a[a.find('foo/bar')] == ('*/*', 0.5)
+
+
+def test_accept_matches():
+    """The `best_match` feature of accept objects"""
+    a = parse_accept_header('text/xml,application/xml,application/xhtml+xml,'
+                            'text/html;q=0.9,text/plain;q=0.8,'
+                            'image/png', MIMEAccept)
+    assert a.best_match(['text/html', 'application/xhtml+xml']) == \
+        'application/xhtml+xml'
+    assert a.best_match(['text/html']) == 'text/html'
+    assert a.best_match(['foo/bar']) is None
+    assert a.best_match(['foo/bar', 'bar/foo'],
+                        default='foo/bar') == 'foo/bar'
+    assert a.best_match(['application/xml', 'text/xml']) == 'application/xml'
 
 
 def test_charset_accept():
@@ -171,6 +185,13 @@ def test_parse_date():
     assert parse_date('foo') is None
 
 
+def test_parse_date_overflows():
+    """Test for problematic days."""
+    assert parse_date(' Sun 02 Feb 1343 08:49:37 GMT') == datetime(1343, 2, 2, 8, 49, 37)
+    assert parse_date('Thu, 01 Jan 1970 00:00:00 GMT') == datetime(1970, 1, 1, 0, 0)
+    assert parse_date('Thu, 33 Jan 1970 00:00:00 GMT') is None
+
+
 def test_remove_entity_headers():
     """Entity header removing function"""
     now = http_date()
@@ -195,3 +216,20 @@ def test_remove_hop_by_hop_headers():
 
     remove_hop_by_hop_headers(headers2)
     assert headers2 == Headers([('Foo', 'bar')])
+
+
+def test_redirect():
+    """Tests the redirecting"""
+    resp = redirect(u'/füübär')
+    assert '/f%C3%BC%C3%BCb%C3%A4r' in resp.data
+    assert resp.headers['Location'] == '/f%C3%BC%C3%BCb%C3%A4r'
+    assert resp.status_code == 302
+
+    resp = redirect(u'http://☃.net/', 307)
+    assert 'http://xn--n3h.net/' in resp.data
+    assert resp.headers['Location'] == 'http://xn--n3h.net/'
+    assert resp.status_code == 307
+
+    resp = redirect('http://example.com/', 305)
+    assert resp.headers['Location'] == 'http://example.com/'
+    assert resp.status_code == 305

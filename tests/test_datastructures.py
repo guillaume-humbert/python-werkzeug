@@ -1,8 +1,85 @@
 # -*- coding: utf-8 -*-
 from copy import copy
+import pickle
 
+from cStringIO import StringIO
 from nose.tools import assert_raises
-from werkzeug.datastructures import *
+from werkzeug.datastructures import FileStorage, MultiDict, \
+     ImmutableMultiDict, CombinedMultiDict, ImmutableTypeConversionDict, \
+     ImmutableDict, Headers, ImmutableList, EnvironHeaders, \
+     OrderedMultiDict, ImmutableOrderedMultiDict
+
+
+def test_multidict_pickle():
+    """MultiDict types are pickle-able"""
+    for protocol in xrange(pickle.HIGHEST_PROTOCOL + 1):
+        print 'pickling protocol', protocol
+        d = MultiDict()
+        d.setlist('foo', [1, 2, 3, 4])
+        d.setlist('bar', 'foo bar baz'.split())
+        s = pickle.dumps(d, protocol)
+        ud = pickle.loads(s)
+        assert type(ud) is type(d)
+        assert ud == d
+        assert pickle.loads(s.replace('werkzeug.datastructures', 'werkzeug')) == d
+        ud['newkey'] = 'bla'
+        assert ud != d
+
+        d2 = OrderedMultiDict(d)
+        d2.add('foo', 5)
+        s = pickle.dumps(d2, protocol)
+        ud = pickle.loads(s)
+        assert type(ud) is type(d2)
+        assert ud == d2
+        ud['newkey'] = 'bla'
+        print ud
+        print d2
+        assert ud != d2
+
+        im = ImmutableMultiDict(d)
+        assert im == d
+        s = pickle.dumps(im, protocol)
+        ud = pickle.loads(s)
+        assert ud == im
+        assert type(ud) is type(im)
+
+        c = CombinedMultiDict([ud, im])
+        cc = pickle.loads(pickle.dumps(c, protocol))
+        assert c == cc
+        assert type(c) is type(cc)
+
+
+def test_immutable_dict_pickle():
+    """ImmutableDicts are pickle-able"""
+    for protocol in xrange(pickle.HIGHEST_PROTOCOL + 1):
+        d = dict(foo="bar", blub="blah", meh=42)
+        for dtype in ImmutableDict, ImmutableTypeConversionDict:
+            nd = dtype(d)
+            od = pickle.loads(pickle.dumps(nd, protocol))
+            assert od == nd
+            assert pickle.loads(pickle.dumps(nd, protocol) \
+                .replace('werkzeug.datastructures', 'werkzeug')) == nd
+            assert type(od) is type(nd)
+
+
+def test_immutable_list_pickle():
+    """ImmutableLists are pickle-able"""
+    for protocol in xrange(pickle.HIGHEST_PROTOCOL + 1):
+        l = ImmutableList(range(100))
+        ul = pickle.loads(pickle.dumps(l, protocol))
+        assert l == ul
+        assert pickle.loads(pickle.dumps(l, protocol) \
+            .replace('werkzeug.datastructures', 'werkzeug')) == l
+        assert type(l) is type(ul)
+
+
+def test_file_storage_truthiness():
+    """Test FileStorage truthiness"""
+    fs = FileStorage()
+    assert not fs, 'should be False'
+
+    fs = FileStorage(StringIO('Hello World'), filename='foo.txt')
+    assert fs, 'should be True because of a provided filename'
 
 
 def test_multidict():
@@ -234,3 +311,87 @@ def test_headers():
     assert headers.pop('a') == 1
     assert headers.pop('b', 2) == 2
     assert_raises(KeyError, headers.pop, 'c')
+
+
+def test_environ_headers_counts():
+    """Ensure that the EnvironHeaders count correctly."""
+    # this happens in multiple WSGI servers because they
+    # use a vary naive way to convert the headers;
+    broken_env = {
+        'HTTP_CONTENT_TYPE':        'text/html',
+        'CONTENT_TYPE':             'text/html',
+        'HTTP_CONTENT_LENGTH':      '0',
+        'CONTENT_LENGTH':           '0',
+        'HTTP_ACCEPT':              '*',
+        'wsgi.version':             (1, 0)
+    }
+    headers = EnvironHeaders(broken_env)
+    assert headers
+    assert len(headers) == 3
+    assert sorted(headers) == [
+        ('Accept', '*'),
+        ('Content-Length', '0'),
+        ('Content-Type', 'text/html')
+    ]
+    assert not EnvironHeaders({'wsgi.version': (1, 0)})
+    assert len(EnvironHeaders({'wsgi.version': (1, 0)})) == 0
+
+
+def test_multidict_pop():
+    """Ensure pop from multidict works like it should"""
+    make_d = lambda: MultiDict({'foo': [1, 2, 3, 4]})
+    d = make_d()
+    assert d.pop('foo') == 1
+    assert not d
+    d = make_d()
+    assert d.pop('foo', 32) == 1
+    assert not d
+    d = make_d()
+    assert d.pop('foos', 32) == 32
+    assert d
+    assert_raises(KeyError, d.pop, 'foos')
+
+
+def test_ordered_multidict():
+    """Test the OrderedMultiDict"""
+    d = OrderedMultiDict()
+    assert not d
+    d.add('foo', 'bar')
+    assert len(d) == 1
+    d.add('foo', 'baz')
+    assert len(d) == 1
+    assert d.items() == [('foo', 'bar')]
+    assert list(d) == ['foo']
+    assert d.items(multi=True) == [('foo', 'bar'),
+                                   ('foo', 'baz')]
+    del d['foo']
+    assert not d
+    assert len(d) == 0
+    assert list(d) == []
+
+    d.update([('foo', 1), ('foo', 2), ('bar', 42)])
+    d.add('foo', 3)
+    assert d.getlist('foo') == [1, 2, 3]
+    assert d.getlist('bar') == [42]
+    assert d.items() == [('foo', 1), ('bar', 42)]
+    assert d.keys() == list(d) == list(d.iterkeys()) == ['foo', 'bar']
+    assert d.items(multi=True) == [('foo', 1), ('foo', 2),
+                                   ('bar', 42), ('foo', 3)]
+    assert len(d) == 2
+
+    assert d.pop('foo') == 1
+    assert d.pop('blafasel', None) is None
+    assert d.pop('blafasel', 42) == 42
+    assert len(d) == 1
+    assert d.poplist('bar') == [42]
+    assert not d
+
+    d.add('foo', 42)
+    d.add('foo', 23)
+    d.add('bar', 2)
+    d.add('foo', 42)
+    assert d == MultiDict(d)
+    id = ImmutableOrderedMultiDict(d)
+    assert d == id
+    d.add('foo', 2)
+    assert d != id

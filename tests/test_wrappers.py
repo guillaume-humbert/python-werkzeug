@@ -4,7 +4,7 @@
     ~~~~~~~~~~~~~~~~~~~~~~
 
 
-    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
+    :copyright: (c) 2010 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD license.
 """
 import pickle
@@ -14,8 +14,10 @@ from nose.tools import assert_raises
 
 from datetime import datetime, timedelta
 from werkzeug.wrappers import *
-from werkzeug.utils import MultiDict
-from werkzeug.test import Client
+from werkzeug.wsgi import LimitedStream
+from werkzeug.datastructures import MultiDict, ImmutableOrderedMultiDict, \
+     ImmutableList, ImmutableTypeConversionDict
+from werkzeug.test import Client, create_environ
 
 
 class RequestTestResponse(BaseResponse):
@@ -113,7 +115,7 @@ def test_base_response():
     # set cookie
     response = BaseResponse()
     response.set_cookie('foo', 'bar', 60, 0, '/blub', 'example.org', False)
-    assert response.header_list == [
+    assert response.headers.to_list() == [
         ('Content-Type', 'text/plain; charset=utf-8'),
         ('Set-Cookie', 'foo=bar; Domain=example.org; expires=Thu, '
          '01-Jan-1970 00:00:00 GMT; Max-Age=60; Path=/blub')
@@ -221,13 +223,22 @@ def test_etag_response_mixin():
     assert not response.cache_control
     response.cache_control.must_revalidate = True
     response.cache_control.max_age = 60
+    response.headers['Content-Length'] = len(response.data)
     assert response.headers['Cache-Control'] == 'must-revalidate, max-age=60'
 
-    response.make_conditional({
+    env = create_environ()
+    env.update({
         'REQUEST_METHOD':       'GET',
         'HTTP_IF_NONE_MATCH':   response.get_etag()[0]
     })
-    assert response.status_code == 304
+    response.make_conditional(env)
+
+    # after the thing is invoked by the server as wsgi application
+    # (we're emulating this here), there must not be any entity
+    # headers left and the status code would have to be 304
+    resp = Response.from_app(response, env)
+    assert resp.status_code == 304
+    assert not 'content-length' in resp.headers
 
 
 def test_response_stream_mixin():
@@ -326,3 +337,159 @@ def test_form_parsing_failed():
     assert not data.form
     assert len(errors) == 1
     assert isinstance(errors[0], ValueError)
+
+
+def test_url_charset_reflection():
+    """Make sure the URL charset is the same as the charset by default"""
+    req = Request.from_values()
+    req.charset = 'utf-7'
+    assert req.url_charset == 'utf-7'
+
+
+def test_response_streamed():
+    """Test the `is_streamed` property of a response"""
+    r = Response()
+    assert not r.is_streamed
+    r = Response("Hello World")
+    assert not r.is_streamed
+    r = Response(["foo", "bar"])
+    assert not r.is_streamed
+    def gen():
+        if 0:
+            yield None
+    r = Response(gen())
+    assert r.is_streamed
+
+
+def test_response_freeze():
+    """Response freezing"""
+    def generate():
+        yield "foo"
+        yield "bar"
+    resp = Response(generate())
+    resp.freeze()
+    assert resp.response == ['foo', 'bar']
+    assert resp.headers['content-length'] == '6'
+
+
+def test_other_method_payload():
+    """Stream limiting for unknown methods"""
+    data = 'Hello World'
+    req = Request.from_values(input_stream=StringIO(data),
+                              content_length=len(data),
+                              content_type='text/plain',
+                              method='WHAT_THE_FUCK')
+    assert req.data == data
+    assert isinstance(req.stream, LimitedStream)
+
+
+def test_urlfication():
+    """Make sure Responses use URLs in headers"""
+    resp = Response()
+    resp.headers['Location'] = u'http://üser:pässword@☃.net/påth'
+    resp.headers['Content-Location'] = u'http://☃.net/'
+    headers = resp.get_wsgi_headers(create_environ())
+    assert headers['location'] == \
+        'http://%C3%BCser:p%C3%A4ssword@xn--n3h.net/p%C3%A5th'
+    assert headers['content-location'] == 'http://xn--n3h.net/'
+
+
+def test_new_response_iterator_behavior():
+    """New response iterator encoding behavior"""
+    req = Request.from_values()
+    resp = Response(u'Hello Wörld!')
+
+    def get_content_length(resp):
+        headers = Headers.linked(resp.get_wsgi_headers(req.environ))
+        return headers.get('content-length', type=int)
+
+    def generate_items():
+        yield "Hello "
+        yield u"Wörld!"
+
+    # werkzeug encodes when set to `data` now, which happens
+    # if a string is passed to the response object.
+    assert resp.response == [u'Hello Wörld!'.encode('utf-8')]
+    assert resp.data == u'Hello Wörld!'.encode('utf-8')
+    assert get_content_length(resp) == 13
+    assert not resp.is_streamed
+    assert resp.is_sequence
+
+    # try the same for manual assignment
+    resp.data = u'Wörd'
+    assert resp.response == [u'Wörd'.encode('utf-8')]
+    assert resp.data == u'Wörd'.encode('utf-8')
+    assert get_content_length(resp) == 5
+    assert not resp.is_streamed
+    assert resp.is_sequence
+
+    # automatic generator sequence conversion
+    resp.response = generate_items()
+    assert resp.is_streamed
+    assert not resp.is_sequence
+    assert resp.data == u'Hello Wörld!'.encode('utf-8')
+    assert resp.response == ['Hello ', u'Wörld!'.encode('utf-8')]
+    assert not resp.is_streamed
+    assert resp.is_sequence
+
+    # automatic generator sequence conversion
+    resp.response = generate_items()
+    resp.implicit_seqence_conversion = False
+    assert resp.is_streamed
+    assert not resp.is_sequence
+    assert_raises(RuntimeError, lambda: resp.data)
+    resp.make_sequence()
+    assert resp.data == u'Hello Wörld!'.encode('utf-8')
+    assert resp.response == ['Hello ', u'Wörld!'.encode('utf-8')]
+    assert not resp.is_streamed
+    assert resp.is_sequence
+
+    # stream makes it a list no matter how the conversion is set
+    for val in True, False:
+        resp.implicit_seqence_conversion = val
+        resp.response = ("foo", "bar")
+        assert resp.is_sequence
+        resp.stream.write('baz')
+        assert resp.response == ['foo', 'bar', 'baz']
+
+
+def test_form_data_ordering():
+    """Make sure that the wrapper support custom structures."""
+    class MyRequest(Request):
+        parameter_storage_class = ImmutableOrderedMultiDict
+
+    req = MyRequest.from_values('/?foo=1&bar=0&foo=3')
+    assert list(req.args) == ['foo', 'bar']
+    assert req.args.items(multi=True) == [
+        ('foo', '1'),
+        ('bar', '0'),
+        ('foo', '3')
+    ]
+    assert isinstance(req.args, ImmutableOrderedMultiDict)
+    assert isinstance(req.values, CombinedMultiDict)
+    assert req.values['foo'] == '1'
+    assert req.values.getlist('foo') == ['1', '3']
+
+
+def test_storage_classes():
+    """Test custom storage classes to be used for incoming data."""
+    class MyRequest(Request):
+        dict_storage_class = dict
+        list_storage_class = list
+    req = MyRequest.from_values(headers={
+        'Cookie':   'foo=bar'
+    })
+    assert type(req.cookies) is dict
+    assert req.cookies == {'foo': 'bar'}
+    assert type(req.access_route) is list
+
+    req = Request.from_values(headers={
+        'Cookie':   'foo=bar'
+    })
+    assert type(req.cookies) is ImmutableTypeConversionDict
+    assert req.cookies == {'foo': 'bar'}
+    assert type(req.access_route) is ImmutableList
+
+    MyRequest.list_storage_class = tuple
+    req = MyRequest.from_values()
+    assert type(req.access_route) is tuple

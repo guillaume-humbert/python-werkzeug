@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -9,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.5.1dev'
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -19,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="WSGI Application Profiler" href="profiler.html">
     <link rel="prev" title="Iter IO" href="iterio.html">
@@ -34,14 +35,14 @@
       <ul class="navigation">
         <li class="indexlink"><a href="../index.html">Overview</a></li>
         <li><a href="iterio.html">&laquo; Iter IO</a></li>
-        <li class="active"><a href="">Fixers</a></li>
+        <li class="active"><a href="#">Fixers</a></li>
         <li><a href="profiler.html">WSGI Application Profiler &raquo;</a></li>
       </ul>
       <div class="body">
         
   <div class="section" id="module-werkzeug.contrib.fixers">
 <h1>Fixers<a class="headerlink" href="#module-werkzeug.contrib.fixers" title="Permalink to this headline">¶</a></h1>
-<p>
+<p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
 <p>This module includes various helpers that fix bugs in web servers.  They may
 be necessary for some versions of a buggy web server but not others.  We try
@@ -51,8 +52,7 @@ to make sure whether they fix the problem you encounter.</p>
 contributing a patch.</p>
 <dl class="class">
 <dt id="werkzeug.contrib.fixers.LighttpdCGIRootFix">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">LighttpdCGIRootFix</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.LighttpdCGIRootFix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">LighttpdCGIRootFix</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.LighttpdCGIRootFix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap the application in this middleware if you are using lighttpd
 with FastCGI or CGI and the application is mounted on the URL root.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -67,8 +67,7 @@ with FastCGI or CGI and the application is mounted on the URL root.</p>
 
 <dl class="class">
 <dt id="werkzeug.contrib.fixers.PathInfoFromRequestUriFix">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">PathInfoFromRequestUriFix</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.PathInfoFromRequestUriFix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">PathInfoFromRequestUriFix</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.PathInfoFromRequestUriFix" title="Permalink to this definition">¶</a></dt>
 <dd><p>On windows environment variables are limited to the system charset
 which makes it impossible to store the <cite>PATH_INFO</cite> variable in the
 environment without loss of information on some systems.</p>
@@ -89,8 +88,7 @@ variables.</p>
 
 <dl class="class">
 <dt id="werkzeug.contrib.fixers.ProxyFix">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">ProxyFix</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.ProxyFix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">ProxyFix</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.ProxyFix" title="Permalink to this definition">¶</a></dt>
 <dd><p>This middleware can be applied to add HTTP proxy support to an
 application that was not designed with HTTP proxies in mind.  It
 sets <cite>REMOTE_ADDR</cite>, <cite>HTTP_HOST</cite> from <cite>X-Forwarded</cite> headers.</p>
@@ -112,8 +110,7 @@ the WSGI environment as <cite>werkzeug.proxy_fix.orig_remote_addr</cite> and
 
 <dl class="class">
 <dt id="werkzeug.contrib.fixers.HeaderRewriterFix">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">HeaderRewriterFix</tt><big>(</big><em>app</em>, <em>remove_headers=None</em>, <em>add_headers=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.HeaderRewriterFix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">HeaderRewriterFix</tt><big>(</big><em>app</em>, <em>remove_headers=None</em>, <em>add_headers=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.HeaderRewriterFix" title="Permalink to this definition">¶</a></dt>
 <dd><p>This middleware can remove response headers and add others.  This
 is for example useful to remove the <cite>Date</cite> header from responses if you
 are using a server that adds that header, no matter if it&#8217;s present or
@@ -141,8 +138,7 @@ be added.</li>
 
 <dl class="class">
 <dt id="werkzeug.contrib.fixers.InternetExplorerFix">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">InternetExplorerFix</tt><big>(</big><em>app</em>, <em>fix_vary=True</em>, <em>fix_attach=True</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.InternetExplorerFix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.fixers.</tt><tt class="descname">InternetExplorerFix</tt><big>(</big><em>app</em>, <em>fix_vary=True</em>, <em>fix_attach=True</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.fixers.InternetExplorerFix" title="Permalink to this definition">¶</a></dt>
 <dd><p>This middleware fixes a couple of bugs with Microsoft Internet
 Explorer.  Currently the following fixes are applied:</p>
 <ul class="simple">

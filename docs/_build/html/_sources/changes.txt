@@ -15,6 +15,20 @@ are listed there in detail.
 API Changes
 ===========
 
+`0.6`
+    -   Old deprecations were removed.
+    -   `cached_property.writeable` was deprecated.
+    -   :meth:`BaseResponse.get_wsgi_headers` replaces the older
+        `BaseResponse.fix_headers` method.  The older method stays
+        around for backwards compatibility reasons until 0.7.
+    -   `BaseResponse.header_list` was deprecated.  You should not
+        need this function, `get_wsgi_headers` and the `to_list`
+        method on the regular headers should serve as a replacement.
+    -   Deprecated `BaseResponse.iter_encoded`'s charset parameter.
+    -   :class:`LimitedStream` non-silent usage was deprecated.
+    -   the `__repr__` of HTTP exceptions changed.  This might break
+        doctests.
+
 `0.5`
     -   Werkzeug switched away from wsgiref as library for the builtin
         webserver.

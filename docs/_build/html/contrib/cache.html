@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -9,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.5.1dev'
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -19,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Extra Wrappers" href="wrappers.html">
     <link rel="prev" title="Secure Cookie" href="securecookie.html">
@@ -34,14 +35,14 @@
       <ul class="navigation">
         <li class="indexlink"><a href="../index.html">Overview</a></li>
         <li><a href="securecookie.html">&laquo; Secure Cookie</a></li>
-        <li class="active"><a href="">Cache</a></li>
+        <li class="active"><a href="#">Cache</a></li>
         <li><a href="wrappers.html">Extra Wrappers &raquo;</a></li>
       </ul>
       <div class="body">
         <div id="toc">
           <h3>Table Of Contents</h3>
           <div class="inner"><ul>
-<li><a class="reference external" href="">Cache</a><ul>
+<li><a class="reference external" href="#">Cache</a><ul>
 <li><a class="reference external" href="#how-caching-works">How Caching Works</a></li>
 <li><a class="reference external" href="#creating-a-cache-object">Creating a Cache Object</a></li>
 <li><a class="reference external" href="#cache-system-api">Cache System API</a></li>
@@ -103,8 +104,7 @@ put it onto your WSGI application).</p>
 <h2>Cache System API<a class="headerlink" href="#cache-system-api" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="werkzeug.contrib.cache.BaseCache">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">BaseCache</tt><big>(</big><em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.BaseCache" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">BaseCache</tt><big>(</big><em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.BaseCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Baseclass for the cache systems.  All the cache systems implement this
 API or a superset of it.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -112,14 +112,14 @@ API or a superset of it.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set</span></tt></a>.</td>
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="werkzeug.contrib.cache.BaseCache.add">
 <tt class="descname">add</tt><big>(</big><em>key</em>, <em>value</em>, <em>timeout=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.BaseCache.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set</span></tt></a> but does not override already existing
+<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a> but does not override already existing
 values.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -211,7 +211,7 @@ exist <cite>None</cite> is returned instead.</p>
 <dl class="method">
 <dt id="werkzeug.contrib.cache.BaseCache.get_dict">
 <tt class="descname">get_dict</tt><big>(</big><em>*keys</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.BaseCache.get_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.get_many" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_many"><tt class="xref docutils literal"><span class="pre">get_many</span></tt></a> but returns a dict:</p>
+<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.get_many" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_many"><tt class="xref docutils literal"><span class="pre">get_many()</span></tt></a> but returns a dict:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">d</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get_dict</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>
 <span class="n">foo</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>
 <span class="n">bar</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;bar&quot;</span><span class="p">]</span>
@@ -315,8 +315,7 @@ timeout if not specified.</li>
 <h2>Cache Systems<a class="headerlink" href="#cache-systems" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="werkzeug.contrib.cache.NullCache">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">NullCache</tt><big>(</big><em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.NullCache" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">NullCache</tt><big>(</big><em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.NullCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>A cache that doesn&#8217;t cache.  This can be useful for unit testing.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -331,8 +330,7 @@ for API compatibility with other caches.</td>
 
 <dl class="class">
 <dt id="werkzeug.contrib.cache.SimpleCache">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">SimpleCache</tt><big>(</big><em>threshold=500</em>, <em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.SimpleCache" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">SimpleCache</tt><big>(</big><em>threshold=500</em>, <em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.SimpleCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simple memory cache for single process environments.  This class exists
 mainly for the development server and is not 100% thread safe.  It tries
 to use as many atomic operations as possible and no locks for simplicity
@@ -345,7 +343,7 @@ but it could happen under heavy load that keys are added multiple times.</p>
 <li><em>threshold</em> &#8211; the maximum number of items the cache stores before
 it starts deleting some.</li>
 <li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set</span></tt></a>.</li>
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
 </ul>
 </td>
 </tr>
@@ -355,15 +353,14 @@ specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference in
 
 <dl class="class">
 <dt id="werkzeug.contrib.cache.MemcachedCache">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">MemcachedCache</tt><big>(</big><em>servers</em>, <em>default_timeout=300</em>, <em>key_prefix=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.MemcachedCache" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">MemcachedCache</tt><big>(</big><em>servers</em>, <em>default_timeout=300</em>, <em>key_prefix=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.MemcachedCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>A cache that uses memcached as backend.</p>
 <p>The first argument can either be a list or tuple of server addresses
 in which case Werkzeug tries to import the memcache module and connect
 to it, or an object that resembles the API of a <tt class="xref docutils literal"><span class="pre">memcache.Client</span></tt>.</p>
 <p>Implementation notes:  This cache backend works around some limitations in
 memcached to simplify the interface.  For example unicode keys are encoded
-to utf-8 on the fly.  Methods such as <a title="werkzeug.contrib.cache.BaseCache.get_dict" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_dict"><tt class="xref docutils literal"><span class="pre">get_dict</span></tt></a> return
+to utf-8 on the fly.  Methods such as <a title="werkzeug.contrib.cache.BaseCache.get_dict" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_dict"><tt class="xref docutils literal"><span class="pre">get_dict()</span></tt></a> return
 the keys in the same format as passed.  Furthermore all get methods
 silently ignore key errors to not cause problems when untrusted user data
 is passed to the get methods which is often the case in web applications.</p>
@@ -375,11 +372,11 @@ is passed to the get methods which is often the case in web applications.</p>
 <li><em>servers</em> &#8211; a list or tuple of server addresses or alternatively
 a <tt class="xref docutils literal"><span class="pre">memcache.Client</span></tt> or a compatible client.</li>
 <li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set</span></tt></a>.</li>
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
 <li><em>key_prefix</em> &#8211; a prefix that is added before all keys.  This makes it
 possible to use the same memcached server for different
 applications.  Keep in mind that
-<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref docutils literal"><span class="pre">clear</span></tt></a> will also clear keys with a
+<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref docutils literal"><span class="pre">clear()</span></tt></a> will also clear keys with a
 different prefix.</li>
 </ul>
 </td>
@@ -390,8 +387,7 @@ different prefix.</li>
 
 <dl class="class">
 <dt id="werkzeug.contrib.cache.GAEMemcachedCache">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">GAEMemcachedCache</tt><big>(</big><em>default_timeout=300</em>, <em>key_prefix=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.GAEMemcachedCache" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">GAEMemcachedCache</tt><big>(</big><em>default_timeout=300</em>, <em>key_prefix=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.GAEMemcachedCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connects to the Google appengine memcached Cache.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -399,11 +395,11 @@ class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="desc
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set</span></tt></a>.</li>
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
 <li><em>key_prefix</em> &#8211; a prefix that is added before all keys.  This makes it
 possible to use the same memcached server for different
 applications.  Keep in mind that
-<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref docutils literal"><span class="pre">clear</span></tt></a> will also clear keys with a
+<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref docutils literal"><span class="pre">clear()</span></tt></a> will also clear keys with a
 different prefix.</li>
 </ul>
 </td>
@@ -414,8 +410,7 @@ different prefix.</li>
 
 <dl class="class">
 <dt id="werkzeug.contrib.cache.FileSystemCache">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">FileSystemCache</tt><big>(</big><em>cache_dir</em>, <em>threshold=500</em>, <em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.FileSystemCache" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.cache.</tt><tt class="descname">FileSystemCache</tt><big>(</big><em>cache_dir</em>, <em>threshold=500</em>, <em>default_timeout=300</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.FileSystemCache" title="Permalink to this definition">¶</a></dt>
 <dd><p>A cache that stores the items on the file system.  This cache depends
 on being the only user of the <cite>cache_dir</cite>.  Make absolutely sure that
 nobody but this cache stores files there or otherwise the chace will
@@ -429,7 +424,7 @@ randomely delete files therein.</p>
 <li><em>threshold</em> &#8211; the maximum number of items the cache stores before
 it starts deleting some.</li>
 <li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set</span></tt></a>.</li>
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
 </ul>
 </td>
 </tr>

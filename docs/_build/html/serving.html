@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -8,8 +9,8 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css">
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:   '',
-        VERSION:    '0.5.1dev'
+        URL_ROOT:   '#',
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -19,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
     <link rel="next" title="Test Utilities" href="test.html">
     <link rel="prev" title="Quickstart" href="quickstart.html">
     
@@ -33,16 +34,17 @@
       <ul class="navigation">
         <li class="indexlink"><a href="index.html">Overview</a></li>
         <li><a href="quickstart.html">&laquo; Quickstart</a></li>
-        <li class="active"><a href="">Serving WSGI Applications</a></li>
+        <li class="active"><a href="#">Serving WSGI Applications</a></li>
         <li><a href="test.html">Test Utilities &raquo;</a></li>
       </ul>
       <div class="body">
         <div id="toc">
           <h3>Table Of Contents</h3>
           <div class="inner"><ul>
-<li><a class="reference external" href="">Serving WSGI Applications</a><ul>
+<li><a class="reference external" href="#">Serving WSGI Applications</a><ul>
 <li><a class="reference external" href="#virtual-hosts">Virtual Hosts</a></li>
 <li><a class="reference external" href="#troubleshooting">Troubleshooting</a></li>
+<li><a class="reference external" href="#ssl">SSL</a></li>
 </ul>
 </li>
 </ul>
@@ -71,13 +73,15 @@ application using the builtin server:</p>
 additional files (like configuration files) you want to observe.</p>
 <dl class="function">
 <dt id="werkzeug.run_simple">
-<tt class="descclassname">werkzeug.</tt><tt class="descname">run_simple</tt><big>(</big><em>hostname</em>, <em>port</em>, <em>application</em>, <em>use_reloader=False</em>, <em>use_debugger=False</em>, <em>use_evalex=True</em>, <em>extra_files=None</em>, <em>reloader_interval=1</em>, <em>threaded=False</em>, <em>processes=1</em>, <em>request_handler=None</em>, <em>static_files=None</em>, <em>passthrough_errors=False</em><big>)</big><a class="headerlink" href="#werkzeug.run_simple" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">werkzeug.</tt><tt class="descname">run_simple</tt><big>(</big><em>hostname</em>, <em>port</em>, <em>application</em>, <em>use_reloader=False</em>, <em>use_debugger=False</em>, <em>use_evalex=True</em>, <em>extra_files=None</em>, <em>reloader_interval=1</em>, <em>threaded=False</em>, <em>processes=1</em>, <em>request_handler=None</em>, <em>static_files=None</em>, <em>passthrough_errors=False</em>, <em>ssl_context=None</em><big>)</big><a class="headerlink" href="#werkzeug.run_simple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start an application using wsgiref and with an optional reloader.  This
 wraps <cite>wsgiref</cite> to fix the wrong default reporting of the multithreaded
 WSGI variable and adds optional multithreading and fork support.</p>
-<p>
+<p class="versionadded">
 <span class="versionmodified">New in version 0.5: </span><cite>static_files</cite> was added to simplify serving of static files as well
 as <cite>passthrough_errors</cite>.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6: </span>support for SSL was added.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -103,12 +107,16 @@ with a different
 <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/basehttpserver.html#BaseHTTPServer.BaseHTTPRequestHandler"><tt class="xref docutils literal"><span class="pre">BaseHTTPRequestHandler</span></tt></a>
 subclass.</li>
 <li><em>static_files</em> &#8211; a dict of paths for static files.  This works exactly
-like <a title="werkzeug.SharedDataMiddleware" class="reference external" href="utils.html#werkzeug.SharedDataMiddleware"><tt class="xref docutils literal"><span class="pre">SharedDataMiddleware</span></tt></a>, it&#8217;s actually
+like <a title="werkzeug.SharedDataMiddleware" class="reference external" href="middlewares.html#werkzeug.SharedDataMiddleware"><tt class="xref docutils literal"><span class="pre">SharedDataMiddleware</span></tt></a>, it&#8217;s actually
 just wrapping the application in that middleware before
 serving.</li>
 <li><em>passthrough_errors</em> &#8211; set this to <cite>True</cite> to disable the error catching.
 This means that the server will die on errors but
 it can be useful to hook debuggers in (pdb etc.)</li>
+<li><em>ssl_context</em> &#8211; an SSL context for the connection. Either an OpenSSL
+context, the string <tt class="docutils literal"><span class="pre">'adhoc'</span></tt> if the server should
+automatically create one, or <cite>None</cite> to disable SSL
+(which is the default).</li>
 </ul>
 </td>
 </tr>
@@ -175,6 +183,36 @@ if Firefox shows this behavior you can disable it by going to <tt class="docutil
 and disabling the <cite>network.dns.disableIPv6</cite> key.</p>
 <p>Another workaround that should work is accessing <cite>127.0.0.1</cite> instead of
 <cite>localhost</cite>.</p>
+</div>
+<div class="section" id="ssl">
+<h2>SSL<a class="headerlink" href="#ssl" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6.</span></p>
+<p>The builtin server supports SSL for testing purposes.  If an SSL context
+is provided it will be used.  That means a server can either run in HTTP
+or HTTPS mode, but not both.  This feature requires the Python OpenSSL
+library.</p>
+<p>The easiest way to enable SSL is to start the server in adhoc-mode.  In
+that case Werkzeug will generate an SSL certificate for you:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mf">4000</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span>
+           <span class="n">ssl_context</span><span class="o">=</span><span class="s">&#39;adhoc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The downside of this of course is that you will have to acknowledge the
+certificate each time the server is reloaded.  You can generate a
+certificate and key in advance and provide the SSL context when the server
+is started:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="kn">import</span> <span class="n">SSL</span>
+<span class="n">ctx</span> <span class="o">=</span> <span class="n">SSL</span><span class="o">.</span><span class="n">Context</span><span class="p">(</span><span class="n">SSL</span><span class="o">.</span><span class="n">SSLv23_METHOD</span><span class="p">)</span>
+<span class="n">ctx</span><span class="o">.</span><span class="n">use_privatekey_file</span><span class="p">(</span><span class="s">&#39;ssl.key&#39;</span><span class="p">)</span>
+<span class="n">ctx</span><span class="o">.</span><span class="n">use_certificate_file</span><span class="p">(</span><span class="s">&#39;ssl.cert&#39;</span><span class="p">)</span>
+<span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mf">4000</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span> <span class="n">ssl_context</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A key and certificate can be created in advance using the openssl tool:</p>
+<div class="highlight-python"><pre>$ openssl genrsa 1024 &gt; ssl.key
+$ openssl req -new -x509 -nodes -sha1 -days 365 -key ssl.key &gt; ssl.cert</pre>
+</div>
 </div>
 </div>
 
