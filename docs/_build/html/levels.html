@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="Quickstart" href="quickstart.html">
     <link rel="prev" title="Werkzeug Tutorial" href="tutorial.html">
     
@@ -63,7 +63,7 @@ the &#8220;wrappers&#8221;) provide is also available in small utility functions
 user with the name entered:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">escape</span>
 
-<span class="nd">@Request</span><span class="o">.</span><span class="n">application</span>
+<span class="nd">@Request.application</span>
 <span class="k">def</span> <span class="nf">hello_world</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&lt;title&gt;Greeter&lt;/title&gt;&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
@@ -84,7 +84,7 @@ objects but by taking advantage of the parsing functions werkzeug provides:</p>
 <span class="k">def</span> <span class="nf">hello_world</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&lt;title&gt;Greeter&lt;/title&gt;&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">environ</span><span class="p">[</span><span class="s">&#39;REQUEST_METHOD&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
-        <span class="n">form</span> <span class="o">=</span> <span class="n">parse_form_data</span><span class="p">(</span><span class="n">environ</span><span class="p">)[</span><span class="mf">1</span><span class="p">]</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">parse_form_data</span><span class="p">(</span><span class="n">environ</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;&lt;h1&gt;Hello </span><span class="si">%s</span><span class="s">!&lt;/h1&gt;&#39;</span> <span class="o">%</span> <span class="n">escape</span><span class="p">(</span><span class="n">form</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]))</span>
     <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;&#39;&#39;</span>
 <span class="s">        &lt;form action=&quot;&quot; method=&quot;post&quot;&gt;</span>

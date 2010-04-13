@@ -9,7 +9,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -19,7 +19,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="#">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     
   </head>
   <body>
@@ -198,6 +198,8 @@
           <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetResponseMixin.charset">(werkzeug.contrib.wrappers.DynamicCharsetResponseMixin attribute)</a></dt>
         </dl></dd>
         <dt><a href="datastructures.html#werkzeug.CharsetAccept">CharsetAccept (class in werkzeug)</a>
+          </dt>
+        <dt><a href="utils.html#werkzeug.check_password_hash">check_password_hash() (in module werkzeug)</a>
           </dt>
         <dt><a href="local.html#werkzeug.LocalManager.cleanup">cleanup() (werkzeug.LocalManager method)</a>
           </dt>
@@ -442,6 +444,8 @@
           </dt>
         <dt><a href="contrib/sessions.html#werkzeug.contrib.sessions.SessionStore.generate_key">generate_key() (werkzeug.contrib.sessions.SessionStore method)</a>
           </dt>
+        <dt><a href="utils.html#werkzeug.generate_password_hash">generate_password_hash() (in module werkzeug)</a>
+          </dt>
         <dt><a href="test.html#werkzeug.Client.get">get() (werkzeug.Client method)</a>
           </dt>
         <dd><dl>
@@ -461,10 +465,10 @@
           </dt>
         <dt><a href="test.html#werkzeug.EnvironBuilder.get_environ">get_environ() (werkzeug.EnvironBuilder method)</a>
           </dt>
-        <dt><a href="wrappers.html#werkzeug.ETagResponseMixin.get_etag">get_etag() (werkzeug.ETagResponseMixin method)</a>
-          </dt>
       </dl></td>
       <td><dl>
+        <dt><a href="wrappers.html#werkzeug.ETagResponseMixin.get_etag">get_etag() (werkzeug.ETagResponseMixin method)</a>
+          </dt>
         <dt><a href="wsgi.html#werkzeug.get_host">get_host() (in module werkzeug)</a>
           </dt>
         <dt><a href="local.html#werkzeug.LocalManager.get_ident">get_ident() (werkzeug.LocalManager method)</a>
@@ -680,10 +684,10 @@
           </dt>
         <dt><a href="contrib/lint.html#werkzeug.contrib.lint.LintMiddleware">LintMiddleware (class in werkzeug.contrib.lint)</a>
           </dt>
-      </dl></td>
-      <td><dl>
         <dt><a href="contrib/sessions.html#werkzeug.contrib.sessions.FilesystemSessionStore.list">list() (werkzeug.contrib.sessions.FilesystemSessionStore method)</a>
           </dt>
+      </dl></td>
+      <td><dl>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.list_storage_class">list_storage_class (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.MultiDict.lists">lists() (werkzeug.MultiDict method)</a>
@@ -695,6 +699,8 @@
         <dt><a href="local.html#werkzeug.LocalManager">LocalManager (class in werkzeug)</a>
           </dt>
         <dt><a href="local.html#werkzeug.LocalProxy">LocalProxy (class in werkzeug)</a>
+          </dt>
+        <dt><a href="local.html#werkzeug.LocalStack">LocalStack (class in werkzeug)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.CommonResponseDescriptorsMixin.location">location (werkzeug.CommonResponseDescriptorsMixin attribute)</a>
           </dt>
@@ -899,6 +905,7 @@
         <dt><a href="datastructures.html#werkzeug.Headers.pop">pop() (werkzeug.Headers method)</a>
           </dt>
         <dd><dl>
+          <dt><a href="local.html#werkzeug.LocalStack.pop">(werkzeug.LocalStack method)</a></dt>
           <dt><a href="datastructures.html#werkzeug.MultiDict.pop">(werkzeug.MultiDict method)</a></dt>
         </dl></dd>
         <dt><a href="wsgi.html#werkzeug.pop_path_info">pop_path_info() (in module werkzeug)</a>
@@ -931,6 +938,8 @@
         <dt><a href="contrib/fixers.html#werkzeug.contrib.fixers.ProxyFix">ProxyFix (class in werkzeug.contrib.fixers)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.ResponseCacheControl.public">public (werkzeug.ResponseCacheControl attribute)</a>
+          </dt>
+        <dt><a href="local.html#werkzeug.LocalStack.push">push() (werkzeug.LocalStack method)</a>
           </dt>
         <dt><a href="test.html#werkzeug.Client.put">put() (werkzeug.Client method)</a>
           </dt>
@@ -985,6 +994,8 @@
           </dt>
         <dt><a href="wrappers.html#werkzeug.CommonRequestDescriptorsMixin.referrer">referrer (werkzeug.CommonRequestDescriptorsMixin attribute)</a>
           </dt>
+        <dt><a href="local.html#werkzeug.release_local">release_local() (in module werkzeug)</a>
+          </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.remote_addr">remote_addr (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.remote_user">remote_user (werkzeug.BaseRequest attribute)</a>
@@ -1010,10 +1021,10 @@
           </dt>
         <dt><a href="exceptions.html#werkzeug.exceptions.RequestTimeout">RequestTimeout</a>
           </dt>
-        <dt><a href="exceptions.html#werkzeug.exceptions.RequestURITooLarge">RequestURITooLarge</a>
-          </dt>
       </dl></td>
       <td><dl>
+        <dt><a href="exceptions.html#werkzeug.exceptions.RequestURITooLarge">RequestURITooLarge</a>
+          </dt>
         <dt><a href="wsgi.html#werkzeug.responder">responder() (in module werkzeug)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.Response">Response (class in werkzeug)</a>
@@ -1179,6 +1190,8 @@
         <dt><a href="datastructures.html#werkzeug.Headers.to_list">to_list() (werkzeug.Headers method)</a>
           </dt>
         <dt><a href="contrib/atom.html#werkzeug.contrib.atom.AtomFeed.to_string">to_string() (werkzeug.contrib.atom.AtomFeed method)</a>
+          </dt>
+        <dt><a href="local.html#werkzeug.LocalStack.top">top (werkzeug.LocalStack attribute)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.WWWAuthenticate.type">type (werkzeug.WWWAuthenticate attribute)</a>
           </dt>

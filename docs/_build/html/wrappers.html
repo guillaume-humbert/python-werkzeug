@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="URL Routing" href="routing.html">
     <link rel="prev" title="Management Script Utilities" href="script.html">
     
@@ -83,7 +83,7 @@ processing:</p>
 a helper for that.  The above code can be rewritten like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 
-<span class="nd">@Request</span><span class="o">.</span><span class="n">application</span>
+<span class="nd">@Request.application</span>
 <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="s">&quot;Hello </span><span class="si">%s</span><span class="s">!&quot;</span> <span class="o">%</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;World!&#39;</span><span class="p">))</span>
 </pre></div>
@@ -238,7 +238,7 @@ from the client ip to the last proxy server.</dd></dl>
 <dd><p>Decorate a function as responder that accepts the request as first
 argument.  This works like the <a title="werkzeug.responder" class="reference external" href="wsgi.html#werkzeug.responder"><tt class="xref docutils literal"><span class="pre">responder()</span></tt></a> decorator but the
 function is passed the request object as first argument:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@Request</span><span class="o">.</span><span class="n">application</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@Request.application</span>
 <span class="k">def</span> <span class="nf">my_wsgi_app</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="s">&#39;Hello World!&#39;</span><span class="p">)</span>
 </pre></div>
@@ -542,7 +542,7 @@ response objects:</p>
     <span class="k">if</span> <span class="n">path</span> <span class="o">==</span> <span class="s">&#39;/&#39;</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">index</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="s">&#39;Not Found&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mf">404</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="s">&#39;Not Found&#39;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">404</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1067,6 +1067,9 @@ headers.</dd></dl>
 <dd><p>Adds extra functionality to a response object for etag and cache
 handling.  This mixin requires an object with at least a <cite>headers</cite>
 object that implements a dict like interface similar to <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a>.</p>
+<p>If you want the <a title="werkzeug.ETagResponseMixin.freeze" class="reference internal" href="#werkzeug.ETagResponseMixin.freeze"><tt class="xref docutils literal"><span class="pre">freeze()</span></tt></a> method to automatically add an etag, you
+have to mixin this method before the response base class.  The default
+response class does not do that.</p>
 <dl class="method">
 <dt id="werkzeug.ETagResponseMixin.add_etag">
 <tt class="descname">add_etag</tt><big>(</big><em>overwrite=False</em>, <em>weak=False</em><big>)</big><a class="headerlink" href="#werkzeug.ETagResponseMixin.add_etag" title="Permalink to this definition">¶</a></dt>

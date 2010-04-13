@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="Request / Response Objects" href="wrappers.html">
     <link rel="prev" title="Debugging Applications" href="debug.html">
     
@@ -191,10 +191,14 @@ not specified a generic banner is used instead.</li>
 
 <dl class="function">
 <dt id="werkzeug.script.make_runserver">
-<tt class="descclassname">werkzeug.script.</tt><tt class="descname">make_runserver</tt><big>(</big><em>app_factory</em>, <em>hostname='localhost'</em>, <em>port=5000</em>, <em>use_reloader=False</em>, <em>use_debugger=False</em>, <em>use_evalex=True</em>, <em>threaded=False</em>, <em>processes=1</em>, <em>static_files=None</em>, <em>extra_files=None</em><big>)</big><a class="headerlink" href="#werkzeug.script.make_runserver" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">werkzeug.script.</tt><tt class="descname">make_runserver</tt><big>(</big><em>app_factory</em>, <em>hostname='localhost'</em>, <em>port=5000</em>, <em>use_reloader=False</em>, <em>use_debugger=False</em>, <em>use_evalex=True</em>, <em>threaded=False</em>, <em>processes=1</em>, <em>static_files=None</em>, <em>extra_files=None</em>, <em>ssl_context=None</em><big>)</big><a class="headerlink" href="#werkzeug.script.make_runserver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an action callback that spawns a new development server.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5: </span><cite>static_files</cite> and <cite>extra_files</cite> was added.</p>
+<dl class="docutils">
+<dt>..versionadded:: 0.6.1</dt>
+<dd><cite>ssl_context</cite> was added.</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -207,8 +211,9 @@ not specified a generic banner is used instead.</li>
 <li><em>use_evalex</em> &#8211; the default setting for the evalex flag of the debugger.</li>
 <li><em>threaded</em> &#8211; the default threading setting.</li>
 <li><em>processes</em> &#8211; the default number of processes to start.</li>
-<li><em>static_files</em> &#8211; optionally a dict of static files.</li>
-<li><em>extra_files</em> &#8211; optionally a list of extra files to track for reloading.</li>
+<li><em>static_files</em> &#8211; optional dict of static files.</li>
+<li><em>extra_files</em> &#8211; optional list of extra files to track for reloading.</li>
+<li><em>ssl_context</em> &#8211; optional SSL context for running server in HTTPS mode.</li>
 </ul>
 </td>
 </tr>

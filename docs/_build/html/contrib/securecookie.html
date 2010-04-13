@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Cache" href="cache.html">
     <link rel="prev" title="Sessions" href="sessions.html">
@@ -62,7 +62,7 @@ normal cookie is.  However you don&#8217;t have to store and flush the
 sessions you have at the server.</p>
 <p>Example usage:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">werkzeug.contrib.securecookie</span> <span class="kn">import</span> <span class="n">SecureCookie</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">SecureCookie</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="mf">42</span><span class="p">,</span> <span class="s">&quot;baz&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">)},</span> <span class="s">&quot;deadbeef&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">SecureCookie</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s">&quot;baz&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span> <span class="s">&quot;deadbeef&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Dumping into a string so that one can store it in a cookie:</p>
@@ -140,12 +140,12 @@ an alternative mac method.  The import thing is that the mac method
 is a function with a similar interface to the hashlib.  Required
 methods are update() and digest().</p>
 <p>Example usage:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">SecureCookie</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="mf">42</span><span class="p">,</span> <span class="s">&quot;baz&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">)},</span> <span class="s">&quot;deadbeef&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">SecureCookie</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span> <span class="s">&quot;baz&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)},</span> <span class="s">&quot;deadbeef&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>
 <span class="go">42</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="s">&quot;baz&quot;</span><span class="p">]</span>
 <span class="go">(1, 2, 3)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="s">&quot;blafasel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">23</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="s">&quot;blafasel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">23</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">should_save</span>
 <span class="go">True</span>
 </pre></div>
@@ -176,11 +176,11 @@ it has to be set before <a title="werkzeug.contrib.securecookie.SecureCookie.ser
 However this does not track modifications inside mutable objects
 in the cookie:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">SecureCookie</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">modified</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="bp">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">modified</span>
 <span class="go">False</span>
 </pre></div>

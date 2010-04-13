@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
     <link rel="up" title="Application Deployment" href="index.html">
     <link rel="next" title="HTTP Proxying" href="proxying.html">
     <link rel="prev" title="mod_wsgi (Apache)" href="mod_wsgi.html">
@@ -103,7 +103,8 @@ can execute it:</p>
 </div>
 <p>This configuration binds the application to <cite>/yourapplication</cite>.  If you
 want the application to work in the URL root you have to work around a
-lighttpd bug with the <cite>~werkzeug.contrib.fixers.LighttpdCGIRootFix</cite> middleware.</p>
+lighttpd bug with the <a title="werkzeug.contrib.fixers.LighttpdCGIRootFix" class="reference external" href="../contrib/fixers.html#werkzeug.contrib.fixers.LighttpdCGIRootFix"><tt class="xref docutils literal"><span class="pre">LighttpdCGIRootFix</span></tt></a>
+middleware.</p>
 <p>Make sure to apply it only if you are mounting the application the URL
 root.</p>
 </div>

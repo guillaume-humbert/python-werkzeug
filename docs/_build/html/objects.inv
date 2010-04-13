@@ -1,6 +1,6 @@
 # Sphinx inventory version 1
 # Project: Werkzeug
-# Version: 0.6
+# Version: 0.6.1
 werkzeug.contrib.cache mod contrib/cache.html
 werkzeug.exceptions mod exceptions.html
 werkzeug.contrib.profiler mod contrib/profiler.html
@@ -32,10 +32,12 @@ werkzeug.ImmutableTypeConversionDict.copy method datastructures.html
 werkzeug.script.make_shell function script.html
 werkzeug.BaseRequest.stream attribute wrappers.html
 werkzeug.contrib.iterio.IterIO class contrib/iterio.html
+werkzeug.LimitedStream.on_exhausted method wsgi.html
 werkzeug.TypeConversionDict.get method datastructures.html
 werkzeug.BaseRequest.headers attribute wrappers.html
 werkzeug.EnvironBuilder.charset attribute test.html
 werkzeug.contrib.securecookie.SecureCookie.hash_method attribute contrib/securecookie.html
+werkzeug.LocalStack.top attribute local.html
 werkzeug.CommonRequestDescriptorsMixin.mimetype_params attribute wrappers.html
 werkzeug.Accept.find method datastructures.html
 werkzeug.MultiDict.iteritems method datastructures.html
@@ -76,7 +78,7 @@ werkzeug.ETagRequestMixin.if_match attribute wrappers.html
 werkzeug.Headers.has_key method datastructures.html
 werkzeug.BaseRequest.environ attribute wrappers.html
 werkzeug.FileStorage.name attribute datastructures.html
-werkzeug.Client.delete method test.html
+werkzeug.exceptions.Forbidden exception exceptions.html
 werkzeug.is_hop_by_hop_header function http.html
 werkzeug.BaseResponse.response attribute wrappers.html
 werkzeug.get_host function wsgi.html
@@ -84,7 +86,7 @@ werkzeug.AcceptMixin.accept_charsets attribute wrappers.html
 werkzeug.contrib.sessions.SessionStore.save_if_modified method contrib/sessions.html
 werkzeug.BaseRequest.url_root attribute wrappers.html
 werkzeug.Authorization.response attribute datastructures.html
-werkzeug.routing.RuleFactory.get_rules method routing.html
+werkzeug.exceptions.RequestEntityTooLarge exception exceptions.html
 werkzeug.contrib.fixers.PathInfoFromRequestUriFix class contrib/fixers.html
 werkzeug.exceptions.PreconditionFailed exception exceptions.html
 werkzeug.routing.Submount class routing.html
@@ -121,6 +123,7 @@ werkzeug.script.run function script.html
 werkzeug.contrib.cache.BaseCache.clear method contrib/cache.html
 werkzeug.Authorization.password attribute datastructures.html
 werkzeug.WWWAuthenticateMixin.www_authenticate attribute wrappers.html
+werkzeug.LocalStack.push method local.html
 werkzeug.contrib.profiler.MergeStream class contrib/profiler.html
 werkzeug.ETagRequestMixin class wrappers.html
 werkzeug.MultiDict.getlist method datastructures.html
@@ -185,7 +188,9 @@ werkzeug.Response class wrappers.html
 werkzeug.BaseRequest.charset attribute wrappers.html
 werkzeug.parse_options_header function http.html
 werkzeug.EnvironBuilder.wsgi_version attribute test.html
+werkzeug.release_local function local.html
 werkzeug.EnvironBuilder.environ_base attribute test.html
+werkzeug.LocalStack class local.html
 werkzeug.CommonResponseDescriptorsMixin.location attribute wrappers.html
 werkzeug.Accept.to_header method datastructures.html
 werkzeug.RequestCacheControl.min_fresh attribute datastructures.html
@@ -286,7 +291,7 @@ werkzeug.BaseResponse.charset attribute wrappers.html
 werkzeug.BaseRequest.shallow attribute wrappers.html
 werkzeug.BaseRequest.url_charset attribute wrappers.html
 werkzeug.CommonResponseDescriptorsMixin.content_length attribute wrappers.html
-werkzeug.LimitedStream.on_exhausted method wsgi.html
+werkzeug.Client.delete method test.html
 werkzeug.ImmutableOrderedMultiDict.copy method datastructures.html
 werkzeug.FileMultiDict.add_file method datastructures.html
 werkzeug.contrib.cache.FileSystemCache class contrib/cache.html
@@ -351,6 +356,7 @@ werkzeug.contrib.fixers.HeaderRewriterFix class contrib/fixers.html
 werkzeug.BaseRequest.is_secure attribute wrappers.html
 werkzeug.FileStorage.stream attribute datastructures.html
 werkzeug.MultiDict.pop method datastructures.html
+werkzeug.check_password_hash function utils.html
 werkzeug.Accept.quality method datastructures.html
 werkzeug.UserAgentMixin class wrappers.html
 werkzeug.contrib.wrappers.DynamicCharsetResponseMixin.charset attribute contrib/wrappers.html
@@ -364,6 +370,7 @@ werkzeug.run_wsgi_app function test.html
 werkzeug.Headers class datastructures.html
 werkzeug.generate_etag function http.html
 werkzeug.LocalManager.make_middleware method local.html
+werkzeug.LocalStack.pop method local.html
 werkzeug.routing.Map.bind_to_environ method routing.html
 werkzeug.make_line_iter function wsgi.html
 werkzeug.EnvironBuilder.request_class attribute test.html
@@ -371,7 +378,7 @@ werkzeug.extract_path_info function utils.html
 werkzeug.ETagResponseMixin.freeze method wrappers.html
 werkzeug.contrib.cache.BaseCache.dec method contrib/cache.html
 werkzeug.LocalProxy class local.html
-werkzeug.exceptions.Forbidden exception exceptions.html
+werkzeug.exceptions.HTTPException.__call__ method exceptions.html
 werkzeug.routing.Rule.empty method routing.html
 werkzeug.contrib.lint.LintMiddleware class contrib/lint.html
 werkzeug.WWWAuthenticateMixin class wrappers.html
@@ -427,7 +434,7 @@ werkzeug.BaseResponse.set_cookie method wrappers.html
 werkzeug.MIMEAccept.accept_html attribute datastructures.html
 werkzeug.BaseResponse.get_wsgi_response method wrappers.html
 werkzeug.contrib.securecookie.SecureCookie.unquote classmethod contrib/securecookie.html
-werkzeug.exceptions.RequestEntityTooLarge exception exceptions.html
+werkzeug.routing.RuleFactory.get_rules method routing.html
 werkzeug.import_string function utils.html
 werkzeug.EnvironBuilder.input_stream attribute test.html
 werkzeug.BaseRequest.url attribute wrappers.html
@@ -447,6 +454,7 @@ werkzeug.contrib.sessions.Session.modified attribute contrib/sessions.html
 werkzeug.BaseRequest.access_route attribute wrappers.html
 werkzeug.HeaderSet.update method datastructures.html
 werkzeug.MultiDict.poplist method datastructures.html
+werkzeug.generate_password_hash function utils.html
 werkzeug.quote_etag function http.html
 werkzeug.contrib.cache.BaseCache.delete method contrib/cache.html
 werkzeug.Headers.extend method datastructures.html
@@ -516,7 +524,6 @@ werkzeug.exceptions.RequestTimeout exception exceptions.html
 werkzeug.BaseRequest.application classmethod wrappers.html
 werkzeug.exceptions.BadRequest exception exceptions.html
 werkzeug.contrib.cache.BaseCache.get method contrib/cache.html
-werkzeug.exceptions.HTTPException.__call__ method exceptions.html
 werkzeug.FileStorage.content_length attribute datastructures.html
 werkzeug.BaseResponse.get_app_iter method wrappers.html
 werkzeug.routing.EndpointPrefix class routing.html

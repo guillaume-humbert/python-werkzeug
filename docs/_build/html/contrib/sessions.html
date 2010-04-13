@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Secure Cookie" href="securecookie.html">
     <link rel="prev" title="Atom Syndication" href="atom.html">
@@ -118,11 +118,11 @@ in mutable structures are not tracked, for those you have to set
 However this does not track modifications inside mutable objects
 in the session:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Session</span><span class="p">({},</span> <span class="n">sid</span><span class="o">=</span><span class="s">&#39;deadbeefbabe2c00ffee&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">modified</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="bp">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">modified</span>
 <span class="go">False</span>
 </pre></div>
@@ -199,8 +199,9 @@ that wasn&#8217;t the case.</dd></dl>
 <dl class="class">
 <dt id="werkzeug.contrib.sessions.FilesystemSessionStore">
 <em class="property">class </em><tt class="descclassname">werkzeug.contrib.sessions.</tt><tt class="descname">FilesystemSessionStore</tt><big>(</big><em>path=None</em>, <em>filename_template='werkzeug_%s.sess'</em>, <em>session_class=None</em>, <em>renew_missing=False</em>, <em>mode=420</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.sessions.FilesystemSessionStore" title="Permalink to this definition">¶</a></dt>
-<dd><p>Simple example session store that saves sessions in the filesystem like
-PHP does.</p>
+<dd><p>Simple example session store that saves sessions on the filesystem.
+This store works best on POSIX systems and Windows Vista / Windows
+Server 2008 and newer.</p>
 <p class="versionchanged">
 <span class="versionmodified">Changed in version 0.6: </span><cite>renew_missing</cite> was added.  Previously this was considered <cite>True</cite>,
 now the default changed to <cite>False</cite> and it can be explicitly

@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="prev" title="Dealing with Request Data" href="request_data.html">
     
   </head>
@@ -41,6 +41,7 @@
           <div class="inner"><ul>
 <li><a class="reference external" href="#">Werkzeug Changelog</a><ul>
 <li><a class="reference external" href="#id1">Werkzeug Changelog</a><ul>
+<li><a class="reference external" href="#version-0-6-1">Version 0.6.1</a></li>
 <li><a class="reference external" href="#version-0-6">Version 0.6</a></li>
 <li><a class="reference external" href="#version-0-5-1">Version 0.5.1</a></li>
 <li><a class="reference external" href="#version-0-5">Version 0.5</a></li>
@@ -66,9 +67,35 @@ For API breaking changes have a look at <a class="reference internal" href="#api
 are listed there in detail.</p>
 <div class="section" id="id1">
 <h2>Werkzeug Changelog<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="version-0-6-1">
+<h3>Version 0.6.1<a class="headerlink" href="#version-0-6-1" title="Permalink to this headline">¶</a></h3>
+<p>(bugfix release, released on April 13th 2010)</p>
+<ul class="simple">
+<li>heavily improved local objects.  Should pick up standalone greenlet
+builds now and support proxies to free callables as well.  There is
+also a stacked local now that makes it possible to invoke the same
+application from within itself by pushing current request/response
+on top of the stack.</li>
+<li>routing build method will also build non-default method rules properly
+if no method is provided.</li>
+<li>added proper IPv6 support for the builtin server.</li>
+<li>windows specific filesystem session store fixes.
+(should no be more stable under high concurrency)</li>
+<li>fixed a <cite>NameError</cite> in the session system.</li>
+<li>fixed a bug with empty arguments in the werkzeug.script system.</li>
+<li>fixed a bug where log lines will be duplicated if an application uses
+<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/logging.html#logging.basicConfig"><tt class="xref docutils literal"><span class="pre">logging.basicConfig()</span></tt></a> (#499)</li>
+<li>added secure password hashing and checking functions.</li>
+<li><cite>HEAD</cite> is now implicitly added as method in the routing system if
+<cite>GET</cite> is present.  Not doing that was considered a bug because often
+code assumed that this is the case and in web servers that do not
+normalize <cite>HEAD</cite> to <cite>GET</cite> this could break <cite>HEAD</cite> requests.</li>
+<li>the script support can start SSL servers now.</li>
+</ul>
+</div>
 <div class="section" id="version-0-6">
 <h3>Version 0.6<a class="headerlink" href="#version-0-6" title="Permalink to this headline">¶</a></h3>
-<p>(last pre 1.0 release. will get rid of deprecation warnings. release date yet unknown)</p>
+<p>(codename Hammer, released on Feb 19th 2010)</p>
 <ul class="simple">
 <li>removed pending deprecations</li>
 <li>sys.path is now printed from the testapp.</li>
