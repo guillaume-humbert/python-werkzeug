@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="WSGI Application Profiler" href="profiler.html">
     <link rel="prev" title="Iter IO" href="iterio.html">
@@ -41,7 +41,7 @@
       <div class="body">
         
   <div class="section" id="module-werkzeug.contrib.fixers">
-<h1>Fixers<a class="headerlink" href="#module-werkzeug.contrib.fixers" title="Permalink to this headline">¶</a></h1>
+<span id="fixers"></span><h1>Fixers<a class="headerlink" href="#module-werkzeug.contrib.fixers" title="Permalink to this headline">¶</a></h1>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
 <p>This module includes various helpers that fix bugs in web servers.  They may
@@ -59,7 +59,10 @@ with FastCGI or CGI and the application is mounted on the URL root.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>app</em> &#8211; the WSGI application</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>app</strong> &#8211; the WSGI application</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -80,7 +83,10 @@ variables.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>app</em> &#8211; the WSGI application</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>app</strong> &#8211; the WSGI application</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -93,7 +99,7 @@ variables.</p>
 application that was not designed with HTTP proxies in mind.  It
 sets <cite>REMOTE_ADDR</cite>, <cite>HTTP_HOST</cite> from <cite>X-Forwarded</cite> headers.</p>
 <p>Werkzeug wrappers have builtin support for this by setting the
-<a title="werkzeug.BaseRequest.is_behind_proxy" class="reference external" href="../wrappers.html#werkzeug.BaseRequest.is_behind_proxy"><tt class="xref docutils literal"><span class="pre">is_behind_proxy</span></tt></a> attribute to <cite>True</cite>.</p>
+<a title="werkzeug.BaseRequest.is_behind_proxy" class="reference external" href="../wrappers.html#werkzeug.BaseRequest.is_behind_proxy"><tt class="xref py py-attr docutils literal"><span class="pre">is_behind_proxy</span></tt></a> attribute to <cite>True</cite>.</p>
 <p>Do not use this middleware in non-proxy setups for security reasons.</p>
 <p>The original values of <cite>REMOTE_ADDR</cite> and <cite>HTTP_HOST</cite> are stored in
 the WSGI environment as <cite>werkzeug.proxy_fix.orig_remote_addr</cite> and
@@ -102,7 +108,10 @@ the WSGI environment as <cite>werkzeug.proxy_fix.orig_remote_addr</cite> and
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>app</em> &#8211; the WSGI application</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>app</strong> &#8211; the WSGI application</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -124,10 +133,10 @@ not or to add <cite>X-Powered-By</cite> headers:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>app</em> &#8211; the WSGI application</li>
-<li><em>remove_headers</em> &#8211; a sequence of header keys that should be
+<li><strong>app</strong> &#8211; the WSGI application</li>
+<li><strong>remove_headers</strong> &#8211; a sequence of header keys that should be
 removed.</li>
-<li><em>add_headers</em> &#8211; a sequence of <tt class="docutils literal"><span class="pre">(key,</span> <span class="pre">value)</span></tt> tuples that should
+<li><strong>add_headers</strong> &#8211; a sequence of <tt class="docutils literal"><span class="pre">(key,</span> <span class="pre">value)</span></tt> tuples that should
 be added.</li>
 </ul>
 </td>

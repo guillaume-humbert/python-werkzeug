@@ -52,8 +52,8 @@ docs/_build/html/installation.html
 docs/_build/html/levels.html
 docs/_build/html/local.html
 docs/_build/html/middlewares.html
-docs/_build/html/modindex.html
 docs/_build/html/objects.inv
+docs/_build/html/py-modindex.html
 docs/_build/html/quickstart.html
 docs/_build/html/request_data.html
 docs/_build/html/routing.html

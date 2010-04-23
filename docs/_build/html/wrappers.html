@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="URL Routing" href="routing.html">
     <link rel="prev" title="Management Script Utilities" href="script.html">
     
@@ -53,17 +53,17 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<span id="wrappers"></span><h1>Request / Response Objects<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
-<p>You can import all these objects directly from <a title="" class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref docutils literal"><span class="pre">werkzeug</span></tt></a>.  The request
+<span id="request-response-objects"></span><span id="wrappers"></span><h1>Request / Response Objects<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<p>You can import all these objects directly from <a class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref py py-mod docutils literal"><span class="pre">werkzeug</span></tt></a>.  The request
 and response objects wrap the WSGI environment or the return value from a WSGI
 application so that it is another WSGI application (wraps a whole application).</p>
 <div class="section" id="how-they-work">
 <h2>How they Work<a class="headerlink" href="#how-they-work" title="Permalink to this headline">¶</a></h2>
 <p>Your WSGI application is always passed two arguments.  The WSGI &#8220;environment&#8221;
 and the WSGI <cite>start_response</cite> function that is used to start the response
-phase.  The <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref docutils literal"><span class="pre">Request</span></tt></a> class wraps the <cite>environ</cite> for easier access to
+phase.  The <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> class wraps the <cite>environ</cite> for easier access to
 request variables (form data, request headers etc.).</p>
-<p>The <a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref docutils literal"><span class="pre">Response</span></tt></a> on the other hand is a standard WSGI application that
+<p>The <a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt></a> on the other hand is a standard WSGI application that
 you can create.  The simple hello world in Werkzeug looks like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">Response</span>
 <span class="n">application</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="s">&#39;Hello World!&#39;</span><span class="p">)</span>
@@ -79,7 +79,7 @@ processing:</p>
     <span class="k">return</span> <span class="n">response</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Because this is a very common task the <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref docutils literal"><span class="pre">Request</span></tt></a> object provides
+<p>Because this is a very common task the <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> object provides
 a helper for that.  The above code can be rewritten like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
 
@@ -121,8 +121,8 @@ multiple WSGI responses.</li>
 <h2>Base Wrappers<a class="headerlink" href="#base-wrappers" title="Permalink to this headline">¶</a></h2>
 <p>These objects implement a common set of operations.  They are missing fancy
 addon functionality like user agent parsing or etag handling.  These features
-are available by mixing in various mixin classes or using <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref docutils literal"><span class="pre">Request</span></tt></a> and
-<a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref docutils literal"><span class="pre">Response</span></tt></a>.</p>
+are available by mixing in various mixin classes or using <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> and
+<a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt></a>.</p>
 <dl class="class">
 <dt id="werkzeug.BaseRequest">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">BaseRequest</tt><big>(</big><em>environ</em>, <em>populate_request=True</em>, <em>shallow=False</em><big>)</big><a class="headerlink" href="#werkzeug.BaseRequest" title="Permalink to this definition">¶</a></dt>
@@ -134,7 +134,7 @@ environment as <tt class="docutils literal"><span class="pre">'werkzeug.request'
 <p>There are a couple of mixins available that add additional functionality
 to the request object, there is also a class called <cite>Request</cite> which
 subclasses <cite>BaseRequest</cite> and all the important mixins.</p>
-<p>It&#8217;s a good idea to create a custom subclass of the <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref docutils literal"><span class="pre">BaseRequest</span></tt></a>
+<p>It&#8217;s a good idea to create a custom subclass of the <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref py py-class docutils literal"><span class="pre">BaseRequest</span></tt></a>
 and add missing functionality either via mixins or direct implementation.
 Here an example for such subclasses:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">BaseRequest</span><span class="p">,</span> <span class="n">ETagRequestMixin</span>
@@ -170,7 +170,7 @@ data.</p>
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.shallow">
 <tt class="descname">shallow</tt><a class="headerlink" href="#werkzeug.BaseRequest.shallow" title="Permalink to this definition">¶</a></dt>
-<dd><cite>True</cite> if this request object is shallow (does not modify <a title="werkzeug.BaseRequest.environ" class="reference internal" href="#werkzeug.BaseRequest.environ"><tt class="xref docutils literal"><span class="pre">environ</span></tt></a>),
+<dd><cite>True</cite> if this request object is shallow (does not modify <a title="werkzeug.BaseRequest.environ" class="reference internal" href="#werkzeug.BaseRequest.environ"><tt class="xref py py-attr docutils literal"><span class="pre">environ</span></tt></a>),
 <cite>False</cite> otherwise.</dd></dl>
 
 <dl class="method">
@@ -192,12 +192,12 @@ backwards compatibility.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>total_content_length</em> &#8211; the total content length of all the
+<li><strong>total_content_length</strong> &#8211; the total content length of all the
 data in the request combined.  This value
 is guaranteed to be there.</li>
-<li><em>content_type</em> &#8211; the mimetype of the uploaded file.</li>
-<li><em>filename</em> &#8211; the filename of the uploaded file.  May be <cite>None</cite>.</li>
-<li><em>content_length</em> &#8211; the length of this file.  This value is usually
+<li><strong>content_type</strong> &#8211; the mimetype of the uploaded file.</li>
+<li><strong>filename</strong> &#8211; the filename of the uploaded file.  May be <cite>None</cite>.</li>
+<li><strong>content_length</strong> &#8211; the length of this file.  This value is usually
 not provided because webbrowsers do not provide
 this value.</li>
 </ul>
@@ -217,8 +217,11 @@ nothing.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>error</em> &#8211; a <cite>ValueError</cite> object with a message why the
-parsing failed.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>error</strong> &#8211; a <cite>ValueError</cite> object with a message why the
+parsing failed.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -236,7 +239,7 @@ from the client ip to the last proxy server.</dd></dl>
 <dt id="werkzeug.BaseRequest.application">
 <em class="property">classmethod </em><tt class="descname">application</tt><big>(</big><em>f</em><big>)</big><a class="headerlink" href="#werkzeug.BaseRequest.application" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorate a function as responder that accepts the request as first
-argument.  This works like the <a title="werkzeug.responder" class="reference external" href="wsgi.html#werkzeug.responder"><tt class="xref docutils literal"><span class="pre">responder()</span></tt></a> decorator but the
+argument.  This works like the <a title="werkzeug.responder" class="reference external" href="wsgi.html#werkzeug.responder"><tt class="xref py py-func docutils literal"><span class="pre">responder()</span></tt></a> decorator but the
 function is passed the request object as first argument:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@Request.application</span>
 <span class="k">def</span> <span class="nf">my_wsgi_app</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
@@ -247,9 +250,13 @@ function is passed the request object as first argument:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>f</em> &#8211; the WSGI callable to decorate</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>f</strong> &#8211; the WSGI callable to decorate</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a new WSGI callable</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a new WSGI callable</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -258,15 +265,15 @@ function is passed the request object as first argument:</p>
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.args">
 <tt class="descname">args</tt><a class="headerlink" href="#werkzeug.BaseRequest.args" title="Permalink to this definition">¶</a></dt>
-<dd>The parsed URL parameters.  By default a <a title="werkzeug.ImmutableMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableMultiDict"><tt class="xref docutils literal"><span class="pre">ImmutableMultiDict</span></tt></a>
+<dd>The parsed URL parameters.  By default a <a title="werkzeug.ImmutableMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableMultiDict"><tt class="xref py py-class docutils literal"><span class="pre">ImmutableMultiDict</span></tt></a>
 is returned from this function.  This can be changed by setting
-<a title="werkzeug.BaseRequest.parameter_storage_class" class="reference internal" href="#werkzeug.BaseRequest.parameter_storage_class"><tt class="xref docutils literal"><span class="pre">parameter_storage_class</span></tt></a> to a different type.  This might
+<a title="werkzeug.BaseRequest.parameter_storage_class" class="reference internal" href="#werkzeug.BaseRequest.parameter_storage_class"><tt class="xref py py-attr docutils literal"><span class="pre">parameter_storage_class</span></tt></a> to a different type.  This might
 be necessary if the order of the form data is important.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.base_url">
 <tt class="descname">base_url</tt><a class="headerlink" href="#werkzeug.BaseRequest.base_url" title="Permalink to this definition">¶</a></dt>
-<dd>Like <a title="werkzeug.BaseRequest.url" class="reference internal" href="#werkzeug.BaseRequest.url"><tt class="xref docutils literal"><span class="pre">url</span></tt></a> but without the querystring</dd></dl>
+<dd>Like <a title="werkzeug.BaseRequest.url" class="reference internal" href="#werkzeug.BaseRequest.url"><tt class="xref py py-attr docutils literal"><span class="pre">url</span></tt></a> but without the querystring</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.charset">
@@ -282,7 +289,7 @@ be necessary if the order of the form data is important.</dd></dl>
 <dt id="werkzeug.BaseRequest.data">
 <tt class="descname">data</tt><a class="headerlink" href="#werkzeug.BaseRequest.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>This reads the buffered incoming data from the client into the
-string.  Usually it&#8217;s a bad idea to access <a title="werkzeug.BaseRequest.data" class="reference internal" href="#werkzeug.BaseRequest.data"><tt class="xref docutils literal"><span class="pre">data</span></tt></a> because a client
+string.  Usually it&#8217;s a bad idea to access <a title="werkzeug.BaseRequest.data" class="reference internal" href="#werkzeug.BaseRequest.data"><tt class="xref py py-attr docutils literal"><span class="pre">data</span></tt></a> because a client
 could send dozens of megabytes or more to cause memory problems on the
 server.</p>
 <p>To circumvent that make sure to check the content length first.</p>
@@ -292,8 +299,8 @@ server.</p>
 <dt id="werkzeug.BaseRequest.dict_storage_class">
 <tt class="descname">dict_storage_class</tt><a class="headerlink" href="#werkzeug.BaseRequest.dict_storage_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>the type to be used for dict values from the incoming WSGI
-environment.  By default an <a title="werkzeug.ImmutableTypeConversionDict" class="reference external" href="datastructures.html#werkzeug.ImmutableTypeConversionDict"><tt class="xref docutils literal"><span class="pre">ImmutableTypeConversionDict</span></tt></a>
-is used (for example for <a title="werkzeug.BaseRequest.cookies" class="reference internal" href="#werkzeug.BaseRequest.cookies"><tt class="xref docutils literal"><span class="pre">cookies</span></tt></a>).</p>
+environment.  By default an <a title="werkzeug.ImmutableTypeConversionDict" class="reference external" href="datastructures.html#werkzeug.ImmutableTypeConversionDict"><tt class="xref py py-class docutils literal"><span class="pre">ImmutableTypeConversionDict</span></tt></a>
+is used (for example for <a title="werkzeug.BaseRequest.cookies" class="reference internal" href="#werkzeug.BaseRequest.cookies"><tt class="xref py py-attr docutils literal"><span class="pre">cookies</span></tt></a>).</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.6.</span></p>
 </dd></dl>
@@ -306,22 +313,22 @@ is used (for example for <a title="werkzeug.BaseRequest.cookies" class="referenc
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.files">
 <tt class="descname">files</tt><a class="headerlink" href="#werkzeug.BaseRequest.files" title="Permalink to this definition">¶</a></dt>
-<dd><p><a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a> object containing all uploaded files.  Each key in
-<a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref docutils literal"><span class="pre">files</span></tt></a> is the name from the <tt class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type=&quot;file&quot;</span> <span class="pre">name=&quot;&quot;&gt;</span></tt>.  Each
-value in <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref docutils literal"><span class="pre">files</span></tt></a> is a Werkzeug <a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref docutils literal"><span class="pre">FileStorage</span></tt></a> object.</p>
-<p>Note that <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref docutils literal"><span class="pre">files</span></tt></a> will only contain data if the request method was
+<dd><p><a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a> object containing all uploaded files.  Each key in
+<a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt></a> is the name from the <tt class="docutils literal"><span class="pre">&lt;input</span> <span class="pre">type=&quot;file&quot;</span> <span class="pre">name=&quot;&quot;&gt;</span></tt>.  Each
+value in <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt></a> is a Werkzeug <a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref py py-class docutils literal"><span class="pre">FileStorage</span></tt></a> object.</p>
+<p>Note that <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt></a> will only contain data if the request method was
 POST or PUT and the <tt class="docutils literal"><span class="pre">&lt;form&gt;</span></tt> that posted to the request had
 <tt class="docutils literal"><span class="pre">enctype=&quot;multipart/form-data&quot;</span></tt>.  It will be empty otherwise.</p>
-<p>See the <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a> / <a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref docutils literal"><span class="pre">FileStorage</span></tt></a> documentation for more
+<p>See the <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a> / <a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref py py-class docutils literal"><span class="pre">FileStorage</span></tt></a> documentation for more
 details about the used data structure.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.form">
 <tt class="descname">form</tt><a class="headerlink" href="#werkzeug.BaseRequest.form" title="Permalink to this definition">¶</a></dt>
-<dd>The form parameters.  By default a <a title="werkzeug.ImmutableMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableMultiDict"><tt class="xref docutils literal"><span class="pre">ImmutableMultiDict</span></tt></a>
+<dd>The form parameters.  By default a <a title="werkzeug.ImmutableMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableMultiDict"><tt class="xref py py-class docutils literal"><span class="pre">ImmutableMultiDict</span></tt></a>
 is returned from this function.  This can be changed by setting
-<a title="werkzeug.BaseRequest.parameter_storage_class" class="reference internal" href="#werkzeug.BaseRequest.parameter_storage_class"><tt class="xref docutils literal"><span class="pre">parameter_storage_class</span></tt></a> to a different type.  This might
+<a title="werkzeug.BaseRequest.parameter_storage_class" class="reference internal" href="#werkzeug.BaseRequest.parameter_storage_class"><tt class="xref py py-attr docutils literal"><span class="pre">parameter_storage_class</span></tt></a> to a different type.  This might
 be necessary if the order of the form data is important.</dd></dl>
 
 <dl class="classmethod">
@@ -331,12 +338,12 @@ be necessary if the order of the form data is important.</dd></dl>
 environ is given missing values are filled from there.  This method is
 useful for small scripts when you need to simulate a request from an URL.
 Do not use this method for unittesting, there is a full featured client
-object (<a title="werkzeug.Client" class="reference external" href="test.html#werkzeug.Client"><tt class="xref docutils literal"><span class="pre">Client</span></tt></a>) that allows to create multipart requests,
+object (<a title="werkzeug.Client" class="reference external" href="test.html#werkzeug.Client"><tt class="xref py py-class docutils literal"><span class="pre">Client</span></tt></a>) that allows to create multipart requests,
 support for cookies etc.</p>
-<p>This accepts the same options as the <a title="werkzeug.EnvironBuilder" class="reference external" href="test.html#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a>.</p>
+<p>This accepts the same options as the <a title="werkzeug.EnvironBuilder" class="reference external" href="test.html#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a>.</p>
 <p class="versionchanged">
 <span class="versionmodified">Changed in version 0.5: </span>This method now accepts the same arguments as
-<a title="werkzeug.EnvironBuilder" class="reference external" href="test.html#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a>.  Because of this the <cite>environ</cite> parameter
+<a title="werkzeug.EnvironBuilder" class="reference external" href="test.html#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a>.  Because of this the <cite>environ</cite> parameter
 is now called <cite>environ_overrides</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -352,7 +359,7 @@ is now called <cite>environ_overrides</cite>.</p>
 <dt id="werkzeug.BaseRequest.headers">
 <tt class="descname">headers</tt><a class="headerlink" href="#werkzeug.BaseRequest.headers" title="Permalink to this definition">¶</a></dt>
 <dd>The headers from the WSGI environ as immutable
-<a title="werkzeug.EnvironHeaders" class="reference external" href="datastructures.html#werkzeug.EnvironHeaders"><tt class="xref docutils literal"><span class="pre">EnvironHeaders</span></tt></a>.</dd></dl>
+<a title="werkzeug.EnvironHeaders" class="reference external" href="datastructures.html#werkzeug.EnvironHeaders"><tt class="xref py py-class docutils literal"><span class="pre">EnvironHeaders</span></tt></a>.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.host">
@@ -405,8 +412,8 @@ prototype, jQuery and Mochikit and probably some more.</dd></dl>
 <dt id="werkzeug.BaseRequest.list_storage_class">
 <tt class="descname">list_storage_class</tt><a class="headerlink" href="#werkzeug.BaseRequest.list_storage_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>the type to be used for list values from the incoming WSGI
-environment.  By default an <a title="werkzeug.ImmutableList" class="reference external" href="datastructures.html#werkzeug.ImmutableList"><tt class="xref docutils literal"><span class="pre">ImmutableList</span></tt></a> is used
-(for example for <tt class="xref docutils literal"><span class="pre">access_list</span></tt>).</p>
+environment.  By default an <a title="werkzeug.ImmutableList" class="reference external" href="datastructures.html#werkzeug.ImmutableList"><tt class="xref py py-class docutils literal"><span class="pre">ImmutableList</span></tt></a> is used
+(for example for <tt class="xref py py-attr docutils literal"><span class="pre">access_list</span></tt>).</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.6.</span></p>
 </dd></dl>
@@ -415,10 +422,10 @@ environment.  By default an <a title="werkzeug.ImmutableList" class="reference e
 <dt id="werkzeug.BaseRequest.max_content_length">
 <tt class="descname">max_content_length</tt><a class="headerlink" href="#werkzeug.BaseRequest.max_content_length" title="Permalink to this definition">¶</a></dt>
 <dd><p>the maximum content length.  This is forwarded to the form data
-parsing function (<a title="werkzeug.parse_form_data" class="reference external" href="http.html#werkzeug.parse_form_data"><tt class="xref docutils literal"><span class="pre">parse_form_data()</span></tt></a>).  When set and the
-<a title="werkzeug.BaseRequest.form" class="reference internal" href="#werkzeug.BaseRequest.form"><tt class="xref docutils literal"><span class="pre">form</span></tt></a> or <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref docutils literal"><span class="pre">files</span></tt></a> attribute is accessed and the
+parsing function (<a title="werkzeug.parse_form_data" class="reference external" href="http.html#werkzeug.parse_form_data"><tt class="xref py py-func docutils literal"><span class="pre">parse_form_data()</span></tt></a>).  When set and the
+<a title="werkzeug.BaseRequest.form" class="reference internal" href="#werkzeug.BaseRequest.form"><tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt></a> or <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt></a> attribute is accessed and the
 parsing fails because more than the specified value is transmitted
-a <a title="werkzeug.exceptions.RequestEntityTooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestEntityTooLarge"><tt class="xref docutils literal"><span class="pre">RequestEntityTooLarge</span></tt></a> exception is raised.</p>
+a <a title="werkzeug.exceptions.RequestEntityTooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestEntityTooLarge"><tt class="xref py py-exc docutils literal"><span class="pre">RequestEntityTooLarge</span></tt></a> exception is raised.</p>
 <p>Have a look at <a class="reference external" href="request_data.html#dealing-with-request-data"><em>Dealing with Request Data</em></a> for more details.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
@@ -428,10 +435,10 @@ a <a title="werkzeug.exceptions.RequestEntityTooLarge" class="reference external
 <dt id="werkzeug.BaseRequest.max_form_memory_size">
 <tt class="descname">max_form_memory_size</tt><a class="headerlink" href="#werkzeug.BaseRequest.max_form_memory_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>the maximum form field size.  This is forwarded to the form data
-parsing function (<a title="werkzeug.parse_form_data" class="reference external" href="http.html#werkzeug.parse_form_data"><tt class="xref docutils literal"><span class="pre">parse_form_data()</span></tt></a>).  When set and the
-<a title="werkzeug.BaseRequest.form" class="reference internal" href="#werkzeug.BaseRequest.form"><tt class="xref docutils literal"><span class="pre">form</span></tt></a> or <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref docutils literal"><span class="pre">files</span></tt></a> attribute is accessed and the
+parsing function (<a title="werkzeug.parse_form_data" class="reference external" href="http.html#werkzeug.parse_form_data"><tt class="xref py py-func docutils literal"><span class="pre">parse_form_data()</span></tt></a>).  When set and the
+<a title="werkzeug.BaseRequest.form" class="reference internal" href="#werkzeug.BaseRequest.form"><tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt></a> or <a title="werkzeug.BaseRequest.files" class="reference internal" href="#werkzeug.BaseRequest.files"><tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt></a> attribute is accessed and the
 data in memory for post data is longer than the specified value a
-<a title="werkzeug.exceptions.RequestEntityTooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestEntityTooLarge"><tt class="xref docutils literal"><span class="pre">RequestEntityTooLarge</span></tt></a> exception is raised.</p>
+<a title="werkzeug.exceptions.RequestEntityTooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestEntityTooLarge"><tt class="xref py py-exc docutils literal"><span class="pre">RequestEntityTooLarge</span></tt></a> exception is raised.</p>
 <p>Have a look at <a class="reference external" href="request_data.html#dealing-with-request-data"><em>Dealing with Request Data</em></a> for more details.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
@@ -446,9 +453,9 @@ data in memory for post data is longer than the specified value a
 <dt id="werkzeug.BaseRequest.parameter_storage_class">
 <tt class="descname">parameter_storage_class</tt><a class="headerlink" href="#werkzeug.BaseRequest.parameter_storage_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>the class to use for <cite>args</cite> and <cite>form</cite>.  The default is an
-<a title="werkzeug.ImmutableMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableMultiDict"><tt class="xref docutils literal"><span class="pre">ImmutableMultiDict</span></tt></a> which supports multiple values per key.
-alternatively it makes sense to use an <a title="werkzeug.ImmutableOrderedMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableOrderedMultiDict"><tt class="xref docutils literal"><span class="pre">ImmutableOrderedMultiDict</span></tt></a>
-which preserves order or a <a title="werkzeug.ImmutableDict" class="reference external" href="datastructures.html#werkzeug.ImmutableDict"><tt class="xref docutils literal"><span class="pre">ImmutableDict</span></tt></a> which is
+<a title="werkzeug.ImmutableMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableMultiDict"><tt class="xref py py-class docutils literal"><span class="pre">ImmutableMultiDict</span></tt></a> which supports multiple values per key.
+alternatively it makes sense to use an <a title="werkzeug.ImmutableOrderedMultiDict" class="reference external" href="datastructures.html#werkzeug.ImmutableOrderedMultiDict"><tt class="xref py py-class docutils literal"><span class="pre">ImmutableOrderedMultiDict</span></tt></a>
+which preserves order or a <a title="werkzeug.ImmutableDict" class="reference external" href="datastructures.html#werkzeug.ImmutableDict"><tt class="xref py py-class docutils literal"><span class="pre">ImmutableDict</span></tt></a> which is
 the fastest but only remembers the last key.  It is also possible
 to use mutable structures, but this is not recommended.</p>
 <p class="versionadded">
@@ -502,7 +509,7 @@ read past <cite>Content-Length</cite>.</dd></dl>
 <dt id="werkzeug.BaseRequest.url_charset">
 <tt class="descname">url_charset</tt><a class="headerlink" href="#werkzeug.BaseRequest.url_charset" title="Permalink to this definition">¶</a></dt>
 <dd><p>The charset that is assumed for URLs.  Defaults to the value
-of <a title="werkzeug.BaseRequest.charset" class="reference internal" href="#werkzeug.BaseRequest.charset"><tt class="xref docutils literal"><span class="pre">charset</span></tt></a>.</p>
+of <a title="werkzeug.BaseRequest.charset" class="reference internal" href="#werkzeug.BaseRequest.charset"><tt class="xref py py-attr docutils literal"><span class="pre">charset</span></tt></a>.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.6.</span></p>
 </dd></dl>
@@ -515,7 +522,7 @@ of <a title="werkzeug.BaseRequest.charset" class="reference internal" href="#wer
 <dl class="attribute">
 <dt id="werkzeug.BaseRequest.values">
 <tt class="descname">values</tt><a class="headerlink" href="#werkzeug.BaseRequest.values" title="Permalink to this definition">¶</a></dt>
-<dd>Combined multi dict for <a title="werkzeug.BaseRequest.args" class="reference internal" href="#werkzeug.BaseRequest.args"><tt class="xref docutils literal"><span class="pre">args</span></tt></a> and <a title="werkzeug.BaseRequest.form" class="reference internal" href="#werkzeug.BaseRequest.form"><tt class="xref docutils literal"><span class="pre">form</span></tt></a>.</dd></dl>
+<dd>Combined multi dict for <a title="werkzeug.BaseRequest.args" class="reference internal" href="#werkzeug.BaseRequest.args"><tt class="xref py py-attr docutils literal"><span class="pre">args</span></tt></a> and <a title="werkzeug.BaseRequest.form" class="reference internal" href="#werkzeug.BaseRequest.form"><tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt></a>.</dd></dl>
 
 </dd></dl>
 
@@ -546,13 +553,13 @@ response objects:</p>
     <span class="k">return</span> <span class="n">response</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Like <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref docutils literal"><span class="pre">BaseRequest</span></tt></a> which object is lacking a lot of functionality
+<p>Like <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref py py-class docutils literal"><span class="pre">BaseRequest</span></tt></a> which object is lacking a lot of functionality
 implemented in mixins.  This gives you a better control about the actual
 API of your response objects, so you can create subclasses and add custom
 functionality.  A full featured response object is available as
-<a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref docutils literal"><span class="pre">Response</span></tt></a> which implements a couple of useful mixins.</p>
+<a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt></a> which implements a couple of useful mixins.</p>
 <p>To enforce a new type of already existing responses you can use the
-<a title="werkzeug.BaseResponse.force_type" class="reference internal" href="#werkzeug.BaseResponse.force_type"><tt class="xref docutils literal"><span class="pre">force_type()</span></tt></a> method.  This is useful if you&#8217;re working with different
+<a title="werkzeug.BaseResponse.force_type" class="reference internal" href="#werkzeug.BaseResponse.force_type"><tt class="xref py py-meth docutils literal"><span class="pre">force_type()</span></tt></a> method.  This is useful if you&#8217;re working with different
 subclasses of response objects and you want to post process them with a
 know interface.</p>
 <p>Per default the request object will assume all the text data is <cite>utf-8</cite>
@@ -560,7 +567,7 @@ encoded.  Please refer to <a class="reference external" href="unicode.txt">the u
 details about customizing the behavior.</p>
 <p>Response can be any kind of iterable or string.  If it&#8217;s a string
 it&#8217;s considered being an iterable with one item which is the string
-passed.  Headers can be a list of tuples or a <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object.</p>
+passed.  Headers can be a list of tuples or a <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object.</p>
 <p>Special note for <cite>mimetype</cite> and <cite>content_type</cite>:  For most mime types
 <cite>mimetype</cite> and <cite>content_type</cite> work the same, the difference affects
 only &#8216;text&#8217; mimetypes.  If the mimetype passed with <cite>mimetype</cite> is a
@@ -574,15 +581,15 @@ with the charset of the response object.  In contrast the
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>response</em> &#8211; a string or response iterable.</li>
-<li><em>status</em> &#8211; a string with a status or an integer with the status code.</li>
-<li><em>headers</em> &#8211; a list of headers or an <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object.</li>
-<li><em>mimetype</em> &#8211; the mimetype for the request.  See notice above.</li>
-<li><em>content_type</em> &#8211; the content type for the request.  See notice above.</li>
-<li><em>direct_passthrough</em> &#8211; if set to <cite>True</cite> <a title="werkzeug.BaseResponse.iter_encoded" class="reference internal" href="#werkzeug.BaseResponse.iter_encoded"><tt class="xref docutils literal"><span class="pre">iter_encoded()</span></tt></a> is not
+<li><strong>response</strong> &#8211; a string or response iterable.</li>
+<li><strong>status</strong> &#8211; a string with a status or an integer with the status code.</li>
+<li><strong>headers</strong> &#8211; a list of headers or an <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object.</li>
+<li><strong>mimetype</strong> &#8211; the mimetype for the request.  See notice above.</li>
+<li><strong>content_type</strong> &#8211; the content type for the request.  See notice above.</li>
+<li><strong>direct_passthrough</strong> &#8211; if set to <cite>True</cite> <a title="werkzeug.BaseResponse.iter_encoded" class="reference internal" href="#werkzeug.BaseResponse.iter_encoded"><tt class="xref py py-meth docutils literal"><span class="pre">iter_encoded()</span></tt></a> is not
 called before iteration which makes it
 possible to pass special iterators though
-unchanged (see <a title="werkzeug.wrap_file" class="reference external" href="wsgi.html#werkzeug.wrap_file"><tt class="xref docutils literal"><span class="pre">wrap_file()</span></tt></a> for more
+unchanged (see <a title="werkzeug.wrap_file" class="reference external" href="wsgi.html#werkzeug.wrap_file"><tt class="xref py py-func docutils literal"><span class="pre">wrap_file()</span></tt></a> for more
 details.)</li>
 </ul>
 </td>
@@ -594,12 +601,12 @@ details.)</li>
 <tt class="descname">response</tt><a class="headerlink" href="#werkzeug.BaseResponse.response" title="Permalink to this definition">¶</a></dt>
 <dd>The application iterator.  If constructed from a string this will be a
 list, otherwise the object provided as application iterator.  (The first
-argument passed to <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt></a>)</dd></dl>
+argument passed to <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt></a>)</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.BaseResponse.headers">
 <tt class="descname">headers</tt><a class="headerlink" href="#werkzeug.BaseResponse.headers" title="Permalink to this definition">¶</a></dt>
-<dd>A <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object representing the response headers.</dd></dl>
+<dd>A <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object representing the response headers.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.BaseResponse.status_code">
@@ -613,7 +620,7 @@ argument passed to <a title="werkzeug.BaseResponse" class="reference internal" h
 this attribute was set to <cite>True</cite> before using the response object as
 WSGI application, the wrapped iterator is returned unchanged.  This
 makes it possible to pass a special <cite>wsgi.file_wrapper</cite> to the response
-object.  See <a title="werkzeug.wrap_file" class="reference external" href="wsgi.html#werkzeug.wrap_file"><tt class="xref docutils literal"><span class="pre">wrap_file()</span></tt></a> for more details.</dd></dl>
+object.  See <a title="werkzeug.wrap_file" class="reference external" href="wsgi.html#werkzeug.wrap_file"><tt class="xref py py-func docutils literal"><span class="pre">wrap_file()</span></tt></a> for more details.</dd></dl>
 
 <dl class="method">
 <dt id="werkzeug.BaseResponse.__call__">
@@ -624,8 +631,8 @@ object.  See <a title="werkzeug.wrap_file" class="reference external" href="wsgi
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>environ</em> &#8211; the WSGI environment.</li>
-<li><em>start_response</em> &#8211; the response callable provided by the WSGI
+<li><strong>environ</strong> &#8211; the WSGI environment.</li>
+<li><strong>start_response</strong> &#8211; the response callable provided by the WSGI
 server.</li>
 </ul>
 </td>
@@ -673,7 +680,7 @@ be called as part of closing down the response.</p>
 this property the request iterable is encoded and flattened.  This
 can lead to unwanted behavior if you stream big data.</p>
 <p>This behavior can be disabled by setting
-<a title="werkzeug.BaseResponse.implicit_seqence_conversion" class="reference internal" href="#werkzeug.BaseResponse.implicit_seqence_conversion"><tt class="xref docutils literal"><span class="pre">implicit_seqence_conversion</span></tt></a> to <cite>False</cite>.</p>
+<a title="werkzeug.BaseResponse.implicit_sequence_conversion" class="reference internal" href="#werkzeug.BaseResponse.implicit_sequence_conversion"><tt class="xref py py-attr docutils literal"><span class="pre">implicit_sequence_conversion</span></tt></a> to <cite>False</cite>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -695,10 +702,10 @@ can lead to unwanted behavior if you stream big data.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>key</em> &#8211; the key (name) of the cookie to be deleted.</li>
-<li><em>path</em> &#8211; if the cookie that should be deleted was limited to a
+<li><strong>key</strong> &#8211; the key (name) of the cookie to be deleted.</li>
+<li><strong>path</strong> &#8211; if the cookie that should be deleted was limited to a
 path, the path has to be defined here.</li>
-<li><em>domain</em> &#8211; if the cookie that should be deleted was limited to a
+<li><strong>domain</strong> &#8211; if the cookie that should be deleted was limited to a
 domain, that domain has to be defined here.</li>
 </ul>
 </td>
@@ -711,9 +718,9 @@ domain, that domain has to be defined here.</li>
 <dt id="werkzeug.BaseResponse.force_type">
 <em class="property">classmethod </em><tt class="descname">force_type</tt><big>(</big><em>response</em>, <em>environ=None</em><big>)</big><a class="headerlink" href="#werkzeug.BaseResponse.force_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enforce that the WSGI response is a response object of the current
-type.  Werkzeug will use the <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt></a> internally in many
-situations like the exceptions.  If you call <tt class="xref docutils literal"><span class="pre">get_response()</span></tt> on an
-exception you will get back a regular <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt></a> object, even
+type.  Werkzeug will use the <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt></a> internally in many
+situations like the exceptions.  If you call <tt class="xref py py-meth docutils literal"><span class="pre">get_response()</span></tt> on an
+exception you will get back a regular <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt></a> object, even
 if you are using a custom subclass.</p>
 <p>This method can enforce a given response type, and it will also
 convert arbitrary WSGI callables into response objects if an environ
@@ -735,8 +742,8 @@ possible!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>response</em> &#8211; a response object or wsgi application.</li>
-<li><em>environ</em> &#8211; a WSGI environment object.</li>
+<li><strong>response</strong> &#8211; a response object or wsgi application.</li>
+<li><strong>environ</strong> &#8211; a WSGI environment object.</li>
 </ul>
 </td>
 </tr>
@@ -771,9 +778,9 @@ you should set <cite>buffered</cite> to <cite>True</cite> which enforces bufferi
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>app</em> &#8211; the WSGI application to execute.</li>
-<li><em>environ</em> &#8211; the WSGI environment to execute against.</li>
-<li><em>buffered</em> &#8211; set to <cite>True</cite> to enforce buffering.</li>
+<li><strong>app</strong> &#8211; the WSGI application to execute.</li>
+<li><strong>environ</strong> &#8211; the WSGI environment to execute against.</li>
+<li><strong>buffered</strong> &#8211; set to <cite>True</cite> to enforce buffering.</li>
 </ul>
 </td>
 </tr>
@@ -799,9 +806,13 @@ iterable is returned.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>environ</em> &#8211; the WSGI environment of the request.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environ</strong> &#8211; the WSGI environment of the request.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a response iterable.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a response iterable.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -829,9 +840,13 @@ encoded and the iterable is buffered.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>environ</em> &#8211; the WSGI environment of the request.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environ</strong> &#8211; the WSGI environment of the request.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">returns a new <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">returns a new <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -852,19 +867,26 @@ be empty and only the headers and status code will be present.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>environ</em> &#8211; the WSGI environment of the request.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environ</strong> &#8211; the WSGI environment of the request.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">an <tt class="docutils literal"><span class="pre">(app_iter,</span> <span class="pre">status,</span> <span class="pre">headers)</span></tt> tuple.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an <tt class="docutils literal"><span class="pre">(app_iter,</span> <span class="pre">status,</span> <span class="pre">headers)</span></tt> tuple.</p>
+</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="werkzeug.BaseResponse.implicit_seqence_conversion">
-<tt class="descname">implicit_seqence_conversion</tt><a class="headerlink" href="#werkzeug.BaseResponse.implicit_seqence_conversion" title="Permalink to this definition">¶</a></dt>
-<dd>if set to <cite>False</cite> accessing properties on the response object will
-not try to consume the response iterator and convert it into a list.</dd></dl>
+<dt id="werkzeug.BaseResponse.implicit_sequence_conversion">
+<tt class="descname">implicit_sequence_conversion</tt><a class="headerlink" href="#werkzeug.BaseResponse.implicit_sequence_conversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>if set to <cite>False</cite> accessing properties on the response object will
+not try to consume the response iterator and convert it into a list.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6.2.</span></p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.BaseResponse.is_sequence">
@@ -893,7 +915,7 @@ filtering that should not take place for streamed responses.</p>
 <dd><p>Iter the response encoded with the encoding of the response.
 If the response object is invoked as WSGI application the return
 value of this method is used as application iterator unless
-<a title="werkzeug.BaseResponse.direct_passthrough" class="reference internal" href="#werkzeug.BaseResponse.direct_passthrough"><tt class="xref docutils literal"><span class="pre">direct_passthrough</span></tt></a> was activated.</p>
+<a title="werkzeug.BaseResponse.direct_passthrough" class="reference internal" href="#werkzeug.BaseResponse.direct_passthrough"><tt class="xref py py-attr docutils literal"><span class="pre">direct_passthrough</span></tt></a> was activated.</p>
 <p class="versionchanged">
 <span class="versionmodified">Changed in version 0.6.</span></p>
 </dd></dl>
@@ -902,7 +924,7 @@ value of this method is used as application iterator unless
 <dt id="werkzeug.BaseResponse.make_sequence">
 <tt class="descname">make_sequence</tt><big>(</big><big>)</big><a class="headerlink" href="#werkzeug.BaseResponse.make_sequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the response iterator in a list.  By default this happens
-automatically if required.  If <cite>implicit_seqence_conversion</cite> is
+automatically if required.  If <cite>implicit_sequence_conversion</cite> is
 disabled, this method is not automatically called and some properties
 might raise exceptions.  This also encodes all the items.</p>
 <p class="versionadded">
@@ -919,18 +941,18 @@ object in the Python standard library but it accepts unicode data, too.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>key</em> &#8211; the key (name) of the cookie to be set.</li>
-<li><em>value</em> &#8211; the value of the cookie.</li>
-<li><em>max_age</em> &#8211; should be a number of seconds, or <cite>None</cite> (default) if
+<li><strong>key</strong> &#8211; the key (name) of the cookie to be set.</li>
+<li><strong>value</strong> &#8211; the value of the cookie.</li>
+<li><strong>max_age</strong> &#8211; should be a number of seconds, or <cite>None</cite> (default) if
 the cookie should last only as long as the client&#8217;s
 browser session.</li>
-<li><em>expires</em> &#8211; should be a <cite>datetime</cite> object or UNIX timestamp.</li>
-<li><em>domain</em> &#8211; if you want to set a cross-domain cookie.  For example,
+<li><strong>expires</strong> &#8211; should be a <cite>datetime</cite> object or UNIX timestamp.</li>
+<li><strong>domain</strong> &#8211; if you want to set a cross-domain cookie.  For example,
 <tt class="docutils literal"><span class="pre">domain=&quot;.example.com&quot;</span></tt> will set a cookie that is
 readable by the domain <tt class="docutils literal"><span class="pre">www.example.com</span></tt>,
 <tt class="docutils literal"><span class="pre">foo.example.com</span></tt> etc.  Otherwise, a cookie will only
 be readable by the domain that set it.</li>
-<li><em>path</em> &#8211; limits the cookie to a given path, per default it will
+<li><strong>path</strong> &#8211; limits the cookie to a given path, per default it will
 span the whole domain.</li>
 </ul>
 </td>
@@ -946,8 +968,8 @@ span the whole domain.</li>
 <h2>Mixin Classes<a class="headerlink" href="#mixin-classes" title="Permalink to this headline">¶</a></h2>
 <p>Werkzeug also provides helper mixins for various HTTP related functionality
 such as etags, cache control, user agents etc.  When subclassing you can
-mix those classes in to extend the functionality of the <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref docutils literal"><span class="pre">BaseRequest</span></tt></a>
-or <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt></a> object.  Here a small example for a request object
+mix those classes in to extend the functionality of the <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref py py-class docutils literal"><span class="pre">BaseRequest</span></tt></a>
+or <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt></a> object.  Here a small example for a request object
 that parses accept headers:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">BaseRequest</span><span class="p">,</span> <span class="n">AcceptMixin</span>
 
@@ -955,18 +977,18 @@ that parses accept headers:</p>
     <span class="k">pass</span>
 </pre></div>
 </div>
-<p>The <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref docutils literal"><span class="pre">Request</span></tt></a> and <a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref docutils literal"><span class="pre">Response</span></tt></a> classes subclass the <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref docutils literal"><span class="pre">BaseRequest</span></tt></a>
-and <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt></a> classes and implement all the mixins Werkzeug provides:</p>
+<p>The <a title="werkzeug.Request" class="reference internal" href="#werkzeug.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> and <a title="werkzeug.Response" class="reference internal" href="#werkzeug.Response"><tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt></a> classes subclass the <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref py py-class docutils literal"><span class="pre">BaseRequest</span></tt></a>
+and <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt></a> classes and implement all the mixins Werkzeug provides:</p>
 <dl class="class">
 <dt id="werkzeug.Request">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">Request</tt><big>(</big><em>environ</em>, <em>populate_request=True</em>, <em>shallow=False</em><big>)</big><a class="headerlink" href="#werkzeug.Request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full featured request object implementing the following mixins:</p>
 <ul class="simple">
-<li><a title="werkzeug.AcceptMixin" class="reference internal" href="#werkzeug.AcceptMixin"><tt class="xref docutils literal"><span class="pre">AcceptMixin</span></tt></a> for accept header parsing</li>
-<li><a title="werkzeug.ETagRequestMixin" class="reference internal" href="#werkzeug.ETagRequestMixin"><tt class="xref docutils literal"><span class="pre">ETagRequestMixin</span></tt></a> for etag and cache control handling</li>
-<li><a title="werkzeug.UserAgentMixin" class="reference internal" href="#werkzeug.UserAgentMixin"><tt class="xref docutils literal"><span class="pre">UserAgentMixin</span></tt></a> for user agent introspection</li>
-<li><a title="werkzeug.AuthorizationMixin" class="reference internal" href="#werkzeug.AuthorizationMixin"><tt class="xref docutils literal"><span class="pre">AuthorizationMixin</span></tt></a> for http auth handling</li>
-<li><a title="werkzeug.CommonRequestDescriptorsMixin" class="reference internal" href="#werkzeug.CommonRequestDescriptorsMixin"><tt class="xref docutils literal"><span class="pre">CommonRequestDescriptorsMixin</span></tt></a> for common headers</li>
+<li><a title="werkzeug.AcceptMixin" class="reference internal" href="#werkzeug.AcceptMixin"><tt class="xref py py-class docutils literal"><span class="pre">AcceptMixin</span></tt></a> for accept header parsing</li>
+<li><a title="werkzeug.ETagRequestMixin" class="reference internal" href="#werkzeug.ETagRequestMixin"><tt class="xref py py-class docutils literal"><span class="pre">ETagRequestMixin</span></tt></a> for etag and cache control handling</li>
+<li><a title="werkzeug.UserAgentMixin" class="reference internal" href="#werkzeug.UserAgentMixin"><tt class="xref py py-class docutils literal"><span class="pre">UserAgentMixin</span></tt></a> for user agent introspection</li>
+<li><a title="werkzeug.AuthorizationMixin" class="reference internal" href="#werkzeug.AuthorizationMixin"><tt class="xref py py-class docutils literal"><span class="pre">AuthorizationMixin</span></tt></a> for http auth handling</li>
+<li><a title="werkzeug.CommonRequestDescriptorsMixin" class="reference internal" href="#werkzeug.CommonRequestDescriptorsMixin"><tt class="xref py py-class docutils literal"><span class="pre">CommonRequestDescriptorsMixin</span></tt></a> for common headers</li>
 </ul>
 </dd></dl>
 
@@ -975,23 +997,23 @@ and <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">Response</tt><big>(</big><em>response=None</em>, <em>status=None</em>, <em>headers=None</em>, <em>mimetype=None</em>, <em>content_type=None</em>, <em>direct_passthrough=False</em><big>)</big><a class="headerlink" href="#werkzeug.Response" title="Permalink to this definition">¶</a></dt>
 <dd><p>Full featured response object implementing the following mixins:</p>
 <ul class="simple">
-<li><a title="werkzeug.ETagResponseMixin" class="reference internal" href="#werkzeug.ETagResponseMixin"><tt class="xref docutils literal"><span class="pre">ETagResponseMixin</span></tt></a> for etag and cache control handling</li>
-<li><a title="werkzeug.ResponseStreamMixin" class="reference internal" href="#werkzeug.ResponseStreamMixin"><tt class="xref docutils literal"><span class="pre">ResponseStreamMixin</span></tt></a> to add support for the <cite>stream</cite> property</li>
-<li><a title="werkzeug.CommonResponseDescriptorsMixin" class="reference internal" href="#werkzeug.CommonResponseDescriptorsMixin"><tt class="xref docutils literal"><span class="pre">CommonResponseDescriptorsMixin</span></tt></a> for various HTTP descriptors</li>
-<li><a title="werkzeug.WWWAuthenticateMixin" class="reference internal" href="#werkzeug.WWWAuthenticateMixin"><tt class="xref docutils literal"><span class="pre">WWWAuthenticateMixin</span></tt></a> for HTTP authentication support</li>
+<li><a title="werkzeug.ETagResponseMixin" class="reference internal" href="#werkzeug.ETagResponseMixin"><tt class="xref py py-class docutils literal"><span class="pre">ETagResponseMixin</span></tt></a> for etag and cache control handling</li>
+<li><a title="werkzeug.ResponseStreamMixin" class="reference internal" href="#werkzeug.ResponseStreamMixin"><tt class="xref py py-class docutils literal"><span class="pre">ResponseStreamMixin</span></tt></a> to add support for the <cite>stream</cite> property</li>
+<li><a title="werkzeug.CommonResponseDescriptorsMixin" class="reference internal" href="#werkzeug.CommonResponseDescriptorsMixin"><tt class="xref py py-class docutils literal"><span class="pre">CommonResponseDescriptorsMixin</span></tt></a> for various HTTP descriptors</li>
+<li><a title="werkzeug.WWWAuthenticateMixin" class="reference internal" href="#werkzeug.WWWAuthenticateMixin"><tt class="xref py py-class docutils literal"><span class="pre">WWWAuthenticateMixin</span></tt></a> for HTTP authentication support</li>
 </ul>
 </dd></dl>
 
 <dl class="class">
 <dt id="werkzeug.AcceptMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">AcceptMixin</tt><a class="headerlink" href="#werkzeug.AcceptMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mixin for classes with an <tt class="xref docutils literal"><span class="pre">environ</span></tt> attribute to
-get all the HTTP accept headers as <a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref docutils literal"><span class="pre">Accept</span></tt></a> objects (or subclasses
+<dd><p>A mixin for classes with an <tt class="xref py py-attr docutils literal"><span class="pre">environ</span></tt> attribute to
+get all the HTTP accept headers as <a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref py py-class docutils literal"><span class="pre">Accept</span></tt></a> objects (or subclasses
 thereof).</p>
 <dl class="attribute">
 <dt id="werkzeug.AcceptMixin.accept_charsets">
 <tt class="descname">accept_charsets</tt><a class="headerlink" href="#werkzeug.AcceptMixin.accept_charsets" title="Permalink to this definition">¶</a></dt>
-<dd>List of charsets this client supports as <a title="werkzeug.CharsetAccept" class="reference external" href="datastructures.html#werkzeug.CharsetAccept"><tt class="xref docutils literal"><span class="pre">CharsetAccept</span></tt></a>
+<dd>List of charsets this client supports as <a title="werkzeug.CharsetAccept" class="reference external" href="datastructures.html#werkzeug.CharsetAccept"><tt class="xref py py-class docutils literal"><span class="pre">CharsetAccept</span></tt></a>
 object.</dd></dl>
 
 <dl class="attribute">
@@ -999,18 +1021,18 @@ object.</dd></dl>
 <tt class="descname">accept_encodings</tt><a class="headerlink" href="#werkzeug.AcceptMixin.accept_encodings" title="Permalink to this definition">¶</a></dt>
 <dd>List of encodings this client accepts.  Encodings in a HTTP term
 are compression encodings such as gzip.  For charsets have a look at
-<tt class="xref docutils literal"><span class="pre">accept_charset</span></tt>.</dd></dl>
+<tt class="xref py py-attr docutils literal"><span class="pre">accept_charset</span></tt>.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.AcceptMixin.accept_languages">
 <tt class="descname">accept_languages</tt><a class="headerlink" href="#werkzeug.AcceptMixin.accept_languages" title="Permalink to this definition">¶</a></dt>
-<dd>List of languages this client accepts as <a title="werkzeug.LanguageAccept" class="reference external" href="datastructures.html#werkzeug.LanguageAccept"><tt class="xref docutils literal"><span class="pre">LanguageAccept</span></tt></a>
+<dd>List of languages this client accepts as <a title="werkzeug.LanguageAccept" class="reference external" href="datastructures.html#werkzeug.LanguageAccept"><tt class="xref py py-class docutils literal"><span class="pre">LanguageAccept</span></tt></a>
 object.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.AcceptMixin.accept_mimetypes">
 <tt class="descname">accept_mimetypes</tt><a class="headerlink" href="#werkzeug.AcceptMixin.accept_mimetypes" title="Permalink to this definition">¶</a></dt>
-<dd>List of mimetypes this client supports as <a title="werkzeug.MIMEAccept" class="reference external" href="datastructures.html#werkzeug.MIMEAccept"><tt class="xref docutils literal"><span class="pre">MIMEAccept</span></tt></a>
+<dd>List of mimetypes this client supports as <a title="werkzeug.MIMEAccept" class="reference external" href="datastructures.html#werkzeug.MIMEAccept"><tt class="xref py py-class docutils literal"><span class="pre">MIMEAccept</span></tt></a>
 object.</dd></dl>
 
 </dd></dl>
@@ -1018,8 +1040,8 @@ object.</dd></dl>
 <dl class="class">
 <dt id="werkzeug.AuthorizationMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">AuthorizationMixin</tt><a class="headerlink" href="#werkzeug.AuthorizationMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds an <a title="werkzeug.AuthorizationMixin.authorization" class="reference internal" href="#werkzeug.AuthorizationMixin.authorization"><tt class="xref docutils literal"><span class="pre">authorization</span></tt></a> property that represents the parsed value
-of the <cite>Authorization</cite> header as <a title="werkzeug.Authorization" class="reference external" href="datastructures.html#werkzeug.Authorization"><tt class="xref docutils literal"><span class="pre">Authorization</span></tt></a> object.</p>
+<dd><p>Adds an <a title="werkzeug.AuthorizationMixin.authorization" class="reference internal" href="#werkzeug.AuthorizationMixin.authorization"><tt class="xref py py-attr docutils literal"><span class="pre">authorization</span></tt></a> property that represents the parsed value
+of the <cite>Authorization</cite> header as <a title="werkzeug.Authorization" class="reference external" href="datastructures.html#werkzeug.Authorization"><tt class="xref py py-class docutils literal"><span class="pre">Authorization</span></tt></a> object.</p>
 <dl class="attribute">
 <dt id="werkzeug.AuthorizationMixin.authorization">
 <tt class="descname">authorization</tt><a class="headerlink" href="#werkzeug.AuthorizationMixin.authorization" title="Permalink to this definition">¶</a></dt>
@@ -1031,12 +1053,12 @@ of the <cite>Authorization</cite> header as <a title="werkzeug.Authorization" cl
 <dt id="werkzeug.ETagRequestMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">ETagRequestMixin</tt><a class="headerlink" href="#werkzeug.ETagRequestMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add entity tag and cache descriptors to a request object or object with
-a WSGI environment available as <a title="werkzeug.BaseRequest.environ" class="reference internal" href="#werkzeug.BaseRequest.environ"><tt class="xref docutils literal"><span class="pre">environ</span></tt></a>.  This not
+a WSGI environment available as <a title="werkzeug.BaseRequest.environ" class="reference internal" href="#werkzeug.BaseRequest.environ"><tt class="xref py py-attr docutils literal"><span class="pre">environ</span></tt></a>.  This not
 only provides access to etags but also to the cache control header.</p>
 <dl class="attribute">
 <dt id="werkzeug.ETagRequestMixin.cache_control">
 <tt class="descname">cache_control</tt><a class="headerlink" href="#werkzeug.ETagRequestMixin.cache_control" title="Permalink to this definition">¶</a></dt>
-<dd>A <a title="werkzeug.RequestCacheControl" class="reference external" href="datastructures.html#werkzeug.RequestCacheControl"><tt class="xref docutils literal"><span class="pre">RequestCacheControl</span></tt></a> object for the incoming cache control
+<dd>A <a title="werkzeug.RequestCacheControl" class="reference external" href="datastructures.html#werkzeug.RequestCacheControl"><tt class="xref py py-class docutils literal"><span class="pre">RequestCacheControl</span></tt></a> object for the incoming cache control
 headers.</dd></dl>
 
 <dl class="attribute">
@@ -1066,8 +1088,8 @@ headers.</dd></dl>
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">ETagResponseMixin</tt><a class="headerlink" href="#werkzeug.ETagResponseMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds extra functionality to a response object for etag and cache
 handling.  This mixin requires an object with at least a <cite>headers</cite>
-object that implements a dict like interface similar to <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a>.</p>
-<p>If you want the <a title="werkzeug.ETagResponseMixin.freeze" class="reference internal" href="#werkzeug.ETagResponseMixin.freeze"><tt class="xref docutils literal"><span class="pre">freeze()</span></tt></a> method to automatically add an etag, you
+object that implements a dict like interface similar to <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a>.</p>
+<p>If you want the <a title="werkzeug.ETagResponseMixin.freeze" class="reference internal" href="#werkzeug.ETagResponseMixin.freeze"><tt class="xref py py-meth docutils literal"><span class="pre">freeze()</span></tt></a> method to automatically add an etag, you
 have to mixin this method before the response base class.  The default
 response class does not do that.</p>
 <dl class="method">
@@ -1105,16 +1127,19 @@ header is set.</p>
 <p>This does nothing if the request method in the request or environ is
 anything but GET or HEAD.</p>
 <p>It does not remove the body of the response because that&#8217;s something
-the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/reference/datamodel.html#object.__call__"><tt class="xref docutils literal"><span class="pre">__call__()</span></tt></a> function does for us automatically.</p>
+the <tt class="xref py py-meth docutils literal"><span class="pre">__call__()</span></tt> function does for us automatically.</p>
 <p>Returns self so that you can do <tt class="docutils literal"><span class="pre">return</span> <span class="pre">resp.make_conditional(req)</span></tt>
 but modifies the object in-place.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>request_or_environ</em> &#8211; a request object or WSGI environment to be
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>request_or_environ</strong> &#8211; a request object or WSGI environment to be
 used to make the response conditional
-against.</td>
+against.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1130,8 +1155,8 @@ against.</td>
 <dl class="class">
 <dt id="werkzeug.ResponseStreamMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">ResponseStreamMixin</tt><a class="headerlink" href="#werkzeug.ResponseStreamMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mixin for <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref docutils literal"><span class="pre">BaseRequest</span></tt></a> subclasses.  Classes that inherit from
-this mixin will automatically get a <a title="werkzeug.ResponseStreamMixin.stream" class="reference internal" href="#werkzeug.ResponseStreamMixin.stream"><tt class="xref docutils literal"><span class="pre">stream</span></tt></a> property that provides
+<dd><p>Mixin for <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref py py-class docutils literal"><span class="pre">BaseRequest</span></tt></a> subclasses.  Classes that inherit from
+this mixin will automatically get a <a title="werkzeug.ResponseStreamMixin.stream" class="reference internal" href="#werkzeug.ResponseStreamMixin.stream"><tt class="xref py py-attr docutils literal"><span class="pre">stream</span></tt></a> property that provides
 a write-only interface to the response iterable.</p>
 <dl class="attribute">
 <dt id="werkzeug.ResponseStreamMixin.stream">
@@ -1143,7 +1168,7 @@ a write-only interface to the response iterable.</p>
 <dl class="class">
 <dt id="werkzeug.CommonRequestDescriptorsMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">CommonRequestDescriptorsMixin</tt><a class="headerlink" href="#werkzeug.CommonRequestDescriptorsMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mixin for <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref docutils literal"><span class="pre">BaseRequest</span></tt></a> subclasses.  Request objects that
+<dd><p>A mixin for <a title="werkzeug.BaseRequest" class="reference internal" href="#werkzeug.BaseRequest"><tt class="xref py py-class docutils literal"><span class="pre">BaseRequest</span></tt></a> subclasses.  Request objects that
 mix this class in will automatically get descriptors for a couple of
 HTTP headers with automatic type conversion.</p>
 <p class="versionadded">
@@ -1181,7 +1206,7 @@ that can forward the request to the next inbound server.</dd></dl>
 <dl class="attribute">
 <dt id="werkzeug.CommonRequestDescriptorsMixin.mimetype">
 <tt class="descname">mimetype</tt><a class="headerlink" href="#werkzeug.CommonRequestDescriptorsMixin.mimetype" title="Permalink to this definition">¶</a></dt>
-<dd>Like <a title="werkzeug.CommonRequestDescriptorsMixin.content_type" class="reference internal" href="#werkzeug.CommonRequestDescriptorsMixin.content_type"><tt class="xref docutils literal"><span class="pre">content_type</span></tt></a> but without parameters (eg, without
+<dd>Like <a title="werkzeug.CommonRequestDescriptorsMixin.content_type" class="reference internal" href="#werkzeug.CommonRequestDescriptorsMixin.content_type"><tt class="xref py py-attr docutils literal"><span class="pre">content_type</span></tt></a> but without parameters (eg, without
 charset, type etc.).  For example if the content
 type is <tt class="docutils literal"><span class="pre">text/html;</span> <span class="pre">charset=utf-8</span></tt> the mimetype would be
 <tt class="docutils literal"><span class="pre">'text/html'</span></tt>.</dd></dl>
@@ -1215,7 +1240,7 @@ field is misspelled).</dd></dl>
 <dl class="class">
 <dt id="werkzeug.CommonResponseDescriptorsMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">CommonResponseDescriptorsMixin</tt><a class="headerlink" href="#werkzeug.CommonResponseDescriptorsMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mixin for <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt></a> subclasses.  Response objects that
+<dd><p>A mixin for <a title="werkzeug.BaseResponse" class="reference internal" href="#werkzeug.BaseResponse"><tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt></a> subclasses.  Response objects that
 mix this class in will automatically get descriptors for a couple of
 HTTP headers with automatic type conversion.</p>
 <dl class="attribute">
@@ -1350,7 +1375,7 @@ without revalidation.</dd></dl>
 <dl class="class">
 <dt id="werkzeug.WWWAuthenticateMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">WWWAuthenticateMixin</tt><a class="headerlink" href="#werkzeug.WWWAuthenticateMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a <a title="werkzeug.WWWAuthenticateMixin.www_authenticate" class="reference internal" href="#werkzeug.WWWAuthenticateMixin.www_authenticate"><tt class="xref docutils literal"><span class="pre">www_authenticate</span></tt></a> property to a response object.</p>
+<dd><p>Adds a <a title="werkzeug.WWWAuthenticateMixin.www_authenticate" class="reference internal" href="#werkzeug.WWWAuthenticateMixin.www_authenticate"><tt class="xref py py-attr docutils literal"><span class="pre">www_authenticate</span></tt></a> property to a response object.</p>
 <dl class="attribute">
 <dt id="werkzeug.WWWAuthenticateMixin.www_authenticate">
 <tt class="descname">www_authenticate</tt><a class="headerlink" href="#werkzeug.WWWAuthenticateMixin.www_authenticate" title="Permalink to this definition">¶</a></dt>

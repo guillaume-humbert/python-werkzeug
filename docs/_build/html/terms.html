@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Unicode" href="unicode.html">
     <link rel="prev" title="Lint Validation Middleware" href="contrib/lint.html">
     
@@ -52,13 +52,13 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Important Terms<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="important-terms"></span><h1>Important Terms<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>This page covers important terms used in the documentation and Werkzeug
 itself.</p>
 <div class="section" id="wsgi">
 <h2>WSGI<a class="headerlink" href="#wsgi" title="Permalink to this headline">¶</a></h2>
 <p>WSGI a specification for Python web applications Werkzeug follows.  It was
-specified in the <span class="target" id="index-6"></span><a class="reference external" href="http://www.python.org/dev/peps/pep-0333"><strong>PEP 333</strong></a> and is widely supported.  Unlike previous solutions
+specified in the <span class="target" id="index-0"></span><a class="pep reference external" href="http://www.python.org/dev/peps/pep-0333"><strong>PEP 333</strong></a> and is widely supported.  Unlike previous solutions
 it gurantees that web applications, servers and utilties can work together.</p>
 </div>
 <div class="section" id="response-object">
@@ -67,10 +67,10 @@ it gurantees that web applications, servers and utilties can work together.</p>
 application but does not do any request processing.  Usually you have a view
 function or controller method that processes the request and assambles a
 response object.</p>
-<p>A response object is <em>not</em> necessarily the <a title="werkzeug.BaseResponse" class="reference external" href="wrappers.html#werkzeug.BaseResponse"><tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt></a> object or a
+<p>A response object is <em>not</em> necessarily the <a title="werkzeug.BaseResponse" class="reference external" href="wrappers.html#werkzeug.BaseResponse"><tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt></a> object or a
 subclass thereof.</p>
 <p>For example Pylons/webob provide a very similar response class that can
-be used as well (<a title="(in Pylons v0.9.7)" class="reference external" href="http://pylonshq.com/docs/en/0.9.7/thirdparty/webob/#webob.Response"><tt class="xref docutils literal"><span class="pre">webob.Response</span></tt></a>).</p>
+be used as well (<a title="(in Pylons v0.9.7)" class="reference external" href="http://pylonshq.com/docs/en/0.9.7/thirdparty/webob/#webob.Response"><tt class="xref py py-class docutils literal"><span class="pre">webob.Response</span></tt></a>).</p>
 </div>
 <div class="section" id="view-function">
 <h2>View Function<a class="headerlink" href="#view-function" title="Permalink to this headline">¶</a></h2>

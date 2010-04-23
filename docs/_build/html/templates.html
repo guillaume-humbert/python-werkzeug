@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Context Locals" href="local.html">
     <link rel="prev" title="Utilities" href="utils.html">
     
@@ -52,13 +52,13 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Mini Templates<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="mini-templates"></span><h1>Mini Templates<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>Werkzeug ships a <strong>minimal</strong> templating system which is useful for small
 scripts where you just want to generate some HTML and don&#8217;t want another
 dependency or full blown template engine system.</p>
 <p>It it however not recommended to use this template system for anything else
-than simple content generation.  The <a title="werkzeug.Template" class="reference internal" href="#werkzeug.Template"><tt class="xref docutils literal"><span class="pre">Template</span></tt></a> class can be directly
-imported from the <a title="" class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref docutils literal"><span class="pre">werkzeug</span></tt></a> module.</p>
+than simple content generation.  The <a title="werkzeug.Template" class="reference internal" href="#werkzeug.Template"><tt class="xref py py-class docutils literal"><span class="pre">Template</span></tt></a> class can be directly
+imported from the <a class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref py py-mod docutils literal"><span class="pre">werkzeug</span></tt></a> module.</p>
 <p>The template engine recognizes ASP/PHP like blocks and executes the code
 in them:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s">&#39;&lt;</span><span class="si">% f</span><span class="s">or u in users %&gt;${u[&quot;username&quot;]}</span><span class="se">\n</span><span class="s">&lt;</span><span class="si">% e</span><span class="s">ndfor %&gt;&#39;</span><span class="p">)</span>
@@ -179,10 +179,10 @@ overriding the <cite>default_context</cite> dict:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>file</em> &#8211; a filename or file object to load the template from.</li>
-<li><em>charset</em> &#8211; the charset of the template to load.</li>
-<li><em>errors</em> &#8211; the error behavior of the charset decoding.</li>
-<li><em>unicode_mode</em> &#8211; set to <cite>False</cite> to disable unicode mode.</li>
+<li><strong>file</strong> &#8211; a filename or file object to load the template from.</li>
+<li><strong>charset</strong> &#8211; the charset of the template to load.</li>
+<li><strong>errors</strong> &#8211; the error behavior of the charset decoding.</li>
+<li><strong>unicode_mode</strong> &#8211; set to <cite>False</cite> to disable unicode mode.</li>
 </ul>
 </td>
 </tr>
@@ -203,10 +203,14 @@ value will be the rendered template.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>context</em> &#8211; the function accepts the same arguments as the
-<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref docutils literal"><span class="pre">dict</span></tt></a> constructor.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>context</strong> &#8211; the function accepts the same arguments as the
+<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></a> constructor.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the rendered template as string</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the rendered template as string</p>
+</td>
 </tr>
 </tbody>
 </table>

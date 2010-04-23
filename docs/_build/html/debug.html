@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Management Script Utilities" href="script.html">
     <link rel="prev" title="Test Utilities" href="test.html">
     
@@ -52,7 +52,7 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Debugging Applications<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="debugging-applications"></span><h1>Debugging Applications<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>Depending on the WSGI gateway/server, exceptions are handled differently.
 But most of the time, exceptions go to stderr or the error log.</p>
 <p>Since this is not the best debugging environment, Werkzeug provides a
@@ -67,8 +67,8 @@ that.</p>
 <div class="section" id="enabling-the-debugger">
 <h2>Enabling the Debugger<a class="headerlink" href="#enabling-the-debugger" title="Permalink to this headline">¶</a></h2>
 <p>You can enable the debugger by wrapping the application in a
-<a title="werkzeug.DebuggedApplication" class="reference internal" href="#werkzeug.DebuggedApplication"><tt class="xref docutils literal"><span class="pre">DebuggedApplication</span></tt></a> middleware.  Additionally there are
-parameters to the <a title="werkzeug.run_simple" class="reference external" href="serving.html#werkzeug.run_simple"><tt class="xref docutils literal"><span class="pre">run_simple()</span></tt></a> function to enable it because this
+<a title="werkzeug.DebuggedApplication" class="reference internal" href="#werkzeug.DebuggedApplication"><tt class="xref py py-class docutils literal"><span class="pre">DebuggedApplication</span></tt></a> middleware.  Additionally there are
+parameters to the <a title="werkzeug.run_simple" class="reference external" href="serving.html#werkzeug.run_simple"><tt class="xref py py-func docutils literal"><span class="pre">run_simple()</span></tt></a> function to enable it because this
 is a common task during development.</p>
 <dl class="class">
 <dt id="werkzeug.DebuggedApplication">
@@ -86,17 +86,17 @@ traceback&#8217;s frame context.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>app</em> &#8211; the WSGI application to run debugged.</li>
-<li><em>evalex</em> &#8211; enable exception evaluation feature (interactive
+<li><strong>app</strong> &#8211; the WSGI application to run debugged.</li>
+<li><strong>evalex</strong> &#8211; enable exception evaluation feature (interactive
 debugging).  This requires a non-forking server.</li>
-<li><em>request_key</em> &#8211; The key that points to the request object in ths
+<li><strong>request_key</strong> &#8211; The key that points to the request object in ths
 environment.  This parameter is ignored in current
 versions.</li>
-<li><em>console_path</em> &#8211; the URL for a general purpose console.</li>
-<li><em>console_init_func</em> &#8211; the function that is executed before starting
+<li><strong>console_path</strong> &#8211; the URL for a general purpose console.</li>
+<li><strong>console_init_func</strong> &#8211; the function that is executed before starting
 the general purpose console.  The return value
 is used as initial namespace.</li>
-<li><em>show_hidden_frames</em> &#8211; by default hidden traceback frames are skipped.
+<li><strong>show_hidden_frames</strong> &#8211; by default hidden traceback frames are skipped.
 You can show them by setting this parameter
 to <cite>True</cite>.</li>
 </ul>

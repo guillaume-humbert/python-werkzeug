@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Test Utilities" href="test.html">
     <link rel="prev" title="Quickstart" href="quickstart.html">
     
@@ -52,7 +52,7 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Serving WSGI Applications<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="serving-wsgi-applications"></span><h1>Serving WSGI Applications<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>There are many ways to serve a WSGI application.  While you&#8217;re developing it,
 you usually don&#8217;t want to have a full-blown webserver like Apache up and
 running, but instead a simple standalone one.  Because of that Werkzeug comes
@@ -87,33 +87,33 @@ as <cite>passthrough_errors</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>hostname</em> &#8211; The host for the application.  eg: <tt class="docutils literal"><span class="pre">'localhost'</span></tt></li>
-<li><em>port</em> &#8211; The port for the server.  eg: <tt class="docutils literal"><span class="pre">8080</span></tt></li>
-<li><em>application</em> &#8211; the WSGI application to execute</li>
-<li><em>use_reloader</em> &#8211; should the server automatically restart the python
+<li><strong>hostname</strong> &#8211; The host for the application.  eg: <tt class="docutils literal"><span class="pre">'localhost'</span></tt></li>
+<li><strong>port</strong> &#8211; The port for the server.  eg: <tt class="docutils literal"><span class="pre">8080</span></tt></li>
+<li><strong>application</strong> &#8211; the WSGI application to execute</li>
+<li><strong>use_reloader</strong> &#8211; should the server automatically restart the python
 process if modules were changed?</li>
-<li><em>use_debugger</em> &#8211; should the werkzeug debugging system be used?</li>
-<li><em>use_evalex</em> &#8211; should the exception evaluation feature be enabled?</li>
-<li><em>extra_files</em> &#8211; a list of files the reloader should watch
+<li><strong>use_debugger</strong> &#8211; should the werkzeug debugging system be used?</li>
+<li><strong>use_evalex</strong> &#8211; should the exception evaluation feature be enabled?</li>
+<li><strong>extra_files</strong> &#8211; a list of files the reloader should watch
 additionally to the modules.  For example configuration
 files.</li>
-<li><em>reloader_interval</em> &#8211; the interval for the reloader in seconds.</li>
-<li><em>threaded</em> &#8211; should the process handle each request in a separate
+<li><strong>reloader_interval</strong> &#8211; the interval for the reloader in seconds.</li>
+<li><strong>threaded</strong> &#8211; should the process handle each request in a separate
 thread?</li>
-<li><em>processes</em> &#8211; number of processes to spawn.</li>
-<li><em>request_handler</em> &#8211; optional parameter that can be used to replace
+<li><strong>processes</strong> &#8211; number of processes to spawn.</li>
+<li><strong>request_handler</strong> &#8211; optional parameter that can be used to replace
 the default one.  You can use this to replace it
 with a different
-<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/basehttpserver.html#BaseHTTPServer.BaseHTTPRequestHandler"><tt class="xref docutils literal"><span class="pre">BaseHTTPRequestHandler</span></tt></a>
+<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/basehttpserver.html#BaseHTTPServer.BaseHTTPRequestHandler"><tt class="xref py py-class docutils literal"><span class="pre">BaseHTTPRequestHandler</span></tt></a>
 subclass.</li>
-<li><em>static_files</em> &#8211; a dict of paths for static files.  This works exactly
-like <a title="werkzeug.SharedDataMiddleware" class="reference external" href="middlewares.html#werkzeug.SharedDataMiddleware"><tt class="xref docutils literal"><span class="pre">SharedDataMiddleware</span></tt></a>, it&#8217;s actually
+<li><strong>static_files</strong> &#8211; a dict of paths for static files.  This works exactly
+like <a title="werkzeug.SharedDataMiddleware" class="reference external" href="middlewares.html#werkzeug.SharedDataMiddleware"><tt class="xref py py-class docutils literal"><span class="pre">SharedDataMiddleware</span></tt></a>, it&#8217;s actually
 just wrapping the application in that middleware before
 serving.</li>
-<li><em>passthrough_errors</em> &#8211; set this to <cite>True</cite> to disable the error catching.
+<li><strong>passthrough_errors</strong> &#8211; set this to <cite>True</cite> to disable the error catching.
 This means that the server will die on errors but
 it can be useful to hook debuggers in (pdb etc.)</li>
-<li><em>ssl_context</em> &#8211; an SSL context for the connection. Either an OpenSSL
+<li><strong>ssl_context</strong> &#8211; an SSL context for the connection. Either an OpenSSL
 context, the string <tt class="docutils literal"><span class="pre">'adhoc'</span></tt> if the server should
 automatically create one, or <cite>None</cite> to disable SSL
 (which is the default).</li>
@@ -162,7 +162,7 @@ to assign the local computer multiple names.</p>
 <p>Save the changes and after a while you should be able to access the
 development server on these host names as well.  You can use the
 <a class="reference external" href="routing.html#routing"><em>URL Routing</em></a> system to dispatch between different hosts or parse
-<tt class="xref docutils literal"><span class="pre">request.host</span></tt> yourself.</p>
+<tt class="xref py py-attr docutils literal"><span class="pre">request.host</span></tt> yourself.</p>
 </div>
 <div class="section" id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>

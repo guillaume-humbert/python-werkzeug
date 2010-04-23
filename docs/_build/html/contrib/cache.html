@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Extra Wrappers" href="wrappers.html">
     <link rel="prev" title="Secure Cookie" href="securecookie.html">
@@ -54,7 +54,7 @@
         </div>
         
   <div class="section" id="module-werkzeug.contrib.cache">
-<h1>Cache<a class="headerlink" href="#module-werkzeug.contrib.cache" title="Permalink to this headline">¶</a></h1>
+<span id="cache"></span><h1>Cache<a class="headerlink" href="#module-werkzeug.contrib.cache" title="Permalink to this headline">¶</a></h1>
 <p>The main problem with dynamic Web sites is, well, they&#8217;re dynamic.  Each
 time a user requests a page, the webserver executes a lot of code, queries
 the database, renders templates until the visitor gets the page he sees.</p>
@@ -111,24 +111,27 @@ API or a superset of it.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>default_timeout</strong> &#8211; the default timeout that is used if no timeout is
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a>.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="werkzeug.contrib.cache.BaseCache.add">
 <tt class="descname">add</tt><big>(</big><em>key</em>, <em>value</em>, <em>timeout=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.BaseCache.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a> but does not override already existing
+<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a> but does not override already existing
 values.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>key</em> &#8211; the key to set</li>
-<li><em>value</em> &#8211; the value for the key</li>
-<li><em>timeout</em> &#8211; the cache timeout for the key or the default
+<li><strong>key</strong> &#8211; the key to set</li>
+<li><strong>value</strong> &#8211; the value for the key</li>
+<li><strong>timeout</strong> &#8211; the cache timeout for the key or the default
 timeout if not specified.</li>
 </ul>
 </td>
@@ -154,8 +157,8 @@ not yet exist it is initialized with <cite>-delta</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>key</em> &#8211; the key to increment.</li>
-<li><em>delta</em> &#8211; the delta to subtract.</li>
+<li><strong>key</strong> &#8211; the key to increment.</li>
+<li><strong>delta</strong> &#8211; the delta to subtract.</li>
 </ul>
 </td>
 </tr>
@@ -172,7 +175,10 @@ nothing happens.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>key</em> &#8211; the key to delete.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; the key to delete.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -186,8 +192,11 @@ nothing happens.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>keys</em> &#8211; The function accepts multiple keys as positional
-arguments.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>keys</strong> &#8211; The function accepts multiple keys as positional
+arguments.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -202,7 +211,10 @@ exist <cite>None</cite> is returned instead.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>key</em> &#8211; the key to be looked up.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> &#8211; the key to be looked up.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -211,7 +223,7 @@ exist <cite>None</cite> is returned instead.</p>
 <dl class="method">
 <dt id="werkzeug.contrib.cache.BaseCache.get_dict">
 <tt class="descname">get_dict</tt><big>(</big><em>*keys</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.cache.BaseCache.get_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.get_many" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_many"><tt class="xref docutils literal"><span class="pre">get_many()</span></tt></a> but returns a dict:</p>
+<dd><p>Works like <a title="werkzeug.contrib.cache.BaseCache.get_many" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_many"><tt class="xref py py-meth docutils literal"><span class="pre">get_many()</span></tt></a> but returns a dict:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">d</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get_dict</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>
 <span class="n">foo</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;foo&quot;</span><span class="p">]</span>
 <span class="n">bar</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">&quot;bar&quot;</span><span class="p">]</span>
@@ -221,8 +233,11 @@ exist <cite>None</cite> is returned instead.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>keys</em> &#8211; The function accepts multiple keys as positional
-arguments.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>keys</strong> &#8211; The function accepts multiple keys as positional
+arguments.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -242,8 +257,11 @@ instead.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>keys</em> &#8211; The function accepts multiple keys as positional
-arguments.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>keys</strong> &#8211; The function accepts multiple keys as positional
+arguments.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -260,8 +278,8 @@ not yet exist it is initialized with <cite>delta</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>key</em> &#8211; the key to increment.</li>
-<li><em>delta</em> &#8211; the delta to add.</li>
+<li><strong>key</strong> &#8211; the key to increment.</li>
+<li><strong>delta</strong> &#8211; the delta to add.</li>
 </ul>
 </td>
 </tr>
@@ -278,9 +296,9 @@ not yet exist it is initialized with <cite>delta</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>key</em> &#8211; the key to set</li>
-<li><em>value</em> &#8211; the value for the key</li>
-<li><em>timeout</em> &#8211; the cache timeout for the key or the default
+<li><strong>key</strong> &#8211; the key to set</li>
+<li><strong>value</strong> &#8211; the value for the key</li>
+<li><strong>timeout</strong> &#8211; the cache timeout for the key or the default
 timeout if not specified.</li>
 </ul>
 </td>
@@ -298,8 +316,8 @@ timeout if not specified.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>mapping</em> &#8211; a dict with the values to set.</li>
-<li><em>timeout</em> &#8211; the cache timeout for the key or the default
+<li><strong>mapping</strong> &#8211; a dict with the values to set.</li>
+<li><strong>timeout</strong> &#8211; the cache timeout for the key or the default
 timeout if not specified.</li>
 </ul>
 </td>
@@ -321,8 +339,11 @@ timeout if not specified.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>default_timeout</em> &#8211; a dummy parameter that is ignored but exists
-for API compatibility with other caches.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>default_timeout</strong> &#8211; a dummy parameter that is ignored but exists
+for API compatibility with other caches.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -340,10 +361,10 @@ but it could happen under heavy load that keys are added multiple times.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>threshold</em> &#8211; the maximum number of items the cache stores before
+<li><strong>threshold</strong> &#8211; the maximum number of items the cache stores before
 it starts deleting some.</li>
-<li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
+<li><strong>default_timeout</strong> &#8211; the default timeout that is used if no timeout is
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a>.</li>
 </ul>
 </td>
 </tr>
@@ -357,10 +378,10 @@ specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference in
 <dd><p>A cache that uses memcached as backend.</p>
 <p>The first argument can either be a list or tuple of server addresses
 in which case Werkzeug tries to import the memcache module and connect
-to it, or an object that resembles the API of a <tt class="xref docutils literal"><span class="pre">memcache.Client</span></tt>.</p>
+to it, or an object that resembles the API of a <tt class="xref py py-class docutils literal"><span class="pre">memcache.Client</span></tt>.</p>
 <p>Implementation notes:  This cache backend works around some limitations in
 memcached to simplify the interface.  For example unicode keys are encoded
-to utf-8 on the fly.  Methods such as <a title="werkzeug.contrib.cache.BaseCache.get_dict" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_dict"><tt class="xref docutils literal"><span class="pre">get_dict()</span></tt></a> return
+to utf-8 on the fly.  Methods such as <a title="werkzeug.contrib.cache.BaseCache.get_dict" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.get_dict"><tt class="xref py py-meth docutils literal"><span class="pre">get_dict()</span></tt></a> return
 the keys in the same format as passed.  Furthermore all get methods
 silently ignore key errors to not cause problems when untrusted user data
 is passed to the get methods which is often the case in web applications.</p>
@@ -369,14 +390,14 @@ is passed to the get methods which is often the case in web applications.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>servers</em> &#8211; a list or tuple of server addresses or alternatively
-a <tt class="xref docutils literal"><span class="pre">memcache.Client</span></tt> or a compatible client.</li>
-<li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
-<li><em>key_prefix</em> &#8211; a prefix that is added before all keys.  This makes it
+<li><strong>servers</strong> &#8211; a list or tuple of server addresses or alternatively
+a <tt class="xref py py-class docutils literal"><span class="pre">memcache.Client</span></tt> or a compatible client.</li>
+<li><strong>default_timeout</strong> &#8211; the default timeout that is used if no timeout is
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a>.</li>
+<li><strong>key_prefix</strong> &#8211; a prefix that is added before all keys.  This makes it
 possible to use the same memcached server for different
 applications.  Keep in mind that
-<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref docutils literal"><span class="pre">clear()</span></tt></a> will also clear keys with a
+<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref py py-meth docutils literal"><span class="pre">clear()</span></tt></a> will also clear keys with a
 different prefix.</li>
 </ul>
 </td>
@@ -394,12 +415,12 @@ different prefix.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
-<li><em>key_prefix</em> &#8211; a prefix that is added before all keys.  This makes it
+<li><strong>default_timeout</strong> &#8211; the default timeout that is used if no timeout is
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a>.</li>
+<li><strong>key_prefix</strong> &#8211; a prefix that is added before all keys.  This makes it
 possible to use the same memcached server for different
 applications.  Keep in mind that
-<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref docutils literal"><span class="pre">clear()</span></tt></a> will also clear keys with a
+<a title="werkzeug.contrib.cache.BaseCache.clear" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.clear"><tt class="xref py py-meth docutils literal"><span class="pre">clear()</span></tt></a> will also clear keys with a
 different prefix.</li>
 </ul>
 </td>
@@ -420,11 +441,11 @@ randomely delete files therein.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>cache_dir</em> &#8211; the directory where cached files are stored.</li>
-<li><em>threshold</em> &#8211; the maximum number of items the cache stores before
+<li><strong>cache_dir</strong> &#8211; the directory where cached files are stored.</li>
+<li><strong>threshold</strong> &#8211; the maximum number of items the cache stores before
 it starts deleting some.</li>
-<li><em>default_timeout</em> &#8211; the default timeout that is used if no timeout is
-specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a>.</li>
+<li><strong>default_timeout</strong> &#8211; the default timeout that is used if no timeout is
+specified on <a title="werkzeug.contrib.cache.BaseCache.set" class="reference internal" href="#werkzeug.contrib.cache.BaseCache.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a>.</li>
 </ul>
 </td>
 </tr>

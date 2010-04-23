@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Secure Cookie" href="securecookie.html">
     <link rel="prev" title="Atom Syndication" href="atom.html">
@@ -52,10 +52,10 @@
         </div>
         
   <div class="section" id="module-werkzeug.contrib.sessions">
-<h1>Sessions<a class="headerlink" href="#module-werkzeug.contrib.sessions" title="Permalink to this headline">¶</a></h1>
+<span id="sessions"></span><h1>Sessions<a class="headerlink" href="#module-werkzeug.contrib.sessions" title="Permalink to this headline">¶</a></h1>
 <p>This module contains some helper classes that help one to add session
 support to a python WSGI application.  For full client-side session
-storage see <a title="" class="reference external" href="securecookie.html#module-werkzeug.contrib.securecookie"><tt class="xref docutils literal"><span class="pre">securecookie</span></tt></a> which implements a
+storage see <a class="reference external" href="securecookie.html#module-werkzeug.contrib.securecookie"><tt class="xref py py-mod docutils literal"><span class="pre">securecookie</span></tt></a> which implements a
 secure, client-side session storage.</p>
 <div class="section" id="application-integration">
 <h2>Application Integration<a class="headerlink" href="#application-integration" title="Permalink to this headline">¶</a></h2>
@@ -128,7 +128,7 @@ in the session:</p>
 </pre></div>
 </div>
 <p>In that situation it has to be set to <cite>modified</cite> by hand so that
-<a title="werkzeug.contrib.sessions.Session.should_save" class="reference internal" href="#werkzeug.contrib.sessions.Session.should_save"><tt class="xref docutils literal"><span class="pre">should_save</span></tt></a> can pick it up.</p>
+<a title="werkzeug.contrib.sessions.Session.should_save" class="reference internal" href="#werkzeug.contrib.sessions.Session.should_save"><tt class="xref py py-attr docutils literal"><span class="pre">should_save</span></tt></a> can pick it up.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -152,8 +152,11 @@ developers are encouraged to create their own stores.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>session_class</em> &#8211; The session class to use.  Defaults to
-<a title="werkzeug.contrib.sessions.Session" class="reference internal" href="#werkzeug.contrib.sessions.Session"><tt class="xref docutils literal"><span class="pre">Session</span></tt></a>.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>session_class</strong> &#8211; The session class to use.  Defaults to
+<a title="werkzeug.contrib.sessions.Session" class="reference internal" href="#werkzeug.contrib.sessions.Session"><tt class="xref py py-class docutils literal"><span class="pre">Session</span></tt></a>.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -211,14 +214,14 @@ deactivated.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>path</em> &#8211; the path to the folder used for storing the sessions.
+<li><strong>path</strong> &#8211; the path to the folder used for storing the sessions.
 If not provided the default temporary directory is used.</li>
-<li><em>filename_template</em> &#8211; a string template used to give the session
+<li><strong>filename_template</strong> &#8211; a string template used to give the session
 a filename.  <tt class="docutils literal"><span class="pre">%s</span></tt> is replaced with the
 session id.</li>
-<li><em>session_class</em> &#8211; The session class to use.  Defaults to
-<a title="werkzeug.contrib.sessions.Session" class="reference internal" href="#werkzeug.contrib.sessions.Session"><tt class="xref docutils literal"><span class="pre">Session</span></tt></a>.</li>
-<li><em>renew_missing</em> &#8211; set to <cite>True</cite> if you want the store to
+<li><strong>session_class</strong> &#8211; The session class to use.  Defaults to
+<a title="werkzeug.contrib.sessions.Session" class="reference internal" href="#werkzeug.contrib.sessions.Session"><tt class="xref py py-class docutils literal"><span class="pre">Session</span></tt></a>.</li>
+<li><strong>renew_missing</strong> &#8211; set to <cite>True</cite> if you want the store to
 give the user a new sid if the session was
 not yet saved.</li>
 </ul>
@@ -246,7 +249,7 @@ sessions.</p>
 fast as sessions managed by the application itself and will put a key into
 the WSGI environment only relevant for the application which is against
 the concept of WSGI.</p>
-<p>The cookie parameters are the same as for the <a title="werkzeug.dump_cookie" class="reference external" href="../utils.html#werkzeug.dump_cookie"><tt class="xref docutils literal"><span class="pre">dump_cookie()</span></tt></a>
+<p>The cookie parameters are the same as for the <a title="werkzeug.dump_cookie" class="reference external" href="../utils.html#werkzeug.dump_cookie"><tt class="xref py py-func docutils literal"><span class="pre">dump_cookie()</span></tt></a>
 function just prefixed with <tt class="docutils literal"><span class="pre">cookie_</span></tt>.  Additionally <cite>max_age</cite> is
 called <cite>cookie_age</cite> and not <cite>cookie_max_age</cite> because of backwards
 compatibility.</p>

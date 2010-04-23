@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Data Structures" href="datastructures.html">
     <link rel="prev" title="WSGI Helpers" href="wsgi.html">
     
@@ -55,12 +55,12 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>HTTP Utilties<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
-<p>You can import all these objects directly from <a title="" class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref docutils literal"><span class="pre">werkzeug</span></tt></a>.</p>
+<span id="http-utilties"></span><h1>HTTP Utilties<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<p>You can import all these objects directly from <a class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref py py-mod docutils literal"><span class="pre">werkzeug</span></tt></a>.</p>
 <div class="section" id="date-functions">
 <h2>Date Functions<a class="headerlink" href="#date-functions" title="Permalink to this headline">¶</a></h2>
 <p>The following functions simplify working with times in an HTTP context.
-Werkzeug uses offset-naive <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/datetime.html#datetime.datetime"><tt class="xref docutils literal"><span class="pre">datetime</span></tt></a> objects internally
+Werkzeug uses offset-naive <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/datetime.html#datetime.datetime"><tt class="xref py py-class docutils literal"><span class="pre">datetime</span></tt></a> objects internally
 that store the time in UTC.  If you&#8217;re working with timezones in your
 application make sure to replace the tzinfo attribute with a UTC timezone
 information before processing the values.</p>
@@ -70,14 +70,17 @@ information before processing the values.</p>
 <dd><p>Formats the time to ensure compatibility with Netscape&#8217;s cookie
 standard.</p>
 <p>Accepts a floating point number expressed in seconds since the epoch in, a
-datetime object or a timetuple.  All times in UTC.  The <a title="werkzeug.parse_date" class="reference internal" href="#werkzeug.parse_date"><tt class="xref docutils literal"><span class="pre">parse_date()</span></tt></a>
+datetime object or a timetuple.  All times in UTC.  The <a title="werkzeug.parse_date" class="reference internal" href="#werkzeug.parse_date"><tt class="xref py py-func docutils literal"><span class="pre">parse_date()</span></tt></a>
 function can be used to parse such a date.</p>
 <p>Outputs a string in the format <tt class="docutils literal"><span class="pre">Wdy,</span> <span class="pre">DD-Mon-YYYY</span> <span class="pre">HH:MM:SS</span> <span class="pre">GMT</span></tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>expires</em> &#8211; If provided that date is used, otherwise the current.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>expires</strong> &#8211; If provided that date is used, otherwise the current.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -88,14 +91,17 @@ function can be used to parse such a date.</p>
 <tt class="descclassname">werkzeug.</tt><tt class="descname">http_date</tt><big>(</big><em>timestamp=None</em><big>)</big><a class="headerlink" href="#werkzeug.http_date" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formats the time to match the RFC1123 date format.</p>
 <p>Accepts a floating point number expressed in seconds since the epoch in, a
-datetime object or a timetuple.  All times in UTC.  The <a title="werkzeug.parse_date" class="reference internal" href="#werkzeug.parse_date"><tt class="xref docutils literal"><span class="pre">parse_date()</span></tt></a>
+datetime object or a timetuple.  All times in UTC.  The <a title="werkzeug.parse_date" class="reference internal" href="#werkzeug.parse_date"><tt class="xref py py-func docutils literal"><span class="pre">parse_date()</span></tt></a>
 function can be used to parse such a date.</p>
 <p>Outputs a string in the format <tt class="docutils literal"><span class="pre">Wdy,</span> <span class="pre">DD</span> <span class="pre">Mon</span> <span class="pre">YYYY</span> <span class="pre">HH:MM:SS</span> <span class="pre">GMT</span></tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>timestamp</em> &#8211; If provided that date is used, otherwise the current.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>timestamp</strong> &#8211; If provided that date is used, otherwise the current.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -115,9 +121,13 @@ Sun Nov  6 08:49:37 1994       ; ANSI C&#39;s asctime() format
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>value</em> &#8211; a string with a supported date format.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; a string with a supported date format.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/datetime.html#datetime.datetime"><tt class="xref docutils literal"><span class="pre">datetime.datetime</span></tt></a> object.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/datetime.html#datetime.datetime"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a> object.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -154,7 +164,7 @@ by any of the modern webbrowsers.</p>
 <p>Normally the WSGI environment is provided by the WSGI gateway with the
 incoming data as part of it.  If you want to generate such fake-WSGI
 environments for unittesting you might want to use the
-<a title="werkzeug.create_environ" class="reference external" href="test.html#werkzeug.create_environ"><tt class="xref docutils literal"><span class="pre">create_environ()</span></tt></a> function or the <a title="werkzeug.EnvironBuilder" class="reference external" href="test.html#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a> instead.</p>
+<a title="werkzeug.create_environ" class="reference external" href="test.html#werkzeug.create_environ"><tt class="xref py py-func docutils literal"><span class="pre">create_environ()</span></tt></a> function or the <a title="werkzeug.EnvironBuilder" class="reference external" href="test.html#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a> instead.</p>
 <dl class="function">
 <dt id="werkzeug.parse_form_data">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">parse_form_data</tt><big>(</big><em>environ</em>, <em>stream_factory=None</em>, <em>charset='utf-8'</em>, <em>errors='ignore'</em>, <em>max_form_memory_size=None</em>, <em>max_content_length=None</em>, <em>cls=None</em>, <em>silent=True</em><big>)</big><a class="headerlink" href="#werkzeug.parse_form_data" title="Permalink to this definition">¶</a></dt>
@@ -178,24 +188,24 @@ malformed.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>environ</em> &#8211; the WSGI environment to be used for parsing.</li>
-<li><em>stream_factory</em> &#8211; An optional callable that returns a new read and
+<li><strong>environ</strong> &#8211; the WSGI environment to be used for parsing.</li>
+<li><strong>stream_factory</strong> &#8211; An optional callable that returns a new read and
 writeable file descriptor.  This callable works
-the same as <tt class="xref docutils literal"><span class="pre">_get_file_stream()</span></tt>.</li>
-<li><em>charset</em> &#8211; The character set for URL and url encoded form data.</li>
-<li><em>errors</em> &#8211; The encoding error behavior.</li>
-<li><em>max_form_memory_size</em> &#8211; the maximum number of bytes to be accepted for
+the same as <tt class="xref py py-meth docutils literal"><span class="pre">_get_file_stream()</span></tt>.</li>
+<li><strong>charset</strong> &#8211; The character set for URL and url encoded form data.</li>
+<li><strong>errors</strong> &#8211; The encoding error behavior.</li>
+<li><strong>max_form_memory_size</strong> &#8211; the maximum number of bytes to be accepted for
 in-memory stored form data.  If the data
 exceeds the value specified an
-<a title="werkzeug.exceptions.RequestURITooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestURITooLarge"><tt class="xref docutils literal"><span class="pre">RequestURITooLarge</span></tt></a>
+<a title="werkzeug.exceptions.RequestURITooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestURITooLarge"><tt class="xref py py-exc docutils literal"><span class="pre">RequestURITooLarge</span></tt></a>
 exception is raised.</li>
-<li><em>max_content_length</em> &#8211; If this is provided and the transmitted data
+<li><strong>max_content_length</strong> &#8211; If this is provided and the transmitted data
 is longer than this value an
-<a title="werkzeug.exceptions.RequestEntityTooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestEntityTooLarge"><tt class="xref docutils literal"><span class="pre">RequestEntityTooLarge</span></tt></a>
+<a title="werkzeug.exceptions.RequestEntityTooLarge" class="reference external" href="exceptions.html#werkzeug.exceptions.RequestEntityTooLarge"><tt class="xref py py-exc docutils literal"><span class="pre">RequestEntityTooLarge</span></tt></a>
 exception is raised.</li>
-<li><em>cls</em> &#8211; an optional dict class to use.  If this is not specified
-or <cite>None</cite> the default <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a> is used.</li>
-<li><em>silent</em> &#8211; If set to False parsing errors will not be caught.</li>
+<li><strong>cls</strong> &#8211; an optional dict class to use.  If this is not specified
+or <cite>None</cite> the default <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a> is used.</li>
+<li><strong>silent</strong> &#8211; If set to False parsing errors will not be caught.</li>
 </ul>
 </td>
 </tr>
@@ -211,7 +221,7 @@ or <cite>None</cite> the default <a title="werkzeug.MultiDict" class="reference 
 <h2>Header Parsing<a class="headerlink" href="#header-parsing" title="Permalink to this headline">¶</a></h2>
 <p>The following functions can be used to parse incoming HTTP headers.
 Because Python does not provide data structures with the semantics required
-by <span class="target" id="index-2"></span><a class="reference external" href="http://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a>, Werkzeug implements some custom data structures that are
+by <span class="target" id="index-0"></span><a class="rfc reference external" href="http://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a>, Werkzeug implements some custom data structures that are
 <cite>documented separately &lt;http-datastructures&gt;</cite>.</p>
 <dl class="function">
 <dt id="werkzeug.parse_options_header">
@@ -224,16 +234,20 @@ type and the options:</p>
 </div>
 <p>This should not be used to parse <tt class="docutils literal"><span class="pre">Cache-Control</span></tt> like headers that use
 a slightly different format.  For these headers use the
-<a title="werkzeug.parse_dict_header" class="reference internal" href="#werkzeug.parse_dict_header"><tt class="xref docutils literal"><span class="pre">parse_dict_header()</span></tt></a> function.</p>
+<a title="werkzeug.parse_dict_header" class="reference internal" href="#werkzeug.parse_dict_header"><tt class="xref py py-func docutils literal"><span class="pre">parse_dict_header()</span></tt></a> function.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>value</em> &#8211; the header to parse.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; the header to parse.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">(str, options)</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(str, options)</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -242,7 +256,7 @@ a slightly different format.  For these headers use the
 <dl class="function">
 <dt id="werkzeug.parse_set_header">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">parse_set_header</tt><big>(</big><em>value</em>, <em>on_update=None</em><big>)</big><a class="headerlink" href="#werkzeug.parse_set_header" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse a set-like header and return a <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref docutils literal"><span class="pre">HeaderSet</span></tt></a> object:</p>
+<dd><p>Parse a set-like header and return a <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref py py-class docutils literal"><span class="pre">HeaderSet</span></tt></a> object:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">hs</span> <span class="o">=</span> <span class="n">parse_set_header</span><span class="p">(</span><span class="s">&#39;token, &quot;quoted value&quot;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -256,20 +270,20 @@ and keeps the order of the items:</p>
 <span class="go">HeaderSet([&#39;token&#39;, &#39;quoted value&#39;])</span>
 </pre></div>
 </div>
-<p>To create a header from the <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref docutils literal"><span class="pre">HeaderSet</span></tt></a> again, use the
-<a title="werkzeug.dump_header" class="reference internal" href="#werkzeug.dump_header"><tt class="xref docutils literal"><span class="pre">dump_header()</span></tt></a> function.</p>
+<p>To create a header from the <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref py py-class docutils literal"><span class="pre">HeaderSet</span></tt></a> again, use the
+<a title="werkzeug.dump_header" class="reference internal" href="#werkzeug.dump_header"><tt class="xref py py-func docutils literal"><span class="pre">dump_header()</span></tt></a> function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>value</em> &#8211; a set header to be parsed.</li>
-<li><em>on_update</em> &#8211; an optional callable that is called every time a
-value on the <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref docutils literal"><span class="pre">HeaderSet</span></tt></a> object is changed.</li>
+<li><strong>value</strong> &#8211; a set header to be parsed.</li>
+<li><strong>on_update</strong> &#8211; an optional callable that is called every time a
+value on the <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref py py-class docutils literal"><span class="pre">HeaderSet</span></tt></a> object is changed.</li>
 </ul>
 </td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref docutils literal"><span class="pre">HeaderSet</span></tt></a></p>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="werkzeug.HeaderSet" class="reference external" href="datastructures.html#werkzeug.HeaderSet"><tt class="xref py py-class docutils literal"><span class="pre">HeaderSet</span></tt></a></p>
 </td>
 </tr>
 </tbody>
@@ -284,22 +298,26 @@ value on the <a title="werkzeug.HeaderSet" class="reference external" href="data
 the list may include quoted-strings.  A quoted-string could
 contain a comma.  A non-quoted string could have quotes in the
 middle.  Quotes are removed automatically after parsing.</p>
-<p>It basically works like <a title="werkzeug.parse_set_header" class="reference internal" href="#werkzeug.parse_set_header"><tt class="xref docutils literal"><span class="pre">parse_set_header()</span></tt></a> just that items
+<p>It basically works like <a title="werkzeug.parse_set_header" class="reference internal" href="#werkzeug.parse_set_header"><tt class="xref py py-func docutils literal"><span class="pre">parse_set_header()</span></tt></a> just that items
 may appear multiple times and case sensitivity is preserved.</p>
-<p>The return value is a standard <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#list"><tt class="xref docutils literal"><span class="pre">list</span></tt></a>:</p>
+<p>The return value is a standard <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_list_header</span><span class="p">(</span><span class="s">&#39;token, &quot;quoted value&quot;&#39;</span><span class="p">)</span>
 <span class="go">[&#39;token&#39;, &#39;quoted value&#39;]</span>
 </pre></div>
 </div>
-<p>To create a header from the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#list"><tt class="xref docutils literal"><span class="pre">list</span></tt></a> again, use the
-<a title="werkzeug.dump_header" class="reference internal" href="#werkzeug.dump_header"><tt class="xref docutils literal"><span class="pre">dump_header()</span></tt></a> function.</p>
+<p>To create a header from the <tt class="xref py py-class docutils literal"><span class="pre">list</span></tt> again, use the
+<a title="werkzeug.dump_header" class="reference internal" href="#werkzeug.dump_header"><tt class="xref py py-func docutils literal"><span class="pre">dump_header()</span></tt></a> function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>value</em> &#8211; a string with a list header.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; a string with a list header.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#list"><tt class="xref docutils literal"><span class="pre">list</span></tt></a></td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">&lt;pending_xref py:class py:module=&#8221;werkzeug&#8221; refdoc=&#8221;http&#8221; refdomain=&#8221;py&#8221; refexplicit=&#8221;False&#8221; reftarget=&#8221;list&#8221; reftype=&#8221;class&#8221;&gt;&lt;literal classes=&#8221;xref py py-class&#8221;&gt;list&lt;/literal&gt;&lt;/pending_xref&gt;</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -322,15 +340,19 @@ convert them into a python dict:</p>
 <span class="go">{&#39;key_without_value&#39;: None}</span>
 </pre></div>
 </div>
-<p>To create a header from the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref docutils literal"><span class="pre">dict</span></tt></a> again, use the
-<a title="werkzeug.dump_header" class="reference internal" href="#werkzeug.dump_header"><tt class="xref docutils literal"><span class="pre">dump_header()</span></tt></a> function.</p>
+<p>To create a header from the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></a> again, use the
+<a title="werkzeug.dump_header" class="reference internal" href="#werkzeug.dump_header"><tt class="xref py py-func docutils literal"><span class="pre">dump_header()</span></tt></a> function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>value</em> &#8211; a string with a dict header.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; a string with a dict header.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref docutils literal"><span class="pre">dict</span></tt></a></td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">&lt;pending_xref py:class py:module=&#8221;werkzeug&#8221; refdoc=&#8221;http&#8221; refdomain=&#8221;py&#8221; refexplicit=&#8221;False&#8221; reftarget=&#8221;dict&#8221; reftype=&#8221;class&#8221;&gt;&lt;literal classes=&#8221;xref py py-class&#8221;&gt;dict&lt;/literal&gt;&lt;/pending_xref&gt;</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -342,18 +364,18 @@ convert them into a python dict:</p>
 <dd><p>Parses an HTTP Accept-* header.  This does not implement a complete
 valid algorithm but one that supports at least value and quality
 extraction.</p>
-<p>Returns a new <a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref docutils literal"><span class="pre">Accept</span></tt></a> object (basically a list of <tt class="docutils literal"><span class="pre">(value,</span> <span class="pre">quality)</span></tt>
+<p>Returns a new <a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref py py-class docutils literal"><span class="pre">Accept</span></tt></a> object (basically a list of <tt class="docutils literal"><span class="pre">(value,</span> <span class="pre">quality)</span></tt>
 tuples sorted by the quality with some additional accessor methods).</p>
-<p>The second parameter can be a subclass of <a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref docutils literal"><span class="pre">Accept</span></tt></a> that is created
+<p>The second parameter can be a subclass of <a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref py py-class docutils literal"><span class="pre">Accept</span></tt></a> that is created
 with the parsed values and returned.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>value</em> &#8211; the accept header string to be parsed.</li>
-<li><em>cls</em> &#8211; the wrapper class for the return value (can be
-<a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref docutils literal"><span class="pre">Accept</span></tt></a> or a subclass thereof)</li>
+<li><strong>value</strong> &#8211; the accept header string to be parsed.</li>
+<li><strong>cls</strong> &#8211; the wrapper class for the return value (can be
+<a title="werkzeug.Accept" class="reference external" href="datastructures.html#werkzeug.Accept"><tt class="xref py py-class docutils literal"><span class="pre">Accept</span></tt></a> or a subclass thereof)</li>
 </ul>
 </td>
 </tr>
@@ -372,17 +394,17 @@ request cache control, this method does not.  It&#8217;s your responsibility
 to not use the wrong control statements.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5: </span>The <cite>cls</cite> was added.  If not specified an immutable
-<a title="werkzeug.RequestCacheControl" class="reference external" href="datastructures.html#werkzeug.RequestCacheControl"><tt class="xref docutils literal"><span class="pre">RequestCacheControl</span></tt></a> is returned.</p>
+<a title="werkzeug.RequestCacheControl" class="reference external" href="datastructures.html#werkzeug.RequestCacheControl"><tt class="xref py py-class docutils literal"><span class="pre">RequestCacheControl</span></tt></a> is returned.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>value</em> &#8211; a cache control header to be parsed.</li>
-<li><em>on_update</em> &#8211; an optional callable that is called every time a
-value on the <tt class="xref docutils literal"><span class="pre">CacheControl</span></tt> object is changed.</li>
-<li><em>cls</em> &#8211; the class for the returned object.  By default
-<a title="werkzeug.RequestCacheControl" class="reference external" href="datastructures.html#werkzeug.RequestCacheControl"><tt class="xref docutils literal"><span class="pre">RequestCacheControl</span></tt></a> is used.</li>
+<li><strong>value</strong> &#8211; a cache control header to be parsed.</li>
+<li><strong>on_update</strong> &#8211; an optional callable that is called every time a
+value on the <tt class="xref py py-class docutils literal"><span class="pre">CacheControl</span></tt> object is changed.</li>
+<li><strong>cls</strong> &#8211; the class for the returned object.  By default
+<a title="werkzeug.RequestCacheControl" class="reference external" href="datastructures.html#werkzeug.RequestCacheControl"><tt class="xref py py-class docutils literal"><span class="pre">RequestCacheControl</span></tt></a> is used.</li>
 </ul>
 </td>
 </tr>
@@ -398,14 +420,18 @@ value on the <tt class="xref docutils literal"><span class="pre">CacheControl</s
 <tt class="descclassname">werkzeug.</tt><tt class="descname">parse_authorization_header</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#werkzeug.parse_authorization_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse an HTTP basic/digest authorization header transmitted by the web
 browser.  The return value is either <cite>None</cite> if the header was invalid or
-not given, otherwise an <a title="werkzeug.Authorization" class="reference external" href="datastructures.html#werkzeug.Authorization"><tt class="xref docutils literal"><span class="pre">Authorization</span></tt></a> object.</p>
+not given, otherwise an <a title="werkzeug.Authorization" class="reference external" href="datastructures.html#werkzeug.Authorization"><tt class="xref py py-class docutils literal"><span class="pre">Authorization</span></tt></a> object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>value</em> &#8211; the authorization header to parse.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; the authorization header to parse.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a <a title="werkzeug.Authorization" class="reference external" href="datastructures.html#werkzeug.Authorization"><tt class="xref docutils literal"><span class="pre">Authorization</span></tt></a> object or <cite>None</cite>.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="werkzeug.Authorization" class="reference external" href="datastructures.html#werkzeug.Authorization"><tt class="xref py py-class docutils literal"><span class="pre">Authorization</span></tt></a> object or <cite>None</cite>.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -414,20 +440,20 @@ not given, otherwise an <a title="werkzeug.Authorization" class="reference exter
 <dl class="function">
 <dt id="werkzeug.parse_www_authenticate_header">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">parse_www_authenticate_header</tt><big>(</big><em>value</em>, <em>on_update=None</em><big>)</big><a class="headerlink" href="#werkzeug.parse_www_authenticate_header" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse an HTTP WWW-Authenticate header into a <a title="werkzeug.WWWAuthenticate" class="reference external" href="datastructures.html#werkzeug.WWWAuthenticate"><tt class="xref docutils literal"><span class="pre">WWWAuthenticate</span></tt></a>
+<dd><p>Parse an HTTP WWW-Authenticate header into a <a title="werkzeug.WWWAuthenticate" class="reference external" href="datastructures.html#werkzeug.WWWAuthenticate"><tt class="xref py py-class docutils literal"><span class="pre">WWWAuthenticate</span></tt></a>
 object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>value</em> &#8211; a WWW-Authenticate header to parse.</li>
-<li><em>on_update</em> &#8211; an optional callable that is called every time a
-value on the <a title="werkzeug.WWWAuthenticate" class="reference external" href="datastructures.html#werkzeug.WWWAuthenticate"><tt class="xref docutils literal"><span class="pre">WWWAuthenticate</span></tt></a> object is changed.</li>
+<li><strong>value</strong> &#8211; a WWW-Authenticate header to parse.</li>
+<li><strong>on_update</strong> &#8211; an optional callable that is called every time a
+value on the <a title="werkzeug.WWWAuthenticate" class="reference external" href="datastructures.html#werkzeug.WWWAuthenticate"><tt class="xref py py-class docutils literal"><span class="pre">WWWAuthenticate</span></tt></a> object is changed.</li>
 </ul>
 </td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="werkzeug.WWWAuthenticate" class="reference external" href="datastructures.html#werkzeug.WWWAuthenticate"><tt class="xref docutils literal"><span class="pre">WWWAuthenticate</span></tt></a> object.</p>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="werkzeug.WWWAuthenticate" class="reference external" href="datastructures.html#werkzeug.WWWAuthenticate"><tt class="xref py py-class docutils literal"><span class="pre">WWWAuthenticate</span></tt></a> object.</p>
 </td>
 </tr>
 </tbody>
@@ -452,9 +478,13 @@ strings from the parsed data.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>header</em> &#8211; the header to test.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>header</strong> &#8211; the header to test.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><cite>True</cite> if it&#8217;s an entity header, <cite>False</cite> otherwise.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">&lt;title_reference&gt;True&lt;/title_reference&gt; if it&#8217;s an entity header, <cite>False</cite> otherwise.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -470,9 +500,13 @@ strings from the parsed data.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>header</em> &#8211; the header to test.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>header</strong> &#8211; the header to test.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><cite>True</cite> if it&#8217;s an entity header, <cite>False</cite> otherwise.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">&lt;title_reference&gt;True&lt;/title_reference&gt; if it&#8217;s an entity header, <cite>False</cite> otherwise.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -481,9 +515,9 @@ strings from the parsed data.</p>
 <dl class="function">
 <dt id="werkzeug.remove_entity_headers">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">remove_entity_headers</tt><big>(</big><em>headers</em>, <em>allowed=('expires'</em>, <em>'content-location')</em><big>)</big><a class="headerlink" href="#werkzeug.remove_entity_headers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove all entity headers from a list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object.  This
+<dd><p>Remove all entity headers from a list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object.  This
 operation works in-place.  <cite>Expires</cite> and <cite>Content-Location</cite> headers are
-by default not removed.  The reason for this is <span class="target" id="index-3"></span><a class="reference external" href="http://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a> section
+by default not removed.  The reason for this is <span class="target" id="index-1"></span><a class="rfc reference external" href="http://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a> section
 10.3.5 which specifies some entity headers that should be sent.</p>
 <p class="versionchanged">
 <span class="versionmodified">Changed in version 0.5: </span>added <cite>allowed</cite> parameter.</p>
@@ -492,8 +526,8 @@ by default not removed.  The reason for this is <span class="target" id="index-3
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>headers</em> &#8211; a list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object.</li>
-<li><em>allowed</em> &#8211; a list of headers that should still be allowed even though
+<li><strong>headers</strong> &#8211; a list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object.</li>
+<li><strong>allowed</strong> &#8211; a list of headers that should still be allowed even though
 they are entity headers.</li>
 </ul>
 </td>
@@ -506,14 +540,17 @@ they are entity headers.</li>
 <dt id="werkzeug.remove_hop_by_hop_headers">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">remove_hop_by_hop_headers</tt><big>(</big><em>headers</em><big>)</big><a class="headerlink" href="#werkzeug.remove_hop_by_hop_headers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all HTTP/1.1 &#8220;Hop-by-Hop&#8221; headers from a list or
-<a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object.  This operation works in-place.</p>
+<a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object.  This operation works in-place.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>headers</em> &#8211; a list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>headers</strong> &#8211; a list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -530,9 +567,9 @@ they are entity headers.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>value</em> &#8211; the value to quote.</li>
-<li><em>extra_chars</em> &#8211; a list of extra characters to skip quoting.</li>
-<li><em>allow_token</em> &#8211; if this is enabled token values are returned
+<li><strong>value</strong> &#8211; the value to quote.</li>
+<li><strong>extra_chars</strong> &#8211; a list of extra characters to skip quoting.</li>
+<li><strong>allow_token</strong> &#8211; if this is enabled token values are returned
 unchanged.</li>
 </ul>
 </td>
@@ -544,7 +581,7 @@ unchanged.</li>
 <dl class="function">
 <dt id="werkzeug.unquote_header_value">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">unquote_header_value</tt><big>(</big><em>value</em>, <em>is_filename=False</em><big>)</big><a class="headerlink" href="#werkzeug.unquote_header_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unquotes a header value.  (Reversal of <a title="werkzeug.quote_header_value" class="reference internal" href="#werkzeug.quote_header_value"><tt class="xref docutils literal"><span class="pre">quote_header_value()</span></tt></a>).
+<dd><p>Unquotes a header value.  (Reversal of <a title="werkzeug.quote_header_value" class="reference internal" href="#werkzeug.quote_header_value"><tt class="xref py py-func docutils literal"><span class="pre">quote_header_value()</span></tt></a>).
 This does not use the real unquoting but what browsers are actually
 using for quoting.</p>
 <p class="versionadded">
@@ -553,7 +590,10 @@ using for quoting.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>value</em> &#8211; the header value to unquote.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>value</strong> &#8211; the header value to unquote.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -563,8 +603,8 @@ using for quoting.</p>
 <dt id="werkzeug.dump_header">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">dump_header</tt><big>(</big><em>iterable</em>, <em>allow_token=True</em><big>)</big><a class="headerlink" href="#werkzeug.dump_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dump an HTTP header again.  This is the reversal of
-<a title="werkzeug.parse_list_header" class="reference internal" href="#werkzeug.parse_list_header"><tt class="xref docutils literal"><span class="pre">parse_list_header()</span></tt></a>, <a title="werkzeug.parse_set_header" class="reference internal" href="#werkzeug.parse_set_header"><tt class="xref docutils literal"><span class="pre">parse_set_header()</span></tt></a> and
-<a title="werkzeug.parse_dict_header" class="reference internal" href="#werkzeug.parse_dict_header"><tt class="xref docutils literal"><span class="pre">parse_dict_header()</span></tt></a>.  This also quotes strings that include an
+<a title="werkzeug.parse_list_header" class="reference internal" href="#werkzeug.parse_list_header"><tt class="xref py py-func docutils literal"><span class="pre">parse_list_header()</span></tt></a>, <a title="werkzeug.parse_set_header" class="reference internal" href="#werkzeug.parse_set_header"><tt class="xref py py-func docutils literal"><span class="pre">parse_set_header()</span></tt></a> and
+<a title="werkzeug.parse_dict_header" class="reference internal" href="#werkzeug.parse_dict_header"><tt class="xref py py-func docutils literal"><span class="pre">parse_dict_header()</span></tt></a>.  This also quotes strings that include an
 equals sign unless you pass it as dict of key, value pairs.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dump_header</span><span class="p">({</span><span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;bar baz&#39;</span><span class="p">})</span>
 <span class="go">&#39;foo=&quot;bar baz&quot;&#39;</span>
@@ -577,9 +617,9 @@ equals sign unless you pass it as dict of key, value pairs.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>iterable</em> &#8211; the iterable or dict of values to quote.</li>
-<li><em>allow_token</em> &#8211; if set to <cite>False</cite> tokens as values are disallowed.
-See <a title="werkzeug.quote_header_value" class="reference internal" href="#werkzeug.quote_header_value"><tt class="xref docutils literal"><span class="pre">quote_header_value()</span></tt></a> for more details.</li>
+<li><strong>iterable</strong> &#8211; the iterable or dict of values to quote.</li>
+<li><strong>allow_token</strong> &#8211; if set to <cite>False</cite> tokens as values are disallowed.
+See <a title="werkzeug.quote_header_value" class="reference internal" href="#werkzeug.quote_header_value"><tt class="xref py py-func docutils literal"><span class="pre">quote_header_value()</span></tt></a> for more details.</li>
 </ul>
 </td>
 </tr>
@@ -599,9 +639,13 @@ See <a title="werkzeug.quote_header_value" class="reference internal" href="#wer
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>value</em> &#8211; the tag header to parse</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> &#8211; the tag header to parse</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">an <a title="werkzeug.ETags" class="reference external" href="datastructures.html#werkzeug.ETags"><tt class="xref docutils literal"><span class="pre">ETags</span></tt></a> object.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an <a title="werkzeug.ETags" class="reference external" href="datastructures.html#werkzeug.ETags"><tt class="xref py py-class docutils literal"><span class="pre">ETags</span></tt></a> object.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -616,8 +660,8 @@ See <a title="werkzeug.quote_header_value" class="reference internal" href="#wer
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>etag</em> &#8211; the etag to quote.</li>
-<li><em>weak</em> &#8211; set to <cite>True</cite> to tag it &#8220;weak&#8221;.</li>
+<li><strong>etag</strong> &#8211; the etag to quote.</li>
+<li><strong>weak</strong> &#8211; set to <cite>True</cite> to tag it &#8220;weak&#8221;.</li>
 </ul>
 </td>
 </tr>
@@ -639,9 +683,13 @@ See <a title="werkzeug.quote_header_value" class="reference internal" href="#wer
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>etag</em> &#8211; the etag identifier to unquote.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>etag</strong> &#8211; the etag identifier to unquote.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="docutils literal"><span class="pre">(etag,</span> <span class="pre">weak)</span></tt> tuple.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <tt class="docutils literal"><span class="pre">(etag,</span> <span class="pre">weak)</span></tt> tuple.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -661,15 +709,15 @@ See <a title="werkzeug.quote_header_value" class="reference internal" href="#wer
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>environ</em> &#8211; the WSGI environment of the request to be checked.</li>
-<li><em>etag</em> &#8211; the etag for the response for comparison.</li>
-<li><em>data</em> &#8211; or alternatively the data of the response to automatically
-generate an etag using <a title="werkzeug.generate_etag" class="reference internal" href="#werkzeug.generate_etag"><tt class="xref docutils literal"><span class="pre">generate_etag()</span></tt></a>.</li>
-<li><em>last_modified</em> &#8211; an optional date of the last modification.</li>
+<li><strong>environ</strong> &#8211; the WSGI environment of the request to be checked.</li>
+<li><strong>etag</strong> &#8211; the etag for the response for comparison.</li>
+<li><strong>data</strong> &#8211; or alternatively the data of the response to automatically
+generate an etag using <a title="werkzeug.generate_etag" class="reference internal" href="#werkzeug.generate_etag"><tt class="xref py py-func docutils literal"><span class="pre">generate_etag()</span></tt></a>.</li>
+<li><strong>last_modified</strong> &#8211; an optional date of the last modification.</li>
 </ul>
 </td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><cite>True</cite> if the resource was modified, otherwise <cite>False</cite>.</p>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">&lt;title_reference&gt;True&lt;/title_reference&gt; if the resource was modified, otherwise <cite>False</cite>.</p>
 </td>
 </tr>
 </tbody>

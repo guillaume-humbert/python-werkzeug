@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Iter IO" href="iterio.html">
     <link rel="prev" title="Cache" href="cache.html">
@@ -41,7 +41,7 @@
       <div class="body">
         
   <div class="section" id="module-werkzeug.contrib.wrappers">
-<h1>Extra Wrappers<a class="headerlink" href="#module-werkzeug.contrib.wrappers" title="Permalink to this headline">¶</a></h1>
+<span id="extra-wrappers"></span><h1>Extra Wrappers<a class="headerlink" href="#module-werkzeug.contrib.wrappers" title="Permalink to this headline">¶</a></h1>
 <p>Extra wrappers or mixins contributed by the community.  These wrappers can
 be mixed in into request objects to add extra functionality.</p>
 <p>Example:</p>
@@ -53,13 +53,13 @@ be mixed in into request objects to add extra functionality.</p>
 </pre></div>
 </div>
 <p>Afterwards this request object provides the extra functionality of the
-<a title="werkzeug.contrib.wrappers.JSONRequestMixin" class="reference internal" href="#werkzeug.contrib.wrappers.JSONRequestMixin"><tt class="xref docutils literal"><span class="pre">JSONRequestMixin</span></tt></a>.</p>
+<a title="werkzeug.contrib.wrappers.JSONRequestMixin" class="reference internal" href="#werkzeug.contrib.wrappers.JSONRequestMixin"><tt class="xref py py-class docutils literal"><span class="pre">JSONRequestMixin</span></tt></a>.</p>
 <dl class="class">
 <dt id="werkzeug.contrib.wrappers.JSONRequestMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.contrib.wrappers.</tt><tt class="descname">JSONRequestMixin</tt><a class="headerlink" href="#werkzeug.contrib.wrappers.JSONRequestMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add json method to a request object.  This will parse the input data
 through simplejson if possible.</p>
-<p><a title="werkzeug.exceptions.BadRequest" class="reference external" href="../exceptions.html#werkzeug.exceptions.BadRequest"><tt class="xref docutils literal"><span class="pre">BadRequest</span></tt></a> will be raised if the content-type
+<p><a title="werkzeug.exceptions.BadRequest" class="reference external" href="../exceptions.html#werkzeug.exceptions.BadRequest"><tt class="xref py py-exc docutils literal"><span class="pre">BadRequest</span></tt></a> will be raised if the content-type
 is not json or if the data itself cannot be parsed as json.</p>
 <dl class="attribute">
 <dt id="werkzeug.contrib.wrappers.JSONRequestMixin.json">
@@ -73,7 +73,7 @@ is not json or if the data itself cannot be parsed as json.</p>
 <em class="property">class </em><tt class="descclassname">werkzeug.contrib.wrappers.</tt><tt class="descname">ProtobufRequestMixin</tt><a class="headerlink" href="#werkzeug.contrib.wrappers.ProtobufRequestMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add protobuf parsing method to a request object.  This will parse the
 input data through <a class="reference external" href="http://code.google.com/p/protobuf/">protobuf</a> if possible.</p>
-<p><a title="werkzeug.exceptions.BadRequest" class="reference external" href="../exceptions.html#werkzeug.exceptions.BadRequest"><tt class="xref docutils literal"><span class="pre">BadRequest</span></tt></a> will be raised if the content-type
+<p><a title="werkzeug.exceptions.BadRequest" class="reference external" href="../exceptions.html#werkzeug.exceptions.BadRequest"><tt class="xref py py-exc docutils literal"><span class="pre">BadRequest</span></tt></a> will be raised if the content-type
 is not protobuf or if the data itself cannot be parsed property.</p>
 <dl class="method">
 <dt id="werkzeug.contrib.wrappers.ProtobufRequestMixin.parse_protobuf">
@@ -83,8 +83,8 @@ is not protobuf or if the data itself cannot be parsed property.</p>
 <dl class="attribute">
 <dt id="werkzeug.contrib.wrappers.ProtobufRequestMixin.protobuf_check_initialization">
 <tt class="descname">protobuf_check_initialization</tt><a class="headerlink" href="#werkzeug.contrib.wrappers.ProtobufRequestMixin.protobuf_check_initialization" title="Permalink to this definition">¶</a></dt>
-<dd>by default the <a title="werkzeug.contrib.wrappers.ProtobufRequestMixin" class="reference internal" href="#werkzeug.contrib.wrappers.ProtobufRequestMixin"><tt class="xref docutils literal"><span class="pre">ProtobufRequestMixin</span></tt></a> will raise a
-<a title="werkzeug.exceptions.BadRequest" class="reference external" href="../exceptions.html#werkzeug.exceptions.BadRequest"><tt class="xref docutils literal"><span class="pre">BadRequest</span></tt></a> if the object is not
+<dd>by default the <a title="werkzeug.contrib.wrappers.ProtobufRequestMixin" class="reference internal" href="#werkzeug.contrib.wrappers.ProtobufRequestMixin"><tt class="xref py py-class docutils literal"><span class="pre">ProtobufRequestMixin</span></tt></a> will raise a
+<a title="werkzeug.exceptions.BadRequest" class="reference external" href="../exceptions.html#werkzeug.exceptions.BadRequest"><tt class="xref py py-exc docutils literal"><span class="pre">BadRequest</span></tt></a> if the object is not
 initialized.  You can bypass that check by setting this
 attribute to <cite>False</cite>.</dd></dl>
 
@@ -110,10 +110,10 @@ attribute to <cite>False</cite>.</dd></dl>
 <dl class="class">
 <dt id="werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin">
 <em class="property">class </em><tt class="descclassname">werkzeug.contrib.wrappers.</tt><tt class="descname">ReverseSlashBehaviorRequestMixin</tt><a class="headerlink" href="#werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>This mixin reverses the trailing slash behavior of <a title="werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.script_root" class="reference internal" href="#werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.script_root"><tt class="xref docutils literal"><span class="pre">script_root</span></tt></a>
-and <a title="werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.path" class="reference internal" href="#werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.path"><tt class="xref docutils literal"><span class="pre">path</span></tt></a>.  This makes it possible to use <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/urlparse.html#urlparse.urljoin"><tt class="xref docutils literal"><span class="pre">urljoin()</span></tt></a>
+<dd><p>This mixin reverses the trailing slash behavior of <a title="werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.script_root" class="reference internal" href="#werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.script_root"><tt class="xref py py-attr docutils literal"><span class="pre">script_root</span></tt></a>
+and <a title="werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.path" class="reference internal" href="#werkzeug.contrib.wrappers.ReverseSlashBehaviorRequestMixin.path"><tt class="xref py py-attr docutils literal"><span class="pre">path</span></tt></a>.  This makes it possible to use <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/urlparse.html#urlparse.urljoin"><tt class="xref py py-func docutils literal"><span class="pre">urljoin()</span></tt></a>
 directly on the paths.</p>
-<p>Because it changes the behavior or <tt class="xref docutils literal"><span class="pre">Request</span></tt> this class has to be
+<p>Because it changes the behavior or <tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt> this class has to be
 mixed in <em>before</em> the actual request class:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyRequest</span><span class="p">(</span><span class="n">ReverseSlashBehaviorRequestMixin</span><span class="p">,</span> <span class="n">Request</span><span class="p">):</span>
     <span class="k">pass</span>
@@ -165,7 +165,7 @@ info in the WSGI environment but will not include a leading slash.</dd></dl>
 <dd><p>&#8220;If this mixin is mixed into a request class it will provide
 a dynamic <cite>charset</cite> attribute.  This means that if the charset is
 transmitted in the content type headers it&#8217;s used from there.</p>
-<p>Because it changes the behavior or <tt class="xref docutils literal"><span class="pre">Request</span></tt> this class has
+<p>Because it changes the behavior or <tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt> this class has
 to be mixed in <em>before</em> the actual request class:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyRequest</span><span class="p">(</span><span class="n">DynamicCharsetRequestMixin</span><span class="p">,</span> <span class="n">Request</span><span class="p">):</span>
     <span class="k">pass</span>
@@ -208,9 +208,13 @@ change the behavior.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>charset</em> &#8211; the charset that was not found.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>charset</strong> &#8211; the charset that was not found.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the replacement charset.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the replacement charset.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -229,7 +233,7 @@ can be useful if you&#8217;re working with different charsets on
 responses.</p>
 <p>Because the charset attribute is no a property at class-level, the
 default value is stored in <cite>default_charset</cite>.</p>
-<p>Because it changes the behavior or <tt class="xref docutils literal"><span class="pre">Response</span></tt> this class has
+<p>Because it changes the behavior or <tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt> this class has
 to be mixed in <em>before</em> the actual response class:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyResponse</span><span class="p">(</span><span class="n">DynamicCharsetResponseMixin</span><span class="p">,</span> <span class="n">Response</span><span class="p">):</span>
     <span class="k">pass</span>

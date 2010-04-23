@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="../index.html">
     <link rel="up" title="Application Deployment" href="index.html">
     <link rel="next" title="mod_wsgi (Apache)" href="mod_wsgi.html">
     <link rel="prev" title="Application Deployment" href="index.html">
@@ -54,7 +54,7 @@
   <div class="section" id="cgi">
 <h1>CGI<a class="headerlink" href="#cgi" title="Permalink to this headline">¶</a></h1>
 <p>If all other deployment methods do not work, CGI will work for sure.  CGI
-is supported by all major browsers but usually has a less-than-optimal
+is supported by all major servers but usually has a less-than-optimal
 performance.</p>
 <p>This is also the way you can use a Werkzeug application on Google&#8217;s
 <a class="reference external" href="http://code.google.com/appengine/">AppEngine</a>, there however the execution does happen in a CGI-like
@@ -71,7 +71,7 @@ environment.  The application&#8217;s performance is unaffected because of that.
 <span class="n">CGIHandler</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If you&#8217;re running Python 2.4 you will need the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/wsgiref.html#module-wsgiref"><tt class="xref docutils literal"><span class="pre">wsgiref</span></tt></a> package.  Python
+<p>If you&#8217;re running Python 2.4 you will need the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/wsgiref.html#module-wsgiref"><tt class="xref py py-mod docutils literal"><span class="pre">wsgiref</span></tt></a> package.  Python
 2.5 and higher ship this as part of the standard library.</p>
 </div>
 <div class="section" id="server-setup">
@@ -80,7 +80,7 @@ environment.  The application&#8217;s performance is unaffected because of that.
 <cite>.cgi</cite> into a <cite>cgi-bin</cite> (and use <cite>mod_rerwite</cite> or something similar to
 rewrite the URL) or let the server point to the file directly.</p>
 <p>In Apache for example you can put a like like this into the config:</p>
-<div class="highlight-apache"><div class="highlight"><pre><span class="nb">ScriptName</span> <span class="sx">/app</span> <span class="sx">/path/to/the/application.cgi</span>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">ScriptAlias</span> <span class="sx">/app</span> <span class="sx">/path/to/the/application.cgi</span>
 </pre></div>
 </div>
 <p>For more information consult the documentation of your webserver.</p>

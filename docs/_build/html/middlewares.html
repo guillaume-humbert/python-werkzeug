@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="HTTP Exceptions" href="exceptions.html">
     <link rel="prev" title="Context Locals" href="local.html">
     
@@ -40,10 +40,10 @@
       <div class="body">
         
   <div class="section" id="module-werkzeug">
-<h1>Middlewares<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="middlewares"></span><h1>Middlewares<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>Middlewares wrap applications to dispatch between then or provide
 additional request handling.  Additionally to the middlewares documented
-here, there is also the <a title="werkzeug.DebuggedApplication" class="reference external" href="debug.html#werkzeug.DebuggedApplication"><tt class="xref docutils literal"><span class="pre">DebuggedApplication</span></tt></a> class that is
+here, there is also the <a title="werkzeug.DebuggedApplication" class="reference external" href="debug.html#werkzeug.DebuggedApplication"><tt class="xref py py-class docutils literal"><span class="pre">DebuggedApplication</span></tt></a> class that is
 implemented as a WSGI middleware.</p>
 <dl class="class">
 <dt id="werkzeug.SharedDataMiddleware">
@@ -73,7 +73,7 @@ files from package data:</p>
 </div>
 <p>This will then serve the <tt class="docutils literal"><span class="pre">shared_files</span></tt> folder in the <cite>myapplication</cite>
 Python package.</p>
-<p>The optional <cite>disallow</cite> parameter can be a list of <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/fnmatch.html#fnmatch.fnmatch"><tt class="xref docutils literal"><span class="pre">fnmatch()</span></tt></a>
+<p>The optional <cite>disallow</cite> parameter can be a list of <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/fnmatch.html#fnmatch.fnmatch"><tt class="xref py py-func docutils literal"><span class="pre">fnmatch()</span></tt></a>
 rules for files that are not accessible from the web.  If <cite>cache</cite> is set to
 <cite>False</cite> no caching headers are sent.</p>
 <p>Currently the middleware does not support non ASCII filenames.  If the
@@ -92,12 +92,12 @@ to <cite>fallback_mimetype</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>app</em> &#8211; the application to wrap.  If you don&#8217;t want to wrap an
-application you can pass it <tt class="xref docutils literal"><span class="pre">NotFound</span></tt>.</li>
-<li><em>exports</em> &#8211; a dict of exported files and folders.</li>
-<li><em>diallow</em> &#8211; a list of <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/fnmatch.html#fnmatch.fnmatch"><tt class="xref docutils literal"><span class="pre">fnmatch()</span></tt></a> rules.</li>
-<li><em>fallback_mimetype</em> &#8211; the fallback mimetype for unknown files.</li>
-<li><em>cache</em> &#8211; enable or disable caching headers.</li>
+<li><strong>app</strong> &#8211; the application to wrap.  If you don&#8217;t want to wrap an
+application you can pass it <tt class="xref py py-exc docutils literal"><span class="pre">NotFound</span></tt>.</li>
+<li><strong>exports</strong> &#8211; a dict of exported files and folders.</li>
+<li><strong>diallow</strong> &#8211; a list of <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/fnmatch.html#fnmatch.fnmatch"><tt class="xref py py-func docutils literal"><span class="pre">fnmatch()</span></tt></a> rules.</li>
+<li><strong>fallback_mimetype</strong> &#8211; the fallback mimetype for unknown files.</li>
+<li><strong>cache</strong> &#8211; enable or disable caching headers.</li>
 </ul>
 </td>
 </tr>

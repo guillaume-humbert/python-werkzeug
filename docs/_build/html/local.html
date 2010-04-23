@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Middlewares" href="middlewares.html">
     <link rel="prev" title="Mini Templates" href="templates.html">
     
@@ -40,7 +40,7 @@
       <div class="body">
         
   <div class="section" id="module-werkzeug">
-<h1>Context Locals<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="context-locals"></span><h1>Context Locals<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>Sooner or later you have some things you want to have in every single view
 or helper function or whatever.  In PHP the way to go are global
 variables.  However that is not possible in WSGI applications without a
@@ -103,8 +103,8 @@ This makes it possible to use locals without a manager.</p>
 <span class="go">False</span>
 </pre></div>
 </div>
-<p>With this function one can release <tt class="xref docutils literal"><span class="pre">Local</span></tt> objects as well
-as <tt class="xref docutils literal"><span class="pre">StackLocal</span></tt> objects.  However it is not possible to
+<p>With this function one can release <tt class="xref py py-class docutils literal"><span class="pre">Local</span></tt> objects as well
+as <tt class="xref py py-class docutils literal"><span class="pre">StackLocal</span></tt> objects.  However it is not possible to
 release data held by proxies that way, one always has to retain
 a reference to the underlying local object in order to be able
 to release it.</p>
@@ -120,7 +120,7 @@ manager.  You can pass a local manager multiple locals or add them later
 by appending them to <cite>manager.locals</cite>.  Everytime the manager cleans up
 it, will clean up all the data left in the locals for this context.</p>
 <p class="versionchanged">
-<span class="versionmodified">Changed in version 0.6.1: </span>Instead of a manager the <a title="werkzeug.release_local" class="reference internal" href="#werkzeug.release_local"><tt class="xref docutils literal"><span class="pre">release_local()</span></tt></a> function can be used
+<span class="versionmodified">Changed in version 0.6.1: </span>Instead of a manager the <a title="werkzeug.release_local" class="reference internal" href="#werkzeug.release_local"><tt class="xref py py-func docutils literal"><span class="pre">release_local()</span></tt></a> function can be used
 as well.</p>
 <dl class="method">
 <dt id="werkzeug.LocalManager.cleanup">
@@ -162,7 +162,7 @@ scoped sessions) to the Werkzeug locals.</dd></dl>
 <dl class="class">
 <dt id="werkzeug.LocalStack">
 <em class="property">class </em><tt class="descclassname">werkzeug.</tt><tt class="descname">LocalStack</tt><a class="headerlink" href="#werkzeug.LocalStack" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class works similar to a <tt class="xref docutils literal"><span class="pre">Local</span></tt> but keeps a stack
+<dd><p>This class works similar to a <tt class="xref py py-class docutils literal"><span class="pre">Local</span></tt> but keeps a stack
 of objects instead.  This is best explained with an example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ls</span> <span class="o">=</span> <span class="n">LocalStack</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ls</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
@@ -177,8 +177,8 @@ of objects instead.  This is best explained with an example:</p>
 <span class="go">42</span>
 </pre></div>
 </div>
-<p>They can be force released by using a <a title="werkzeug.LocalManager" class="reference internal" href="#werkzeug.LocalManager"><tt class="xref docutils literal"><span class="pre">LocalManager</span></tt></a> or with
-the <a title="werkzeug.release_local" class="reference internal" href="#werkzeug.release_local"><tt class="xref docutils literal"><span class="pre">release_local()</span></tt></a> function but the correct way is to pop the
+<p>They can be force released by using a <a title="werkzeug.LocalManager" class="reference internal" href="#werkzeug.LocalManager"><tt class="xref py py-class docutils literal"><span class="pre">LocalManager</span></tt></a> or with
+the <a title="werkzeug.release_local" class="reference internal" href="#werkzeug.release_local"><tt class="xref py py-func docutils literal"><span class="pre">release_local()</span></tt></a> function but the correct way is to pop the
 item from the stack after using.  When the stack is empty it will
 no longer be bound to the current context (and as such released).</p>
 <p>By calling the stack without arguments it returns a proxy that resolves to
@@ -227,12 +227,12 @@ are right handed operands and any kind of assignment.</p>
 </pre></div>
 </div>
 <p>Whenever something is bound to l.user / l.request the proxy objects
-will forward all operations.  If no object is bound a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.RuntimeError"><tt class="xref docutils literal"><span class="pre">RuntimeError</span></tt></a>
+will forward all operations.  If no object is bound a <tt class="xref py py-exc docutils literal"><span class="pre">RuntimeError</span></tt>
 will be raised.</p>
-<p>To create proxies to <tt class="xref docutils literal"><span class="pre">Local</span></tt> or <a title="werkzeug.LocalStack" class="reference internal" href="#werkzeug.LocalStack"><tt class="xref docutils literal"><span class="pre">LocalStack</span></tt></a> objects,
+<p>To create proxies to <tt class="xref py py-class docutils literal"><span class="pre">Local</span></tt> or <a title="werkzeug.LocalStack" class="reference internal" href="#werkzeug.LocalStack"><tt class="xref py py-class docutils literal"><span class="pre">LocalStack</span></tt></a> objects,
 call the object as shown above.  If you want to have a proxy to an
 object looked up by a function, you can (as of Werkzeug 0.6.1) pass
-a function to the <a title="werkzeug.LocalProxy" class="reference internal" href="#werkzeug.LocalProxy"><tt class="xref docutils literal"><span class="pre">LocalProxy</span></tt></a> constructor:</p>
+a function to the <a title="werkzeug.LocalProxy" class="reference internal" href="#werkzeug.LocalProxy"><tt class="xref py py-class docutils literal"><span class="pre">LocalProxy</span></tt></a> constructor:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">session</span> <span class="o">=</span> <span class="n">LocalProxy</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">get_current_request</span><span class="p">()</span><span class="o">.</span><span class="n">session</span><span class="p">)</span>
 </pre></div>
 </div>

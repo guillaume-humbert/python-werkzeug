@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Debugging Applications" href="debug.html">
     <link rel="prev" title="Serving WSGI Applications" href="serving.html">
     
@@ -52,7 +52,7 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Test Utilities<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="test-utilities"></span><h1>Test Utilities<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>Quite often you want to unittest your application or just check the output
 from an interactive python session.  In theory that is pretty simple because
 you can fake a WSGI environment and call the application with a dummy
@@ -104,7 +104,7 @@ in test functionality.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
 <p>The easiest way to interactively test applications is using the
-<a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a>.  It can create both standard WSGI environments
+<a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a>.  It can create both standard WSGI environments
 and request objects.</p>
 <p>The following example creates a WSGI environment with one uploaded file
 and a form field:</p>
@@ -127,7 +127,7 @@ further processing:</p>
 <span class="go">&#39;my file contents&#39;</span>
 </pre></div>
 </div>
-<p>The <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a> figures out the content type automatically if you
+<p>The <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a> figures out the content type automatically if you
 pass a dict to the constructor as <cite>data</cite>.  If you provide a string or an
 input stream you have to do that yourself.</p>
 <p>By default it will try to use <tt class="docutils literal"><span class="pre">application/x-www-form-urlencoded</span></tt> and only
@@ -157,63 +157,63 @@ the content type yourself:</p>
 for testing purposes.  It can be used to quickly create WSGI environments
 or request objects from arbitrary data.</p>
 <p>The signature of this class is also used in some other places as of
-Werkzeug 0.5 (<a title="werkzeug.create_environ" class="reference internal" href="#werkzeug.create_environ"><tt class="xref docutils literal"><span class="pre">create_environ()</span></tt></a>, <tt class="xref docutils literal"><span class="pre">BaseResponse.from_values()</span></tt>,
-<a title="werkzeug.Client.open" class="reference internal" href="#werkzeug.Client.open"><tt class="xref docutils literal"><span class="pre">Client.open()</span></tt></a>).  Because of this most of the functionality is
+Werkzeug 0.5 (<a title="werkzeug.create_environ" class="reference internal" href="#werkzeug.create_environ"><tt class="xref py py-func docutils literal"><span class="pre">create_environ()</span></tt></a>, <tt class="xref py py-meth docutils literal"><span class="pre">BaseResponse.from_values()</span></tt>,
+<a title="werkzeug.Client.open" class="reference internal" href="#werkzeug.Client.open"><tt class="xref py py-meth docutils literal"><span class="pre">Client.open()</span></tt></a>).  Because of this most of the functionality is
 available through the constructor alone.</p>
 <p>Files and regular form data can be manipulated independently of each
-other with the <tt class="xref docutils literal"><span class="pre">form</span></tt> and <tt class="xref docutils literal"><span class="pre">files</span></tt> attributes, but are
+other with the <tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt> and <tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt> attributes, but are
 passed with the same argument to the constructor: <cite>data</cite>.</p>
 <p><cite>data</cite> can be any of these values:</p>
 <ul class="simple">
-<li>a <cite>str</cite>: If it&#8217;s a string it is converted into a <a title="werkzeug.EnvironBuilder.input_stream" class="reference internal" href="#werkzeug.EnvironBuilder.input_stream"><tt class="xref docutils literal"><span class="pre">input_stream</span></tt></a>,
-the <a title="werkzeug.EnvironBuilder.content_length" class="reference internal" href="#werkzeug.EnvironBuilder.content_length"><tt class="xref docutils literal"><span class="pre">content_length</span></tt></a> is set and you have to provide a
-<a title="werkzeug.EnvironBuilder.content_type" class="reference internal" href="#werkzeug.EnvironBuilder.content_type"><tt class="xref docutils literal"><span class="pre">content_type</span></tt></a>.</li>
+<li>a <cite>str</cite>: If it&#8217;s a string it is converted into a <a title="werkzeug.EnvironBuilder.input_stream" class="reference internal" href="#werkzeug.EnvironBuilder.input_stream"><tt class="xref py py-attr docutils literal"><span class="pre">input_stream</span></tt></a>,
+the <a title="werkzeug.EnvironBuilder.content_length" class="reference internal" href="#werkzeug.EnvironBuilder.content_length"><tt class="xref py py-attr docutils literal"><span class="pre">content_length</span></tt></a> is set and you have to provide a
+<a title="werkzeug.EnvironBuilder.content_type" class="reference internal" href="#werkzeug.EnvironBuilder.content_type"><tt class="xref py py-attr docutils literal"><span class="pre">content_type</span></tt></a>.</li>
 <li>a <cite>dict</cite>: If it&#8217;s a dict the keys have to be strings and the values
 any of the following objects:<ul>
-<li>a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#file"><tt class="xref docutils literal"><span class="pre">file</span></tt></a>-like object.  These are converted into
-<a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref docutils literal"><span class="pre">FileStorage</span></tt></a> objects automatically.</li>
-<li>a tuple.  The <a title="werkzeug.FileMultiDict.add_file" class="reference external" href="datastructures.html#werkzeug.FileMultiDict.add_file"><tt class="xref docutils literal"><span class="pre">add_file()</span></tt></a> method is called
+<li>a <tt class="xref py py-class docutils literal"><span class="pre">file</span></tt>-like object.  These are converted into
+<a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref py py-class docutils literal"><span class="pre">FileStorage</span></tt></a> objects automatically.</li>
+<li>a tuple.  The <a title="werkzeug.FileMultiDict.add_file" class="reference external" href="datastructures.html#werkzeug.FileMultiDict.add_file"><tt class="xref py py-meth docutils literal"><span class="pre">add_file()</span></tt></a> method is called
 with the tuple items as positional arguments.</li>
 </ul>
 </li>
 </ul>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.6: </span><cite>path</cite> and <cite>base_url</cite> can now be unicode strings that are encoded using
-the <a title="werkzeug.iri_to_uri" class="reference external" href="utils.html#werkzeug.iri_to_uri"><tt class="xref docutils literal"><span class="pre">iri_to_uri()</span></tt></a> function.</p>
+the <a title="werkzeug.iri_to_uri" class="reference external" href="utils.html#werkzeug.iri_to_uri"><tt class="xref py py-func docutils literal"><span class="pre">iri_to_uri()</span></tt></a> function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>path</em> &#8211; the path of the request.  In the WSGI environment this will
+<li><strong>path</strong> &#8211; the path of the request.  In the WSGI environment this will
 end up as <cite>PATH_INFO</cite>.  If the <cite>query_string</cite> is not defined
 and there is a question mark in the <cite>path</cite> everything after
 it is used as query string.</li>
-<li><em>base_url</em> &#8211; the base URL is a URL that is used to extract the WSGI
+<li><strong>base_url</strong> &#8211; the base URL is a URL that is used to extract the WSGI
 URL scheme, host (server name + server port) and the
 script root (<cite>SCRIPT_NAME</cite>).</li>
-<li><em>query_string</em> &#8211; an optional string or dict with URL parameters.</li>
-<li><em>method</em> &#8211; the HTTP method to use, defaults to <cite>GET</cite>.</li>
-<li><em>input_stream</em> &#8211; an optional input stream.  Do not specify this and
+<li><strong>query_string</strong> &#8211; an optional string or dict with URL parameters.</li>
+<li><strong>method</strong> &#8211; the HTTP method to use, defaults to <cite>GET</cite>.</li>
+<li><strong>input_stream</strong> &#8211; an optional input stream.  Do not specify this and
 <cite>data</cite>.  As soon as an input stream is set you can&#8217;t
-modify <a title="werkzeug.EnvironBuilder.args" class="reference internal" href="#werkzeug.EnvironBuilder.args"><tt class="xref docutils literal"><span class="pre">args</span></tt></a> and <tt class="xref docutils literal"><span class="pre">files</span></tt> unless you
-set the <a title="werkzeug.EnvironBuilder.input_stream" class="reference internal" href="#werkzeug.EnvironBuilder.input_stream"><tt class="xref docutils literal"><span class="pre">input_stream</span></tt></a> to <cite>None</cite> again.</li>
-<li><em>content_type</em> &#8211; The content type for the request.  As of 0.5 you
+modify <a title="werkzeug.EnvironBuilder.args" class="reference internal" href="#werkzeug.EnvironBuilder.args"><tt class="xref py py-attr docutils literal"><span class="pre">args</span></tt></a> and <tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt> unless you
+set the <a title="werkzeug.EnvironBuilder.input_stream" class="reference internal" href="#werkzeug.EnvironBuilder.input_stream"><tt class="xref py py-attr docutils literal"><span class="pre">input_stream</span></tt></a> to <cite>None</cite> again.</li>
+<li><strong>content_type</strong> &#8211; The content type for the request.  As of 0.5 you
 don&#8217;t have to provide this when specifying files
 and form data via <cite>data</cite>.</li>
-<li><em>content_length</em> &#8211; The content length for the request.  You don&#8217;t
+<li><strong>content_length</strong> &#8211; The content length for the request.  You don&#8217;t
 have to specify this when providing data via
 <cite>data</cite>.</li>
-<li><em>errors_stream</em> &#8211; an optional error stream that is used for
-<cite>wsgi.errors</cite>.  Defaults to <tt class="xref docutils literal"><span class="pre">stderr</span></tt>.</li>
-<li><em>multithread</em> &#8211; controls <cite>wsgi.multithread</cite>.  Defaults to <cite>False</cite>.</li>
-<li><em>multiprocess</em> &#8211; controls <cite>wsgi.multiprocess</cite>.  Defaults to <cite>False</cite>.</li>
-<li><em>run_once</em> &#8211; controls <cite>wsgi.run_once</cite>.  Defaults to <cite>False</cite>.</li>
-<li><em>headers</em> &#8211; an optional list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object of headers.</li>
-<li><em>data</em> &#8211; a string or dict of form data.  See explanation above.</li>
-<li><em>environ_base</em> &#8211; an optional dict of environment defaults.</li>
-<li><em>environ_overrides</em> &#8211; an optional dict of environment overrides.</li>
-<li><em>charset</em> &#8211; the charset used to encode unicode data.</li>
+<li><strong>errors_stream</strong> &#8211; an optional error stream that is used for
+<cite>wsgi.errors</cite>.  Defaults to <tt class="xref py py-data docutils literal"><span class="pre">stderr</span></tt>.</li>
+<li><strong>multithread</strong> &#8211; controls <cite>wsgi.multithread</cite>.  Defaults to <cite>False</cite>.</li>
+<li><strong>multiprocess</strong> &#8211; controls <cite>wsgi.multiprocess</cite>.  Defaults to <cite>False</cite>.</li>
+<li><strong>run_once</strong> &#8211; controls <cite>wsgi.run_once</cite>.  Defaults to <cite>False</cite>.</li>
+<li><strong>headers</strong> &#8211; an optional list or <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object of headers.</li>
+<li><strong>data</strong> &#8211; a string or dict of form data.  See explanation above.</li>
+<li><strong>environ_base</strong> &#8211; an optional dict of environment defaults.</li>
+<li><strong>environ_overrides</strong> &#8211; an optional dict of environment overrides.</li>
+<li><strong>charset</strong> &#8211; the charset used to encode unicode data.</li>
 </ul>
 </td>
 </tr>
@@ -232,7 +232,7 @@ have to specify this when providing data via
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.headers">
 <tt class="descname">headers</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.headers" title="Permalink to this definition">¶</a></dt>
-<dd>A <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref docutils literal"><span class="pre">Headers</span></tt></a> object with the request headers.</dd></dl>
+<dd>A <a title="werkzeug.Headers" class="reference external" href="datastructures.html#werkzeug.Headers"><tt class="xref py py-class docutils literal"><span class="pre">Headers</span></tt></a> object with the request headers.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.errors_stream">
@@ -262,14 +262,14 @@ have to specify this when providing data via
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.input_stream">
 <tt class="descname">input_stream</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.input_stream" title="Permalink to this definition">¶</a></dt>
-<dd>The optional input stream.  This and <tt class="xref docutils literal"><span class="pre">form</span></tt> / <tt class="xref docutils literal"><span class="pre">files</span></tt>
+<dd>The optional input stream.  This and <tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt> / <tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt>
 is mutually exclusive.  Also do not provide this stream if the
 request method is not <cite>POST</cite> / <cite>PUT</cite> or something comparable.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.args">
 <tt class="descname">args</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.args" title="Permalink to this definition">¶</a></dt>
-<dd>The URL arguments as <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a>.</dd></dl>
+<dd>The URL arguments as <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a>.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.base_url">
@@ -281,23 +281,23 @@ script root (<cite>SCRIPT_NAME</cite>).</dd></dl>
 <dl class="method">
 <dt id="werkzeug.EnvironBuilder.close">
 <tt class="descname">close</tt><big>(</big><big>)</big><a class="headerlink" href="#werkzeug.EnvironBuilder.close" title="Permalink to this definition">¶</a></dt>
-<dd>Closes all files.  If you put real <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#file"><tt class="xref docutils literal"><span class="pre">file</span></tt></a> objects into the
-<tt class="xref docutils literal"><span class="pre">files</span></tt> dict you can call this method to automatically close
+<dd>Closes all files.  If you put real <tt class="xref py py-class docutils literal"><span class="pre">file</span></tt> objects into the
+<tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt> dict you can call this method to automatically close
 them all in one go.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.content_length">
 <tt class="descname">content_length</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.content_length" title="Permalink to this definition">¶</a></dt>
 <dd>The content length as integer.  Reflected from and to the
-<a title="werkzeug.EnvironBuilder.headers" class="reference internal" href="#werkzeug.EnvironBuilder.headers"><tt class="xref docutils literal"><span class="pre">headers</span></tt></a>.  Do not set if you set <tt class="xref docutils literal"><span class="pre">files</span></tt> or
-<tt class="xref docutils literal"><span class="pre">form</span></tt> for auto detection.</dd></dl>
+<a title="werkzeug.EnvironBuilder.headers" class="reference internal" href="#werkzeug.EnvironBuilder.headers"><tt class="xref py py-attr docutils literal"><span class="pre">headers</span></tt></a>.  Do not set if you set <tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt> or
+<tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt> for auto detection.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.content_type">
 <tt class="descname">content_type</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.content_type" title="Permalink to this definition">¶</a></dt>
 <dd>The content type for the request.  Reflected from and to the
-<a title="werkzeug.EnvironBuilder.headers" class="reference internal" href="#werkzeug.EnvironBuilder.headers"><tt class="xref docutils literal"><span class="pre">headers</span></tt></a>.  Do not set if you set <tt class="xref docutils literal"><span class="pre">files</span></tt> or
-<tt class="xref docutils literal"><span class="pre">form</span></tt> for auto detection.</dd></dl>
+<a title="werkzeug.EnvironBuilder.headers" class="reference internal" href="#werkzeug.EnvironBuilder.headers"><tt class="xref py py-attr docutils literal"><span class="pre">headers</span></tt></a>.  Do not set if you set <tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt> or
+<tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt> for auto detection.</dd></dl>
 
 <dl class="method">
 <dt id="werkzeug.EnvironBuilder.get_environ">
@@ -308,12 +308,15 @@ them all in one go.</dd></dl>
 <dt id="werkzeug.EnvironBuilder.get_request">
 <tt class="descname">get_request</tt><big>(</big><em>cls=None</em><big>)</big><a class="headerlink" href="#werkzeug.EnvironBuilder.get_request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a request with the data.  If the request class is not
-specified <a title="werkzeug.EnvironBuilder.request_class" class="reference internal" href="#werkzeug.EnvironBuilder.request_class"><tt class="xref docutils literal"><span class="pre">request_class</span></tt></a> is used.</p>
+specified <a title="werkzeug.EnvironBuilder.request_class" class="reference internal" href="#werkzeug.EnvironBuilder.request_class"><tt class="xref py py-attr docutils literal"><span class="pre">request_class</span></tt></a> is used.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>cls</em> &#8211; The request wrapper to use.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cls</strong> &#8211; The request wrapper to use.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -323,28 +326,28 @@ specified <a title="werkzeug.EnvironBuilder.request_class" class="reference inte
 <dt>
 <tt class="descname">input_stream</tt></dt>
 <dd>An optional input stream.  If you set this it will clear
-<tt class="xref docutils literal"><span class="pre">form</span></tt> and <tt class="xref docutils literal"><span class="pre">files</span></tt>.</dd></dl>
+<tt class="xref py py-attr docutils literal"><span class="pre">form</span></tt> and <tt class="xref py py-attr docutils literal"><span class="pre">files</span></tt>.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.query_string">
 <tt class="descname">query_string</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.query_string" title="Permalink to this definition">¶</a></dt>
-<dd>The query string.  If you set this to a string <a title="werkzeug.EnvironBuilder.args" class="reference internal" href="#werkzeug.EnvironBuilder.args"><tt class="xref docutils literal"><span class="pre">args</span></tt></a> will
+<dd>The query string.  If you set this to a string <a title="werkzeug.EnvironBuilder.args" class="reference internal" href="#werkzeug.EnvironBuilder.args"><tt class="xref py py-attr docutils literal"><span class="pre">args</span></tt></a> will
 no longer be available.</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.request_class">
 <tt class="descname">request_class</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.request_class" title="Permalink to this definition">¶</a></dt>
-<dd>the default request class for <a title="werkzeug.EnvironBuilder.get_request" class="reference internal" href="#werkzeug.EnvironBuilder.get_request"><tt class="xref docutils literal"><span class="pre">get_request()</span></tt></a></dd></dl>
+<dd>the default request class for <a title="werkzeug.EnvironBuilder.get_request" class="reference internal" href="#werkzeug.EnvironBuilder.get_request"><tt class="xref py py-meth docutils literal"><span class="pre">get_request()</span></tt></a></dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.server_name">
 <tt class="descname">server_name</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.server_name" title="Permalink to this definition">¶</a></dt>
-<dd>The server name (read-only, use <tt class="xref docutils literal"><span class="pre">host</span></tt> to set)</dd></dl>
+<dd>The server name (read-only, use <tt class="xref py py-attr docutils literal"><span class="pre">host</span></tt> to set)</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.server_port">
 <tt class="descname">server_port</tt><a class="headerlink" href="#werkzeug.EnvironBuilder.server_port" title="Permalink to this definition">¶</a></dt>
-<dd>The server port as integer (read-only, use <tt class="xref docutils literal"><span class="pre">host</span></tt> to set)</dd></dl>
+<dd>The server port as integer (read-only, use <tt class="xref py py-attr docutils literal"><span class="pre">host</span></tt> to set)</dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.EnvironBuilder.server_protocol">
@@ -381,9 +384,9 @@ builtin cookie support.</p>
 <dl class="method">
 <dt id="werkzeug.Client.open">
 <tt class="descname">open</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#werkzeug.Client.open" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes the same arguments as the <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a> class with
-some additions:  You can provide a <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a> or a WSGI
-environment as only argument instead of the <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a>
+<dd><p>Takes the same arguments as the <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a> class with
+some additions:  You can provide a <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a> or a WSGI
+environment as only argument instead of the <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a>
 arguments and two optional keyword arguments (<cite>as_tuple</cite>, <cite>buffered</cite>)
 that change the type of the return value or the way the application is
 executed.</p>
@@ -391,8 +394,8 @@ executed.</p>
 <span class="versionmodified">Changed in version 0.5: </span>If a dict is provided as file in the dict for the <cite>data</cite> parameter
 the content type has to be called <cite>content_type</cite> now instead of
 <cite>mimetype</cite>.  This change was made for consistency with
-<a title="werkzeug.FileWrapper" class="reference external" href="wsgi.html#werkzeug.FileWrapper"><tt class="xref docutils literal"><span class="pre">werkzeug.FileWrapper</span></tt></a>.<blockquote>
-The <cite>follow_redirects</cite> parameter was added to <a title="werkzeug.Client.open" class="reference internal" href="#werkzeug.Client.open"><tt class="xref docutils literal"><span class="pre">open()</span></tt></a>.</blockquote>
+<a title="werkzeug.FileWrapper" class="reference external" href="wsgi.html#werkzeug.FileWrapper"><tt class="xref py py-class docutils literal"><span class="pre">werkzeug.FileWrapper</span></tt></a>.<blockquote>
+The <cite>follow_redirects</cite> parameter was added to <a title="werkzeug.Client.open" class="reference internal" href="#werkzeug.Client.open"><tt class="xref py py-func docutils literal"><span class="pre">open()</span></tt></a>.</blockquote>
 </p>
 <p>Additional parameters:</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -400,11 +403,11 @@ The <cite>follow_redirects</cite> parameter was added to <a title="werkzeug.Clie
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>as_tuple</em> &#8211; Returns a tuple in the form <tt class="docutils literal"><span class="pre">(environ,</span> <span class="pre">result)</span></tt></li>
-<li><em>buffered</em> &#8211; Set this to True to buffer the application run.
+<li><strong>as_tuple</strong> &#8211; Returns a tuple in the form <tt class="docutils literal"><span class="pre">(environ,</span> <span class="pre">result)</span></tt></li>
+<li><strong>buffered</strong> &#8211; Set this to True to buffer the application run.
 This will automatically close the application for
 you as well.</li>
-<li><em>follow_redirects</em> &#8211; Set this to True if the <cite>Client</cite> should
+<li><strong>follow_redirects</strong> &#8211; Set this to True if the <cite>Client</cite> should
 follow HTTP redirects.</li>
 </ul>
 </td>
@@ -448,10 +451,10 @@ parameter should be the path of the request which defaults to &#8216;/&#8217;.  
 second one can either be an absolute path (in that case the host is
 localhost:80) or a full path to the request with scheme, netloc port and
 the path to the script.</p>
-<p>This accepts the same arguments as the <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a>
+<p>This accepts the same arguments as the <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a>
 constructor.</p>
 <p class="versionchanged">
-<span class="versionmodified">Changed in version 0.5: </span>This function is now a thin wrapper over <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref docutils literal"><span class="pre">EnvironBuilder</span></tt></a> which
+<span class="versionmodified">Changed in version 0.5: </span>This function is now a thin wrapper over <a title="werkzeug.EnvironBuilder" class="reference internal" href="#werkzeug.EnvironBuilder"><tt class="xref py py-class docutils literal"><span class="pre">EnvironBuilder</span></tt></a> which
 was added in 0.5.  The <cite>headers</cite>, <cite>environ_base</cite>, <cite>environ_overrides</cite>
 and <cite>charset</cite> parameters were added.</p>
 </dd></dl>
@@ -473,8 +476,8 @@ undefined.  Never pass non-conforming WSGI applications to this function.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>app</em> &#8211; the application to execute.</li>
-<li><em>buffered</em> &#8211; set to <cite>True</cite> to enforce buffering.</li>
+<li><strong>app</strong> &#8211; the application to execute.</li>
+<li><strong>buffered</strong> &#8211; set to <cite>True</cite> to enforce buffering.</li>
 </ul>
 </td>
 </tr>

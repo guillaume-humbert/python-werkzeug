@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Dealing with Request Data" href="request_data.html">
     <link rel="prev" title="Important Terms" href="terms.html">
     
@@ -52,9 +52,9 @@
 </div>
         </div>
         
-  <div class="section" id="module-werkzeug">
-<span id="unicode"></span><h1>Unicode<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
-<p>Since early Python 2 days unicode was part of all default Python builds.  It
+  <div class="section" id="unicode">
+<span id="id1"></span><h1>Unicode<a class="headerlink" href="#unicode" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-werkzeug"></span><p>Since early Python 2 days unicode was part of all default Python builds.  It
 allows developers to write applications that deal with non-ASCII characters
 in a straightforward way.  But working with unicode requires a basic knowledge
 about that matter, especially when working with libraries that do not support
@@ -131,8 +131,8 @@ it doesn&#8217;t understand silently.</dd>
 <dd>Raise an exception if decoding fails.</dd>
 </dl>
 <p>Unlike the regular python decoding Werkzeug does not raise an
-<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.UnicodeDecodeError"><tt class="xref docutils literal"><span class="pre">UnicodeDecodeError</span></tt></a> if the decoding failed but an
-<a title="werkzeug.exceptions.HTTPUnicodeError" class="reference external" href="exceptions.html#werkzeug.exceptions.HTTPUnicodeError"><tt class="xref docutils literal"><span class="pre">HTTPUnicodeError</span></tt></a> which
+<tt class="xref py py-exc docutils literal"><span class="pre">UnicodeDecodeError</span></tt> if the decoding failed but an
+<a title="werkzeug.exceptions.HTTPUnicodeError" class="reference external" href="exceptions.html#werkzeug.exceptions.HTTPUnicodeError"><tt class="xref py py-exc docutils literal"><span class="pre">HTTPUnicodeError</span></tt></a> which
 is a direct subclass of <cite>UnicodeError</cite> and the <cite>BadRequest</cite> HTTP exception.
 The reason is that if this exception is not caught by the application but
 a catch-all for HTTP exceptions exists a default <cite>400 BAD REQUEST</cite> error
@@ -166,7 +166,7 @@ application to utf-7 and strict error handling:</p>
 </div>
 <p>Keep in mind that the error handling is only customizable for all decoding
 but not encoding.  If Werkzeug encounters an encoding error it will raise a
-<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.UnicodeEncodeError"><tt class="xref docutils literal"><span class="pre">UnicodeEncodeError</span></tt></a>.  It&#8217;s your responsibility to not create data that is
+<tt class="xref py py-exc docutils literal"><span class="pre">UnicodeEncodeError</span></tt>.  It&#8217;s your responsibility to not create data that is
 not present in the target charset (a non issue with all unicode encodings
 such as utf-8).</p>
 </div>
