@@ -10,21 +10,16 @@
 export PYTHONPATH=$(abspath $(CURDIR))
 PKGDIR=$(CURDIR)/debian/python-werkzeug/
 
--include /usr/share/python/python.mk
-ifeq (,$(py_libdir))
-    py_libdir = /usr/lib/python$(subst python,,$(1))/site-packages
-endif
+include /usr/share/python/python.mk
 
 %:
-	dh $@
+	dh $@ --with python2
 
 override_dh_auto_install:
 	python setup.py install \
 		--single-version-externally-managed \
 		--install-layout=deb \
 		--root $(PKGDIR)
-	touch $(PKGDIR)$(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/shared/.noinit
-	touch $(PKGDIR)$(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/templates/.noinit
 	dh_link usr/share/javascript/jquery/jquery.js \
 	  $(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/shared/jquery.js
 	dh_link usr/share/javascript/jquery/jquery.js \

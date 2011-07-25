@@ -1,3 +1,15 @@
+python-werkzeug (0.7-1) UNRELEASED; urgency=low
+
+  * New upstream release
+    - no longer double quotes location header during redirects. Closes: #594172
+  * Bump minimum debhelper version to 8.1.0 (which no longer compresses
+    objects.inv files, closes: #608751)
+  * Switch from dh_pysupport to dh_python2
+  * Source format changed to 3.0 (quilt)
+  * Standards-Version bumped to 3.9.2 (no changes needed)
+
+ -- Piotr Ożarowski <piotr@debian.org>  Mon, 25 Jul 2011 11:56:30 +0200
+
 python-werkzeug (0.6.2-1) unstable; urgency=low
 
   * New upstream release
