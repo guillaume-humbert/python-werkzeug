@@ -4,6 +4,7 @@ python-werkzeug (0.8.1+dfsg-1) unstable; urgency=low
     - no longer double quotes location header during redirects. Closes: #594172
     - ubuntu.ttf removed from upstream tarball (cannot regenerate this file
       using free tools), get-orig-source target added to debian/rules
+    - compatible with ipython 0.11. Closes: 636470
   * Bump minimum debhelper version to 8.1.0 (which no longer compresses
     objects.inv files, closes: #608751)
   * Switch from dh_pysupport to dh_python2
