@@ -6,29 +6,21 @@
 # permitted in any medium without royalty provided the copyright notice and this
 # notice are preserved.
 
-#export DH_VERBOSE=1
 export PYTHONPATH=$(abspath $(CURDIR))
 PKGDIR=$(CURDIR)/debian/python-werkzeug/
 
--include /usr/share/python/python.mk
-ifeq (,$(py_libdir))
-    py_libdir = /usr/lib/python$(subst python,,$(1))/site-packages
-endif
+include /usr/share/python/python.mk
 
 %:
-	dh $@
+	dh $@ --with python2,sphinxdoc
 
 override_dh_auto_install:
 	python setup.py install \
 		--single-version-externally-managed \
 		--install-layout=deb \
 		--root $(PKGDIR)
-	touch $(PKGDIR)$(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/shared/.noinit
-	touch $(PKGDIR)$(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/templates/.noinit
 	dh_link usr/share/javascript/jquery/jquery.js \
 	  $(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/shared/jquery.js
-	dh_link usr/share/javascript/jquery/jquery.js \
-	  /usr/share/doc/python-werkzeug/html/_static/jquery.js
 	dh_link /usr/share/doc/python-werkzeug/html/_sources \
 		/usr/share/doc/python-werkzeug/rst
 
@@ -42,3 +34,12 @@ clean:
 	make -C docs clean
 	find $(CURDIR) -name '*\.py[co]' -delete
 	find $(CURDIR) \( -name '\._*' -o -name '\.DS_Store' \) -delete
+
+get-orig-source:
+	trap 'rm -rf $(CURDIR)/.werkzeug-tarball' EXIT;\
+	VER=$(shell dpkg-parsechangelog | sed -rne 's,^Version: ([^-+]+).*,\1,p') &&\
+	mkdir -p .werkzeug-tarball &&\
+	uscan --force-download --rename --destdir=.werkzeug-tarball --upstream-version=$$VER &&\
+	cd .werkzeug-tarball &&\
+	tar xf python-werkzeug*tar.gz --exclude ubuntu.ttf --exclude FONT_LICENSE &&\
+	tar Jcf ../python-werkzeug_$$VER+dfsg.orig.tar.xz Werkzeug-$$VER

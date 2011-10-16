@@ -4,11 +4,11 @@
 Request / Response Objects
 ==========================
 
-.. module:: werkzeug
+.. module:: werkzeug.wrappers
 
-You can import all these objects directly from :mod:`werkzeug`.  The request
-and response objects wrap the WSGI environment or the return value from a WSGI
-application so that it is another WSGI application (wraps a whole application).
+The request and response objects wrap the WSGI environment or the return
+value from a WSGI application so that it is another WSGI application
+(wraps a whole application).
 
 How they Work
 =============
@@ -21,13 +21,13 @@ request variables (form data, request headers etc.).
 The :class:`Response` on the other hand is a standard WSGI application that
 you can create.  The simple hello world in Werkzeug looks like this::
 
-    from werkzeug import Response
+    from werkzeug.wrappers import Response
     application = Response('Hello World!')
 
 To make it more useful you can replace it with a function and do some
 processing::
 
-    from werkzeug import Request, Response
+    from werkzeug.wrappers import Request, Response
 
     def application(environ, start_response):
         request = Request(environ)
@@ -37,7 +37,7 @@ processing::
 Because this is a very common task the :class:`~Request` object provides
 a helper for that.  The above code can be rewritten like this::
 
-    from werkzeug import Request, Response
+    from werkzeug.wrappers import Request, Response
 
     @Request.application
     def application(request):
@@ -51,7 +51,7 @@ Mutability and Reusability of Wrappers
 ======================================
 
 The implementation of the Werkzeug request and response objects are trying
-to guard you from common pitfals by disallowing certain things as much as
+to guard you from common pitfalls by disallowing certain things as much as
 possible.  This serves two purposes: high performance and avoiding of
 pitfalls.
 
@@ -65,12 +65,12 @@ For the request object the following rules apply:
    locks around calls.
 3. It's not possible to pickle the request object.
 
-FOr the response object the following rules apply:
+For the response object the following rules apply:
 
 1. The response object is mutable
 2. The response object can be pickled or copied after `freeze()` was
    called.
-3. Since Werkzeug 0.6 it's save to use the same response object for
+3. Since Werkzeug 0.6 it's safe to use the same response object for
    multiple WSGI responses.
 4. It's possible to create copies using `copy.deepcopy`.
 
@@ -139,7 +139,7 @@ mix those classes in to extend the functionality of the :class:`BaseRequest`
 or :class:`BaseResponse` object.  Here a small example for a request object
 that parses accept headers::
 
-    from werkzeug import BaseRequest, AcceptMixin
+    from werkzeug.wrappers import AcceptMixin, BaseRequest
 
     class Request(BaseRequest, AcceptMixin):
         pass

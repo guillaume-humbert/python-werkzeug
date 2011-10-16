@@ -46,10 +46,13 @@ Features
 Development Version
 -------------------
 
-The `Werkzeug tip <http://dev.pocoo.org/hg/werkzeug-main/archive/tip.zip#egg=Werkzeug-dev>`_
-is installable via `easy_install` with ``easy_install Werkzeug==dev``.
+The Werkzeug development version can be installed by cloning the git
+repository from `github`_::
+
+    git clone git@github.com:mitsuhiko/werkzeug.git
+
+.. _github: http://github.com/mitsuhiko/werkzeug
 """
-import os
 try:
     from setuptools import setup
 except ImportError:
@@ -58,7 +61,7 @@ except ImportError:
 
 setup(
     name='Werkzeug',
-    version='0.6.2',
+    version='0.8.1',
     url='http://werkzeug.pocoo.org/',
     license='BSD',
     author='Armin Ronacher',
@@ -75,9 +78,10 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    packages=['werkzeug', 'werkzeug.debug', 'werkzeug.contrib'],
-    package_data={
-        'werkzeug.debug': ['shared/*', 'templates/*']
-    },
+    packages=['werkzeug', 'werkzeug.debug', 'werkzeug.contrib',
+              'werkzeug.testsuite', 'werkzeug.testsuite.contrib'],
+    include_package_data=True,
+    test_suite='werkzeug.testsuite.suite',
+    zip_safe=False,
     platforms='any'
 )
