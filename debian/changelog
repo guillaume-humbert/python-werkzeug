@@ -1,3 +1,9 @@
+python-werkzeug (0.8.2+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Piotr Ożarowski <piotr@debian.org>  Sun, 08 Jan 2012 20:10:33 +0100
+
 python-werkzeug (0.8.1+dfsg-1) unstable; urgency=low
 
   * New upstream release
