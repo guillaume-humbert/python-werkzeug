@@ -1,3 +1,9 @@
+python-werkzeug (0.8.3+dfsg-2) UNRELEASED; urgency=low
+
+  * Minimum required Python version bumped to 2.5 (due to with statements)
+
+ -- Piotr Ożarowski <piotr@debian.org>  Thu, 09 Feb 2012 22:11:00 +0100
+
 python-werkzeug (0.8.3+dfsg-1) unstable; urgency=low
 
   * New upstream release
