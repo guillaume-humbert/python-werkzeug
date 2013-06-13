@@ -31,7 +31,9 @@ override_dh_fixperms:
 override_dh_auto_test:
 	# run-tests.py is not included in the tarball
 	# TODO: run tests for all supported Python versions
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	python -c 'from werkzeug.testsuite import main; main()'
+endif
 
 clean:
 	rm -rf build Werkzeug.egg-info/
