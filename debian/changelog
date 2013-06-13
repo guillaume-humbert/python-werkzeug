@@ -4,6 +4,7 @@ python-werkzeug (0.9+dfsg-1) unstable; urgency=low
   * New upstream release
   * Suggest new packages:
     - python-greenlet (used in werkzeug.contrib.iterio)
+    - python-redis (used in werkzeug.contrib.cache)
     - python-pylibmc (as an alternative to python-memcache,
       used in werkzeug.contrib.cache)
   * Recommend python-pyinotify (used in werkzeug.serving)
