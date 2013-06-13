@@ -5,7 +5,7 @@
 
     Tests the cache system
 
-    :copyright: (c) 2011 by Armin Ronacher.
+    :copyright: (c) 2013 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
 import os
@@ -19,6 +19,11 @@ from werkzeug.contrib import cache
 
 try:
     import redis
+    try:
+        from redis.exceptions import ConnectionError as RedisConnectionError
+        cache.RedisCache(key_prefix='werkzeug-test-case:')._client.set('test','connection')
+    except RedisConnectionError:
+        redis = None
 except ImportError:
     redis = None
 
@@ -39,7 +44,7 @@ class SimpleCacheTestCase(WerkzeugTestCase):
         c = cache.SimpleCache()
         c.set_many({0: 0, 1: 1, 2: 4})
         assert c.get(2) == 4
-        c.set_many((i, i*i) for i in xrange(3))
+        c.set_many((i, i*i) for i in range(3))
         assert c.get(2) == 4
 
 

@@ -44,6 +44,12 @@ The following error classes exist in Werkzeug:
 
 .. autoexception:: ImATeapot
 
+.. autoexception:: PreconditionRequired
+
+.. autoexception:: TooManyRequests
+
+.. autoexception:: RequestHeaderFieldsTooLarge
+
 .. autoexception:: InternalServerError
 
 .. autoexception:: NotImplemented
@@ -58,6 +64,8 @@ The following error classes exist in Werkzeug:
    data.  For more information see the :ref:`unicode` chapter.
 
 .. autoexception:: ClientDisconnected
+
+.. autoexception:: SecurityError
 
 
 Baseclass
@@ -128,7 +136,7 @@ If you want to add an error yourself you can subclass :exc:`HTTPException`::
 
     from werkzeug.exceptions import HTTPException
 
-    class PaymentRequred(HTTPException):
+    class PaymentRequired(HTTPException):
         code = 402
         description = '<p>Payment required.</p>'
 

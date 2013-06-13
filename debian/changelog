@@ -1,3 +1,22 @@
+python-werkzeug (0.9+dfsg-1) unstable; urgency=low
+
+  [ Piotr Ożarowski ]
+  * New upstream release
+  * Suggest new packages:
+    - python-greenlet (used in werkzeug.contrib.iterio)
+    - python-redis (used in werkzeug.contrib.cache)
+    - python-pylibmc (as an alternative to python-memcache,
+      used in werkzeug.contrib.cache)
+  * Recommend python-pyinotify (used in werkzeug.serving)
+  * Remove Werkzeug.egg-info in clean target
+  * Minimum required Python version bumped to 2.5 (due to with statements)
+  * Standards-Version bumped to 3.9.4 (no changes needed)
+
+  [ Jakub Wilk ]
+  * Use canonical URIs for Vcs-* fields.
+
+ -- Piotr Ożarowski <piotr@debian.org>  Thu, 13 Jun 2013 22:04:15 +0200
+
 python-werkzeug (0.8.3+dfsg-1) unstable; urgency=low
 
   * New upstream release
