@@ -21,7 +21,7 @@ from functools import partial, update_wrapper
 
 from werkzeug._compat import iteritems, text_type, string_types, \
      implements_iterator, make_literal_wrapper, to_unicode, to_bytes, \
-     wsgi_get_bytes, try_coerce_native
+     wsgi_get_bytes, try_coerce_native, PY2
 from werkzeug._internal import _empty_stream, _encode_idna
 from werkzeug.http import is_resource_modified, http_date
 from werkzeug.urls import uri_to_iri, url_quote, url_parse, url_join
@@ -544,15 +544,20 @@ class SharedDataMiddleware(object):
         return loader
 
     def generate_etag(self, mtime, file_size, real_filename):
+        if not isinstance(real_filename, bytes):
+            real_filename = real_filename.encode(sys.getfilesystemencoding())
         return 'wzsdm-%d-%s-%s' % (
             mktime(mtime.timetuple()),
             file_size,
-            adler32(real_filename.encode(sys.getfilesystemencoding())) & 0xffffffff
+            adler32(real_filename) & 0xffffffff
         )
 
     def __call__(self, environ, start_response):
+        cleaned_path = get_path_info(environ)
+        if PY2:
+            cleaned_path = cleaned_path.encode(sys.getfilesystemencoding())
         # sanitize the path for non unix systems
-        cleaned_path = environ.get('PATH_INFO', '').strip('/')
+        cleaned_path = cleaned_path.strip('/')
         for sep in os.sep, os.altsep:
             if sep and sep != '/':
                 cleaned_path = cleaned_path.replace(sep, '/')
@@ -946,7 +951,7 @@ class LimitedStream(object):
         from werkzeug.exceptions import ClientDisconnected
         raise ClientDisconnected()
 
-    def exhaust(self, chunk_size=1024 * 16):
+    def exhaust(self, chunk_size=1024 * 64):
         """Exhaust the stream.  This consumes all the data left until the
         limit is reached.
 
