@@ -1,3 +1,10 @@
+python-werkzeug (0.9.1+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Run tests with LC_ALL=C.UTF-8
+
+ -- Piotr Ożarowski <piotr@debian.org>  Sun, 16 Jun 2013 11:51:23 +0200
+
 python-werkzeug (0.9+dfsg-1) unstable; urgency=low
 
   [ Piotr Ożarowski ]
