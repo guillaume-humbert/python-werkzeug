@@ -6,41 +6,38 @@
 # permitted in any medium without royalty provided the copyright notice and this
 # notice are preserved.
 
-export PYTHONPATH=$(abspath $(CURDIR))
-PKGDIR=$(CURDIR)/debian/python-werkzeug/
-
-include /usr/share/python/python.mk
+export PYBUILD_DESTDIR_python2=debian/python-werkzeug/
+export PYBUILD_DESTDIR_python3=debian/python3-werkzeug/
 
 %:
-	dh $@ --with python2,sphinxdoc
+	dh $@ --with python2,python3,sphinxdoc --buildsystem pybuild
 
-override_dh_auto_install:
-	python setup.py install \
-		--single-version-externally-managed \
-		--install-layout=deb \
-		--root $(PKGDIR)
-	dh_link usr/share/javascript/jquery/jquery.js \
-	  $(call py_libdir,$(shell pyversions -vd))/werkzeug/debug/shared/jquery.js
-	dh_link /usr/share/doc/python-werkzeug/html/_sources \
-		/usr/share/doc/python-werkzeug/rst
-
-override_dh_fixperms:
-	find $(PKGDIR) -name '*\.png' -exec chmod -x '{}' \;
-	dh_fixperms
+override_dh_auto_clean:
+	make -C docs clean
+	rm -rf build Werkzeug.egg-info/
+	#find $(CURDIR) \( -name '\._*' -o -name '\.DS_Store' \) -delete
+	dh_auto_clean
 
 override_dh_auto_test:
-	# run-tests.py is not included in the tarball
-	# TODO: run tests for all supported Python versions
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	LC_ALL=C.UTF-8 python -c 'from werkzeug.testsuite import main; main()'
-endif
+	http_proxy='' dh_auto_test
 
-clean:
-	rm -rf build Werkzeug.egg-info/
-	dh_clean
-	make -C docs clean
-	find $(CURDIR) -name '*\.py[co]' -delete
-	find $(CURDIR) \( -name '\._*' -o -name '\.DS_Store' \) -delete
+override_dh_auto_install:
+	dh_auto_install
+	make documentation
+
+override_dh_python2:
+	dh_python2
+	dh_link -p python-werkzeug /usr/share/javascript/jquery/jquery.js \
+	  /usr/share/pyshared/werkzeug/debug/shared/jquery.js
+
+override_dh_python3:
+	dh_python3
+	dh_link -p python3-werkzeug /usr/share/javascript/jquery/jquery.js \
+	  /usr/lib/python3/dist-packages/werkzeug/debug/shared/jquery.js
+
+override_dh_fixperms:
+	find debian/ -name '*\.png' -exec chmod -x '{}' \;
+	dh_fixperms
 
 get-orig-source:
 	trap 'rm -rf $(CURDIR)/.werkzeug-tarball' EXIT;\
