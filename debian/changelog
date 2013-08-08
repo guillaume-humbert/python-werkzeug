@@ -1,3 +1,13 @@
+python-werkzeug (0.9.3+dfsg-2) unstable; urgency=low
+
+  * Add python3-werkzeug binary package
+  * Move docs and examples to new python-werkzeug-doc binary package
+  * Switch to pybuild buildsystem
+  * Add redis and memcached related packages to Build-Depends (used in tests)
+  * Set debhelper compatibility level to 9
+
+ -- Piotr Ożarowski <piotr@debian.org>  Thu, 08 Aug 2013 17:13:05 +0200
+
 python-werkzeug (0.9.3+dfsg-1) unstable; urgency=low
 
   * New upstream release
