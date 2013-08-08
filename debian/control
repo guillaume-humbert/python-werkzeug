@@ -38,7 +38,7 @@ Description: collection of utilities for WSGI applications
 
 Package: python3-werkzeug
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}
+Depends: ${python3:Depends}, ${misc:Depends}, libjs-jquery
 Recommends: python3-simplejson | python3, python3-openssl, python3-pyinotify
 Suggests: ipython3, python3-pkg-resources, python3-lxml,
  python-werkzeug-doc
