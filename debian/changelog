@@ -1,3 +1,11 @@
+python-werkzeug (0.9.4+dfsg-1) unstable; urgency=low
+
+  * New upstream release
+  * Backport b23efe87 commit to fix failing test on Python 3.3
+  * Standards-Version bumped to 3.9.5 (no changes needed)
+
+ -- Piotr Ożarowski <piotr@debian.org>  Tue, 03 Dec 2013 19:33:17 +0100
+
 python-werkzeug (0.9.3+dfsg-2) unstable; urgency=low
 
   * Add python3-werkzeug binary package
