@@ -1,3 +1,11 @@
+python-werkzeug (0.9.4+dfsg-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Start memcached for tests, thanks to Sebastian Ramacher for the patch
+    (Closes: #725594)
+
+ -- Gaudenz Steinlin <gaudenz@debian.org>  Mon, 06 Jan 2014 19:01:32 +0100
+
 python-werkzeug (0.9.4+dfsg-1) unstable; urgency=low
 
   * New upstream release
