@@ -1,3 +1,14 @@
+python-werkzeug (0.9.6+dfsg-1) unstable; urgency=medium
+
+  * New upstream release
+  * Remove b23efe87 patch (no longer needed)
+  * Add 13218dea patch to fix tests on Python 3.4 (closes: 745852)
+  * Add maxsize fix for Python 3 (backported 0bad0c25 commit)
+  * Hardcode LC_ALL to C.UTF-8 while invoking tests to workaround pbuilder's
+    ancient defaults (closes: 739077)
+
+ -- Piotr Ożarowski <piotr@debian.org>  Tue, 10 Jun 2014 20:47:05 +0200
+
 python-werkzeug (0.9.4+dfsg-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.
