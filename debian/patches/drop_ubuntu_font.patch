@@ -1,8 +1,8 @@
 # ubuntu.ttf has been removed from Debian package
-Index: python-werkzeug-0.8.1/werkzeug/debug/shared/style.css
+Index: werkzeug-0.9.6/werkzeug/debug/shared/style.css
 ===================================================================
---- python-werkzeug-0.8.1.orig/werkzeug/debug/shared/style.css
-+++ python-werkzeug-0.8.1/werkzeug/debug/shared/style.css
+--- werkzeug-0.9.6.orig/werkzeug/debug/shared/style.css
++++ werkzeug-0.9.6/werkzeug/debug/shared/style.css
 @@ -1,9 +1,7 @@
  @font-face {
 -  font-family: 'Ubuntu';
