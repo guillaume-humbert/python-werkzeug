@@ -1,14 +1,15 @@
 Source: python-werkzeug
 Section: python
 Priority: optional
-Maintainer: Noah Slater <nslater@tumbolia.org>
-Uploaders: Piotr Ożarowski <piotr@debian.org>,
- Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
-Standards-Version: 3.9.5
+Maintainer: Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
+Uploaders: Piotr Ożarowski <piotr@debian.org>
+Standards-Version: 3.9.6
 Build-Depends: debhelper (>= 9), dh-python, python-sphinx (>= 1.0.7+dfsg-1~),
  python-all, python3-all,
  python-setuptools (>= 0.6b3), python3-setuptools (>= 0.6b3),
 # for tests:
+ python-pytest, python3-pytest,
+ python-requests, python3-requests,
  python-simplejson, python3-simplejson,
  python-nose, python3-nose,
  python-lxml, python3-lxml,
