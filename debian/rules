@@ -7,6 +7,9 @@
 # notice are preserved.
 
 export PYBUILD_NAME=werkzeug
+export PYBUILD_TEST_PYTEST=1
+# disable some tests as pytest.xprocess is not yet packaged
+export PYBUILD_TEST_ARGS={dir}/tests -k-tests/contrib/test_cache.py
 
 %:
 	dh $@ --with python2,python3,sphinxdoc --buildsystem pybuild

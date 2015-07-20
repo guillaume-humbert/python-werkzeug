@@ -10,6 +10,8 @@ python-werkzeug (0.10.4+dfsg1-1) unstable; urgency=medium
     debian/python{3,}-werkzeug.links files instead of override_dh_python
   * Replace Noah with DPMT in Maintainer (thanks Noah for all your work)
   * Standards-Version bumped to 3.9.6 (no changes needed)
+  * Add python{3,}-requests and python{3,}-pytest to Build-Depends
+    (upstream switched test suite to py.tests)
 
  -- Piotr Ożarowski <piotr@debian.org>  Mon, 20 Jul 2015 21:09:06 +0200
 
