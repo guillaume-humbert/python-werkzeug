@@ -5,7 +5,7 @@ python-werkzeug (0.10.4+dfsg1-1) unstable; urgency=medium
     - add missing docs/_themes to the upstream tarball
   * Remove ubuntu.ttf, jquery.js and Werkzeug.egg-info via Files-Excluded in
     debian/copyright (egg-info one closes: 671254)
-  * debian/watch: user pypi.debian.net redirector
+  * debian/watch: use pypi.debian.net redirector
   * debian/rules: remove no longer needed get-orig-source and use
     debian/python{3,}-werkzeug.links files instead of override_dh_python
   * Replace Noah with DPMT in Maintainer (thanks Noah for all your work)
