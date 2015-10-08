@@ -1,8 +1,17 @@
-# ubuntu.ttf has been removed from Debian package
-Index: werkzeug-0.9.6/werkzeug/debug/shared/style.css
-===================================================================
---- werkzeug-0.9.6.orig/werkzeug/debug/shared/style.css
-+++ werkzeug-0.9.6/werkzeug/debug/shared/style.css
+From 4b15261d20b1d541f82b6ee57dd46dfcd245d3dc Mon Sep 17 00:00:00 2001
+From: SVN-Git Migration <python-modules-team@lists.alioth.debian.org>
+Date: Thu, 8 Oct 2015 13:25:38 -0700
+Subject: drop_ubuntu_font
+
+Patch-Name: drop_ubuntu_font.patch
+---
+ werkzeug/debug/shared/style.css | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/werkzeug/debug/shared/style.css b/werkzeug/debug/shared/style.css
+index 53a107e..5c6c9c4 100644
+--- a/werkzeug/debug/shared/style.css
++++ b/werkzeug/debug/shared/style.css
 @@ -1,9 +1,7 @@
  @font-face {
 -  font-family: 'Ubuntu';
