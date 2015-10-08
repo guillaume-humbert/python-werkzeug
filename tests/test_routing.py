@@ -7,13 +7,15 @@
     :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD license.
 """
-from py.test import raises
+from nose.tools import assert_raises
+
 from werkzeug.wrappers import Response
 from werkzeug.routing import Map, Rule, NotFound, BuildError, RequestRedirect
 from werkzeug.utils import create_environ
 
 
 def test_basic_routing():
+    """Basic URL routing"""
     map = Map([
         Rule('/', endpoint='index'),
         Rule('/foo', endpoint='foo'),
@@ -23,8 +25,8 @@ def test_basic_routing():
     assert adapter.match('/') == ('index', {})
     assert adapter.match('/foo') == ('foo', {})
     assert adapter.match('/bar/') == ('bar', {})
-    raises(RequestRedirect, lambda: adapter.match('/bar'))
-    raises(NotFound, lambda: adapter.match('/blub'))
+    assert_raises(RequestRedirect, lambda: adapter.match('/bar'))
+    assert_raises(NotFound, lambda: adapter.match('/blub'))
 
 
 test_environ_defaults = '''
@@ -49,6 +51,7 @@ NotFound: 404 Not Found
 
 
 def test_basic_building():
+    """Basic URL building"""
     map = Map([
         Rule('/', endpoint='index'),
         Rule('/foo', endpoint='foo'),
@@ -67,10 +70,11 @@ def test_basic_building():
     assert adapter.build('barf', {'bazf': 0.815}) == 'http://example.org/bar/0.815'
     assert adapter.build('barp', {'bazp': 'la/di'}) == 'http://example.org/bar/la/di'
     assert adapter.build('blah', {}) == '/hehe'
-    raises(BuildError, lambda: adapter.build('urks'))
+    assert_raises(BuildError, lambda: adapter.build('urks'))
 
 
 def test_defaults():
+    """URL routing defaults"""
     map = Map([
         Rule('/foo/', defaults={'page': 1}, endpoint='foo'),
         Rule('/foo/<int:page>', endpoint='foo')
@@ -78,7 +82,7 @@ def test_defaults():
     adapter = map.bind('example.org', '/')
 
     assert adapter.match('/foo/') == ('foo', {'page': 1})
-    raises(RequestRedirect, lambda: adapter.match('/foo/1'))
+    assert_raises(RequestRedirect, lambda: adapter.match('/foo/1'))
     assert adapter.match('/foo/2') == ('foo', {'page': 2})
     assert adapter.build('foo', {}) == '/foo/'
     assert adapter.build('foo', {'page': 1}) == '/foo/'
@@ -86,6 +90,7 @@ def test_defaults():
 
 
 def test_greedy():
+    """URL routing greedy settings"""
     map = Map([
         Rule('/foo', endpoint='foo'),
         Rule('/<path:bar>', endpoint='bar'),
@@ -103,6 +108,7 @@ def test_greedy():
 
 
 def test_path():
+    """URL routing path converter behavior"""
     map = Map([
         Rule('/', defaults={'name': 'FrontPage'}, endpoint='page'),
         Rule('/Special', endpoint='special'),
@@ -119,7 +125,7 @@ def test_path():
     adapter = map.bind('example.org', '/')
 
     assert adapter.match('/') == ('page', {'name':'FrontPage'})
-    raises(RequestRedirect, lambda: adapter.match('/FrontPage'))
+    assert_raises(RequestRedirect, lambda: adapter.match('/FrontPage'))
     assert adapter.match('/Special') == ('special', {})
     assert adapter.match('/2007') == ('year', {'year':2007})
     assert adapter.match('/Some/Page') == ('page', {'name':'Some/Page'})
@@ -133,6 +139,7 @@ def test_path():
 
 
 def test_dispatch():
+    """URL routing dispatch helper"""
     env = create_environ('/')
     map = Map([
         Rule('/', endpoint='root'),
@@ -151,11 +158,12 @@ def test_dispatch():
     assert dispatch('/').data == "('root', {})"
     assert dispatch('/foo').status_code == 301
     raise_this = NotFound()
-    raises(NotFound, lambda: dispatch('/bar'))
+    assert_raises(NotFound, lambda: dispatch('/bar'))
     assert dispatch('/bar', True).status_code == 404
 
 
 def test_http_host_before_server_name():
+    """URL routing HTTP host takes precedence before server name"""
     env = {
         'HTTP_HOST':            'wiki.example.com',
         'SERVER_NAME':          'web0.example.com',
@@ -177,8 +185,21 @@ def test_http_host_before_server_name():
 
 
 def test_adapter_url_parameter_sorting():
+    """Optional adapter URL parameter sorting"""
     map = Map([Rule('/', endpoint='index')], sort_parameters=True,
               sort_key=lambda x: x[1])
     adapter = map.bind('localhost', '/')
     assert adapter.build('index', {'x': 20, 'y': 10, 'z': 30},
         force_external=True) == 'http://localhost/?y=10&x=20&z=30'
+
+
+def test_request_direct_charset_bug():
+    map = Map([Rule(u'/öäü/')])
+    adapter = map.bind('localhost', '/')
+    try:
+        adapter.match(u'/öäü')
+    except RequestRedirect, e:
+        print repr(e.new_url)
+        assert e.new_url == 'http://localhost/%C3%B6%C3%A4%C3%BC/'
+    else:
+        raise AssertionError('expected request redirect exception')

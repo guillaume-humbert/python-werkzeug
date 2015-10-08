@@ -8,8 +8,18 @@
 # :license: BSD, see LICENSE for more details.
 #
 
+TESTS = \
+	werkzeug \
+	tests \
+	tests/contrib
+
+TEST_OPTIONS = \
+	-v \
+	--with-doctest \
+	-e '^test_app$$' #skip the test_app application object which is not a test
+
 documentation:
-	@(cd docs; python ./generate.py)
+	@(cd docs; make html)
 
 test:
-	@(cd tests; py.test $(TESTS))
+	@(nosetests $(TEST_OPTIONS) $(TESTS))

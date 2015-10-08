@@ -8,7 +8,6 @@
     :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
-import cgi
 import inspect
 from weakref import WeakKeyDictionary
 from cStringIO import StringIO
@@ -77,13 +76,30 @@ HTTP_STATUS_CODES = {
 }
 
 
+class _Missing(object):
+
+    def __repr__(self):
+        return 'no value'
+
+    def __reduce__(self):
+        return '_missing'
+
+_missing = _Missing()
+
+
+def _proxy_repr(cls):
+    def proxy_repr(self):
+        return '%s(%s)' % (self.__class__.__name__, cls.__repr__(self))
+    return proxy_repr
+
+
 def _log(type, message, *args, **kwargs):
     """Log into the internal werkzeug logger."""
     global _logger
     if _logger is None:
         import logging
         _logger = logging.getLogger('werkzeug')
-        if _logger.getEffectiveLevel() == logging.NOTSET: 
+        if _logger.level == logging.NOTSET:
             _logger.setLevel(logging.INFO)
             handler = logging.StreamHandler()
             _logger.addHandler(handler)
@@ -221,6 +237,21 @@ def _dump_date(d, delim):
     )
 
 
+_timegm = None
+def _date_to_unix(arg):
+    """Converts a timetuple, integer or datetime object into the seconds from
+    epoch in utc.
+    """
+    global _timegm
+    if isinstance(arg, datetime):
+        arg = arg.utctimetuple()
+    elif isinstance(arg, (int, long, float)):
+        return int(arg)
+    if _timegm is None:
+        from calendar import timegm as _timegm
+    return _timegm(arg)
+
+
 class _ExtendedMorsel(Morsel):
     _reserved = {'httponly': 'HttpOnly'}
     _reserved.update(Morsel._reserved)
@@ -236,32 +267,6 @@ class _ExtendedMorsel(Morsel):
         if httponly:
             result += '; HttpOnly'
         return result
-
-
-class _StorageHelper(cgi.FieldStorage):
-    """Helper class used by `parse_form_data` to parse submitted file and
-    form data.  Don't use this class directly.  This also defines a simple
-    repr that prints just the filename as the default repr reads the
-    complete data of the stream.
-    """
-
-    def __init__(self, fp=None, headers=None, outerboundary='',
-                 environ=None, keep_blank_values=False, strict_parsing=False):
-        self.stream_factory = environ.get('werkzeug.stream_factory')
-        cgi.FieldStorage.__init__(self, fp, headers, outerboundary,
-                                  environ or {}, keep_blank_values,
-                                  strict_parsing)
-
-    def make_file(self, binary=None):
-        if self.stream_factory is not None:
-            return self.stream_factory()
-        return cgi.FieldStorage.make_file(binary)
-
-    def __repr__(self):
-        return '<%s %r>' % (
-            self.__class__.__name__,
-            self.name
-        )
 
 
 class _ExtendedCookie(BaseCookie):
@@ -326,33 +331,8 @@ class _DictAccessorProperty(object):
         )
 
 
-class _UpdateDict(dict):
-    """A dict that calls `on_update` on modifications."""
-
-    def __init__(self, data, on_update):
-        dict.__init__(self, data)
-        self.on_update = on_update
-
-    def calls_update(f):
-        def oncall(self, *args, **kw):
-            rv = f(self, *args, **kw)
-            if self.on_update is not None:
-                self.on_update(self)
-            return rv
-        return _patch_wrapper(f, oncall)
-
-    __setitem__ = calls_update(dict.__setitem__)
-    __delitem__ = calls_update(dict.__delitem__)
-    clear = calls_update(dict.clear)
-    pop = calls_update(dict.pop)
-    popitem = calls_update(dict.popitem)
-    setdefault = calls_update(dict.setdefault)
-    update = calls_update(dict.update)
-
-
-
 def _easteregg(app):
-    """Like the name says."""
+    """Like the name says.  But who knows how it works?"""
     gyver = '\n'.join([x + (77 - len(x)) * ' ' for x in '''
 eJyFlzuOJDkMRP06xRjymKgDJCDQStBYT8BCgK4gTwfQ2fcFs2a2FzvZk+hvlcRvRJD148efHt9m
 9Xz94dRY5hGt1nrYcXx7us9qlcP9HHNh28rz8dZj+q4rynVFFPdlY4zH873NKCexrDM6zxxRymzz

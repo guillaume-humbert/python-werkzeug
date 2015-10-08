@@ -1,6 +1,8 @@
 from werkzeug.contrib.cache import SimpleCache
 
+
 def test_simplecache_get_dict():
+    """SimpleCache.get_dict bug"""
     cache = SimpleCache()
     cache.set('a', 'a')
     cache.set('b', 'b')
