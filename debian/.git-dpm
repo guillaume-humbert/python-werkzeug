@@ -6,3 +6,6 @@ e8c7062017523d5cb4cea9947296200d39f9295d
 python-werkzeug_0.10.4+dfsg1.orig.tar.xz
 50f50e3a69973bce8a13c382e5cf61511176a4eb
 975748
+debianTag="debian/%e%v"
+patchedTag="patched/%e%v"
+upstreamTag="upstream/%e%u"
