@@ -4,6 +4,10 @@ Sessions
 
 .. automodule:: werkzeug.contrib.sessions
 
+.. testsetup::
+
+   from werkzeug.contrib.sessions import *
+
 Reference
 =========
 
@@ -41,5 +45,6 @@ Reference
    :members:
 
 .. autoclass:: FilesystemSessionStore
+   :members: list
 
 .. autoclass:: SessionMiddleware

@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css">
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:   '',
-        VERSION:    '0.5.1dev'
+        URL_ROOT:   '#',
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -17,9 +17,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/werkzeug.js"></script>
     <link rel="contents" title="Global table of contents" href="contents.html">
-    <link rel="index" title="Global index" href="">
+    <link rel="index" title="Global index" href="#">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
     
   </head>
   <body>
@@ -30,7 +30,7 @@
       </div>
       <ul class="navigation">
         <li class="indexlink"><a href="index.html">Overview</a></li>
-        <li class="active"><a href="">Index</a></li>
+        <li class="active"><a href="#">Index</a></li>
       </ul>
       <div class="body">
         
@@ -50,12 +50,14 @@
         <dd><dl>
           <dt><a href="exceptions.html#werkzeug.exceptions.HTTPException.__call__">(werkzeug.exceptions.HTTPException method)</a></dt>
         </dl></dd>
-        <dt><a href="utils.html#werkzeug._easteregg">_easteregg() (in module werkzeug)</a>
+        <dt><a href="middlewares.html#werkzeug._easteregg">_easteregg() (in module werkzeug)</a>
           </dt>
-        <dt><a href="wrappers.html#werkzeug.BaseRequest._form_parsing_failed">_form_parsing_failed() (werkzeug.BaseRequest method)</a>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse._ensure_sequence">_ensure_sequence() (werkzeug.BaseResponse method)</a>
           </dt>
       </dl></td>
       <td><dl>
+        <dt><a href="wrappers.html#werkzeug.BaseRequest._form_parsing_failed">_form_parsing_failed() (werkzeug.BaseRequest method)</a>
+          </dt>
         <dt><a href="local.html#werkzeug.LocalProxy._get_current_object">_get_current_object() (werkzeug.LocalProxy method)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest._get_file_stream">_get_file_stream() (werkzeug.BaseRequest method)</a>
@@ -91,6 +93,7 @@
         <dd><dl>
           <dt><a href="datastructures.html#werkzeug.HeaderSet.add">(werkzeug.HeaderSet method)</a></dt>
           <dt><a href="datastructures.html#werkzeug.Headers.add">(werkzeug.Headers method)</a></dt>
+          <dt><a href="datastructures.html#werkzeug.MultiDict.add">(werkzeug.MultiDict method)</a></dt>
           <dt><a href="contrib/cache.html#werkzeug.contrib.cache.BaseCache.add">(werkzeug.contrib.cache.BaseCache method)</a></dt>
           <dt><a href="routing.html#werkzeug.routing.Map.add">(werkzeug.routing.Map method)</a></dt>
         </dl></dd>
@@ -155,9 +158,11 @@
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseResponse">BaseResponse (class in werkzeug)</a>
           </dt>
+        <dt><a href="datastructures.html#werkzeug.Accept.best">best (werkzeug.Accept attribute)</a>
+          </dt>
       </dl></td>
       <td><dl>
-        <dt><a href="datastructures.html#werkzeug.Accept.best">best (werkzeug.Accept attribute)</a>
+        <dt><a href="datastructures.html#werkzeug.Accept.best_match">best_match() (werkzeug.Accept method)</a>
           </dt>
         <dt><a href="routing.html#werkzeug.routing.Map.bind">bind() (werkzeug.routing.Map method)</a>
           </dt>
@@ -182,21 +187,27 @@
         </dl></dd>
         <dt><a href="utils.html#werkzeug.cached_property">cached_property (class in werkzeug)</a>
           </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.call_on_close">call_on_close() (werkzeug.BaseResponse method)</a>
+          </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.charset">charset (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dd><dl>
+          <dt><a href="wrappers.html#werkzeug.BaseResponse.charset">(werkzeug.BaseResponse attribute)</a></dt>
           <dt><a href="test.html#werkzeug.EnvironBuilder.charset">(werkzeug.EnvironBuilder attribute)</a></dt>
+          <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetRequestMixin.charset">(werkzeug.contrib.wrappers.DynamicCharsetRequestMixin attribute)</a></dt>
+          <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetResponseMixin.charset">(werkzeug.contrib.wrappers.DynamicCharsetResponseMixin attribute)</a></dt>
         </dl></dd>
         <dt><a href="datastructures.html#werkzeug.CharsetAccept">CharsetAccept (class in werkzeug)</a>
           </dt>
         <dt><a href="local.html#werkzeug.LocalManager.cleanup">cleanup() (werkzeug.LocalManager method)</a>
+          </dt>
+        <dt><a href="datastructures.html#werkzeug.MultiDict.clear">clear (werkzeug.MultiDict attribute)</a>
           </dt>
         <dt><a href="contrib/cache.html#werkzeug.contrib.cache.BaseCache.clear">clear() (werkzeug.contrib.cache.BaseCache method)</a>
           </dt>
         <dd><dl>
           <dt><a href="datastructures.html#werkzeug.HeaderSet.clear">(werkzeug.HeaderSet method)</a></dt>
           <dt><a href="datastructures.html#werkzeug.Headers.clear">(werkzeug.Headers method)</a></dt>
-          <dt><a href="datastructures.html#werkzeug.MultiDict.clear">(werkzeug.MultiDict method)</a></dt>
         </dl></dd>
         <dt><a href="test.html#werkzeug.Client">Client (class in werkzeug)</a>
           </dt>
@@ -206,7 +217,7 @@
           <dt><a href="test.html#werkzeug.EnvironBuilder.close">(werkzeug.EnvironBuilder method)</a></dt>
           <dt><a href="datastructures.html#werkzeug.FileStorage.close">(werkzeug.FileStorage method)</a></dt>
         </dl></dd>
-        <dt><a href="utils.html#werkzeug.ClosingIterator">ClosingIterator (class in werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.ClosingIterator">ClosingIterator (class in werkzeug)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.Authorization.cnonce">cnonce (werkzeug.Authorization attribute)</a>
           </dt>
@@ -214,10 +225,10 @@
           </dt>
         <dt><a href="wrappers.html#werkzeug.CommonRequestDescriptorsMixin">CommonRequestDescriptorsMixin (class in werkzeug)</a>
           </dt>
-        <dt><a href="wrappers.html#werkzeug.CommonResponseDescriptorsMixin">CommonResponseDescriptorsMixin (class in werkzeug)</a>
-          </dt>
       </dl></td>
       <td><dl>
+        <dt><a href="wrappers.html#werkzeug.CommonResponseDescriptorsMixin">CommonResponseDescriptorsMixin (class in werkzeug)</a>
+          </dt>
         <dt><a href="datastructures.html#werkzeug.ETags.contains">contains() (werkzeug.ETags method)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.ETags.contains_raw">contains_raw() (werkzeug.ETags method)</a>
@@ -246,7 +257,7 @@
           <dt><a href="test.html#werkzeug.EnvironBuilder.content_type">(werkzeug.EnvironBuilder attribute)</a></dt>
           <dt><a href="datastructures.html#werkzeug.FileStorage.content_type">(werkzeug.FileStorage attribute)</a></dt>
         </dl></dd>
-        <dt><a href="utils.html#werkzeug.cookie_date">cookie_date() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.cookie_date">cookie_date() (in module werkzeug)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.cookies">cookies (werkzeug.BaseRequest attribute)</a>
           </dt>
@@ -254,6 +265,7 @@
           </dt>
         <dd><dl>
           <dt><a href="datastructures.html#werkzeug.ImmutableMultiDict.copy">(werkzeug.ImmutableMultiDict method)</a></dt>
+          <dt><a href="datastructures.html#werkzeug.ImmutableOrderedMultiDict.copy">(werkzeug.ImmutableOrderedMultiDict method)</a></dt>
           <dt><a href="datastructures.html#werkzeug.ImmutableTypeConversionDict.copy">(werkzeug.ImmutableTypeConversionDict method)</a></dt>
           <dt><a href="datastructures.html#werkzeug.MultiDict.copy">(werkzeug.MultiDict method)</a></dt>
         </dl></dd>
@@ -279,6 +291,17 @@
           </dt>
         <dt><a href="contrib/cache.html#werkzeug.contrib.cache.BaseCache.dec">dec() (werkzeug.contrib.cache.BaseCache method)</a>
           </dt>
+        <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetRequestMixin.default_charset">default_charset (werkzeug.contrib.wrappers.DynamicCharsetRequestMixin attribute)</a>
+          </dt>
+        <dd><dl>
+          <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetResponseMixin.default_charset">(werkzeug.contrib.wrappers.DynamicCharsetResponseMixin attribute)</a></dt>
+        </dl></dd>
+        <dt><a href="routing.html#werkzeug.routing.Map.default_converters">default_converters (werkzeug.routing.Map attribute)</a>
+          </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.default_mimetype">default_mimetype (werkzeug.BaseResponse attribute)</a>
+          </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.default_status">default_status (werkzeug.BaseResponse attribute)</a>
+          </dt>
         <dt><a href="test.html#werkzeug.Client.delete">delete() (werkzeug.Client method)</a>
           </dt>
         <dd><dl>
@@ -291,19 +314,25 @@
           </dt>
       </dl></td>
       <td><dl>
+        <dt><a href="wrappers.html#werkzeug.BaseRequest.dict_storage_class">dict_storage_class (werkzeug.BaseRequest attribute)</a>
+          </dt>
         <dt><a href="wrappers.html#werkzeug.BaseResponse.direct_passthrough">direct_passthrough (werkzeug.BaseResponse attribute)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.HeaderSet.discard">discard() (werkzeug.HeaderSet method)</a>
           </dt>
         <dt><a href="routing.html#werkzeug.routing.MapAdapter.dispatch">dispatch() (werkzeug.routing.MapAdapter method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.DispatcherMiddleware">DispatcherMiddleware (class in werkzeug)</a>
+        <dt><a href="middlewares.html#werkzeug.DispatcherMiddleware">DispatcherMiddleware (class in werkzeug)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.WWWAuthenticate.domain">domain (werkzeug.WWWAuthenticate attribute)</a>
           </dt>
         <dt><a href="utils.html#werkzeug.dump_cookie">dump_cookie() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.dump_header">dump_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.dump_header">dump_header() (in module werkzeug)</a>
+          </dt>
+        <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetRequestMixin">DynamicCharsetRequestMixin (class in werkzeug.contrib.wrappers)</a>
+          </dt>
+        <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetResponseMixin">DynamicCharsetResponseMixin (class in werkzeug.contrib.wrappers)</a>
           </dt>
       </dl></td>
     </tr></table>
@@ -327,10 +356,10 @@
           </dt>
         <dt><a href="datastructures.html#werkzeug.EnvironHeaders">EnvironHeaders (class in werkzeug)</a>
           </dt>
-      </dl></td>
-      <td><dl>
         <dt><a href="test.html#werkzeug.EnvironBuilder.errors_stream">errors_stream (werkzeug.EnvironBuilder attribute)</a>
           </dt>
+      </dl></td>
+      <td><dl>
         <dt><a href="utils.html#werkzeug.escape">escape() (in module werkzeug)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.ETagRequestMixin">ETagRequestMixin (class in werkzeug)</a>
@@ -339,11 +368,13 @@
           </dt>
         <dt><a href="datastructures.html#werkzeug.ETags">ETags (class in werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.LimitedStream.exhaust">exhaust() (werkzeug.LimitedStream method)</a>
+        <dt><a href="wsgi.html#werkzeug.LimitedStream.exhaust">exhaust() (werkzeug.LimitedStream method)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.CommonResponseDescriptorsMixin.expires">expires (werkzeug.CommonResponseDescriptorsMixin attribute)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.Headers.extend">extend() (werkzeug.Headers method)</a>
+          </dt>
+        <dt><a href="utils.html#werkzeug.extract_path_info">extract_path_info() (in module werkzeug)</a>
           </dt>
       </dl></td>
     </tr></table>
@@ -365,7 +396,7 @@
           </dt>
         <dt><a href="contrib/sessions.html#werkzeug.contrib.sessions.FilesystemSessionStore">FilesystemSessionStore (class in werkzeug.contrib.sessions)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.FileWrapper">FileWrapper (class in werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.FileWrapper">FileWrapper (class in werkzeug)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.Accept.find">find() (werkzeug.Accept method)</a>
           </dt>
@@ -376,8 +407,6 @@
           </dt>
       </dl></td>
       <td><dl>
-        <dt><a href="wrappers.html#werkzeug.BaseResponse.fix_headers">fix_headers() (werkzeug.BaseResponse method)</a>
-          </dt>
         <dt><a href="routing.html#werkzeug.routing.FloatConverter">FloatConverter (class in werkzeug.routing)</a>
           </dt>
         <dt><a href="exceptions.html#werkzeug.exceptions.Forbidden">Forbidden</a>
@@ -409,7 +438,7 @@
           </dt>
         <dt><a href="contrib/atom.html#werkzeug.contrib.atom.AtomFeed.generate">generate() (werkzeug.contrib.atom.AtomFeed method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.generate_etag">generate_etag() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.generate_etag">generate_etag() (in module werkzeug)</a>
           </dt>
         <dt><a href="contrib/sessions.html#werkzeug.contrib.sessions.SessionStore.generate_key">generate_key() (werkzeug.contrib.sessions.SessionStore method)</a>
           </dt>
@@ -424,17 +453,19 @@
         </dl></dd>
         <dt><a href="datastructures.html#werkzeug.Headers.get_all">get_all() (werkzeug.Headers method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.get_current_url">get_current_url() (in module werkzeug)</a>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.get_app_iter">get_app_iter() (werkzeug.BaseResponse method)</a>
+          </dt>
+        <dt><a href="wsgi.html#werkzeug.get_current_url">get_current_url() (in module werkzeug)</a>
           </dt>
         <dt><a href="contrib/cache.html#werkzeug.contrib.cache.BaseCache.get_dict">get_dict() (werkzeug.contrib.cache.BaseCache method)</a>
           </dt>
         <dt><a href="test.html#werkzeug.EnvironBuilder.get_environ">get_environ() (werkzeug.EnvironBuilder method)</a>
           </dt>
-      </dl></td>
-      <td><dl>
         <dt><a href="wrappers.html#werkzeug.ETagResponseMixin.get_etag">get_etag() (werkzeug.ETagResponseMixin method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.get_host">get_host() (in module werkzeug)</a>
+      </dl></td>
+      <td><dl>
+        <dt><a href="wsgi.html#werkzeug.get_host">get_host() (in module werkzeug)</a>
           </dt>
         <dt><a href="local.html#werkzeug.LocalManager.get_ident">get_ident() (werkzeug.LocalManager method)</a>
           </dt>
@@ -449,6 +480,10 @@
         </dl></dd>
         <dt><a href="routing.html#werkzeug.routing.RuleFactory.get_rules">get_rules() (werkzeug.routing.RuleFactory method)</a>
           </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.get_wsgi_headers">get_wsgi_headers() (werkzeug.BaseResponse method)</a>
+          </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.get_wsgi_response">get_wsgi_response() (werkzeug.BaseResponse method)</a>
+          </dt>
         <dt><a href="datastructures.html#werkzeug.Headers.getlist">getlist() (werkzeug.Headers method)</a>
           </dt>
         <dd><dl>
@@ -462,16 +497,13 @@
     <h2 id="H">H</h2>
     <table class="indextable"><tr>
       <td><dl>
+        <dt><a href="datastructures.html#werkzeug.MultiDict.has_key">has_key (werkzeug.MultiDict attribute)</a>
+          </dt>
         <dt><a href="datastructures.html#werkzeug.Headers.has_key">has_key() (werkzeug.Headers method)</a>
           </dt>
-        <dd><dl>
-          <dt><a href="datastructures.html#werkzeug.MultiDict.has_key">(werkzeug.MultiDict method)</a></dt>
-        </dl></dd>
-        <dt><a href="contrib/securecookie.html#werkzeug.contrib.securecookie.SecureCookie.hash_method">hash_method() (werkzeug.contrib.securecookie.SecureCookie method)</a>
+        <dt><a href="contrib/securecookie.html#werkzeug.contrib.securecookie.SecureCookie.hash_method">hash_method (werkzeug.contrib.securecookie.SecureCookie attribute)</a>
           </dt>
         <dt><a href="test.html#werkzeug.Client.head">head() (werkzeug.Client method)</a>
-          </dt>
-        <dt><a href="wrappers.html#werkzeug.BaseResponse.header_list">header_list (werkzeug.BaseResponse attribute)</a>
           </dt>
         <dt><a href="utils.html#werkzeug.header_property">header_property (class in werkzeug)</a>
           </dt>
@@ -484,6 +516,7 @@
         <dd><dl>
           <dt><a href="wrappers.html#werkzeug.BaseResponse.headers">(werkzeug.BaseResponse attribute)</a></dt>
           <dt><a href="test.html#werkzeug.EnvironBuilder.headers">(werkzeug.EnvironBuilder attribute)</a></dt>
+          <dt><a href="datastructures.html#werkzeug.FileStorage.headers">(werkzeug.FileStorage attribute)</a></dt>
         </dl></dd>
         <dt><a href="datastructures.html#werkzeug.HeaderSet">HeaderSet (class in werkzeug)</a>
           </dt>
@@ -497,9 +530,9 @@
           </dt>
         <dt><a href="utils.html#werkzeug.HTMLBuilder">HTMLBuilder (class in werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.http_date">http_date() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.http_date">http_date() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.HTTP_STATUS_CODES">HTTP_STATUS_CODES (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.HTTP_STATUS_CODES">HTTP_STATUS_CODES (in module werkzeug)</a>
           </dt>
         <dt><a href="exceptions.html#werkzeug.exceptions.HTTPException">HTTPException</a>
           </dt>
@@ -525,7 +558,11 @@
           </dt>
         <dt><a href="datastructures.html#werkzeug.ImmutableMultiDict">ImmutableMultiDict (class in werkzeug)</a>
           </dt>
+        <dt><a href="datastructures.html#werkzeug.ImmutableOrderedMultiDict">ImmutableOrderedMultiDict (class in werkzeug)</a>
+          </dt>
         <dt><a href="datastructures.html#werkzeug.ImmutableTypeConversionDict">ImmutableTypeConversionDict (class in werkzeug)</a>
+          </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.implicit_seqence_conversion">implicit_seqence_conversion (werkzeug.BaseResponse attribute)</a>
           </dt>
         <dt><a href="utils.html#werkzeug.import_string">import_string() (in module werkzeug)</a>
           </dt>
@@ -544,29 +581,33 @@
           </dt>
         <dt><a href="contrib/fixers.html#werkzeug.contrib.fixers.InternetExplorerFix">InternetExplorerFix (class in werkzeug.contrib.fixers)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.SharedDataMiddleware.is_allowed">is_allowed() (werkzeug.SharedDataMiddleware method)</a>
+        <dt><a href="utils.html#werkzeug.iri_to_uri">iri_to_uri() (in module werkzeug)</a>
+          </dt>
+        <dt><a href="middlewares.html#werkzeug.SharedDataMiddleware.is_allowed">is_allowed() (werkzeug.SharedDataMiddleware method)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.is_behind_proxy">is_behind_proxy (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dt><a href="routing.html#werkzeug.routing.Map.is_endpoint_expecting">is_endpoint_expecting() (werkzeug.routing.Map method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.is_entity_header">is_entity_header() (in module werkzeug)</a>
-          </dt>
-        <dt><a href="utils.html#werkzeug.LimitedStream.is_exhausted">is_exhausted (werkzeug.LimitedStream attribute)</a>
+        <dt><a href="http.html#werkzeug.is_entity_header">is_entity_header() (in module werkzeug)</a>
           </dt>
       </dl></td>
       <td><dl>
-        <dt><a href="utils.html#werkzeug.is_hop_by_hop_header">is_hop_by_hop_header() (in module werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.LimitedStream.is_exhausted">is_exhausted (werkzeug.LimitedStream attribute)</a>
+          </dt>
+        <dt><a href="http.html#werkzeug.is_hop_by_hop_header">is_hop_by_hop_header() (in module werkzeug)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.is_multiprocess">is_multiprocess (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.is_multithread">is_multithread (werkzeug.BaseRequest attribute)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.is_resource_modified">is_resource_modified() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.is_resource_modified">is_resource_modified() (in module werkzeug)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.is_run_once">is_run_once (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.is_secure">is_secure (werkzeug.BaseRequest attribute)</a>
+          </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.is_sequence">is_sequence (werkzeug.BaseResponse attribute)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseResponse.is_streamed">is_streamed (werkzeug.BaseResponse attribute)</a>
           </dt>
@@ -586,7 +627,7 @@
           </dt>
         <dt><a href="datastructures.html#werkzeug.MultiDict.iteritems">iteritems() (werkzeug.MultiDict method)</a>
           </dt>
-        <dt><a href="datastructures.html#werkzeug.MultiDict.iterkeys">iterkeys() (werkzeug.MultiDict method)</a>
+        <dt><a href="datastructures.html#werkzeug.MultiDict.iterkeys">iterkeys (werkzeug.MultiDict attribute)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.MultiDict.iterlists">iterlists() (werkzeug.MultiDict method)</a>
           </dt>
@@ -615,7 +656,7 @@
     <h2 id="K">K</h2>
     <table class="indextable"><tr>
       <td><dl>
-        <dt><a href="datastructures.html#werkzeug.MultiDict.keys">keys() (werkzeug.MultiDict method)</a>
+        <dt><a href="datastructures.html#werkzeug.MultiDict.keys">keys (werkzeug.MultiDict attribute)</a>
           </dt>
       </dl></td>
     </tr></table>
@@ -633,13 +674,17 @@
           </dt>
         <dt><a href="contrib/fixers.html#werkzeug.contrib.fixers.LighttpdCGIRootFix">LighttpdCGIRootFix (class in werkzeug.contrib.fixers)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.LimitedStream">LimitedStream (class in werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.LimitedStream">LimitedStream (class in werkzeug)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.Headers.linked">linked() (werkzeug.Headers class method)</a>
           </dt>
+        <dt><a href="contrib/lint.html#werkzeug.contrib.lint.LintMiddleware">LintMiddleware (class in werkzeug.contrib.lint)</a>
+          </dt>
       </dl></td>
       <td><dl>
-        <dt><a href="contrib/lint.html#werkzeug.contrib.lint.LintMiddleware">LintMiddleware (class in werkzeug.contrib.lint)</a>
+        <dt><a href="contrib/sessions.html#werkzeug.contrib.sessions.FilesystemSessionStore.list">list() (werkzeug.contrib.sessions.FilesystemSessionStore method)</a>
+          </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseRequest.list_storage_class">list_storage_class (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.MultiDict.lists">lists() (werkzeug.MultiDict method)</a>
           </dt>
@@ -663,11 +708,13 @@
           </dt>
         <dt><a href="wrappers.html#werkzeug.ETagResponseMixin.make_conditional">make_conditional() (werkzeug.ETagResponseMixin method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.make_line_iter">make_line_iter() (in module werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.make_line_iter">make_line_iter() (in module werkzeug)</a>
           </dt>
         <dt><a href="local.html#werkzeug.LocalManager.make_middleware">make_middleware() (werkzeug.LocalManager method)</a>
           </dt>
         <dt><a href="script.html#werkzeug.script.make_runserver">make_runserver() (in module werkzeug.script)</a>
+          </dt>
+        <dt><a href="wrappers.html#werkzeug.BaseResponse.make_sequence">make_sequence() (werkzeug.BaseResponse method)</a>
           </dt>
         <dt><a href="script.html#werkzeug.script.make_shell">make_shell() (in module werkzeug.script)</a>
           </dt>
@@ -782,18 +829,20 @@
     <h2 id="O">O</h2>
     <table class="indextable"><tr>
       <td><dl>
-        <dt><a href="utils.html#werkzeug.LimitedStream.on_exhausted">on_exhausted() (werkzeug.LimitedStream method)</a>
+        <dt><a href="wsgi.html#werkzeug.LimitedStream.on_exhausted">on_exhausted() (werkzeug.LimitedStream method)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.RequestCacheControl.only_if_cached">only_if_cached (werkzeug.RequestCacheControl attribute)</a>
           </dt>
-      </dl></td>
-      <td><dl>
         <dt><a href="datastructures.html#werkzeug.Authorization.opaque">opaque (werkzeug.Authorization attribute)</a>
           </dt>
         <dd><dl>
           <dt><a href="datastructures.html#werkzeug.WWWAuthenticate.opaque">(werkzeug.WWWAuthenticate attribute)</a></dt>
         </dl></dd>
+      </dl></td>
+      <td><dl>
         <dt><a href="test.html#werkzeug.Client.open">open() (werkzeug.Client method)</a>
+          </dt>
+        <dt><a href="datastructures.html#werkzeug.OrderedMultiDict">OrderedMultiDict (class in werkzeug)</a>
           </dt>
       </dl></td>
     </tr></table>
@@ -801,31 +850,33 @@
     <h2 id="P">P</h2>
     <table class="indextable"><tr>
       <td><dl>
-        <dt><a href="utils.html#werkzeug.parse_accept_header">parse_accept_header() (in module werkzeug)</a>
+        <dt><a href="wrappers.html#werkzeug.BaseRequest.parameter_storage_class">parameter_storage_class (werkzeug.BaseRequest attribute)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_authorization_header">parse_authorization_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_accept_header">parse_accept_header() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_cache_control_header">parse_cache_control_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_authorization_header">parse_authorization_header() (in module werkzeug)</a>
+          </dt>
+        <dt><a href="http.html#werkzeug.parse_cache_control_header">parse_cache_control_header() (in module werkzeug)</a>
           </dt>
         <dt><a href="utils.html#werkzeug.parse_cookie">parse_cookie() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_date">parse_date() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_date">parse_date() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_dict_header">parse_dict_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_dict_header">parse_dict_header() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_etags">parse_etags() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_etags">parse_etags() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_form_data">parse_form_data() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_form_data">parse_form_data() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_list_header">parse_list_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_list_header">parse_list_header() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_options_header">parse_options_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_options_header">parse_options_header() (in module werkzeug)</a>
           </dt>
         <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.ProtobufRequestMixin.parse_protobuf">parse_protobuf() (werkzeug.contrib.wrappers.ProtobufRequestMixin method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_set_header">parse_set_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_set_header">parse_set_header() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.parse_www_authenticate_header">parse_www_authenticate_header() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.parse_www_authenticate_header">parse_www_authenticate_header() (in module werkzeug)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.Authorization.password">password (werkzeug.Authorization attribute)</a>
           </dt>
@@ -839,7 +890,7 @@
           </dt>
         <dt><a href="contrib/fixers.html#werkzeug.contrib.fixers.PathInfoFromRequestUriFix">PathInfoFromRequestUriFix (class in werkzeug.contrib.fixers)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.peek_path_info">peek_path_info() (in module werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.peek_path_info">peek_path_info() (in module werkzeug)</a>
           </dt>
       </dl></td>
       <td><dl>
@@ -850,7 +901,7 @@
         <dd><dl>
           <dt><a href="datastructures.html#werkzeug.MultiDict.pop">(werkzeug.MultiDict method)</a></dt>
         </dl></dd>
-        <dt><a href="utils.html#werkzeug.pop_path_info">pop_path_info() (in module werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.pop_path_info">pop_path_info() (in module werkzeug)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.Headers.popitem">popitem() (werkzeug.Headers method)</a>
           </dt>
@@ -883,8 +934,8 @@
           </dt>
         <dt><a href="test.html#werkzeug.Client.put">put() (werkzeug.Client method)</a>
           </dt>
-        <dt><a href="quickstart.html#index-16">Python Enhancement Proposals!PEP 333</a>
-          , <a href="contrib/lint.html#index-15">[Link]</a>, <a href="utils.html#index-22">[Link]</a>, <a href="terms.html#index-18">[Link]</a></dt>
+        <dt><a href="quickstart.html#index-4">Python Enhancement Proposals!PEP 333</a>
+          , <a href="contrib/lint.html#index-1">[Link]</a>, <a href="wsgi.html#index-7">[Link]</a>, <a href="terms.html#index-6">[Link]</a></dt>
       </dl></td>
     </tr></table>
   
@@ -896,6 +947,8 @@
         <dd><dl>
           <dt><a href="datastructures.html#werkzeug.WWWAuthenticate.qop">(werkzeug.WWWAuthenticate attribute)</a></dt>
         </dl></dd>
+        <dt><a href="datastructures.html#werkzeug.Accept.quality">quality() (werkzeug.Accept method)</a>
+          </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.query_string">query_string (werkzeug.BaseRequest attribute)</a>
           </dt>
         <dd><dl>
@@ -907,9 +960,9 @@
       <td><dl>
         <dt><a href="contrib/securecookie.html#werkzeug.contrib.securecookie.SecureCookie.quote_base64">quote_base64 (werkzeug.contrib.securecookie.SecureCookie attribute)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.quote_etag">quote_etag() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.quote_etag">quote_etag() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.quote_header_value">quote_header_value() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.quote_header_value">quote_header_value() (in module werkzeug)</a>
           </dt>
       </dl></td>
     </tr></table>
@@ -917,11 +970,11 @@
     <h2 id="R">R</h2>
     <table class="indextable"><tr>
       <td><dl>
-        <dt><a href="utils.html#werkzeug.LimitedStream.read">read() (werkzeug.LimitedStream method)</a>
+        <dt><a href="wsgi.html#werkzeug.LimitedStream.read">read() (werkzeug.LimitedStream method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.LimitedStream.readline">readline() (werkzeug.LimitedStream method)</a>
+        <dt><a href="wsgi.html#werkzeug.LimitedStream.readline">readline() (werkzeug.LimitedStream method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.LimitedStream.readlines">readlines() (werkzeug.LimitedStream method)</a>
+        <dt><a href="wsgi.html#werkzeug.LimitedStream.readlines">readlines() (werkzeug.LimitedStream method)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.Authorization.realm">realm (werkzeug.Authorization attribute)</a>
           </dt>
@@ -941,9 +994,9 @@
         <dd><dl>
           <dt><a href="datastructures.html#werkzeug.HeaderSet.remove">(werkzeug.HeaderSet method)</a></dt>
         </dl></dd>
-        <dt><a href="utils.html#werkzeug.remove_entity_headers">remove_entity_headers() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.remove_entity_headers">remove_entity_headers() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.remove_hop_by_hop_headers">remove_hop_by_hop_headers() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.remove_hop_by_hop_headers">remove_hop_by_hop_headers() (in module werkzeug)</a>
           </dt>
         <dt><a href="templates.html#werkzeug.Template.render">render() (werkzeug.Template method)</a>
           </dt>
@@ -961,7 +1014,7 @@
           </dt>
       </dl></td>
       <td><dl>
-        <dt><a href="utils.html#werkzeug.responder">responder() (in module werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.responder">responder() (in module werkzeug)</a>
           </dt>
         <dt><a href="wrappers.html#werkzeug.Response">Response (class in werkzeug)</a>
           </dt>
@@ -980,8 +1033,8 @@
           </dt>
         <dt>RFC</dt>
         <dd><dl>
-          <dt><a href="quickstart.html#index-17">RFC 2616</a>, <a href="utils.html#index-23">[Link]</a></dt>
-          <dt><a href="contrib/atom.html#index-21">RFC 4287</a></dt>
+          <dt><a href="quickstart.html#index-5">RFC 2616</a>, <a href="http.html#index-2">[Link]</a>, <a href="http.html#index-3">[Link]</a></dt>
+          <dt><a href="contrib/atom.html#index-0">RFC 4287</a></dt>
         </dl></dd>
         <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.RoutingArgsRequestMixin.routing_args">routing_args (werkzeug.contrib.wrappers.RoutingArgsRequestMixin attribute)</a>
           </dt>
@@ -1073,7 +1126,7 @@
           </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.shallow">shallow (werkzeug.BaseRequest attribute)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.SharedDataMiddleware">SharedDataMiddleware (class in werkzeug)</a>
+        <dt><a href="middlewares.html#werkzeug.SharedDataMiddleware">SharedDataMiddleware (class in werkzeug)</a>
           </dt>
         <dt><a href="contrib/securecookie.html#werkzeug.contrib.securecookie.SecureCookie.should_save">should_save (werkzeug.contrib.securecookie.SecureCookie attribute)</a>
           </dt>
@@ -1110,7 +1163,7 @@
           </dt>
         <dt><a href="routing.html#werkzeug.routing.MapAdapter.test">test() (werkzeug.routing.MapAdapter method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.test_app">test_app() (in module werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.test_app">test_app() (in module werkzeug)</a>
           </dt>
         <dt><a href="datastructures.html#werkzeug.MultiDict.to_dict">to_dict() (werkzeug.MultiDict method)</a>
           </dt>
@@ -1143,11 +1196,13 @@
           </dt>
         <dt><a href="routing.html#werkzeug.routing.UnicodeConverter">UnicodeConverter (class in werkzeug.routing)</a>
           </dt>
+        <dt><a href="contrib/wrappers.html#werkzeug.contrib.wrappers.DynamicCharsetRequestMixin.unknown_charset">unknown_charset() (werkzeug.contrib.wrappers.DynamicCharsetRequestMixin method)</a>
+          </dt>
         <dt><a href="contrib/securecookie.html#werkzeug.contrib.securecookie.SecureCookie.unquote">unquote() (werkzeug.contrib.securecookie.SecureCookie class method)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.unquote_etag">unquote_etag() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.unquote_etag">unquote_etag() (in module werkzeug)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.unquote_header_value">unquote_header_value() (in module werkzeug)</a>
+        <dt><a href="http.html#werkzeug.unquote_header_value">unquote_header_value() (in module werkzeug)</a>
           </dt>
         <dt><a href="contrib/securecookie.html#werkzeug.contrib.securecookie.UnquoteError">UnquoteError</a>
           </dt>
@@ -1163,10 +1218,14 @@
         </dl></dd>
         <dt><a href="datastructures.html#werkzeug.Authorization.uri">uri (werkzeug.Authorization attribute)</a>
           </dt>
+        <dt><a href="utils.html#werkzeug.uri_to_iri">uri_to_iri() (in module werkzeug)</a>
+          </dt>
         <dt><a href="wrappers.html#werkzeug.BaseRequest.url">url (werkzeug.BaseRequest attribute)</a>
           </dt>
       </dl></td>
       <td><dl>
+        <dt><a href="wrappers.html#werkzeug.BaseRequest.url_charset">url_charset (werkzeug.BaseRequest attribute)</a>
+          </dt>
         <dt><a href="utils.html#werkzeug.url_decode">url_decode() (in module werkzeug)</a>
           </dt>
         <dt><a href="utils.html#werkzeug.url_encode">url_encode() (in module werkzeug)</a>
@@ -1219,7 +1278,7 @@
     <table class="indextable"><tr>
       <td><dl>
         <dt><a href="datastructures.html#module-werkzeug">werkzeug (module)</a>
-          , <a href="request_data.html#module-werkzeug">[Link]</a>, <a href="quickstart.html#module-werkzeug">[Link]</a>, <a href="utils.html#module-werkzeug">[Link]</a>, <a href="serving.html#module-werkzeug">[Link]</a>, <a href="unicode.html#module-werkzeug">[Link]</a>, <a href="tutorial.html#module-werkzeug">[Link]</a>, <a href="test.html#module-werkzeug">[Link]</a>, <a href="local.html#module-werkzeug">[Link]</a>, <a href="templates.html#module-werkzeug">[Link]</a>, <a href="terms.html#module-werkzeug">[Link]</a>, <a href="levels.html#module-werkzeug">[Link]</a>, <a href="wrappers.html#module-werkzeug">[Link]</a>, <a href="debug.html#module-werkzeug">[Link]</a>, <a href="changes.html#module-werkzeug">[Link]</a></dt>
+          , <a href="request_data.html#module-werkzeug">[Link]</a>, <a href="quickstart.html#module-werkzeug">[Link]</a>, <a href="utils.html#module-werkzeug">[Link]</a>, <a href="wsgi.html#module-werkzeug">[Link]</a>, <a href="unicode.html#module-werkzeug">[Link]</a>, <a href="tutorial.html#module-werkzeug">[Link]</a>, <a href="terms.html#module-werkzeug">[Link]</a>, <a href="serving.html#module-werkzeug">[Link]</a>, <a href="test.html#module-werkzeug">[Link]</a>, <a href="local.html#module-werkzeug">[Link]</a>, <a href="templates.html#module-werkzeug">[Link]</a>, <a href="http.html#module-werkzeug">[Link]</a>, <a href="debug.html#module-werkzeug">[Link]</a>, <a href="middlewares.html#module-werkzeug">[Link]</a>, <a href="levels.html#module-werkzeug">[Link]</a>, <a href="wrappers.html#module-werkzeug">[Link]</a>, <a href="changes.html#module-werkzeug">[Link]</a></dt>
         <dt><a href="contrib/atom.html#module-werkzeug.contrib.atom">werkzeug.contrib.atom (module)</a>
           </dt>
         <dt><a href="contrib/cache.html#module-werkzeug.contrib.cache">werkzeug.contrib.cache (module)</a>
@@ -1246,7 +1305,7 @@
           </dt>
         <dt><a href="script.html#module-werkzeug.script">werkzeug.script (module)</a>
           </dt>
-        <dt><a href="utils.html#werkzeug.wrap_file">wrap_file() (in module werkzeug)</a>
+        <dt><a href="wsgi.html#werkzeug.wrap_file">wrap_file() (in module werkzeug)</a>
           </dt>
         <dt><a href="test.html#werkzeug.EnvironBuilder.wsgi_version">wsgi_version (werkzeug.EnvironBuilder attribute)</a>
           </dt>

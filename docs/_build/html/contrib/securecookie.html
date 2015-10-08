@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -9,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.5.1dev'
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -19,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Cache" href="cache.html">
     <link rel="prev" title="Sessions" href="sessions.html">
@@ -34,14 +35,14 @@
       <ul class="navigation">
         <li class="indexlink"><a href="../index.html">Overview</a></li>
         <li><a href="sessions.html">&laquo; Sessions</a></li>
-        <li class="active"><a href="">Secure Cookie</a></li>
+        <li class="active"><a href="#">Secure Cookie</a></li>
         <li><a href="cache.html">Cache &raquo;</a></li>
       </ul>
       <div class="body">
         <div id="toc">
           <h3>Table Of Contents</h3>
           <div class="inner"><ul>
-<li><a class="reference external" href="">Secure Cookie</a><ul>
+<li><a class="reference external" href="#">Secure Cookie</a><ul>
 <li><a class="reference external" href="#application-integration">Application Integration</a></li>
 <li><a class="reference external" href="#reference">Reference</a></li>
 </ul>
@@ -133,8 +134,7 @@ secure cookie into your application like this:</p>
 <h2>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="werkzeug.contrib.securecookie.SecureCookie">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.securecookie.</tt><tt class="descname">SecureCookie</tt><big>(</big><em>data=None</em>, <em>secret_key=None</em>, <em>new=True</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.securecookie.</tt><tt class="descname">SecureCookie</tt><big>(</big><em>data=None</em>, <em>secret_key=None</em>, <em>new=True</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents a secure cookie.  You can subclass this class and provide
 an alternative mac method.  The import thing is that the mac method
 is a function with a similar interface to the hashlib.  Required
@@ -157,7 +157,7 @@ methods are update() and digest().</p>
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><em>data</em> &#8211; the initial data.  Either a dict, list of tuples or <cite>None</cite>.</li>
 <li><em>secret_key</em> &#8211; the secret key.  If not set <cite>None</cite> or not specified
-it has to be set before <a title="werkzeug.contrib.securecookie.SecureCookie.serialize" class="reference internal" href="#werkzeug.contrib.securecookie.SecureCookie.serialize"><tt class="xref docutils literal"><span class="pre">serialize</span></tt></a> is called.</li>
+it has to be set before <a title="werkzeug.contrib.securecookie.SecureCookie.serialize" class="reference internal" href="#werkzeug.contrib.securecookie.SecureCookie.serialize"><tt class="xref docutils literal"><span class="pre">serialize()</span></tt></a> is called.</li>
 <li><em>new</em> &#8211; The initial value of the <cite>new</cite> flag.</li>
 </ul>
 </td>
@@ -167,7 +167,7 @@ it has to be set before <a title="werkzeug.contrib.securecookie.SecureCookie.ser
 <dl class="attribute">
 <dt id="werkzeug.contrib.securecookie.SecureCookie.new">
 <tt class="descname">new</tt><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.new" title="Permalink to this definition">¶</a></dt>
-<dd><cite>True</cite> is the cookie was newly created, otherwise <cite>False</cite></dd></dl>
+<dd><cite>True</cite> if the cookie was newly created, otherwise <cite>False</cite></dd></dl>
 
 <dl class="attribute">
 <dt id="werkzeug.contrib.securecookie.SecureCookie.modified">
@@ -189,17 +189,16 @@ in the cookie:</p>
 <a title="werkzeug.contrib.securecookie.SecureCookie.should_save" class="reference internal" href="#werkzeug.contrib.securecookie.SecureCookie.should_save"><tt class="xref docutils literal"><span class="pre">should_save</span></tt></a> can pick it up.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="attribute">
 <dt id="werkzeug.contrib.securecookie.SecureCookie.hash_method">
-<tt class="descname">hash_method</tt><big>(</big><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.hash_method" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">hash_method</tt><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.hash_method" title="Permalink to this definition">¶</a></dt>
 <dd>The hash method to use.  This has to be a module with a new function
 or a function that creates a hashlib object.  Such as <cite>hashlib.md5</cite>
 Subclasses can override this attribute.  The default hash is sha1.</dd></dl>
 
 <dl class="classmethod">
 <dt id="werkzeug.contrib.securecookie.SecureCookie.load_cookie">
-<em class="property">
-classmethod </em><tt class="descname">load_cookie</tt><big>(</big><em>request</em>, <em>key='session'</em>, <em>secret_key=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.load_cookie" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">load_cookie</tt><big>(</big><em>request</em>, <em>key='session'</em>, <em>secret_key=None</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.load_cookie" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a <a title="werkzeug.contrib.securecookie.SecureCookie" class="reference internal" href="#werkzeug.contrib.securecookie.SecureCookie"><tt class="xref docutils literal"><span class="pre">SecureCookie</span></tt></a> from a cookie in request.  If the
 cookie is not set, a new <a title="werkzeug.contrib.securecookie.SecureCookie" class="reference internal" href="#werkzeug.contrib.securecookie.SecureCookie"><tt class="xref docutils literal"><span class="pre">SecureCookie</span></tt></a> instanced is
 returned.</p>
@@ -223,8 +222,7 @@ no default!</li>
 
 <dl class="classmethod">
 <dt id="werkzeug.contrib.securecookie.SecureCookie.quote">
-<em class="property">
-classmethod </em><tt class="descname">quote</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.quote" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">quote</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.quote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Quote the value for the cookie.  This can be any object supported
 by <a title="werkzeug.contrib.securecookie.SecureCookie.serialization_method" class="reference internal" href="#werkzeug.contrib.securecookie.SecureCookie.serialization_method"><tt class="xref docutils literal"><span class="pre">serialization_method</span></tt></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -248,14 +246,14 @@ serialization process returns cookie safe strings only.</dd></dl>
 <tt class="descname">save_cookie</tt><big>(</big><em>response</em>, <em>key='session'</em>, <em>expires=None</em>, <em>session_expires=None</em>, <em>max_age=None</em>, <em>path='/'</em>, <em>domain=None</em>, <em>secure=None</em>, <em>httponly=False</em>, <em>force=False</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.save_cookie" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the SecureCookie in a cookie on response object.  All
 parameters that are not described here are forwarded directly
-to <tt class="xref docutils literal"><span class="pre">set_cookie</span></tt>.</p>
+to <tt class="xref docutils literal"><span class="pre">set_cookie()</span></tt>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><em>response</em> &#8211; a response object that has a
-<tt class="xref docutils literal"><span class="pre">set_cookie</span></tt> method.</li>
+<tt class="xref docutils literal"><span class="pre">set_cookie()</span></tt> method.</li>
 <li><em>key</em> &#8211; the name of the cookie.</li>
 <li><em>session_expires</em> &#8211; the expiration date of the secure cookie
 stored information.  If this is not provided
@@ -299,8 +297,7 @@ for <a title="werkzeug.contrib.securecookie.SecureCookie.modified" class="refere
 
 <dl class="classmethod">
 <dt id="werkzeug.contrib.securecookie.SecureCookie.unquote">
-<em class="property">
-classmethod </em><tt class="descname">unquote</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.unquote" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">unquote</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.unquote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unquote the value for the cookie.  If unquoting does not work a
 <a title="werkzeug.contrib.securecookie.UnquoteError" class="reference internal" href="#werkzeug.contrib.securecookie.UnquoteError"><tt class="xref docutils literal"><span class="pre">UnquoteError</span></tt></a> is raised.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -315,8 +312,7 @@ classmethod </em><tt class="descname">unquote</tt><big>(</big><em>value</em><big
 
 <dl class="classmethod">
 <dt id="werkzeug.contrib.securecookie.SecureCookie.unserialize">
-<em class="property">
-classmethod </em><tt class="descname">unserialize</tt><big>(</big><em>string</em>, <em>secret_key</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.unserialize" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">unserialize</tt><big>(</big><em>string</em>, <em>secret_key</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.securecookie.SecureCookie.unserialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the secure cookie from a serialized string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -339,8 +335,7 @@ classmethod </em><tt class="descname">unserialize</tt><big>(</big><em>string</em
 
 <dl class="exception">
 <dt id="werkzeug.contrib.securecookie.UnquoteError">
-<em class="property">
-exception </em><tt class="descclassname">werkzeug.contrib.securecookie.</tt><tt class="descname">UnquoteError</tt><a class="headerlink" href="#werkzeug.contrib.securecookie.UnquoteError" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><tt class="descclassname">werkzeug.contrib.securecookie.</tt><tt class="descname">UnquoteError</tt><a class="headerlink" href="#werkzeug.contrib.securecookie.UnquoteError" title="Permalink to this definition">¶</a></dt>
 <dd>Internal exception used to signal failures on quoting.</dd></dl>
 
 </div>

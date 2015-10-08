@@ -13,6 +13,12 @@ You can import all these objects directly from :mod:`werkzeug`.
 General Purpose
 ===============
 
+.. versionchanged:: 0.6
+   The general purpose classes are now pickleable in each protocol as long
+   as the contained objects are pickleable.  This means that the
+   :class:`FileMultiDict` won't be pickleable as soon as it contains a
+   file.
+
 .. autoclass:: TypeConversionDict
    :members:
 
@@ -23,7 +29,12 @@ General Purpose
    :members:
    :inherited-members:
 
+.. autoclass:: OrderedMultiDict
+
 .. autoclass:: ImmutableMultiDict
+   :members: copy
+
+.. autoclass:: ImmutableOrderedMultiDict
    :members: copy
 
 .. autoclass:: CombinedMultiDict
@@ -35,6 +46,8 @@ General Purpose
 
 .. autoclass:: FileMultiDict
    :members:
+
+.. _http-datastructures:
 
 HTTP Related
 ============
@@ -115,3 +128,11 @@ Others
    .. attribute:: content_length
 
       The length of the file in bytes.
+
+   .. attribute:: headers
+
+      The multipart headers as :class:`Headers` object.  This usually contains
+      irrelevant information but in combination with custom multipart requests
+      the raw headers might be interesting.
+
+      .. versionadded:: 0.6

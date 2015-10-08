@@ -27,7 +27,7 @@ sys.path.append(os.path.abspath('.'))
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx',
-              'werkzeugext']
+              'sphinx.ext.doctest', 'werkzeugext']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -88,6 +88,11 @@ add_function_parentheses = True
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'tango'
+
+# doctest setup code
+doctest_global_setup = '''\
+from werkzeug import *
+'''
 
 
 # Options for HTML output
@@ -195,6 +200,6 @@ latex_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'http://docs.python.org/dev': None,
-    'http://beta.pylonshq.com/docs/en/0.9.7': None,
+    'http://pylonshq.com/docs/en/0.9.7/': None,
     'http://www.sqlalchemy.org/docs/05': None
 }

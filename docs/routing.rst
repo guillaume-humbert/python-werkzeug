@@ -6,6 +6,10 @@ URL Routing
 
 .. module:: werkzeug.routing
 
+.. testsetup::
+
+   from werkzeug.routing import *
+
 When it comes to combining multiple controller or view functions (however
 you want to call them), you need a dispatcher.  A simple way would be
 applying regular expression tests on ``PATH_INFO`` and call registered
@@ -21,7 +25,7 @@ from :mod:`werkzeug`!
 Quickstart
 ==========
 
-Here a simple example which could be the URL definition for a blog::
+Here is a simple example which could be the URL definition for a blog::
 
     from werkzeug.routing import Map, Rule, NotFound, RequestRedirect
 
@@ -51,7 +55,7 @@ a bunch of URL rules.  Then we pass it a list of :class:`Rule` objects.
 
 Each :class:`Rule` object is instantiated with a string that represents a rule
 and an endpoint which will be the alias for what view the rule represents.
-Multiple rules can have the same endpoint but should have different arguments
+Multiple rules can have the same endpoint, but should have different arguments
 to allow URL construction.
 
 The format for the URL rules is straightforward, but explained in detail below.
@@ -101,11 +105,11 @@ Here a list of converters that come with Werkzeug:
 
 .. admonition:: Important
 
-    Werkzeug evaluates converter arguments as if they are Python method calls.
-    Thus, you should **never** create rules from user submitted data since
+    Werkzeug evaluates converter arguments as if they were Python method calls.
+    Thus, you should **never** create rules from user-submitted data since
     they could insert arbitrary Python code in the parameters part.
 
-    As a matter of fact this is a legal definition and sets fixed_digits to 2:
+    As a matter of fact, this is a legal definition and sets *fixed_digits* to 2:
 
     .. sourcecode:: python
 

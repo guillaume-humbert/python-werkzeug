@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -9,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.5.1dev'
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -19,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Important Terms" href="../terms.html">
     <link rel="prev" title="WSGI Application Profiler" href="profiler.html">
@@ -34,17 +35,17 @@
       <ul class="navigation">
         <li class="indexlink"><a href="../index.html">Overview</a></li>
         <li><a href="profiler.html">&laquo; WSGI Application Profiler</a></li>
-        <li class="active"><a href="">Lint Validation Middleware</a></li>
+        <li class="active"><a href="#">Lint Validation Middleware</a></li>
         <li><a href="../terms.html">Important Terms &raquo;</a></li>
       </ul>
       <div class="body">
         
   <div class="section" id="module-werkzeug.contrib.lint">
 <h1>Lint Validation Middleware<a class="headerlink" href="#module-werkzeug.contrib.lint" title="Permalink to this headline">¶</a></h1>
-<p>
+<p class="versionadded">
 <span class="versionmodified">New in version 0.5.</span></p>
 <p>This module provides a middleware that performs sanity checks of the WSGI
-application.  It checks that <span class="target" id="index-15"></span><a class="reference external" href="http://www.python.org/dev/peps/pep-0333"><strong>PEP 333</strong></a> is properly implemented and warns
+application.  It checks that <span class="target" id="index-1"></span><a class="reference external" href="http://www.python.org/dev/peps/pep-0333"><strong>PEP 333</strong></a> is properly implemented and warns
 on some common HTTP errors such as non-empty responses for 304 status
 codes.</p>
 <p>This module provides a middleware, the <a title="werkzeug.contrib.lint.LintMiddleware" class="reference internal" href="#werkzeug.contrib.lint.LintMiddleware"><tt class="xref docutils literal"><span class="pre">LintMiddleware</span></tt></a>.  Wrap your
@@ -53,8 +54,7 @@ HTTP while your application is running.</p>
 <p>It&#8217;s strongly recommended to use it during development.</p>
 <dl class="class">
 <dt id="werkzeug.contrib.lint.LintMiddleware">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.contrib.lint.</tt><tt class="descname">LintMiddleware</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.lint.LintMiddleware" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.contrib.lint.</tt><tt class="descname">LintMiddleware</tt><big>(</big><em>app</em><big>)</big><a class="headerlink" href="#werkzeug.contrib.lint.LintMiddleware" title="Permalink to this definition">¶</a></dt>
 <dd><p>This middleware wraps an application and warns on common errors.
 Among other thing it currently checks for the following problems:</p>
 <ul class="simple">

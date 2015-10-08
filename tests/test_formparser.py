@@ -1,9 +1,51 @@
 # -*- coding: utf-8 -*-
+"""
+    werkzeug.formparser test
+    ~~~~~~~~~~~~~~~~~~~~~~~~
+
+    Tests the form parsing capabilties.  Some of them are also tested from
+    the wrappers.
+
+    :copyright: (c) 2010 by the Werkzeug Team, see AUTHORS for more details.
+    :license: BSD, see LICENSE for more details.
+"""
 from nose.tools import assert_raises
 from os.path import join, dirname, abspath
 from cStringIO import StringIO
-from werkzeug import Client, Request, Response
+
+from werkzeug import Client, Request, Response, parse_form_data, \
+     create_environ, FileStorage
 from werkzeug.exceptions import RequestEntityTooLarge
+
+
+def test_parse_form_data_put_without_content():
+    """A PUT without a Content-Type header returns empty data
+
+    Both rfc1945 and rfc2616 (1.0 and 1.1) say "Any HTTP/[1.0/1.1] message
+    containing an entity-body SHOULD include a Content-Type header field
+    defining the media type of that body."  In the case where either
+    headers are omitted, parse_form_data should still work.
+    """
+    env = create_environ('/foo', 'http://example.org/', method='PUT')
+    del env['CONTENT_TYPE']
+    del env['CONTENT_LENGTH']
+
+    stream, form, files = parse_form_data(env)
+    assert stream.read() == ""
+    assert len(form) == 0
+    assert len(files) == 0
+
+
+def test_parse_form_data_get_without_content():
+    """GET requests without data, content type and length returns no data"""
+    env = create_environ('/foo', 'http://example.org/', method='GET')
+    del env['CONTENT_TYPE']
+    del env['CONTENT_LENGTH']
+
+    stream, form, files = parse_form_data(env)
+    assert stream.read() == ""
+    assert len(form) == 0
+    assert len(files) == 0
 
 
 @Request.application
@@ -92,6 +134,21 @@ def test_end_of_file_multipart():
     assert not data.form
 
 
+def test_multipart_file_no_content_type():
+    """Chrome does not always provide a content type."""
+    data = (
+        '--foo\r\n'
+        'Content-Disposition: form-data; name="test"; filename="test.txt"\r\n\r\n'
+        'file contents\r\n--foo--'
+    )
+    data = Request.from_values(input_stream=StringIO(data),
+                               content_length=len(data),
+                               content_type='multipart/form-data; boundary=foo',
+                               method='POST')
+    assert data.files['test'].filename == 'test.txt'
+    assert data.files['test'].read() == 'file contents'
+
+
 def test_extra_newline_multipart():
     """Test for multipart uploads with extra newlines"""
     # this test looks innocent but it was actually timeing out in
@@ -108,6 +165,24 @@ def test_extra_newline_multipart():
                                method='POST')
     assert not data.files
     assert data.form['foo'] == 'a string'
+
+
+def test_multipart_headers():
+    """Test access to multipart headers"""
+    data = ('--foo\r\n'
+            'Content-Disposition: form-data; name="foo"; filename="foo.txt"\r\n'
+            'X-Custom-Header: blah\r\n'
+            'Content-Type: text/plain; charset=utf-8\r\n\r\n'
+            'file contents, just the contents\r\n'
+            '--foo--')
+    req = Request.from_values(input_stream=StringIO(data),
+                              content_length=len(data),
+                              content_type='multipart/form-data; boundary=foo',
+                              method='POST')
+    foo = req.files['foo']
+    assert foo.content_type == 'text/plain'
+    assert foo.headers['content-type'] == 'text/plain; charset=utf-8'
+    assert foo.headers['x-custom-header'] == 'blah'
 
 
 def test_nonstandard_line_endings():

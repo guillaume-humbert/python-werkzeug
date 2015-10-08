@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: Werkzeug
-Version: 0.5.1
+Version: 0.6
 Summary: The Swiss Army knife of Python web development
 Home-page: http://werkzeug.pocoo.org/
 Author: Armin Ronacher

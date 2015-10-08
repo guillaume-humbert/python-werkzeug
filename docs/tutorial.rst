@@ -302,7 +302,8 @@ and we won't cover it here, most of the code should be self explaining anyway.
 What's important is that you should be able to run ``python manage.py shell``
 to get an interactive Python interpreter without traceback.  If you get an
 exception check the line number and compare your code with the code we have
-in the code boxes above.
+in the code boxes above.  Also make sure that you have created the empty
+``shorty/views.py`` and ``shorty/models.py`` files.
 
 To run your application for development purposes you can also use the manage
 script.  Just execute this command from your command line::
@@ -324,6 +325,7 @@ just have one model and table::
 
     from datetime import datetime
     from sqlalchemy import Table, Column, String, Boolean, DateTime
+    from sqlalchemy.orm import mapper
     from shorty.utils import session, metadata, url_for, get_random_uid
 
     url_table = Table('urls', metadata,
@@ -334,6 +336,7 @@ just have one model and table::
     )
 
     class URL(object):
+        query = session.query_property()
 
         def __init__(self, target, public=True, uid=None, added=None):
             self.target = target
@@ -345,6 +348,7 @@ just have one model and table::
                     if not URL.query.get(uid):
                         break
             self.uid = uid
+            session.add(self)
 
         @property
         def short_url(self):
@@ -353,7 +357,7 @@ just have one model and table::
         def __repr__(self):
             return '<URL %r>' % self.uid
 
-    session.mapper(URL, url_table)
+    mapper(URL, url_table)
 
 This module is pretty straightforward.  We import all the stuff we need from
 SQLAlchemy and create a table.  Then we add a class for this table and we map
@@ -375,31 +379,39 @@ module::
 Once that is done we can use ``python manage.py initdb`` to initialize the
 database and play around with the stuff using ``python manage.py shell``:
 
->>> from shorty.models import session, URL
+.. sourcecode:: pycon
+
+   >>> from shorty.models import session, URL
 
 Now we can add some URLs to the database:
 
->>> urls = [URL('http://example.org/'), URL('http://localhost:5000/')]
->>> URL.query.all()
-[]
->>> session.commit()
->>> URL.query.all()
-[<URL '5cFbsk'>, <URL 'mpugsT'>]
+.. sourcecode:: pycon
+
+   >>> urls = [URL('http://example.org/'), URL('http://localhost:5000/')]
+   >>> URL.query.all()
+   []
+   >>> session.commit()
+   >>> URL.query.all()
+   [<URL '5cFbsk'>, <URL 'mpugsT'>]
 
 As you can see we have to commit in order to send the urls to the database.
 Let's create a private item with a custom uid:
 
->>> URL('http://werkzeug.pocoo.org/', False, 'werkzeug-webpage')
->>> session.commit()
+.. sourcecode:: pycon
+
+   >>> URL('http://werkzeug.pocoo.org/', False, 'werkzeug-webpage')
+   >>> session.commit()
 
 And query them all:
 
->>> URL.query.filter_by(public=False).all()
-[<URL 'werkzeug-webpage'>]
->>> URL.query.filter_by(public=True).all()
-[<URL '5cFbsk'>, <URL 'mpugsT'>]
->>> URL.query.get('werkzeug-webpage')
-<URL 'werkzeug-webpage'>
+.. sourcecode:: pycon
+
+   >>> URL.query.filter_by(public=False).all()
+   [<URL 'werkzeug-webpage'>]
+   >>> URL.query.filter_by(public=True).all()
+   [<URL '5cFbsk'>, <URL 'mpugsT'>]
+   >>> URL.query.get('werkzeug-webpage')
+   <URL 'werkzeug-webpage'>
 
 Now that we have some data in the database and we are somewhat familiar with
 the way SQLAlchemy works, it's time to create our views.
@@ -553,11 +565,9 @@ project.
 engine.  As a matter of fact, Jinja has no idea what it is dealing with, so
 if you want to create HTML template it's your responsibility to escape *all*
 values that might include, at some point, any of the following characters: ``>``,
-``<`` or ``&``.  Inside attributes you also have to escape double quotes.
-You can use the jinja ``|e`` filter for basic escapes, if you pass it `true`
-as argument it will also escape quotes (``|e(true)``).  As you can see from
-the examples below we don't escape URLs.  The reason is that we won't have
-any ampersands in the URL and as such it's safe to omit it.
+``<``, ``&``, and ``"``.  As you can see from the examples below we don't
+escape URLs.  The reason is that we won't have any ampersands in the URL and
+as such it's safe to omit it.
 
 For simplicity we will use HTML 4 in our templates.  If you have already
 some experience with XHTML you can adopt the templates to XHTML.  But keep
@@ -597,7 +607,7 @@ And we can inherit from this base template in our ``templates/new.html``:
       {% if error %}<div class="error">{{ error }}</div>{% endif -%}
       <form action="" method="post">
         <p>Enter the URL you want to shorten</p>
-        <p><input type="text" name="url" id="url" value="{{ url|e(true) }}"></p>
+        <p><input type="text" name="url" id="url" value="{{ url|e }}"></p>
         <p>Optionally you can give the URL a memorable name</p>
         <p><input type="text" id="alias" name="alias">{#
          #}<input type="submit" id="submit" value="Do!"></p>
@@ -785,7 +795,7 @@ returned if we are not on the first page and there aren't any entries to display
 (Accessing something like ``/list/42`` without entries on that page and not
 returning a 404 status code would be considered bad style.)
 
-And finally the template:
+And finally the template (``templates/list.html``):
 
 .. sourcecode:: html+jinja
 
@@ -843,14 +853,12 @@ block goes right **before** the except block of the
 :exc:`~exceptions.HTTPException`::
 
     try:
-        # this stays the same
-        pass
+        ... # this stays the same
     except NotFound, e:
         response = views.not_found(request)
         response.status_code = 404
     except HTTPException, e:
-        # this stays the same
-        pass
+        ... # this stays the same
 
 Now add a template ``templates/not_found.html`` and you're done:
 

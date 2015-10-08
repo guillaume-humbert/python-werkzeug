@@ -1,3 +1,4 @@
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -8,8 +9,8 @@
     <link rel="stylesheet" href="_static/pygments.css" type="text/css">
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:   '',
-        VERSION:    '0.5.1dev'
+        URL_ROOT:   '#',
+        VERSION:    '0.6dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -19,9 +20,9 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.5.1dev documentation" href="index.html">
-    <link rel="next" title="Context Locals" href="local.html">
-    <link rel="prev" title="Wrappers" href="wrappers.html">
+    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="next" title="WSGI Helpers" href="wsgi.html">
+    <link rel="prev" title="Request / Response Objects" href="wrappers.html">
     
   </head>
   <body>
@@ -32,15 +33,15 @@
       </div>
       <ul class="navigation">
         <li class="indexlink"><a href="index.html">Overview</a></li>
-        <li><a href="wrappers.html">&laquo; Wrappers</a></li>
-        <li class="active"><a href="">URL Routing</a></li>
-        <li><a href="local.html">Context Locals &raquo;</a></li>
+        <li><a href="wrappers.html">&laquo; Request / Response Objects</a></li>
+        <li class="active"><a href="#">URL Routing</a></li>
+        <li><a href="wsgi.html">WSGI Helpers &raquo;</a></li>
       </ul>
       <div class="body">
         <div id="toc">
           <h3>Table Of Contents</h3>
           <div class="inner"><ul>
-<li><a class="reference external" href="">URL Routing</a><ul>
+<li><a class="reference external" href="#">URL Routing</a><ul>
 <li><a class="reference external" href="#quickstart">Quickstart</a></li>
 <li><a class="reference external" href="#rule-format">Rule Format</a></li>
 <li><a class="reference external" href="#builtin-converters">Builtin Converters</a></li>
@@ -61,11 +62,11 @@ you want to call them), you need a dispatcher.  A simple way would be
 applying regular expression tests on <tt class="docutils literal"><span class="pre">PATH_INFO</span></tt> and call registered
 callback functions that return the value.</p>
 <p>Werkzeug provides a much more powerful system, similar to <a class="reference external" href="http://routes.groovie.org/">Routes</a>.  All the
-objects mentioned on this page must be imported from <tt class="xref docutils literal"><span class="pre">werkzeug.routing</span></tt>, not
-from <a title="" class="reference external" href="wrappers.html#module-werkzeug"><tt class="xref docutils literal"><span class="pre">werkzeug</span></tt></a>!</p>
+objects mentioned on this page must be imported from <a title="" class="reference external" href="#module-werkzeug.routing"><tt class="xref docutils literal"><span class="pre">werkzeug.routing</span></tt></a>, not
+from <a title="" class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref docutils literal"><span class="pre">werkzeug</span></tt></a>!</p>
 <div class="section" id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
-<p>Here a simple example which could be the URL definition for a blog:</p>
+<p>Here is a simple example which could be the URL definition for a blog:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.routing</span> <span class="kn">import</span> <span class="n">Map</span><span class="p">,</span> <span class="n">Rule</span><span class="p">,</span> <span class="n">NotFound</span><span class="p">,</span> <span class="n">RequestRedirect</span>
 
 <span class="n">url_map</span> <span class="o">=</span> <span class="n">Map</span><span class="p">([</span>
@@ -94,17 +95,17 @@ from <a title="" class="reference external" href="wrappers.html#module-werkzeug"
 a bunch of URL rules.  Then we pass it a list of <a title="werkzeug.routing.Rule" class="reference internal" href="#werkzeug.routing.Rule"><tt class="xref docutils literal"><span class="pre">Rule</span></tt></a> objects.</p>
 <p>Each <a title="werkzeug.routing.Rule" class="reference internal" href="#werkzeug.routing.Rule"><tt class="xref docutils literal"><span class="pre">Rule</span></tt></a> object is instantiated with a string that represents a rule
 and an endpoint which will be the alias for what view the rule represents.
-Multiple rules can have the same endpoint but should have different arguments
+Multiple rules can have the same endpoint, but should have different arguments
 to allow URL construction.</p>
 <p>The format for the URL rules is straightforward, but explained in detail below.</p>
 <p>Inside the WSGI application we bind the url_map to the current request which will
 return a new <a title="werkzeug.routing.MapAdapter" class="reference internal" href="#werkzeug.routing.MapAdapter"><tt class="xref docutils literal"><span class="pre">MapAdapter</span></tt></a>.  This url_map adapter can then be used to match
 or build domains for the current request.</p>
-<p>The <a title="werkzeug.routing.MapAdapter.match" class="reference internal" href="#werkzeug.routing.MapAdapter.match"><tt class="xref docutils literal"><span class="pre">MapAdapter.match</span></tt></a> method can then either return a tuple in the form
+<p>The <a title="werkzeug.routing.MapAdapter.match" class="reference internal" href="#werkzeug.routing.MapAdapter.match"><tt class="xref docutils literal"><span class="pre">MapAdapter.match()</span></tt></a> method can then either return a tuple in the form
 <tt class="docutils literal"><span class="pre">(endpoint,</span> <span class="pre">args)</span></tt> or raise one of the three exceptions
 <a title="werkzeug.exceptions.NotFound" class="reference external" href="exceptions.html#werkzeug.exceptions.NotFound"><tt class="xref docutils literal"><span class="pre">NotFound</span></tt></a>, <a title="werkzeug.exceptions.MethodNotAllowed" class="reference external" href="exceptions.html#werkzeug.exceptions.MethodNotAllowed"><tt class="xref docutils literal"><span class="pre">MethodNotAllowed</span></tt></a>,
 or <tt class="xref docutils literal"><span class="pre">RequestRedirect</span></tt>.  For more details about those
-exceptions have a look at the documentation of the <a title="werkzeug.routing.MapAdapter.match" class="reference internal" href="#werkzeug.routing.MapAdapter.match"><tt class="xref docutils literal"><span class="pre">MapAdapter.match</span></tt></a> method.</p>
+exceptions have a look at the documentation of the <a title="werkzeug.routing.MapAdapter.match" class="reference internal" href="#werkzeug.routing.MapAdapter.match"><tt class="xref docutils literal"><span class="pre">MapAdapter.match()</span></tt></a> method.</p>
 </div>
 <div class="section" id="rule-format">
 <h2>Rule Format<a class="headerlink" href="#rule-format" title="Permalink to this headline">¶</a></h2>
@@ -124,10 +125,9 @@ below.</p>
 <p>Here a list of converters that come with Werkzeug:</p>
 <dl class="class">
 <dt id="werkzeug.routing.UnicodeConverter">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">UnicodeConverter</tt><big>(</big><em>map</em>, <em>minlength=1</em>, <em>maxlength=None</em>, <em>length=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.UnicodeConverter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">UnicodeConverter</tt><big>(</big><em>map</em>, <em>minlength=1</em>, <em>maxlength=None</em>, <em>length=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.UnicodeConverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>This converter is the default converter and accepts any string but
-only one one path segment.  Thus the string can not include a slash.</p>
+only one path segment.  Thus the string can not include a slash.</p>
 <p>This is the default validator.</p>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/pages/&lt;page&gt;&#39;</span><span class="p">),</span>
@@ -153,8 +153,7 @@ or equal 1.</li>
 
 <dl class="class">
 <dt id="werkzeug.routing.PathConverter">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">PathConverter</tt><big>(</big><em>map</em><big>)</big><a class="headerlink" href="#werkzeug.routing.PathConverter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">PathConverter</tt><big>(</big><em>map</em><big>)</big><a class="headerlink" href="#werkzeug.routing.PathConverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Like the default <a title="werkzeug.routing.UnicodeConverter" class="reference internal" href="#werkzeug.routing.UnicodeConverter"><tt class="xref docutils literal"><span class="pre">UnicodeConverter</span></tt></a>, but it also matches
 slashes.  This is useful for wikis and similar applications:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/&lt;path:wikipage&gt;&#39;</span><span class="p">)</span>
@@ -165,14 +164,7 @@ slashes.  This is useful for wikis and similar applications:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>map</em> &#8211; the <a title="werkzeug.routing.Map" class="reference internal" href="#werkzeug.routing.Map"><tt class="xref docutils literal"><span class="pre">Map</span></tt></a>.</li>
-<li><em>minlength</em> &#8211; the minimum length of the string.  Must be greater
-or equal 1.</li>
-<li><em>maxlength</em> &#8211; the maximum length of the string.</li>
-<li><em>length</em> &#8211; the exact length of the string.</li>
-</ul>
-</td>
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>map</em> &#8211; the <a title="werkzeug.routing.Map" class="reference internal" href="#werkzeug.routing.Map"><tt class="xref docutils literal"><span class="pre">Map</span></tt></a>.</td>
 </tr>
 </tbody>
 </table>
@@ -180,8 +172,7 @@ or equal 1.</li>
 
 <dl class="class">
 <dt id="werkzeug.routing.AnyConverter">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">AnyConverter</tt><big>(</big><em>map</em>, <em>*items</em><big>)</big><a class="headerlink" href="#werkzeug.routing.AnyConverter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">AnyConverter</tt><big>(</big><em>map</em>, <em>*items</em><big>)</big><a class="headerlink" href="#werkzeug.routing.AnyConverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Matches one of the items provided.  Items can either be Python
 identifiers or unicode strings:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/&lt;any(about, help, imprint, u&quot;class&quot;):page_name&gt;&#39;</span><span class="p">)</span>
@@ -204,8 +195,7 @@ arguments.</li>
 
 <dl class="class">
 <dt id="werkzeug.routing.IntegerConverter">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">IntegerConverter</tt><big>(</big><em>map</em>, <em>fixed_digits=0</em>, <em>min=None</em>, <em>max=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.IntegerConverter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">IntegerConverter</tt><big>(</big><em>map</em>, <em>fixed_digits=0</em>, <em>min=None</em>, <em>max=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.IntegerConverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>This converter only accepts integer values:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/page/&lt;int:page&gt;&#39;</span><span class="p">)</span>
 </pre></div>
@@ -232,8 +222,7 @@ default is variable length.</li>
 
 <dl class="class">
 <dt id="werkzeug.routing.FloatConverter">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">FloatConverter</tt><big>(</big><em>map</em>, <em>min=None</em>, <em>max=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.FloatConverter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">FloatConverter</tt><big>(</big><em>map</em>, <em>min=None</em>, <em>max=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.FloatConverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>This converter only accepts floating point values:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/probability/&lt;float:probability&gt;&#39;</span><span class="p">)</span>
 </pre></div>
@@ -256,10 +245,10 @@ class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">
 
 <div class="admonition-important admonition ">
 <p class="first admonition-title">Important</p>
-<p>Werkzeug evaluates converter arguments as if they are Python method calls.
-Thus, you should <strong>never</strong> create rules from user submitted data since
+<p>Werkzeug evaluates converter arguments as if they were Python method calls.
+Thus, you should <strong>never</strong> create rules from user-submitted data since
 they could insert arbitrary Python code in the parameters part.</p>
-<p>As a matter of fact this is a legal definition and sets fixed_digits to 2:</p>
+<p>As a matter of fact, this is a legal definition and sets <em>fixed_digits</em> to 2:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">url_map</span> <span class="o">=</span> <span class="n">Map</span><span class="p">([</span>
     <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/picture/&lt;int(fixed_digits=1 + 1):id&gt;.png&#39;</span><span class="p">,</span>
          <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;view_image&#39;</span><span class="p">)</span>
@@ -274,13 +263,12 @@ detail and might be unavailable in the future.</p>
 <h2>Maps, Rules and Adapters<a class="headerlink" href="#maps-rules-and-adapters" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="werkzeug.routing.Map">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Map</tt><big>(</big><em>rules=None</em>, <em>default_subdomain=''</em>, <em>charset='utf-8'</em>, <em>strict_slashes=True</em>, <em>redirect_defaults=True</em>, <em>converters=None</em>, <em>sort_parameters=False</em>, <em>sort_key=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Map" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Map</tt><big>(</big><em>rules=None</em>, <em>default_subdomain=''</em>, <em>charset='utf-8'</em>, <em>strict_slashes=True</em>, <em>redirect_defaults=True</em>, <em>converters=None</em>, <em>sort_parameters=False</em>, <em>sort_key=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Map" title="Permalink to this definition">¶</a></dt>
 <dd><p>The map class stores all the URL rules and some configuration
 parameters.  Some of the configuration values are only stored on the
 <cite>Map</cite> instance since those affect all rules, others are just defaults
 and can be overridden for each rule.  Note that you have to specify all
-arguments besides the <cite>rules</cite> as keywords arguments!</p>
+arguments besides the <cite>rules</cite> as keyword arguments!</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -305,7 +293,7 @@ See <cite>url_encode</cite> for more details.</li>
 </tr>
 </tbody>
 </table>
-<p>
+<p class="versionadded">
 <span class="versionmodified">New in version 0.5: </span><cite>sort_parameters</cite> and <cite>sort_key</cite> was added.</p>
 <dl class="method">
 <dt id="werkzeug.routing.Map.add">
@@ -331,7 +319,7 @@ specified or <cite>None</cite>.  The <cite>server_name</cite> at least is a requ
 because the HTTP RFC requires absolute URLs for redirects and so all
 redirect exceptions raised by Werkzeug will contain the full canonical
 URL.</p>
-<p>If no path_info is passed to <tt class="xref docutils literal"><span class="pre">match</span></tt> it will use the default path
+<p>If no path_info is passed to <tt class="xref docutils literal"><span class="pre">match()</span></tt> it will use the default path
 info passed to bind.  While this doesn&#8217;t really make sense for
 manual bind calls, it&#8217;s useful if you bind a map to a WSGI
 environment which already contains the path info.</p>
@@ -343,8 +331,8 @@ subdomain feature.</p>
 <dl class="method">
 <dt id="werkzeug.routing.Map.bind_to_environ">
 <tt class="descname">bind_to_environ</tt><big>(</big><em>environ</em>, <em>server_name=None</em>, <em>subdomain=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Map.bind_to_environ" title="Permalink to this definition">¶</a></dt>
-<dd><p>Like <a title="werkzeug.routing.Map.bind" class="reference internal" href="#werkzeug.routing.Map.bind"><tt class="xref docutils literal"><span class="pre">bind</span></tt></a> but you can pass it an WSGI environment and it
-will fetch the information from that directory.  Note that because of
+<dd><p>Like <a title="werkzeug.routing.Map.bind" class="reference internal" href="#werkzeug.routing.Map.bind"><tt class="xref docutils literal"><span class="pre">bind()</span></tt></a> but you can pass it an WSGI environment and it
+will fetch the information from that dictionary.  Note that because of
 limitations in the protocol there is no way to get the current
 subdomain and real <cite>server_name</cite> from the environment.  If you don&#8217;t
 provide it, Werkzeug will use <cite>SERVER_NAME</cite> and <cite>SERVER_PORT</cite> (or
@@ -357,10 +345,10 @@ in the wsgi <cite>environ</cite> is <tt class="docutils literal"><span class="pr
 subdomain will be <tt class="docutils literal"><span class="pre">'staging.dev'</span></tt>.</p>
 <p>If the object passed as environ has an environ attribute, the value of
 this attribute is used instead.  This allows you to pass request
-objects.  Additionally <cite>PATH_INFO</cite> added as a default ot the
+objects.  Additionally <cite>PATH_INFO</cite> added as a default of the
 <a title="werkzeug.routing.MapAdapter" class="reference internal" href="#werkzeug.routing.MapAdapter"><tt class="xref docutils literal"><span class="pre">MapAdapter</span></tt></a> so that you don&#8217;t have to pass the path info to
 the match method.</p>
-<p>
+<p class="versionchanged">
 <span class="versionmodified">Changed in version 0.5: </span>previously this method accepted a bogus <cite>calculate_subdomain</cite>
 parameter that did not have any effect.  It was removed because
 of that.</p>
@@ -377,6 +365,13 @@ of that.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="werkzeug.routing.Map.default_converters">
+<tt class="descname">default_converters</tt><a class="headerlink" href="#werkzeug.routing.Map.default_converters" title="Permalink to this definition">¶</a></dt>
+<dd><p class="versionadded">
+<span class="versionmodified">New in version 0.6: </span>a dict of default converters to be used.</p>
 </dd></dl>
 
 <dl class="method">
@@ -431,13 +426,12 @@ in the correct order after things changed.</dd></dl>
 
 <dl class="class">
 <dt id="werkzeug.routing.MapAdapter">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">MapAdapter</tt><big>(</big><em>map</em>, <em>server_name</em>, <em>script_name</em>, <em>subdomain</em>, <em>url_scheme</em>, <em>path_info</em>, <em>default_method</em><big>)</big><a class="headerlink" href="#werkzeug.routing.MapAdapter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returned by <a title="werkzeug.routing.Map.bind" class="reference internal" href="#werkzeug.routing.Map.bind"><tt class="xref docutils literal"><span class="pre">Map.bind</span></tt></a> or <a title="werkzeug.routing.Map.bind_to_environ" class="reference internal" href="#werkzeug.routing.Map.bind_to_environ"><tt class="xref docutils literal"><span class="pre">Map.bind_to_environ</span></tt></a> and does
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">MapAdapter</tt><big>(</big><em>map</em>, <em>server_name</em>, <em>script_name</em>, <em>subdomain</em>, <em>url_scheme</em>, <em>path_info</em>, <em>default_method</em><big>)</big><a class="headerlink" href="#werkzeug.routing.MapAdapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returned by <a title="werkzeug.routing.Map.bind" class="reference internal" href="#werkzeug.routing.Map.bind"><tt class="xref docutils literal"><span class="pre">Map.bind()</span></tt></a> or <a title="werkzeug.routing.Map.bind_to_environ" class="reference internal" href="#werkzeug.routing.Map.bind_to_environ"><tt class="xref docutils literal"><span class="pre">Map.bind_to_environ()</span></tt></a> and does
 the URL matching and building based on runtime information.</p>
 <dl class="method">
 <dt id="werkzeug.routing.MapAdapter.build">
-<tt class="descname">build</tt><big>(</big><em>endpoint</em>, <em>values=None</em>, <em>method=None</em>, <em>force_external=False</em><big>)</big><a class="headerlink" href="#werkzeug.routing.MapAdapter.build" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">build</tt><big>(</big><em>endpoint</em>, <em>values=None</em>, <em>method=None</em>, <em>force_external=False</em>, <em>append_unknown=True</em><big>)</big><a class="headerlink" href="#werkzeug.routing.MapAdapter.build" title="Permalink to this definition">¶</a></dt>
 <dd><p>Building URLs works pretty much the other way round.  Instead of
 <cite>match</cite> you call <cite>build</cite> and pass it the endpoint and a dict of
 arguments for the placeholders.</p>
@@ -447,7 +441,7 @@ external URLs (include the server name) will only be used if the
 target URL is on a different subdomain.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">Map</span><span class="p">([</span>
 <span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/downloads/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;downloads/index&#39;</span><span class="p">),</span> 
+<span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/downloads/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;downloads/index&#39;</span><span class="p">),</span>
 <span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/downloads/&lt;int:id&gt;&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;downloads/show&#39;</span><span class="p">)</span>
 <span class="gp">... </span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">urls</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;example.com&quot;</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">)</span>
@@ -473,6 +467,8 @@ raised.</p>
 <p>The build method accepts an argument called <cite>method</cite> which allows you
 to specify the method you want to have an URL built for if you have
 different methods for the same endpoint specified.</p>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6: </span>the <cite>append_unknown</cite> parameter was added.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -484,6 +480,9 @@ appended to the URL as query parameters.</li>
 <li><em>method</em> &#8211; the HTTP method for the rule if there are different
 URLs for different methods on the same endpoint.</li>
 <li><em>force_external</em> &#8211; enforce full canonical external URLs.</li>
+<li><em>append_unknown</em> &#8211; unknown parameters are appended to the generated
+URL as query string argument.  Disable this
+if you want the builder to ignore those.</li>
 </ul>
 </td>
 </tr>
@@ -497,7 +496,7 @@ URLs for different methods on the same endpoint.</li>
 <dd><p>Does the complete dispatching process.  <cite>view_func</cite> is called with
 the endpoint and a dict with the values for the view.  It should
 look up the view function, call it, and return a response object
-or WSGI application.  http exceptions are not catched by default
+or WSGI application.  http exceptions are not caught by default
 so that applications can display nicer error messages by just
 catching them by hand.  If you want to stick with the default
 error messages you can pass it <tt class="docutils literal"><span class="pre">catch_http_exceptions=True</span></tt> and
@@ -546,7 +545,7 @@ werkzeug <tt class="xref docutils literal"><span class="pre">HTTPException</span
 
 <dl class="method">
 <dt id="werkzeug.routing.MapAdapter.match">
-<tt class="descname">match</tt><big>(</big><em>path_info=None</em>, <em>method=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.MapAdapter.match" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">match</tt><big>(</big><em>path_info=None</em>, <em>method=None</em>, <em>return_rule=False</em><big>)</big><a class="headerlink" href="#werkzeug.routing.MapAdapter.match" title="Permalink to this definition">¶</a></dt>
 <dd><p>The usage is simple: you just pass the match method the current
 path info as well as the method (which defaults to <cite>GET</cite>).  The
 following things can then happen:</p>
@@ -556,16 +555,17 @@ matching.  A <cite>NotFound</cite> exception is also a WSGI application you
 can call to get a default page not found page (happens to be the
 same object as <cite>werkzeug.exceptions.NotFound</cite>)</li>
 <li>you receive a <cite>MethodNotAllowed</cite> exception that indicates that there
-is a match for this URL but non for the current request method.
+is a match for this URL but not for the current request method.
 This is useful for RESTful applications.</li>
 <li>you receive a <cite>RequestRedirect</cite> exception with a <cite>new_url</cite>
 attribute.  This exception is used to notify you about a request
-Werkzeug requests by your WSGI application.  This is for example the
+Werkzeug requests from your WSGI application.  This is for example the
 case if you request <tt class="docutils literal"><span class="pre">/foo</span></tt> although the correct URL is <tt class="docutils literal"><span class="pre">/foo/</span></tt>
 You can use the <cite>RequestRedirect</cite> instance as response-like object
 similar to all other subclasses of <cite>HTTPException</cite>.</li>
-<li>you get a tuple in the form <tt class="docutils literal"><span class="pre">(endpoint,</span> <span class="pre">arguments)</span></tt> when there is
-a match.</li>
+<li>you get a tuple in the form <tt class="docutils literal"><span class="pre">(endpoint,</span> <span class="pre">arguments)</span></tt> if there is
+a match (unless <cite>return_rule</cite> is True, in which case you get a tuple
+in the form <tt class="docutils literal"><span class="pre">(rule,</span> <span class="pre">arguments)</span></tt>)</li>
 </ul>
 <p>If the path info is not passed to the match method the default path
 info of the map is used (defaults to the root URL if not defined
@@ -576,7 +576,7 @@ redirect pages.</p>
 <p>Here is a small example for matching:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">Map</span><span class="p">([</span>
 <span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/downloads/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;downloads/index&#39;</span><span class="p">),</span> 
+<span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/downloads/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;downloads/index&#39;</span><span class="p">),</span>
 <span class="gp">... </span>    <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/downloads/&lt;int:id&gt;&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;downloads/show&#39;</span><span class="p">)</span>
 <span class="gp">... </span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">urls</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;example.com&quot;</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">)</span>
@@ -606,11 +606,15 @@ redirect pages.</p>
 path info specified on binding.</li>
 <li><em>method</em> &#8211; the HTTP method used for matching.  Overrides the
 method specified on binding.</li>
+<li><em>return_rule</em> &#8211; return the rule that matched instead of just the
+endpoint (defaults to <cite>False</cite>).</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6: </span><cite>return_rule</cite> was added.</p>
 </dd></dl>
 
 <dl class="method">
@@ -638,8 +642,7 @@ method specified on binding.</li>
 
 <dl class="class">
 <dt id="werkzeug.routing.Rule">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Rule</tt><big>(</big><em>string</em>, <em>defaults=None</em>, <em>subdomain=None</em>, <em>methods=None</em>, <em>build_only=False</em>, <em>endpoint=None</em>, <em>strict_slashes=None</em>, <em>redirect_to=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Rule" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Rule</tt><big>(</big><em>string</em>, <em>defaults=None</em>, <em>subdomain=None</em>, <em>methods=None</em>, <em>build_only=False</em>, <em>endpoint=None</em>, <em>strict_slashes=None</em>, <em>redirect_to=None</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Rule" title="Permalink to this definition">¶</a></dt>
 <dd><p>A Rule represents one URL pattern.  There are some options for <cite>Rule</cite>
 that change the way it behaves and are passed to the <cite>Rule</cite> constructor.
 Note that besides the rule-string all arguments <em>must</em> be keyword arguments
@@ -659,7 +662,7 @@ redirect to the same URL with the missing slash appended.</p>
 <dt><cite>endpoint</cite></dt>
 <dd>The endpoint for this rule. This can be anything. A reference to a
 function, a string, a number etc.  The preferred way is using a string
-as because the endpoint is used for URL generation.</dd>
+because the endpoint is used for URL generation.</dd>
 <dt><cite>defaults</cite></dt>
 <dd><p class="first">An optional dict with defaults for other rules with the same endpoint.
 This is a bit tricky but useful if you want to have unique URLs:</p>
@@ -739,8 +742,7 @@ want to reuse an already bound URL for another map.</dd></dl>
 <h2>Rule Factories<a class="headerlink" href="#rule-factories" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="werkzeug.routing.RuleFactory">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">RuleFactory</tt><a class="headerlink" href="#werkzeug.routing.RuleFactory" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">RuleFactory</tt><a class="headerlink" href="#werkzeug.routing.RuleFactory" title="Permalink to this definition">¶</a></dt>
 <dd><p>As soon as you have more complex URL setups it&#8217;s a good idea to use rule
 factories to avoid repetitive tasks.  Some of them are builtin, others can
 be added by subclassing <cite>RuleFactory</cite> and overriding <cite>get_rules</cite>.</p>
@@ -754,8 +756,7 @@ an iterable of rules.</dd></dl>
 
 <dl class="class">
 <dt id="werkzeug.routing.Subdomain">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Subdomain</tt><big>(</big><em>subdomain</em>, <em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Subdomain" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Subdomain</tt><big>(</big><em>subdomain</em>, <em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Subdomain" title="Permalink to this definition">¶</a></dt>
 <dd><p>All URLs provided by this factory have the subdomain set to a
 specific domain. For example if you want to use the subdomain for
 the current language this can be a good setup:</p>
@@ -770,14 +771,13 @@ the current language this can be a good setup:</p>
 </pre></div>
 </div>
 <p>All the rules except for the <tt class="docutils literal"><span class="pre">'#select_language'</span></tt> endpoint will now
-listen on a two letter long subdomain that helds the language code
+listen on a two letter long subdomain that holds the language code
 for the current request.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="werkzeug.routing.Submount">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Submount</tt><big>(</big><em>path</em>, <em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Submount" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">Submount</tt><big>(</big><em>path</em>, <em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.Submount" title="Permalink to this definition">¶</a></dt>
 <dd><p>Like <cite>Subdomain</cite> but prefixes the URL rule with a given string:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">url_map</span> <span class="o">=</span> <span class="n">Map</span><span class="p">([</span>
     <span class="n">Rule</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
@@ -793,8 +793,7 @@ class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">
 
 <dl class="class">
 <dt id="werkzeug.routing.EndpointPrefix">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">EndpointPrefix</tt><big>(</big><em>prefix</em>, <em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.EndpointPrefix" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">EndpointPrefix</tt><big>(</big><em>prefix</em>, <em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.EndpointPrefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prefixes all endpoints (which must be strings for this factory) with
 another string. This can be useful for sub applications:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">url_map</span> <span class="o">=</span> <span class="n">Map</span><span class="p">([</span>
@@ -813,8 +812,7 @@ another string. This can be useful for sub applications:</p>
 <h2>Rule Templates<a class="headerlink" href="#rule-templates" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="werkzeug.routing.RuleTemplate">
-<em class="property">
-class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">RuleTemplate</tt><big>(</big><em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.RuleTemplate" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">werkzeug.routing.</tt><tt class="descname">RuleTemplate</tt><big>(</big><em>rules</em><big>)</big><a class="headerlink" href="#werkzeug.routing.RuleTemplate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns copies of the rules wrapped and expands string templates in
 the endpoint, rule, defaults or subdomain sections.</p>
 <p>Here a small example for such a rule template:</p>

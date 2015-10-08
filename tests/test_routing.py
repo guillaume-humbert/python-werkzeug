@@ -4,14 +4,16 @@
     ~~~~~~~~~~~~~~~~~~~~~
 
 
-    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
+    :copyright: (c) 2010 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD license.
 """
 from nose.tools import assert_raises
 
 from werkzeug.wrappers import Response
-from werkzeug.routing import Map, Rule, NotFound, BuildError, RequestRedirect
-from werkzeug.utils import create_environ
+from werkzeug.datastructures import ImmutableDict
+from werkzeug.routing import Map, Rule, NotFound, BuildError, RequestRedirect, \
+     RuleTemplate, Submount, EndpointPrefix, Subdomain, UnicodeConverter
+from werkzeug.test import create_environ
 
 
 def test_basic_routing():
@@ -203,3 +205,136 @@ def test_request_direct_charset_bug():
         assert e.new_url == 'http://localhost/%C3%B6%C3%A4%C3%BC/'
     else:
         raise AssertionError('expected request redirect exception')
+
+def test_adapter_match_return_rule():
+    """Returning the matched Rule"""
+    rule = Rule('/foo/', endpoint='foo')
+    map = Map([rule])
+    adapter = map.bind('localhost', '/')
+    assert adapter.match('/foo/', return_rule=True) == (rule, {})
+
+
+def test_server_name_interpolation():
+    """URL routing server name interpolation."""
+    server_name = 'example.invalid'
+    map = Map([Rule('/', endpoint='index'),
+               Rule('/', endpoint='alt', subdomain='alt')])
+
+    env = create_environ('/', 'http://%s/' % server_name)
+    adapter = map.bind_to_environ(env, server_name=server_name)
+    assert adapter.match() == ('index', {})
+
+    env = create_environ('/', 'http://alt.%s/' % server_name)
+    adapter = map.bind_to_environ(env, server_name=server_name)
+    assert adapter.match() == ('alt', {})
+
+    try:
+        env = create_environ('/', 'http://%s/' % server_name)
+        adapter = map.bind_to_environ(env, server_name='foo')
+    except ValueError, e:
+        msg = str(e)
+        assert 'provided (%r)' % 'foo' in msg
+        assert 'environment (%r)' % server_name in msg
+    else:
+        assert False, 'expected exception'
+
+
+def test_rule_emptying():
+    """Rule emptying"""
+    r = Rule('/foo', {'meh': 'muh'}, 'x', ['POST'],
+             False, 'x', True, None)
+    r2 = r.empty()
+    assert r.__dict__ == r2.__dict__
+    r.methods.add('GET')
+    assert r.__dict__ != r2.__dict__
+    r.methods.discard('GET')
+    r.defaults['meh'] = 'aha'
+    assert r.__dict__ != r2.__dict__
+
+
+def test_rule_templates():
+    """Rule templates"""
+    testcase = RuleTemplate(
+        [ Submount('/test/$app',
+          [ Rule('/foo/', endpoint='handle_foo')
+          , Rule('/bar/', endpoint='handle_bar')
+          , Rule('/baz/', endpoint='handle_baz')
+          ]),
+          EndpointPrefix('foo_',
+          [ Rule('/blah', endpoint='bar')
+          , Rule('/meh', endpoint='baz')
+          ]),
+          Subdomain('meh',
+          [ Rule('/blah', endpoint='x_bar')
+          , Rule('/meh', endpoint='x_baz')
+          ])
+        ])
+
+    url_map = Map(
+        [ testcase(app='test1')
+        , testcase(app='test2')
+        , testcase(app='test3')
+        , testcase(app='test4')
+        ])
+
+    out = [(x.rule, x.subdomain, x.endpoint)
+           for x in url_map.iter_rules()]
+    assert out == (
+        [ ('/test/test1/foo/', '', 'handle_foo')
+        , ('/test/test1/bar/', '', 'handle_bar')
+        , ('/test/test1/baz/', '', 'handle_baz')
+        , ('/blah', '', 'foo_bar')
+        , ('/meh', '', 'foo_baz')
+        , ('/blah', 'meh', 'x_bar')
+        , ('/meh', 'meh', 'x_baz')
+        , ('/test/test2/foo/', '', 'handle_foo')
+        , ('/test/test2/bar/', '', 'handle_bar')
+        , ('/test/test2/baz/', '', 'handle_baz')
+        , ('/blah', '', 'foo_bar')
+        , ('/meh', '', 'foo_baz')
+        , ('/blah', 'meh', 'x_bar')
+        , ('/meh', 'meh', 'x_baz')
+        , ('/test/test3/foo/', '', 'handle_foo')
+        , ('/test/test3/bar/', '', 'handle_bar')
+        , ('/test/test3/baz/', '', 'handle_baz')
+        , ('/blah', '', 'foo_bar')
+        , ('/meh', '', 'foo_baz')
+        , ('/blah', 'meh', 'x_bar')
+        , ('/meh', 'meh', 'x_baz')
+        , ('/test/test4/foo/', '', 'handle_foo')
+        , ('/test/test4/bar/', '', 'handle_bar')
+        , ('/test/test4/baz/', '', 'handle_baz')
+        , ('/blah', '', 'foo_bar')
+        , ('/meh', '', 'foo_baz')
+        , ('/blah', 'meh', 'x_bar')
+        , ('/meh', 'meh', 'x_baz') ]
+    )
+
+
+def test_default_converters():
+    class MyMap(Map):
+        default_converters = Map.default_converters.copy()
+        default_converters['foo'] = UnicodeConverter
+    assert isinstance(Map.default_converters, ImmutableDict)
+    m = MyMap([
+        Rule('/a/<foo:a>', endpoint='a'),
+        Rule('/b/<foo:b>', endpoint='b'),
+        Rule('/c/<c>', endpoint='c')
+    ], converters={'bar': UnicodeConverter})
+    a = m.bind('example.org', '/')
+    assert a.match('/a/1') == ('a', {'a': '1'})
+    assert a.match('/b/2') == ('b', {'b': '2'})
+    assert a.match('/c/3') == ('c', {'c': '3'})
+    assert 'foo' not in Map.default_converters
+
+
+def test_build_append_unknown():
+    """Test the new append_unknown feature of URL building"""
+    map = Map([
+        Rule('/bar/<float:bazf>', endpoint='barf')
+    ])
+    adapter = map.bind('example.org', '/', subdomain='blah')
+    assert adapter.build('barf', {'bazf': 0.815, 'bif' : 1.0}) == \
+        'http://example.org/bar/0.815?bif=1.0'
+    assert adapter.build('barf', {'bazf': 0.815, 'bif' : 1.0},
+        append_unknown=False) == 'http://example.org/bar/0.815'

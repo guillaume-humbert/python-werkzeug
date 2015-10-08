@@ -9,18 +9,22 @@
 
     Who will test the test?
 
-    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
+    :copyright: (c) 2010 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 
 import sys
-from cStringIO import StringIO
-from nose.tools import assert_raises
-from werkzeug.wrappers import Request, Response
-from werkzeug.test import Client, EnvironBuilder, create_environ
-from werkzeug.utils import redirect, get_host
-from werkzeug.datastructures import Headers
+from cStringIO import StringIO, OutputType
+from nose.tools import assert_raises, raises
 
+from werkzeug.wrappers import Request, Response, BaseResponse
+from werkzeug.test import Client, EnvironBuilder, create_environ, \
+    ClientRedirectError, stream_encode_multipart, run_wsgi_app
+from werkzeug.utils import redirect
+from werkzeug.wsgi import get_host
+from werkzeug.formparser import parse_form_data
+from werkzeug.urls import url_decode
+from werkzeug.datastructures import Headers, MultiDict
 
 
 def cookie_app(environ, start_response):
@@ -33,13 +37,45 @@ def cookie_app(environ, start_response):
     return response(environ, start_response)
 
 
-def redirect_demo_app(environ, start_response):
+def redirect_loop_app(environ, start_response):
     response = redirect('http://localhost/some/redirect/')
+    return response(environ, start_response)
+
+
+def redirect_with_get_app(environ, start_response):
+    req = Request(environ)
+    if req.url not in ('http://localhost/',
+                       'http://localhost/first/request',
+                       'http://localhost/some/redirect/'):
+        assert False, 'redirect_demo_app() did not expect URL "%s"' % req.url
+    if '/some/redirect' not in req.url:
+        response = redirect('http://localhost/some/redirect/')
+    else:
+        response = Response('current url: %s' % req.url)
+    return response(environ, start_response)
+
+
+def redirect_with_post_app(environ, start_response):
+    req = Request(environ)
+    if req.url == 'http://localhost/some/redirect/':
+        assert req.method == 'GET', 'request should be GET'
+        assert not req.form, 'request should not have data'
+        response = Response('current url: %s' % req.url)
+    else:
+        response = redirect('http://localhost/some/redirect/')
     return response(environ, start_response)
 
 
 def external_redirect_demo_app(environ, start_response):
     response = redirect('http://example.org/')
+    return response(environ, start_response)
+
+
+def multi_value_post_app(environ, start_response):
+    req = Request(environ)
+    assert req.form['field'] == 'val1', req.form['field']
+    assert req.form.getlist('field') == ['val1', 'val2'], req.form.getlist('field')
+    response = Response('ok')
     return response(environ, start_response)
 
 
@@ -181,10 +217,6 @@ def test_environ_builder_content_type():
 
 def test_environ_builder_stream_switch():
     """EnvironBuilder stream switch"""
-    from cStringIO import OutputType
-    from werkzeug.test import stream_encode_multipart
-    from werkzeug import url_decode, MultiDict, parse_form_data
-
     d = MultiDict(dict(foo=u'bar', blub=u'blah', hu=u'hum'))
     for use_tempfile in False, True:
         stream, length, boundary = stream_encode_multipart(
@@ -244,12 +276,109 @@ def test_file_closing():
 
 def test_follow_redirect():
     env = create_environ('/', base_url='http://localhost')
-    c = Client(redirect_demo_app)
-    headers = Headers(c.open(environ_overrides=env, follow_redirects=True)[2])
-    assert headers['Location'] == 'http://localhost/some/redirect/'
+    c = Client(redirect_with_get_app)
+    appiter, code, headers = c.open(environ_overrides=env, follow_redirects=True)
+    assert code == '200 OK'
+    assert ''.join(appiter) == 'current url: http://localhost/some/redirect/'
+
+    # Test that the :cls:`Client` is aware of user defined response wrappers
+    c = Client(redirect_with_get_app, response_wrapper=BaseResponse)
+    resp = c.get('/', follow_redirects=True)
+    assert resp.status_code == 200
+    assert resp.data == 'current url: http://localhost/some/redirect/'
+
+    # test with URL other than '/' to make sure redirected URL's are correct
+    c = Client(redirect_with_get_app, response_wrapper=BaseResponse)
+    resp = c.get('/first/request', follow_redirects=True)
+    assert resp.status_code == 200
+    assert resp.data == 'current url: http://localhost/some/redirect/'
 
 
 def test_follow_external_redirect():
     env = create_environ('/', base_url='http://localhost')
     c = Client(external_redirect_demo_app)
     assert_raises(RuntimeError, lambda: c.open(environ_overrides=env, follow_redirects=True))
+
+
+@raises(ClientRedirectError)
+def test_follow_redirect_loop():
+    c = Client(redirect_loop_app, response_wrapper=BaseResponse)
+    resp = c.get('/', follow_redirects=True)
+
+
+def test_follow_redirect_with_post():
+    c = Client(redirect_with_post_app, response_wrapper=BaseResponse)
+    resp = c.post('/', follow_redirects=True, data='foo=blub+hehe&blah=42')
+    assert resp.status_code == 200
+    assert resp.data == 'current url: http://localhost/some/redirect/'
+
+
+def test_path_info_script_name_unquoting():
+    """PATH_INFO and SCRIPT_NAME in client are decoded."""
+    def test_app(environ, start_response):
+        start_response('200 OK', [('Content-Type', 'text/plain')])
+        return [environ['PATH_INFO'] + '\n' + environ['SCRIPT_NAME']]
+    c = Client(test_app, response_wrapper=BaseResponse)
+    resp = c.get('/foo%40bar')
+    assert resp.data == '/foo@bar\n'
+    c = Client(test_app, response_wrapper=BaseResponse)
+    resp = c.get('/foo%40bar', 'http://localhost/bar%40baz')
+    assert resp.data == '/foo@bar\n/bar@baz'
+
+
+def test_multi_value_submit():
+    """Multi-value submit in test client"""
+    c = Client(multi_value_post_app, response_wrapper=BaseResponse)
+    data = {
+        'field': ['val1','val2']
+    }
+    resp = c.post('/', data=data)
+    assert resp.status_code == 200
+    c = Client(multi_value_post_app, response_wrapper=BaseResponse)
+    data = MultiDict({
+        'field': ['val1','val2']
+    })
+    resp = c.post('/', data=data)
+    assert resp.status_code == 200
+
+
+def test_iri_support():
+    """Test client IRI support"""
+    b = EnvironBuilder(u'/föö-bar', base_url=u'http://☃.net/')
+    assert b.path == '/f%C3%B6%C3%B6-bar'
+    assert b.base_url == 'http://xn--n3h.net/'
+
+
+def test_run_wsgi_apps():
+    """Run various WSGI apps."""
+    def simple_app(environ, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        return ['Hello World!']
+    app_iter, status, headers = run_wsgi_app(simple_app, {})
+    assert status == '200 OK'
+    assert headers == [('Content-Type', 'text/html')]
+    assert app_iter == ['Hello World!']
+
+    def yielding_app(environ, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        yield 'Hello '
+        yield 'World!'
+    app_iter, status, headers = run_wsgi_app(yielding_app, {})
+    assert status == '200 OK'
+    assert headers == [('Content-Type', 'text/html')]
+    assert list(app_iter) == ['Hello ', 'World!']
+
+
+def test_multiple_cookies():
+    """Ensure that the test client works with multiple cookies"""
+    @Request.application
+    def test_app(request):
+        response = Response(repr(sorted(request.cookies.items())))
+        response.set_cookie('test1', 'foo')
+        response.set_cookie('test2', 'bar')
+        return response
+    client = Client(test_app, Response)
+    resp = client.get('/')
+    assert resp.data == '[]'
+    resp = client.get('/')
+    assert resp.data == "[('test1', u'foo,'), ('test2', u'bar')]"
