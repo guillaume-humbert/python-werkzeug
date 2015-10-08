@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="Mini Templates" href="templates.html">
     <link rel="prev" title="Data Structures" href="datastructures.html">
     
@@ -45,6 +45,7 @@
 <li><a class="reference external" href="#url-helpers">URL Helpers</a></li>
 <li><a class="reference external" href="#html-helpers">HTML Helpers</a></li>
 <li><a class="reference external" href="#general-helpers">General Helpers</a></li>
+<li><a class="reference external" href="#security-helpers">Security Helpers</a></li>
 </ul>
 </li>
 </ul>
@@ -66,9 +67,9 @@ and posix paths.</p>
 <p>Positional arguments are appended as individual segments to
 the path of the URL:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">href</span> <span class="o">=</span> <span class="n">Href</span><span class="p">(</span><span class="s">&#39;/foo&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="mf">23</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="mi">23</span><span class="p">)</span>
 <span class="go">&#39;/foo/bar/23&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mf">23</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
 <span class="go">&#39;/foo/foo?bar=23&#39;</span>
 </pre></div>
 </div>
@@ -77,14 +78,14 @@ will be skipped.  If no keyword arguments are given the last argument
 can be a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref docutils literal"><span class="pre">dict</span></tt></a> or <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a> (or any other dict subclass),
 otherwise the keyword arguments are used for the query parameters, cutting
 off the first trailing underscore of the parameter name:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="n">is_</span><span class="o">=</span><span class="mf">42</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="n">is_</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="go">&#39;/foo?is=42&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">({</span><span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">})</span>
 <span class="go">&#39;/foo?foo=bar&#39;</span>
 </pre></div>
 </div>
 <p>Combining of both methods is not allowed:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">({</span><span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">},</span> <span class="n">bar</span><span class="o">=</span><span class="mf">42</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">({</span><span class="s">&#39;foo&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">},</span> <span class="n">bar</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
   <span class="c">...</span>
 <span class="nc">TypeError</span>: <span class="n-Identifier">keyword arguments and query-dicts can&#39;t be combined</span>
@@ -100,7 +101,7 @@ the attribute name as prefix:</p>
 <p>If <cite>sort</cite> is set to <cite>True</cite> the items are sorted by <cite>key</cite> or the default
 sorting algorithm:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">href</span> <span class="o">=</span> <span class="n">Href</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mf">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mf">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mf">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">&#39;/?a=1&amp;b=2&amp;c=3&#39;</span>
 </pre></div>
 </div>
@@ -550,7 +551,7 @@ the value:</p>
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c"># calculate something important here</span>
-        <span class="k">return</span> <span class="mf">42</span>
+        <span class="k">return</span> <span class="mi">42</span>
 </pre></div>
 </div>
 <p>The class has to have a <cite>__dict__</cite> in order for this property to
@@ -862,6 +863,60 @@ the cache key based on the values of the arguments.</p>
 </td>
 </tr>
 <tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref docutils literal"><span class="pre">dict</span></tt></a> of bound keyword arguments.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="security-helpers">
+<h2>Security Helpers<a class="headerlink" href="#security-helpers" title="Permalink to this headline">¶</a></h2>
+<p class="versionadded">
+<span class="versionmodified">New in version 0.6.1.</span></p>
+<dl class="function">
+<dt id="werkzeug.generate_password_hash">
+<tt class="descclassname">werkzeug.</tt><tt class="descname">generate_password_hash</tt><big>(</big><em>password</em>, <em>method='sha1'</em>, <em>salt_length=8</em><big>)</big><a class="headerlink" href="#werkzeug.generate_password_hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hash a password with the given method and salt with with a string of
+the given length.  The format of the string returned includes the method
+that was used so that <a title="werkzeug.check_password_hash" class="reference internal" href="#werkzeug.check_password_hash"><tt class="xref docutils literal"><span class="pre">check_password_hash()</span></tt></a> can check the hash.</p>
+<p>The format for the hashed string looks like this:</p>
+<div class="highlight-python"><pre>method$salt$hash</pre>
+</div>
+<p>This method can <strong>not</strong> generate unsalted passwords but it is possible
+to set the method to plain to enforce plaintext passwords.  If a salt
+is used, hmac is used internally to salt the password.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>password</em> &#8211; the password to hash</li>
+<li><em>method</em> &#8211; the hash method to use (<tt class="docutils literal"><span class="pre">'md5'</span></tt> or <tt class="docutils literal"><span class="pre">'sha1'</span></tt>)</li>
+<li><em>salt_length</em> &#8211; the lengt of the salt in letters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="werkzeug.check_password_hash">
+<tt class="descclassname">werkzeug.</tt><tt class="descname">check_password_hash</tt><big>(</big><em>pwhash</em>, <em>password</em><big>)</big><a class="headerlink" href="#werkzeug.check_password_hash" title="Permalink to this definition">¶</a></dt>
+<dd><p>check a password against a given salted and hashed password value.
+In order to support unsalted legacy passwords this method supports
+plain text passwords, md5 and sha1 hashes (both salted and unsalted).</p>
+<p>Returns <cite>True</cite> if the password matched, <cite>False</cite> otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>pwhash</em> &#8211; a hashed string like returned by
+<a title="werkzeug.generate_password_hash" class="reference internal" href="#werkzeug.generate_password_hash"><tt class="xref docutils literal"><span class="pre">generate_password_hash()</span></tt></a></li>
+<li><em>password</em> &#8211; the plaintext password to compare against the hash</li>
+</ul>
 </td>
 </tr>
 </tbody>

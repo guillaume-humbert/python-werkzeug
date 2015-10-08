@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
     <link rel="up" title="Contributed Modules" href="index.html">
     <link rel="next" title="Sessions" href="sessions.html">
     <link rel="prev" title="Contributed Modules" href="index.html">
@@ -49,7 +49,7 @@ used to generate feeds in the Atom syndication format (see <span class="target" 
     <span class="n">feed</span> <span class="o">=</span> <span class="n">AtomFeed</span><span class="p">(</span><span class="s">&quot;My Blog&quot;</span><span class="p">,</span> <span class="n">feed_url</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
                     <span class="n">url</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">host_url</span><span class="p">,</span>
                     <span class="n">subtitle</span><span class="o">=</span><span class="s">&quot;My example blog for a feed test.&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">post</span> <span class="ow">in</span> <span class="n">Post</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mf">10</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">post</span> <span class="ow">in</span> <span class="n">Post</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="n">feed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s">&#39;html&#39;</span><span class="p">,</span>
                  <span class="n">author</span><span class="o">=</span><span class="n">post</span><span class="o">.</span><span class="n">author</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">post</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">post</span><span class="o">.</span><span class="n">uid</span><span class="p">,</span>
                  <span class="n">updated</span><span class="o">=</span><span class="n">post</span><span class="o">.</span><span class="n">last_update</span><span class="p">,</span> <span class="n">published</span><span class="o">=</span><span class="n">post</span><span class="o">.</span><span class="n">pub_date</span><span class="p">)</span>

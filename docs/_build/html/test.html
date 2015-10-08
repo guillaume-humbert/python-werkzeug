@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="Debugging Applications" href="debug.html">
     <link rel="prev" title="Serving WSGI Applications" href="serving.html">
     
@@ -83,7 +83,7 @@ in test functionality.</p>
 <span class="go">200</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span>
 <span class="go">Headers([(&#39;Content-Type&#39;, &#39;text/html; charset=utf-8&#39;)])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mf">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">resp</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">&#39;&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&#39;</span>
 </pre></div>
 </div>
@@ -94,7 +94,7 @@ in test functionality.</p>
 <span class="go">&#39;200 OK&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">headers</span>
 <span class="go">[(&#39;Content-Type&#39;, &#39;text/html; charset=utf-8&#39;)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app_iter</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mf">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app_iter</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">&#39;&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&#39;</span>
 </pre></div>
 </div>

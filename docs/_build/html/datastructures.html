@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="Utilities" href="utils.html">
     <link rel="prev" title="HTTP Utilties" href="http.html">
     
@@ -83,7 +83,7 @@ found:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">TypeConversionDict</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s">&#39;42&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="s">&#39;blub&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">42</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">-1</span>
 </pre></div>
 </div>
@@ -214,7 +214,7 @@ found:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">TypeConversionDict</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="s">&#39;42&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="s">&#39;blub&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">42</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">-1</span>
 </pre></div>
 </div>
@@ -346,7 +346,7 @@ all values associated with the key.</p>
 <tt class="descname">listvalues</tt><big>(</big><big>)</big><a class="headerlink" href="#werkzeug.MultiDict.listvalues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of all values associated with a key.  Zipping
 <a title="werkzeug.MultiDict.keys" class="reference internal" href="#werkzeug.MultiDict.keys"><tt class="xref docutils literal"><span class="pre">keys()</span></tt></a> and this is the same as calling <a title="werkzeug.MultiDict.lists" class="reference internal" href="#werkzeug.MultiDict.lists"><tt class="xref docutils literal"><span class="pre">lists()</span></tt></a>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">MultiDict</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">]})</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">MultiDict</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">d</span><span class="o">.</span><span class="n">listvalues</span><span class="p">())</span> <span class="o">==</span> <span class="n">d</span><span class="o">.</span><span class="n">lists</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
@@ -366,7 +366,7 @@ all values associated with the key.</p>
 <tt class="descname">pop</tt><big>(</big><em>key</em>, <em>default=no value</em><big>)</big><a class="headerlink" href="#werkzeug.MultiDict.pop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pop the first item for a list on the dict.  Afterwards the
 key is removed from the dict, so additional values are discarded:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">MultiDict</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1</span><span class="p">,</span> <span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">]})</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">MultiDict</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span>
 <span class="go">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s">&quot;foo&quot;</span> <span class="ow">in</span> <span class="n">d</span>
@@ -464,8 +464,8 @@ are removed first.</li>
 is not a copy, but the list that is actually used internally.  This
 means that you can put new values into the dict by appending items
 to the list:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">MultiDict</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="mf">1</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">setlistdefault</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mf">2</span><span class="p">,</span> <span class="mf">3</span><span class="p">])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">MultiDict</span><span class="p">({</span><span class="s">&quot;foo&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">setlistdefault</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">)</span>
 <span class="go">[1, 2, 3]</span>
 </pre></div>
@@ -810,7 +810,7 @@ by this callable the value will be removed from the list.</li>
 passed as internal storage:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">headerlist</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="s">&#39;40&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">headers</span> <span class="o">=</span> <span class="n">Headers</span><span class="o">.</span><span class="n">linked</span><span class="p">(</span><span class="n">headerlist</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">headers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s">&#39;text/html&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">headers</span><span class="p">[</span><span class="s">&#39;Content-Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;text/html&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">headerlist</span>
 <span class="go">[(&#39;Content-Length&#39;, &#39;40&#39;), (&#39;Content-Type&#39;, &#39;text/html&#39;)]</span>
 </pre></div>
@@ -867,10 +867,15 @@ item is removed.</td>
 
 <dl class="method">
 <dt id="werkzeug.Headers.set">
-<tt class="descname">set</tt><big>(</big><em>key</em>, <em>value</em><big>)</big><a class="headerlink" href="#werkzeug.Headers.set" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set</tt><big>(</big><em>_key</em>, <em>_value</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#werkzeug.Headers.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all header tuples for <cite>key</cite> and add a new one.  The newly
 added key either appears at the end of the list if there was no
 entry or replaces the first one.</p>
+<p>Keyword arguments can specify additional parameters for the header
+value, with underscores converted to dashes.  See <a title="werkzeug.Headers.add" class="reference internal" href="#werkzeug.Headers.add"><tt class="xref docutils literal"><span class="pre">add()</span></tt></a> for
+more information.</p>
+<p class="versionchanged">
+<span class="versionmodified">Changed in version 0.6.1: </span><a title="werkzeug.Headers.set" class="reference internal" href="#werkzeug.Headers.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a> now accepts the same arguments as <a title="werkzeug.Headers.add" class="reference internal" href="#werkzeug.Headers.add"><tt class="xref docutils literal"><span class="pre">add()</span></tt></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1065,7 +1070,7 @@ header is not in the set.</p>
 <p>All <a title="werkzeug.Accept" class="reference internal" href="#werkzeug.Accept"><tt class="xref docutils literal"><span class="pre">Accept</span></tt></a> objects work similar to a list but provide extra
 functionality for working with the data.  Containment checks are
 normalized to the rules of that header:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">CharsetAccept</span><span class="p">([(</span><span class="s">&#39;ISO-8859-1&#39;</span><span class="p">,</span> <span class="mf">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">CharsetAccept</span><span class="p">([(</span><span class="s">&#39;ISO-8859-1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">best</span>
 <span class="go">&#39;ISO-8859-1&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;iso-8859-1&#39;</span> <span class="ow">in</span> <span class="n">a</span>

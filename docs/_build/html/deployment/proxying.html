@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
     <link rel="up" title="Application Deployment" href="index.html">
     <link rel="next" title="Contributed Modules" href="../contrib/index.html">
     <link rel="prev" title="FastCGI" href="fastcgi.html">
@@ -65,7 +65,7 @@ the WSGI Server.</p>
 <p>It looks something along these lines:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">cherrypy</span> <span class="kn">import</span> <span class="n">wsgiserver</span>
 <span class="kn">from</span> <span class="nn">yourapplication</span> <span class="kn">import</span> <span class="n">make_app</span>
-<span class="n">server</span> <span class="o">=</span> <span class="n">wsgiserver</span><span class="o">.</span><span class="n">CherryPyWSGIServer</span><span class="p">((</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mf">8080</span><span class="p">),</span> <span class="n">make_app</span><span class="p">())</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">wsgiserver</span><span class="o">.</span><span class="n">CherryPyWSGIServer</span><span class="p">((</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">),</span> <span class="n">make_app</span><span class="p">())</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>

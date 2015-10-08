@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="API Levels" href="levels.html">
     <link rel="prev" title="Installation" href="installation.html">
     
@@ -234,7 +234,8 @@ the following code goes into the <tt class="docutils literal"><span class="pre">
 
 <span class="n">metadata</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
 <span class="n">session</span> <span class="o">=</span> <span class="n">scoped_session</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">create_session</span><span class="p">(</span><span class="n">application</span><span class="o">.</span><span class="n">database_engine</span><span class="p">,</span>
-                         <span class="n">transactional</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> <span class="n">local_manager</span><span class="o">.</span><span class="n">get_ident</span><span class="p">)</span>
+                         <span class="n">autocommit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">autoflush</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+                         <span class="n">local_manager</span><span class="o">.</span><span class="n">get_ident</span><span class="p">)</span>
 
 <span class="n">url_map</span> <span class="o">=</span> <span class="n">Map</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">expose</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
@@ -332,8 +333,8 @@ just have one model and table:</p>
 <span class="kn">from</span> <span class="nn">shorty.utils</span> <span class="kn">import</span> <span class="n">session</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">get_random_uid</span>
 
 <span class="n">url_table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s">&#39;urls&#39;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
-    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;uid&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mf">140</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
-    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mf">500</span><span class="p">)),</span>
+    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;uid&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">140</span><span class="p">),</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">Column</span><span class="p">(</span><span class="s">&#39;target&#39;</span><span class="p">,</span> <span class="n">String</span><span class="p">(</span><span class="mi">500</span><span class="p">)),</span>
     <span class="n">Column</span><span class="p">(</span><span class="s">&#39;added&#39;</span><span class="p">,</span> <span class="n">DateTime</span><span class="p">),</span>
     <span class="n">Column</span><span class="p">(</span><span class="s">&#39;public&#39;</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">)</span>
 <span class="p">)</span>
@@ -376,7 +377,7 @@ module:</p>
 <span class="n">URL_CHARS</span> <span class="o">=</span> <span class="s">&#39;abcdefghijkmpqrstuvwxyzABCDEFGHIJKLMNPQRST23456789&#39;</span>
 
 <span class="k">def</span> <span class="nf">get_random_uid</span><span class="p">():</span>
-    <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">URL_CHARS</span><span class="p">,</span> <span class="n">randrange</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span> <span class="mf">9</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">URL_CHARS</span><span class="p">,</span> <span class="n">randrange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">)))</span>
 </pre></div>
 </div>
 <p>Once that is done we can use <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">initdb</span></tt> to initialize the
@@ -437,7 +438,7 @@ empty <tt class="docutils literal"><span class="pre">views.py</span></tt> file:<
         <span class="k">if</span> <span class="ow">not</span> <span class="n">validate_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
             <span class="n">error</span> <span class="o">=</span> <span class="s">&quot;I&#39;m sorry but you cannot shorten this URL.&quot;</span>
         <span class="k">elif</span> <span class="n">alias</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">140</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">140</span><span class="p">:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Your alias is too long&#39;</span>
             <span class="k">elif</span> <span class="s">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">alias</span><span class="p">:</span>
                 <span class="n">error</span> <span class="o">=</span> <span class="s">&#39;Your alias might not include a slash&#39;</span>
@@ -461,9 +462,9 @@ empty <tt class="docutils literal"><span class="pre">views.py</span></tt> file:<
     <span class="n">url</span> <span class="o">=</span> <span class="n">URL</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uid</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NotFound</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="mf">301</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="mi">301</span><span class="p">)</span>
 
-<span class="nd">@expose</span><span class="p">(</span><span class="s">&#39;/list/&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;page&#39;</span><span class="p">:</span> <span class="mf">1</span><span class="p">})</span>
+<span class="nd">@expose</span><span class="p">(</span><span class="s">&#39;/list/&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;page&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 <span class="nd">@expose</span><span class="p">(</span><span class="s">&#39;/list/&lt;int:page&gt;&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
     <span class="k">pass</span>
@@ -508,7 +509,7 @@ object, the other one validates a URL.  So let&#8217;s add those to <tt class="d
 <span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">Response</span>
 <span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">FileSystemLoader</span>
 
-<span class="n">ALLOWED_SCHEMES</span> <span class="o">=</span> <span class="n">frozenset</span><span class="p">([</span><span class="s">&#39;http&#39;</span><span class="p">,</span> <span class="s">&#39;https&#39;</span><span class="p">,</span> <span class="s">&#39;ftp&#39;</span><span class="p">,</span> <span class="s">&#39;ftps&#39;</span><span class="p">])</span>
+<span class="n">ALLOWED_SCHEMES</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">([</span><span class="s">&#39;http&#39;</span><span class="p">,</span> <span class="s">&#39;https&#39;</span><span class="p">,</span> <span class="s">&#39;ftp&#39;</span><span class="p">,</span> <span class="s">&#39;ftps&#39;</span><span class="p">])</span>
 <span class="n">TEMPLATE_PATH</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&#39;templates&#39;</span><span class="p">)</span>
 <span class="n">jinja_env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">loader</span><span class="o">=</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">TEMPLATE_PATH</span><span class="p">))</span>
 <span class="n">jinja_env</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s">&#39;url_for&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url_for</span>
@@ -518,7 +519,7 @@ object, the other one validates a URL.  So let&#8217;s add those to <tt class="d
                     <span class="n">mimetype</span><span class="o">=</span><span class="s">&#39;text/html&#39;</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">validate_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)[</span><span class="mf">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ALLOWED_SCHEMES</span>
+    <span class="k">return</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">ALLOWED_SCHEMES</span>
 </pre></div>
 </div>
 <p>That&#8217;s it, basically.  The validation function checks if our URL looks like an
@@ -703,14 +704,14 @@ minutes to load.</p>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">entries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">offset</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mf">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_page</span><span class="p">)</span> \
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">offset</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_page</span><span class="p">)</span> \
                          <span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">per_page</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 
-    <span class="n">has_previous</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">page</span> <span class="o">&gt;</span> <span class="mf">1</span><span class="p">)</span>
+    <span class="n">has_previous</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">page</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">has_next</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">page</span> <span class="o">&lt;</span> <span class="n">x</span><span class="o">.</span><span class="n">pages</span><span class="p">)</span>
-    <span class="n">previous</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">url_for</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mf">1</span><span class="p">))</span>
-    <span class="n">next</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">url_for</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">page</span> <span class="o">+</span> <span class="mf">1</span><span class="p">))</span>
-    <span class="n">pages</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="mf">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">x</span><span class="o">.</span><span class="n">per_page</span> <span class="o">+</span> <span class="mf">1</span><span class="p">)</span>
+    <span class="n">previous</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">url_for</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="nb">next</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">url_for</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">page</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">pages</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">x</span><span class="o">.</span><span class="n">per_page</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This is a very simple class that does most of the pagination for us.  We
@@ -726,12 +727,12 @@ template.</p>
 code to the <cite>list</cite> function:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">shorty.utils</span> <span class="kn">import</span> <span class="n">Pagination</span>
 
-<span class="nd">@expose</span><span class="p">(</span><span class="s">&#39;/list/&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;page&#39;</span><span class="p">:</span> <span class="mf">1</span><span class="p">})</span>
+<span class="nd">@expose</span><span class="p">(</span><span class="s">&#39;/list/&#39;</span><span class="p">,</span> <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;page&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 <span class="nd">@expose</span><span class="p">(</span><span class="s">&#39;/list/&lt;int:page&gt;&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
     <span class="n">query</span> <span class="o">=</span> <span class="n">URL</span><span class="o">.</span><span class="n">query</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">public</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">pagination</span> <span class="o">=</span> <span class="n">Pagination</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mf">30</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">pagination</span><span class="o">.</span><span class="n">page</span> <span class="o">&gt;</span> <span class="mf">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pagination</span><span class="o">.</span><span class="n">entries</span><span class="p">:</span>
+    <span class="n">pagination</span> <span class="o">=</span> <span class="n">Pagination</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">page</span><span class="p">,</span> <span class="s">&#39;list&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pagination</span><span class="o">.</span><span class="n">page</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pagination</span><span class="o">.</span><span class="n">entries</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NotFound</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&#39;list.html&#39;</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="n">pagination</span><span class="p">)</span>
 </pre></div>
@@ -792,7 +793,7 @@ block goes right <strong>before</strong> the except block of the
     <span class="o">...</span> <span class="c"># this stays the same</span>
 <span class="k">except</span> <span class="n">NotFound</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">views</span><span class="o">.</span><span class="n">not_found</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mf">404</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">404</span>
 <span class="k">except</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
     <span class="o">...</span> <span class="c"># this stays the same</span>
 </pre></div>

@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="Application Deployment" href="deployment/index.html">
     <link rel="prev" title="Middlewares" href="middlewares.html">
     
@@ -320,7 +320,7 @@ purpose there is the <tt class="xref docutils literal"><span class="pre">abort()
 is given it&#8217;s looked up in the list of exceptions from above and will
 raise that exception, if passed a WSGI application it will wrap it in
 a proxy WSGI exception and raise that:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">abort</span><span class="p">(</span><span class="mf">404</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
 <span class="n">abort</span><span class="p">(</span><span class="n">Response</span><span class="p">(</span><span class="s">&#39;Hello World&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -347,7 +347,7 @@ the <tt class="xref docutils literal"><span class="pre">redirect()</span></tt> f
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.exceptions</span> <span class="kn">import</span> <span class="n">HTTPException</span>
 
 <span class="k">class</span> <span class="nc">PaymentRequred</span><span class="p">(</span><span class="n">HTTPException</span><span class="p">):</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="mf">402</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="mi">402</span>
     <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;&lt;p&gt;Payment required.&lt;/p&gt;&#39;</span>
 </pre></div>
 </div>

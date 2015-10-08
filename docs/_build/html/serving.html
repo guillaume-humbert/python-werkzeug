@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6dev'
+        VERSION:    '0.6.1dev'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
     <link rel="next" title="Test Utilities" href="test.html">
     <link rel="prev" title="Quickstart" href="quickstart.html">
     
@@ -66,7 +66,7 @@ application using the builtin server:</p>
 <span class="kn">from</span> <span class="nn">myproject</span> <span class="kn">import</span> <span class="n">make_app</span>
 
 <span class="n">app</span> <span class="o">=</span> <span class="n">make_app</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mf">8080</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">use_reloader</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">use_reloader</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can also pass it the <cite>extra_files</cite> keyword argument with a list of
@@ -180,9 +180,14 @@ in the <a class="reference external" href="http://en.wikipedia.org/wiki/Hosts_fi
 </div>
 <p>Alternatively you can also disable ipv6 support in your browser.  For example
 if Firefox shows this behavior you can disable it by going to <tt class="docutils literal"><span class="pre">about:config</span></tt>
-and disabling the <cite>network.dns.disableIPv6</cite> key.</p>
-<p>Another workaround that should work is accessing <cite>127.0.0.1</cite> instead of
-<cite>localhost</cite>.</p>
+and disabling the <cite>network.dns.disableIPv6</cite> key.  This however is not
+recommended as of Werkzeug 0.6.1!</p>
+<p>Starting with Werkzeug 0.6.1, the server will now switch between ipv4 and
+ipv6 based on your operating system&#8217;s configuration.  This means if that
+you disabled ipv6 support in your browser but your operating system is
+preferring ipv6, you will be unable to connect to your server.  In that
+situation, you can either remove the localhost entry for <tt class="docutils literal"><span class="pre">::1</span></tt> or
+explicitly bind the hostname to an ipv4 address (<cite>127.0.0.1</cite>)</p>
 </div>
 <div class="section" id="ssl">
 <h2>SSL<a class="headerlink" href="#ssl" title="Permalink to this headline">¶</a></h2>
@@ -194,7 +199,7 @@ or HTTPS mode, but not both.  This feature requires the Python OpenSSL
 library.</p>
 <p>The easiest way to enable SSL is to start the server in adhoc-mode.  In
 that case Werkzeug will generate an SSL certificate for you:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mf">4000</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span>
            <span class="n">ssl_context</span><span class="o">=</span><span class="s">&#39;adhoc&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -206,7 +211,7 @@ is started:</p>
 <span class="n">ctx</span> <span class="o">=</span> <span class="n">SSL</span><span class="o">.</span><span class="n">Context</span><span class="p">(</span><span class="n">SSL</span><span class="o">.</span><span class="n">SSLv23_METHOD</span><span class="p">)</span>
 <span class="n">ctx</span><span class="o">.</span><span class="n">use_privatekey_file</span><span class="p">(</span><span class="s">&#39;ssl.key&#39;</span><span class="p">)</span>
 <span class="n">ctx</span><span class="o">.</span><span class="n">use_certificate_file</span><span class="p">(</span><span class="s">&#39;ssl.cert&#39;</span><span class="p">)</span>
-<span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mf">4000</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span> <span class="n">ssl_context</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
+<span class="n">run_simple</span><span class="p">(</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span> <span class="n">ssl_context</span><span class="o">=</span><span class="n">ctx</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>A key and certificate can be created in advance using the openssl tool:</p>
