@@ -2,13 +2,53 @@ Werkzeug Changelog
 ==================
 
 
+Version 0.3
+-----------
+(codename to be selected, release date somewhere around May 2008)
+
+- added support for redirecting in url routing.
+- added `Authorization` and `AuthorizationMixin`
+- added `WWWAuthenticate` and `WWWAuthenticateMixin`
+- added `parse_list_header`
+- added `parse_dict_header`
+- added `parse_authorization_header`
+- added `parse_www_authenticate_header`
+- added `_get_current_object` method to `LocalProxy` objects
+- added `parse_form_data`
+- `MultiDict`, `CombinedMultiDict`, `Headers`, and `EnvironHeaders` raise
+  special key errors now that are subclasses of `BadRequest` so if you
+  don't catch them they give meaningful HTTP responses.
+- added support for alternative encoding error handling and the new
+  `HTTPUnicodeError` which (if not cought) behaves like a `BadRequest`.
+- adde `BadRequest.wrap`.
+- added ETag-support to the SharedDataMiddleware and added an option
+  to disable caching.
+- fixed `is_xhr` on the request objects.
+- fixed error handling of the url adapter's `dispatch` method. (#318)
+- fixed bug with `SharedDataMiddleware`.
+- fixed `Accept.values`.
+- `EnvironHeaders` contain content-type and content-length now
+- `url_encode` treats lists and tuples in dicts passed to it as multiple
+  values for the same key so that one doesn't have to pass a `MultiDict`
+  to the function.
+- added `validate_arguments`
+- added `BaseRequest.application`
+- improved Python 2.3 support
+- `run_simple` accepts `use_debugger` and `use_evalex` parameters now,
+  like the `make_runserver` factory function from the script module.
+- the `environ_property` is now read only by default
+- it's now possible to initialize requests as "shallow" requests which
+  causes runtime errors if the request object tries to consume the
+  input stream.
+
+
 Version 0.2
 -----------
-(codename Faustkeil, estimated release date Feb 14th 2008)
+(codename Faustkeil, released Feb 14th 2008)
 
 - Added `AnyConverter` to the routing system.
 - Added `werkzeug.contrib.securecookie`
-- Exceptions have a ``get_response()`` method that return a resposne object
+- Exceptions have a ``get_response()`` method that return a response object
 - fixed the path ordering bug (#293), thanks Thomas Johansson
 - `BaseReporterStream` is now part of the werkzeug contrib module.  With
   Werkzeug 0.3 onwards you will have to import it from there.

@@ -47,7 +47,7 @@ Features
 Development Version
 -------------------
 
-The `Werkzeug tip <http://dev.pocoo.org/hg/werkzeug-main/archive/tip.zip#egg=Werkzeug-dev`
+The `Werkzeug tip <http://dev.pocoo.org/hg/werkzeug-main/archive/tip.zip#egg=Werkzeug-dev>`_
 is installable via `easy_install` with ``easy_install Werkzeug==dev``.
 """
 import os
@@ -56,11 +56,23 @@ ez_setup.use_setuptools()
 
 from setuptools import setup, Feature
 
+
+data_files = []
+documentation_path = 'docs/build'
+if os.path.exists(documentation_path):
+    documentation_files = []
+    for fn in os.listdir(documentation_path):
+        if not fn.startswith('.'):
+            fn = os.path.join(documentation_path, fn)
+            if os.path.isfile(fn):
+                documentation_files.append(fn)
+    data_files.append(('docs', documentation_files))
+
+
 setup(
     name='Werkzeug',
-    version='0.2',
+    version='0.3',
     url='http://werkzeug.pocoo.org/',
-    download_url='http://werkzeug.pocoo.org/download',
     license='BSD',
     author='Armin Ronacher',
     author_email='armin.ronacher@active-4.com',
@@ -68,7 +80,7 @@ setup(
     long_description=__doc__,
     zip_safe=False,
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
@@ -78,8 +90,9 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
     packages=['werkzeug', 'werkzeug.debug'],
+    data_files=data_files,
     package_data={
-        'werkzeug.debug': ['shared/*']
+        'werkzeug.debug': ['shared/*', 'templates/*']
     },
     features={
         'contrib': Feature('optional contribute addon modules',
