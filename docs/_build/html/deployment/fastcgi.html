@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '../',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="../contents.html">
     <link rel="index" title="Global index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="../index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="../index.html">
     <link rel="up" title="Application Deployment" href="index.html">
     <link rel="next" title="HTTP Proxying" href="proxying.html">
     <link rel="prev" title="mod_wsgi (Apache)" href="mod_wsgi.html">
@@ -75,7 +75,7 @@ sure to have it installed.</p>
 <p>This is enough for Apache to work, however lighttpd and nginx need a
 socket to communicate with the FastCGI server.  For that to work you
 need to pass the path to the socket to the
-<tt class="xref docutils literal"><span class="pre">WSGIServer</span></tt>:</p>
+<tt class="xref py py-class docutils literal"><span class="pre">WSGIServer</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">WSGIServer</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">bindAddress</span><span class="o">=</span><span class="s">&#39;/path/to/fcgi.sock&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -103,7 +103,7 @@ can execute it:</p>
 </div>
 <p>This configuration binds the application to <cite>/yourapplication</cite>.  If you
 want the application to work in the URL root you have to work around a
-lighttpd bug with the <a title="werkzeug.contrib.fixers.LighttpdCGIRootFix" class="reference external" href="../contrib/fixers.html#werkzeug.contrib.fixers.LighttpdCGIRootFix"><tt class="xref docutils literal"><span class="pre">LighttpdCGIRootFix</span></tt></a>
+lighttpd bug with the <a title="werkzeug.contrib.fixers.LighttpdCGIRootFix" class="reference external" href="../contrib/fixers.html#werkzeug.contrib.fixers.LighttpdCGIRootFix"><tt class="xref py py-class docutils literal"><span class="pre">LighttpdCGIRootFix</span></tt></a>
 middleware.</p>
 <p>Make sure to apply it only if you are mounting the application the URL
 root.</p>

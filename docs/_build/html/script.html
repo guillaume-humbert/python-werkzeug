@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Request / Response Objects" href="wrappers.html">
     <link rel="prev" title="Debugging Applications" href="debug.html">
     
@@ -55,7 +55,7 @@
         </div>
         
   <div class="section" id="module-werkzeug.script">
-<h1>Management Script Utilities<a class="headerlink" href="#module-werkzeug.script" title="Permalink to this headline">¶</a></h1>
+<span id="management-script-utilities"></span><h1>Management Script Utilities<a class="headerlink" href="#module-werkzeug.script" title="Permalink to this headline">¶</a></h1>
 <p>Most of the time you have recurring tasks while writing an application
 such as starting up an interactive python interpreter with some prefilled
 imports, starting the development server, initializing the database or
@@ -153,12 +153,12 @@ action_prefix to an empty string.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>namespace</em> &#8211; An optional dict where the functions are looked up in.
+<li><strong>namespace</strong> &#8211; An optional dict where the functions are looked up in.
 By default the local namespace of the caller is used.</li>
-<li><em>action_prefix</em> &#8211; The prefix for the functions.  Everything else
+<li><strong>action_prefix</strong> &#8211; The prefix for the functions.  Everything else
 is ignored.</li>
-<li><em>args</em> &#8211; the arguments for the function.  If not specified
-<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/sys.html#sys.argv"><tt class="xref docutils literal"><span class="pre">sys.argv</span></tt></a> without the first argument is used.</li>
+<li><strong>args</strong> &#8211; the arguments for the function.  If not specified
+<a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/sys.html#sys.argv"><tt class="xref py py-data docutils literal"><span class="pre">sys.argv</span></tt></a> without the first argument is used.</li>
 </ul>
 </td>
 </tr>
@@ -176,12 +176,12 @@ python shell.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>init_func</em> &#8211; an optional initialization function that is
+<li><strong>init_func</strong> &#8211; an optional initialization function that is
 called before the shell is started.  The return
 value of this function is the initial namespace.</li>
-<li><em>banner</em> &#8211; the banner that is displayed before the shell.  If
+<li><strong>banner</strong> &#8211; the banner that is displayed before the shell.  If
 not specified a generic banner is used instead.</li>
-<li><em>use_ipython</em> &#8211; if set to <cite>True</cite> ipython is used if available.</li>
+<li><strong>use_ipython</strong> &#8211; if set to <cite>True</cite> ipython is used if available.</li>
 </ul>
 </td>
 </tr>
@@ -204,16 +204,16 @@ not specified a generic banner is used instead.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>app_factory</em> &#8211; a function that returns a new WSGI application.</li>
-<li><em>hostname</em> &#8211; the default hostname the server should listen on.</li>
-<li><em>port</em> &#8211; the default port of the server.</li>
-<li><em>use_reloader</em> &#8211; the default setting for the reloader.</li>
-<li><em>use_evalex</em> &#8211; the default setting for the evalex flag of the debugger.</li>
-<li><em>threaded</em> &#8211; the default threading setting.</li>
-<li><em>processes</em> &#8211; the default number of processes to start.</li>
-<li><em>static_files</em> &#8211; optional dict of static files.</li>
-<li><em>extra_files</em> &#8211; optional list of extra files to track for reloading.</li>
-<li><em>ssl_context</em> &#8211; optional SSL context for running server in HTTPS mode.</li>
+<li><strong>app_factory</strong> &#8211; a function that returns a new WSGI application.</li>
+<li><strong>hostname</strong> &#8211; the default hostname the server should listen on.</li>
+<li><strong>port</strong> &#8211; the default port of the server.</li>
+<li><strong>use_reloader</strong> &#8211; the default setting for the reloader.</li>
+<li><strong>use_evalex</strong> &#8211; the default setting for the evalex flag of the debugger.</li>
+<li><strong>threaded</strong> &#8211; the default threading setting.</li>
+<li><strong>processes</strong> &#8211; the default number of processes to start.</li>
+<li><strong>static_files</strong> &#8211; optional dict of static files.</li>
+<li><strong>extra_files</strong> &#8211; optional list of extra files to track for reloading.</li>
+<li><strong>ssl_context</strong> &#8211; optional SSL context for running server in HTTPS mode.</li>
 </ul>
 </td>
 </tr>

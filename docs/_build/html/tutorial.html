@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="API Levels" href="levels.html">
     <link rel="prev" title="Installation" href="installation.html">
     
@@ -61,7 +61,7 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Werkzeug Tutorial<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="werkzeug-tutorial"></span><h1>Werkzeug Tutorial<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>Welcome to the Werkzeug 0.5 tutorial in which we will create a <a class="reference external" href="http://tinyurl.com/">TinyURL</a> clone
 that stores URLs in a database.  The libraries we will use for this
 applications are <a class="reference external" href="http://jinja.pocoo.org/">Jinja</a> 2 for the templates, <a class="reference external" href="http://sqlalchemy.org/">SQLAlchemy</a> for the database
@@ -191,7 +191,7 @@ creating a session for SQLAlchemy.</p>
 <p>The <cite>init_database</cite> function defined below can be used to create all the
 tables we use.</p>
 <p>And then comes the request dispatching function.  In there we create a new
-request object by passing the environment to the <a title="werkzeug.Request" class="reference external" href="wrappers.html#werkzeug.Request"><tt class="xref docutils literal"><span class="pre">Request</span></tt></a> constructor.
+request object by passing the environment to the <a title="werkzeug.Request" class="reference external" href="wrappers.html#werkzeug.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> constructor.
 Once again we bind the application to the local object, this time, however,
 we have to do this, otherwise things will break soon.</p>
 <p>Then we create a new URL map adapter by binding the URL map to the current
@@ -203,7 +203,7 @@ URL builder.  We also bind the adapter to the local object so that we can
 use it for URL generation in the utils module.</p>
 <p>After that we have a <cite>try</cite>/<cite>except</cite> that catches HTTP exceptions that could
 occur while matching or in the view function.  When the adapter does not find
-a valid endpoint for our current request it will raise a <a title="werkzeug.exceptions.NotFound" class="reference external" href="exceptions.html#werkzeug.exceptions.NotFound"><tt class="xref docutils literal"><span class="pre">NotFound</span></tt></a>
+a valid endpoint for our current request it will raise a <a title="werkzeug.exceptions.NotFound" class="reference external" href="exceptions.html#werkzeug.exceptions.NotFound"><tt class="xref py py-exc docutils literal"><span class="pre">NotFound</span></tt></a>
 exception which we can use like a response object.  An endpoint is basically
 the name of the function we want to handle our request with.  We just get the
 function with the name of the endpoint and pass it the request and the URL
@@ -255,7 +255,7 @@ here is that calling a local object with a string returns a proxy object.  This
 returned proxy object always points to the attribute with that name on the
 local object.  For example <cite>application</cite> now points to <cite>local.application</cite>
 all the time.  If you, however, try to do something with it and there is
-no object bound to <cite>local.application</cite> you will get a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.RuntimeError"><tt class="xref docutils literal"><span class="pre">RuntimeError</span></tt></a>.</p>
+no object bound to <cite>local.application</cite> you will get a <tt class="xref py py-exc docutils literal"><span class="pre">RuntimeError</span></tt>.</p>
 <p>The next three lines are basically everything we need to get SQLAlchemy 0.4
 or higher running in a Werkzeug application.  We create a new metadata for all
 of our tables and then a new scoped session using the <cite>scoped_session</cite> factory
@@ -307,7 +307,7 @@ it into the <cite>manage.py</cite> file you have created in the beginning:</p>
 <span class="n">script</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p><a title="" class="reference external" href="script.html#module-werkzeug.script"><tt class="xref docutils literal"><span class="pre">werkzeug.script</span></tt></a> is explained in detail in the script documentation
+<p><a class="reference external" href="script.html#module-werkzeug.script"><tt class="xref py py-mod docutils literal"><span class="pre">werkzeug.script</span></tt></a> is explained in detail in the script documentation
 and we won&#8217;t cover it here, most of the code should be self explaining anyway.</p>
 <p>What&#8217;s important is that you should be able to run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">shell</span></tt>
 to get an interactive Python interpreter without traceback.  If you get an
@@ -486,10 +486,10 @@ the database and redirect to the display page.</p>
 <p>The <cite>display</cite> function is not much more complex.  The URL rule expects a
 parameter called <cite>uid</cite>, which the function accepts.  Then we look up the URL
 rule with the given uid and render a template by passing the URL object to it.</p>
-<p>If the URL does not exist we raise a <a title="werkzeug.exceptions.NotFound" class="reference external" href="exceptions.html#werkzeug.exceptions.NotFound"><tt class="xref docutils literal"><span class="pre">NotFound</span></tt></a> exception
+<p>If the URL does not exist we raise a <a title="werkzeug.exceptions.NotFound" class="reference external" href="exceptions.html#werkzeug.exceptions.NotFound"><tt class="xref py py-exc docutils literal"><span class="pre">NotFound</span></tt></a> exception
 which displays a generic &#8220;404 Page Not Found&#8221; page.  We can later replace it
 by a custom error page by catching that exception before the generic
-<a title="werkzeug.exceptions.HTTPException" class="reference external" href="exceptions.html#werkzeug.exceptions.HTTPException"><tt class="xref docutils literal"><span class="pre">HTTPException</span></tt></a> in our WSGI application.</p>
+<a title="werkzeug.exceptions.HTTPException" class="reference external" href="exceptions.html#werkzeug.exceptions.HTTPException"><tt class="xref py py-exc docutils literal"><span class="pre">HTTPException</span></tt></a> in our WSGI application.</p>
 <p>The <cite>link</cite> view function is used by our models in the <cite>short_url</cite> property
 and is the short URL we provide.  So if the URL uid is <tt class="docutils literal"><span class="pre">foobar</span></tt> the URL
 will be available as <tt class="docutils literal"><span class="pre">http://localhost:5000/u/foobar</span></tt>.</p>
@@ -717,8 +717,8 @@ minutes to load.</p>
 <p>This is a very simple class that does most of the pagination for us.  We
 can pass at an unexecuted SQLAlchemy query, the number of items per page,
 the current page and the endpoint, which will be used for URL generation.
-The <a title="werkzeug.cached_property" class="reference external" href="utils.html#werkzeug.cached_property"><tt class="xref docutils literal"><span class="pre">cached_property()</span></tt></a> decorator you see works pretty much like the
-normal <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#property"><tt class="xref docutils literal"><span class="pre">property()</span></tt></a> decorator, just that it memorizes the result.  We
+The <a title="werkzeug.cached_property" class="reference external" href="utils.html#werkzeug.cached_property"><tt class="xref py py-func docutils literal"><span class="pre">cached_property()</span></tt></a> decorator you see works pretty much like the
+normal <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#property"><tt class="xref py py-func docutils literal"><span class="pre">property()</span></tt></a> decorator, just that it memorizes the result.  We
 won&#8217;t cover that class in detail but basically the idea is that accessing
 <cite>pagination.entries</cite> returns the items for the current page and that the
 other properties return meaningful values so that we can use them in the
@@ -782,13 +782,13 @@ template:</p>
 </pre></div>
 </div>
 <p>Then we have to go into our application module and import the
-<a title="werkzeug.exceptions.NotFound" class="reference external" href="exceptions.html#werkzeug.exceptions.NotFound"><tt class="xref docutils literal"><span class="pre">NotFound</span></tt></a> exception:</p>
+<a title="werkzeug.exceptions.NotFound" class="reference external" href="exceptions.html#werkzeug.exceptions.NotFound"><tt class="xref py py-exc docutils literal"><span class="pre">NotFound</span></tt></a> exception:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.exceptions</span> <span class="kn">import</span> <span class="n">NotFound</span>
 </pre></div>
 </div>
 <p>Finally we have to catch it and translate it into a response.  This except
 block goes right <strong>before</strong> the except block of the
-<a title="werkzeug.exceptions.HTTPException" class="reference external" href="exceptions.html#werkzeug.exceptions.HTTPException"><tt class="xref docutils literal"><span class="pre">HTTPException</span></tt></a>:</p>
+<a title="werkzeug.exceptions.HTTPException" class="reference external" href="exceptions.html#werkzeug.exceptions.HTTPException"><tt class="xref py py-exc docutils literal"><span class="pre">HTTPException</span></tt></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
     <span class="o">...</span> <span class="c"># this stays the same</span>
 <span class="k">except</span> <span class="n">NotFound</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>

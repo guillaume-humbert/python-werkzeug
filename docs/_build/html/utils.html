@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Mini Templates" href="templates.html">
     <link rel="prev" title="Data Structures" href="datastructures.html">
     
@@ -53,8 +53,8 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Utilities<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
-<p>You can import all these objects directly from <a title="" class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref docutils literal"><span class="pre">werkzeug</span></tt></a>.</p>
+<span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<p>You can import all these objects directly from <a class="reference external" href="wsgi.html#module-werkzeug"><tt class="xref py py-mod docutils literal"><span class="pre">werkzeug</span></tt></a>.</p>
 <div class="section" id="url-helpers">
 <h2>URL Helpers<a class="headerlink" href="#url-helpers" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -75,7 +75,7 @@ the path of the URL:</p>
 </div>
 <p>If any of the arguments (positional or keyword) evaluates to <cite>None</cite> it
 will be skipped.  If no keyword arguments are given the last argument
-can be a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref docutils literal"><span class="pre">dict</span></tt></a> or <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a> (or any other dict subclass),
+can be a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></a> or <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a> (or any other dict subclass),
 otherwise the keyword arguments are used for the query parameters, cutting
 off the first trailing underscore of the parameter name:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">href</span><span class="p">(</span><span class="n">is_</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
@@ -112,7 +112,7 @@ sorting algorithm:</p>
 <dl class="function">
 <dt id="werkzeug.url_decode">
 <tt class="descclassname">werkzeug.</tt><tt class="descname">url_decode</tt><big>(</big><em>s</em>, <em>charset='utf-8'</em>, <em>decode_keys=False</em>, <em>include_empty=True</em>, <em>errors='ignore'</em>, <em>separator='&amp;'</em>, <em>cls=None</em><big>)</big><a class="headerlink" href="#werkzeug.url_decode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse a querystring and return it as <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a>.  Per default
+<dd><p>Parse a querystring and return it as <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a>.  Per default
 only values are decoded into unicode strings.  If <cite>decode_keys</cite> is set to
 <cite>True</cite> the same will happen for keys.</p>
 <p>Per default a missing value for a key will default to an empty key.  If
@@ -130,16 +130,16 @@ use &#8220;;&#8221; instead a different <cite>separator</cite> can be provided.<
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>s</em> &#8211; a string with the query string to decode.</li>
-<li><em>charset</em> &#8211; the charset of the query string.</li>
-<li><em>decode_keys</em> &#8211; set to <cite>True</cite> if you want the keys to be decoded
+<li><strong>s</strong> &#8211; a string with the query string to decode.</li>
+<li><strong>charset</strong> &#8211; the charset of the query string.</li>
+<li><strong>decode_keys</strong> &#8211; set to <cite>True</cite> if you want the keys to be decoded
 as well.</li>
-<li><em>include_empty</em> &#8211; Set to <cite>False</cite> if you don&#8217;t want empty values to
+<li><strong>include_empty</strong> &#8211; Set to <cite>False</cite> if you don&#8217;t want empty values to
 appear in the dict.</li>
-<li><em>errors</em> &#8211; the decoding error behavior.</li>
-<li><em>separator</em> &#8211; the pair separator to be used, defaults to <tt class="docutils literal"><span class="pre">&amp;</span></tt></li>
-<li><em>cls</em> &#8211; an optional dict class to use.  If this is not specified
-or <cite>None</cite> the default <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a> is used.</li>
+<li><strong>errors</strong> &#8211; the decoding error behavior.</li>
+<li><strong>separator</strong> &#8211; the pair separator to be used, defaults to <tt class="docutils literal"><span class="pre">&amp;</span></tt></li>
+<li><strong>cls</strong> &#8211; an optional dict class to use.  If this is not specified
+or <cite>None</cite> the default <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a> is used.</li>
 </ul>
 </td>
 </tr>
@@ -163,13 +163,13 @@ sorting algorithm.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>obj</em> &#8211; the object to encode into a query string.</li>
-<li><em>charset</em> &#8211; the charset of the query string.</li>
-<li><em>encode_keys</em> &#8211; set to <cite>True</cite> if you have unicode keys.</li>
-<li><em>sort</em> &#8211; set to <cite>True</cite> if you want parameters to be sorted by <cite>key</cite>.</li>
-<li><em>separator</em> &#8211; the separator to be used for the pairs.</li>
-<li><em>key</em> &#8211; an optional function to be used for sorting.  For more details
-check out the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#sorted"><tt class="xref docutils literal"><span class="pre">sorted()</span></tt></a> documentation.</li>
+<li><strong>obj</strong> &#8211; the object to encode into a query string.</li>
+<li><strong>charset</strong> &#8211; the charset of the query string.</li>
+<li><strong>encode_keys</strong> &#8211; set to <cite>True</cite> if you have unicode keys.</li>
+<li><strong>sort</strong> &#8211; set to <cite>True</cite> if you want parameters to be sorted by <cite>key</cite>.</li>
+<li><strong>separator</strong> &#8211; the separator to be used for the pairs.</li>
+<li><strong>key</strong> &#8211; an optional function to be used for sorting.  For more details
+check out the <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/functions.html#sorted"><tt class="xref py py-func docutils literal"><span class="pre">sorted()</span></tt></a> documentation.</li>
 </ul>
 </td>
 </tr>
@@ -186,9 +186,9 @@ check out the <a title="(in Python v2.7)" class="reference external" href="http:
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>s</em> &#8211; the string to quote.</li>
-<li><em>charset</em> &#8211; the charset to be used.</li>
-<li><em>safe</em> &#8211; an optional sequence of safe characters.</li>
+<li><strong>s</strong> &#8211; the string to quote.</li>
+<li><strong>charset</strong> &#8211; the charset to be used.</li>
+<li><strong>safe</strong> &#8211; an optional sequence of safe characters.</li>
 </ul>
 </td>
 </tr>
@@ -206,9 +206,9 @@ whitespace to &#8220;+&#8221;.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>s</em> &#8211; the string to quote.</li>
-<li><em>charset</em> &#8211; the charset to be used.</li>
-<li><em>safe</em> &#8211; an optional sequence of safe characters.</li>
+<li><strong>s</strong> &#8211; the string to quote.</li>
+<li><strong>charset</strong> &#8211; the charset to be used.</li>
+<li><strong>safe</strong> &#8211; an optional sequence of safe characters.</li>
 </ul>
 </td>
 </tr>
@@ -228,9 +228,9 @@ you can set <cite>errors</cite> to <tt class="docutils literal"><span class="pre
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>s</em> &#8211; the string to unquote.</li>
-<li><em>charset</em> &#8211; the charset to be used.</li>
-<li><em>errors</em> &#8211; the error handling for the charset decoding.</li>
+<li><strong>s</strong> &#8211; the string to unquote.</li>
+<li><strong>charset</strong> &#8211; the charset to be used.</li>
+<li><strong>errors</strong> &#8211; the error handling for the charset decoding.</li>
 </ul>
 </td>
 </tr>
@@ -251,9 +251,9 @@ you can set <cite>errors</cite> to <tt class="docutils literal"><span class="pre
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>s</em> &#8211; the string to unquote.</li>
-<li><em>charset</em> &#8211; the charset to be used.</li>
-<li><em>errors</em> &#8211; the error handling for the charset decoding.</li>
+<li><strong>s</strong> &#8211; the string to unquote.</li>
+<li><strong>charset</strong> &#8211; the charset to be used.</li>
+<li><strong>errors</strong> &#8211; the error handling for the charset decoding.</li>
 </ul>
 </td>
 </tr>
@@ -277,8 +277,8 @@ user:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>s</em> &#8211; the string with the URL to fix.</li>
-<li><em>charset</em> &#8211; The target charset for the URL if the url was given as
+<li><strong>s</strong> &#8211; the string with the URL to fix.</li>
+<li><strong>charset</strong> &#8211; The target charset for the URL if the url was given as
 unicode string.</li>
 </ul>
 </td>
@@ -310,9 +310,9 @@ unicode string.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>uri</em> &#8211; the URI to convert</li>
-<li><em>charset</em> &#8211; the charset of the URI</li>
-<li><em>errors</em> &#8211; the error handling on decode</li>
+<li><strong>uri</strong> &#8211; the URI to convert</li>
+<li><strong>charset</strong> &#8211; the charset of the URI</li>
+<li><strong>errors</strong> &#8211; the error handling on decode</li>
 </ul>
 </td>
 </tr>
@@ -341,8 +341,8 @@ unicode IRI and converts it into a URI.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>iri</em> &#8211; the iri to convert</li>
-<li><em>charset</em> &#8211; the charset for the URI</li>
+<li><strong>iri</strong> &#8211; the iri to convert</li>
+<li><strong>charset</strong> &#8211; the charset for the URI</li>
 </ul>
 </td>
 </tr>
@@ -377,16 +377,16 @@ suitable for a WSGI environment.  The URLs might also be IRIs.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>environ_or_baseurl</em> &#8211; a WSGI environment dict, a base URL or
+<li><strong>environ_or_baseurl</strong> &#8211; a WSGI environment dict, a base URL or
 base IRI.  This is the root of the
 application.</li>
-<li><em>path_or_url</em> &#8211; an absolute path from the server root, a
+<li><strong>path_or_url</strong> &#8211; an absolute path from the server root, a
 relative path (in which case it&#8217;s the path info)
 or a full URL.  Also accepts IRIs and unicode
 parameters.</li>
-<li><em>charset</em> &#8211; the charset for byte data in URLs</li>
-<li><em>errors</em> &#8211; the error handling on decode</li>
-<li><em>collapse_http_schemes</em> &#8211; if set to <cite>False</cite> the algorithm does
+<li><strong>charset</strong> &#8211; the charset for byte data in URLs</li>
+<li><strong>errors</strong> &#8211; the error handling on decode</li>
+<li><strong>collapse_http_schemes</strong> &#8211; if set to <cite>False</cite> the algorithm does
 not assume that http and https on the
 same server point to the same
 resource.</li>
@@ -438,8 +438,8 @@ also translated.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>s</em> &#8211; the string to escape.</li>
-<li><em>quote</em> &#8211; set to true to also escape double quotes.</li>
+<li><strong>s</strong> &#8211; the string to escape.</li>
+<li><strong>quote</strong> &#8211; set to true to also escape double quotes.</li>
 </ul>
 </td>
 </tr>
@@ -456,7 +456,10 @@ entities, not only the XML entities inserted by <cite>escape</cite>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>s</em> &#8211; the string to unescape.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>s</strong> &#8211; the string to unescape.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -579,7 +582,7 @@ environ attribute:</p>
 </div>
 <p>If you pass it a second value it&#8217;s used as default if the key does not
 exist, the third one can be a converter that takes a value and converts
-it.  If it raises <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.ValueError"><tt class="xref docutils literal"><span class="pre">ValueError</span></tt></a> or <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.TypeError"><tt class="xref docutils literal"><span class="pre">TypeError</span></tt></a> the default value
+it.  If it raises <tt class="xref py py-exc docutils literal"><span class="pre">ValueError</span></tt> or <tt class="xref py py-exc docutils literal"><span class="pre">TypeError</span></tt> the default value
 is used. If no default value is provided <cite>None</cite> is used.</p>
 <p>Per default the property is read only.  You have to explicitly enable it
 by passing <tt class="docutils literal"><span class="pre">read_only=False</span></tt> to the constructor.</p>
@@ -596,21 +599,21 @@ by passing <tt class="docutils literal"><span class="pre">read_only=False</span>
 <dd><p>Parse a cookie.  Either from a string or WSGI environ.</p>
 <p>Per default encoding errors are ignored.  If you want a different behavior
 you can set <cite>errors</cite> to <tt class="docutils literal"><span class="pre">'replace'</span></tt> or <tt class="docutils literal"><span class="pre">'strict'</span></tt>.  In strict mode a
-<tt class="xref docutils literal"><span class="pre">HTTPUnicodeError</span></tt> is raised.</p>
+<tt class="xref py py-exc docutils literal"><span class="pre">HTTPUnicodeError</span></tt> is raised.</p>
 <p class="versionchanged">
-<span class="versionmodified">Changed in version 0.5: </span>This function now returns a <a title="werkzeug.TypeConversionDict" class="reference external" href="datastructures.html#werkzeug.TypeConversionDict"><tt class="xref docutils literal"><span class="pre">TypeConversionDict</span></tt></a> instead of a
+<span class="versionmodified">Changed in version 0.5: </span>This function now returns a <a title="werkzeug.TypeConversionDict" class="reference external" href="datastructures.html#werkzeug.TypeConversionDict"><tt class="xref py py-class docutils literal"><span class="pre">TypeConversionDict</span></tt></a> instead of a
 regular dict.  The <cite>cls</cite> parameter was added.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>header</em> &#8211; the header to be used to parse the cookie.  Alternatively
+<li><strong>header</strong> &#8211; the header to be used to parse the cookie.  Alternatively
 this can be a WSGI environment.</li>
-<li><em>charset</em> &#8211; the charset for the cookie values.</li>
-<li><em>errors</em> &#8211; the error behavior for the charset decoding.</li>
-<li><em>cls</em> &#8211; an optional dict class to use.  If this is not specified
-or <cite>None</cite> the default <a title="werkzeug.TypeConversionDict" class="reference external" href="datastructures.html#werkzeug.TypeConversionDict"><tt class="xref docutils literal"><span class="pre">TypeConversionDict</span></tt></a> is
+<li><strong>charset</strong> &#8211; the charset for the cookie values.</li>
+<li><strong>errors</strong> &#8211; the error behavior for the charset decoding.</li>
+<li><strong>cls</strong> &#8211; an optional dict class to use.  If this is not specified
+or <cite>None</cite> the default <a title="werkzeug.TypeConversionDict" class="reference external" href="datastructures.html#werkzeug.TypeConversionDict"><tt class="xref py py-class docutils literal"><span class="pre">TypeConversionDict</span></tt></a> is
 used.</li>
 </ul>
 </td>
@@ -630,24 +633,24 @@ Python standard library but it accepts unicode data, too.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>max_age</em> &#8211; should be a number of seconds, or <cite>None</cite> (default) if
+<li><strong>max_age</strong> &#8211; should be a number of seconds, or <cite>None</cite> (default) if
 the cookie should last only as long as the client&#8217;s
 browser session.  Additionally <cite>timedelta</cite> objects
 are accepted, too.</li>
-<li><em>expires</em> &#8211; should be a <cite>datetime</cite> object or unix timestamp.</li>
-<li><em>path</em> &#8211; limits the cookie to a given path, per default it will
+<li><strong>expires</strong> &#8211; should be a <cite>datetime</cite> object or unix timestamp.</li>
+<li><strong>path</strong> &#8211; limits the cookie to a given path, per default it will
 span the whole domain.</li>
-<li><em>domain</em> &#8211; Use this if you want to set a cross-domain cookie. For
+<li><strong>domain</strong> &#8211; Use this if you want to set a cross-domain cookie. For
 example, <tt class="docutils literal"><span class="pre">domain=&quot;.example.com&quot;</span></tt> will set a cookie
 that is readable by the domain <tt class="docutils literal"><span class="pre">www.example.com</span></tt>,
 <tt class="docutils literal"><span class="pre">foo.example.com</span></tt> etc. Otherwise, a cookie will only
 be readable by the domain that set it.</li>
-<li><em>secure</em> &#8211; The cookie will only be available via HTTPS</li>
-<li><em>httponly</em> &#8211; disallow JavaScript to access the cookie.  This is an
+<li><strong>secure</strong> &#8211; The cookie will only be available via HTTPS</li>
+<li><strong>httponly</strong> &#8211; disallow JavaScript to access the cookie.  This is an
 extension to the cookie standard and probably not
 supported by all browsers.</li>
-<li><em>charset</em> &#8211; the encoding for unicode values.</li>
-<li><em>sync_expires</em> &#8211; automatically set expires if max_age is defined
+<li><strong>charset</strong> &#8211; the encoding for unicode values.</li>
+<li><strong>sync_expires</strong> &#8211; automatically set expires if max_age is defined
 but expires not.</li>
 </ul>
 </td>
@@ -666,14 +669,14 @@ redirect and 304 because it&#8217;s the answer for a request with a request
 with defined If-Modified-Since headers.</p>
 <p class="versionadded">
 <span class="versionmodified">New in version 0.6: </span>The location can now be a unicode string that is encoded using
-the <a title="werkzeug.iri_to_uri" class="reference internal" href="#werkzeug.iri_to_uri"><tt class="xref docutils literal"><span class="pre">iri_to_uri()</span></tt></a> function.</p>
+the <a title="werkzeug.iri_to_uri" class="reference internal" href="#werkzeug.iri_to_uri"><tt class="xref py py-func docutils literal"><span class="pre">iri_to_uri()</span></tt></a> function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>location</em> &#8211; the location the response should redirect to.</li>
-<li><em>code</em> &#8211; the redirect status code.</li>
+<li><strong>location</strong> &#8211; the location the response should redirect to.</li>
+<li><strong>code</strong> &#8211; the redirect status code.</li>
 </ul>
 </td>
 </tr>
@@ -691,9 +694,9 @@ of this function is undefined if the path ends with a slash already.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>environ</em> &#8211; the WSGI environment for the request that triggers
+<li><strong>environ</strong> &#8211; the WSGI environment for the request that triggers
 the redirect.</li>
-<li><em>code</em> &#8211; the status code for the redirect.</li>
+<li><strong>code</strong> &#8211; the status code for the redirect.</li>
 </ul>
 </td>
 </tr>
@@ -714,8 +717,8 @@ or with a colon as object delimiter (<tt class="docutils literal"><span class="p
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>import_name</em> &#8211; the dotted name for the object to import.</li>
-<li><em>silent</em> &#8211; if set to <cite>True</cite> import errors are ignored and
+<li><strong>import_name</strong> &#8211; the dotted name for the object to import.</li>
+<li><strong>silent</strong> &#8211; if set to <cite>True</cite> import errors are ignored and
 <cite>None</cite> is returned instead.</li>
 </ul>
 </td>
@@ -742,9 +745,9 @@ packages to get the correct load path of that module.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>import_name</em> &#8211; the dotted name for the package to find child modules.</li>
-<li><em>include_packages</em> &#8211; set to <cite>True</cite> if packages should be returned, too.</li>
-<li><em>recursive</em> &#8211; set to <cite>True</cite> if recursion should happen.</li>
+<li><strong>import_name</strong> &#8211; the dotted name for the package to find child modules.</li>
+<li><strong>include_packages</strong> &#8211; set to <cite>True</cite> if packages should be returned, too.</li>
+<li><strong>recursive</strong> &#8211; set to <cite>True</cite> if recursion should happen.</li>
 </ul>
 </td>
 </tr>
@@ -796,10 +799,10 @@ a view function:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>func</em> &#8211; the function the validation is performed against.</li>
-<li><em>args</em> &#8211; a tuple of positional arguments.</li>
-<li><em>kwargs</em> &#8211; a dict of keyword arguments.</li>
-<li><em>drop_extra</em> &#8211; set to <cite>False</cite> if you don&#8217;t want extra arguments
+<li><strong>func</strong> &#8211; the function the validation is performed against.</li>
+<li><strong>args</strong> &#8211; a tuple of positional arguments.</li>
+<li><strong>kwargs</strong> &#8211; a dict of keyword arguments.</li>
+<li><strong>drop_extra</strong> &#8211; set to <cite>False</cite> if you don&#8217;t want extra arguments
 to be silently dropped.</li>
 </ul>
 </td>
@@ -816,7 +819,7 @@ to be silently dropped.</li>
 <tt class="descclassname">werkzeug.</tt><tt class="descname">secure_filename</tt><big>(</big><em>filename</em><big>)</big><a class="headerlink" href="#werkzeug.secure_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass it a filename and it will return a secure version of it.  This
 filename can then safely be stored on a regular file system and passed
-to <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/os.path.html#os.path.join"><tt class="xref docutils literal"><span class="pre">os.path.join()</span></tt></a>.  The filename returned is an ASCII only string
+to <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/os.path.html#os.path.join"><tt class="xref py py-func docutils literal"><span class="pre">os.path.join()</span></tt></a>.  The filename returned is an ASCII only string
 for maximum portability.</p>
 <p>On windows system the function also makes sure that the file is not
 named after one of the special device files.</p>
@@ -837,7 +840,10 @@ filename if the function returned an empty one.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>filename</em> &#8211; the filename to secure</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> &#8211; the filename to secure</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -856,13 +862,13 @@ the cache key based on the values of the arguments.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><em>func</em> &#8211; the function the arguments should be bound for.</li>
-<li><em>args</em> &#8211; tuple of positional arguments.</li>
-<li><em>kwargs</em> &#8211; a dict of keyword arguments.</li>
+<li><strong>func</strong> &#8211; the function the arguments should be bound for.</li>
+<li><strong>args</strong> &#8211; tuple of positional arguments.</li>
+<li><strong>kwargs</strong> &#8211; a dict of keyword arguments.</li>
 </ul>
 </td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref docutils literal"><span class="pre">dict</span></tt></a> of bound keyword arguments.</p>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/stdtypes.html#dict"><tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></a> of bound keyword arguments.</p>
 </td>
 </tr>
 </tbody>
@@ -879,7 +885,7 @@ the cache key based on the values of the arguments.</p>
 <tt class="descclassname">werkzeug.</tt><tt class="descname">generate_password_hash</tt><big>(</big><em>password</em>, <em>method='sha1'</em>, <em>salt_length=8</em><big>)</big><a class="headerlink" href="#werkzeug.generate_password_hash" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hash a password with the given method and salt with with a string of
 the given length.  The format of the string returned includes the method
-that was used so that <a title="werkzeug.check_password_hash" class="reference internal" href="#werkzeug.check_password_hash"><tt class="xref docutils literal"><span class="pre">check_password_hash()</span></tt></a> can check the hash.</p>
+that was used so that <a title="werkzeug.check_password_hash" class="reference internal" href="#werkzeug.check_password_hash"><tt class="xref py py-func docutils literal"><span class="pre">check_password_hash()</span></tt></a> can check the hash.</p>
 <p>The format for the hashed string looks like this:</p>
 <div class="highlight-python"><pre>method$salt$hash</pre>
 </div>
@@ -891,9 +897,9 @@ is used, hmac is used internally to salt the password.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>password</em> &#8211; the password to hash</li>
-<li><em>method</em> &#8211; the hash method to use (<tt class="docutils literal"><span class="pre">'md5'</span></tt> or <tt class="docutils literal"><span class="pre">'sha1'</span></tt>)</li>
-<li><em>salt_length</em> &#8211; the lengt of the salt in letters</li>
+<li><strong>password</strong> &#8211; the password to hash</li>
+<li><strong>method</strong> &#8211; the hash method to use (<tt class="docutils literal"><span class="pre">'md5'</span></tt> or <tt class="docutils literal"><span class="pre">'sha1'</span></tt>)</li>
+<li><strong>salt_length</strong> &#8211; the lengt of the salt in letters</li>
 </ul>
 </td>
 </tr>
@@ -913,9 +919,9 @@ plain text passwords, md5 and sha1 hashes (both salted and unsalted).</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>pwhash</em> &#8211; a hashed string like returned by
-<a title="werkzeug.generate_password_hash" class="reference internal" href="#werkzeug.generate_password_hash"><tt class="xref docutils literal"><span class="pre">generate_password_hash()</span></tt></a></li>
-<li><em>password</em> &#8211; the plaintext password to compare against the hash</li>
+<li><strong>pwhash</strong> &#8211; a hashed string like returned by
+<a title="werkzeug.generate_password_hash" class="reference internal" href="#werkzeug.generate_password_hash"><tt class="xref py py-func docutils literal"><span class="pre">generate_password_hash()</span></tt></a></li>
+<li><strong>password</strong> &#8211; the plaintext password to compare against the hash</li>
 </ul>
 </td>
 </tr>

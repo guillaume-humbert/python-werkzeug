@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Serving WSGI Applications" href="serving.html">
     <link rel="prev" title="API Levels" href="levels.html">
     
@@ -53,23 +53,23 @@
         </div>
         
   <div class="section" id="module-werkzeug">
-<h1>Quickstart<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
+<span id="quickstart"></span><h1>Quickstart<a class="headerlink" href="#module-werkzeug" title="Permalink to this headline">¶</a></h1>
 <p>This part of the documentation shows how to use the most important parts of
 Werkzeug.  It&#8217;s intended as starting point for developers with basic
-understanding of <span class="target" id="index-4"></span><a class="reference external" href="http://www.python.org/dev/peps/pep-0333"><strong>PEP 333</strong></a> (WSGI) and <span class="target" id="index-5"></span><a class="reference external" href="http://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a> (HTTP).</p>
+understanding of <span class="target" id="index-0"></span><a class="pep reference external" href="http://www.python.org/dev/peps/pep-0333"><strong>PEP 333</strong></a> (WSGI) and <span class="target" id="index-1"></span><a class="rfc reference external" href="http://tools.ietf.org/html/rfc2616.html"><strong>RFC 2616</strong></a> (HTTP).</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p>Make sure to import all objects from the places the documentation
 suggests.  It is theoretically possible in some situations to import
 objects from different locations but this is not supported.</p>
-<p class="last">For example <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref docutils literal"><span class="pre">MultiDict</span></tt></a> is a member of the <cite>werkzeug</cite> module
+<p class="last">For example <a title="werkzeug.MultiDict" class="reference external" href="datastructures.html#werkzeug.MultiDict"><tt class="xref py py-class docutils literal"><span class="pre">MultiDict</span></tt></a> is a member of the <cite>werkzeug</cite> module
 but internally implemented in a different one.</p>
 </div>
 <div class="section" id="wsgi-environment">
 <h2>WSGI Environment<a class="headerlink" href="#wsgi-environment" title="Permalink to this headline">¶</a></h2>
 <p>The WSGI environment contains all the information the user request transmit
 to the application.  It is passed to the WSGI application but you can also
-create a WSGI environ dict using the <a title="werkzeug.create_environ" class="reference external" href="test.html#werkzeug.create_environ"><tt class="xref docutils literal"><span class="pre">create_environ()</span></tt></a> helper:</p>
+create a WSGI environ dict using the <a title="werkzeug.create_environ" class="reference external" href="test.html#werkzeug.create_environ"><tt class="xref py py-func docutils literal"><span class="pre">create_environ()</span></tt></a> helper:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">create_environ</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">environ</span> <span class="o">=</span> <span class="n">create_environ</span><span class="p">(</span><span class="s">&#39;/foo&#39;</span><span class="p">,</span> <span class="s">&#39;http://localhost:8080/&#39;</span><span class="p">)</span>
 </pre></div>
@@ -89,7 +89,7 @@ parsing that data by hand.</p>
 </div>
 <div class="section" id="enter-request">
 <h2>Enter Request<a class="headerlink" href="#enter-request" title="Permalink to this headline">¶</a></h2>
-<p>For access to the request data the <a title="werkzeug.Request" class="reference external" href="wrappers.html#werkzeug.Request"><tt class="xref docutils literal"><span class="pre">Request</span></tt></a> object is much more fun.
+<p>For access to the request data the <a title="werkzeug.Request" class="reference external" href="wrappers.html#werkzeug.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a> object is much more fun.
 It wraps the <cite>environ</cite> and provides a read-only access to the data from
 there:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">werkzeug</span> <span class="kn">import</span> <span class="n">Request</span>
@@ -99,7 +99,7 @@ there:</p>
 <p>Now you can access the important variables and Werkzeug will parse them
 for you and decode them where it makes sense.  The default charset for
 requests is set to <cite>utf-8</cite> but you can change that by subclassing
-<a title="werkzeug.Request" class="reference external" href="wrappers.html#werkzeug.Request"><tt class="xref docutils literal"><span class="pre">Request</span></tt></a>.</p>
+<a title="werkzeug.Request" class="reference external" href="wrappers.html#werkzeug.Request"><tt class="xref py py-class docutils literal"><span class="pre">Request</span></tt></a>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">request</span><span class="o">.</span><span class="n">path</span>
 <span class="go">u&#39;/foo&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">request</span><span class="o">.</span><span class="n">script_root</span>
@@ -118,7 +118,7 @@ requests is set to <cite>utf-8</cite> but you can change that by subclassing
 <p>This way we can also access URL arguments (the query string) and data that
 was transmitted in a POST/PUT request.</p>
 <p>For testing purposes we can create a request object from supplied data
-using the <a title="werkzeug.BaseRequest.from_values" class="reference external" href="wrappers.html#werkzeug.BaseRequest.from_values"><tt class="xref docutils literal"><span class="pre">from_values()</span></tt></a> method:</p>
+using the <a title="werkzeug.BaseRequest.from_values" class="reference external" href="wrappers.html#werkzeug.BaseRequest.from_values"><tt class="xref py py-meth docutils literal"><span class="pre">from_values()</span></tt></a> method:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cStringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="s">&quot;name=this+is+encoded+form+data&amp;another_key=another+one&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="o">.</span><span class="n">from_values</span><span class="p">(</span><span class="n">query_string</span><span class="o">=</span><span class="s">&#39;foo=bar&amp;blah=blafasel&#39;</span><span class="p">,</span>
@@ -152,9 +152,9 @@ example:</p>
         <span class="n">handle_the_error</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The files are represented as <a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref docutils literal"><span class="pre">FileStorage</span></tt></a> objects which provide
+<p>The files are represented as <a title="werkzeug.FileStorage" class="reference external" href="datastructures.html#werkzeug.FileStorage"><tt class="xref py py-class docutils literal"><span class="pre">FileStorage</span></tt></a> objects which provide
 some common operations to work with them.</p>
-<p>Request headers can be accessed by using the <a title="werkzeug.BaseRequest.headers" class="reference external" href="wrappers.html#werkzeug.BaseRequest.headers"><tt class="xref docutils literal"><span class="pre">headers</span></tt></a>
+<p>Request headers can be accessed by using the <a title="werkzeug.BaseRequest.headers" class="reference external" href="wrappers.html#werkzeug.BaseRequest.headers"><tt class="xref py py-class docutils literal"><span class="pre">headers</span></tt></a>
 attribute:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&#39;Content-Length&#39;</span><span class="p">]</span>
 <span class="go">&#39;54&#39;</span>
@@ -292,7 +292,7 @@ code or provide a message as well:</p>
 </pre></div>
 </div>
 <p>As you can see attributes work in both directions.  So you can set both
-<tt class="xref docutils literal"><span class="pre">status</span></tt> and <cite>~BaseResponse.status_code</cite> and the
+<tt class="xref py py-attr docutils literal"><span class="pre">status</span></tt> and <cite>~BaseResponse.status_code</cite> and the
 change will be reflected to the other.</p>
 <p>Also common headers are exposed as attributes or with methods to set /
 retrieve them:</p>
@@ -342,7 +342,7 @@ of the <cite>Content-</cite> headers are sets of values:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s">&#39;name2&#39;</span><span class="p">,</span> <span class="s">&#39;value2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If headers appear multiple times you can use the <a title="werkzeug.Headers.getlist" class="reference external" href="datastructures.html#werkzeug.Headers.getlist"><tt class="xref docutils literal"><span class="pre">getlist()</span></tt></a>
+<p>If headers appear multiple times you can use the <a title="werkzeug.Headers.getlist" class="reference external" href="datastructures.html#werkzeug.Headers.getlist"><tt class="xref py py-meth docutils literal"><span class="pre">getlist()</span></tt></a>
 method to get all values for a header:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&#39;Set-Cookie&#39;</span><span class="p">)</span>
 <span class="go">[&#39;name=value; Path=/&#39;, &#39;name2=value2; Path=/&#39;]</span>
@@ -353,7 +353,7 @@ response conditional against a request.  Which means that if the request
 can assure that it has the information already, no data besides the headers
 is sent over the network which saves traffic.  For that you should set at
 least an etag (which is used for comparision) and the date header and then
-call <tt class="xref docutils literal"><span class="pre">make_conditional</span></tt> with the request object.</p>
+call <tt class="xref py py-class docutils literal"><span class="pre">make_conditional</span></tt> with the request object.</p>
 <p>The response is modified accordingly (status code changed, response body
 removed, entitiy headers removed etc.)</p>
 </div>

@@ -10,7 +10,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:   '#',
-        VERSION:    '0.6.1dev'
+        VERSION:    '0.6.1'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -20,7 +20,7 @@
     <link rel="contents" title="Global table of contents" href="contents.html">
     <link rel="index" title="Global index" href="genindex.html">
     <link rel="search" title="Search" href="search.html">
-    <link rel="top" title="Werkzeug v0.6.1dev documentation" href="index.html">
+    <link rel="top" title="Werkzeug v0.6.1 documentation" href="index.html">
     <link rel="next" title="Application Deployment" href="deployment/index.html">
     <link rel="prev" title="Middlewares" href="middlewares.html">
     
@@ -55,7 +55,7 @@
         </div>
         
   <div class="section" id="module-werkzeug.exceptions">
-<h1>HTTP Exceptions<a class="headerlink" href="#module-werkzeug.exceptions" title="Permalink to this headline">¶</a></h1>
+<span id="http-exceptions"></span><h1>HTTP Exceptions<a class="headerlink" href="#module-werkzeug.exceptions" title="Permalink to this headline">¶</a></h1>
 <p>This module implements a number of Python exceptions you can raise from
 within your views to trigger a standard non-200 response.</p>
 <div class="section" id="usage-example">
@@ -260,9 +260,13 @@ of it independently and render nicer error messages.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>environ</em> &#8211; the environ for the request.</td>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environ</strong> &#8211; the environ for the request.</li>
+</ul>
+</td>
 </tr>
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">a <tt class="xref docutils literal"><span class="pre">BaseResponse</span></tt> object or a subclass thereof.</td>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <tt class="xref py py-class docutils literal"><span class="pre">BaseResponse</span></tt> object or a subclass thereof.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -277,8 +281,8 @@ of it independently and render nicer error messages.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><em>environ</em> &#8211; the WSGI environment.</li>
-<li><em>start_response</em> &#8211; the response callable provided by the WSGI
+<li><strong>environ</strong> &#8211; the WSGI environment.</li>
+<li><strong>start_response</strong> &#8211; the response callable provided by the WSGI
 server.</li>
 </ul>
 </td>
@@ -293,8 +297,8 @@ server.</li>
 <div class="section" id="special-http-exceptions">
 <h2>Special HTTP Exceptions<a class="headerlink" href="#special-http-exceptions" title="Permalink to this headline">¶</a></h2>
 <p>Starting with Werkzeug 0.3 some of the builtin classes raise exceptions that
-look like regular python exceptions (eg <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.KeyError"><tt class="xref docutils literal"><span class="pre">KeyError</span></tt></a>) but are
-<a title="werkzeug.exceptions.BadRequest" class="reference internal" href="#werkzeug.exceptions.BadRequest"><tt class="xref docutils literal"><span class="pre">BadRequest</span></tt></a> HTTP exceptions at the same time.  This decision was made
+look like regular python exceptions (eg <tt class="xref py py-exc docutils literal"><span class="pre">KeyError</span></tt>) but are
+<a title="werkzeug.exceptions.BadRequest" class="reference internal" href="#werkzeug.exceptions.BadRequest"><tt class="xref py py-exc docutils literal"><span class="pre">BadRequest</span></tt></a> HTTP exceptions at the same time.  This decision was made
 to simplify a common pattern where you want to abort if the client tampered
 with the submitted form data in a way that the application can&#8217;t recover
 properly and should abort with <tt class="docutils literal"><span class="pre">400</span> <span class="pre">BAD</span> <span class="pre">REQUEST</span></tt>.</p>
@@ -308,14 +312,14 @@ check if the keys exist:</p>
 </pre></div>
 </div>
 <p>If <cite>title</cite> or <cite>body</cite> are missing in the form a special key error will be
-raised which behaves like a <a title="(in Python v2.7)" class="reference external" href="http://docs.python.org/dev/library/exceptions.html#exceptions.KeyError"><tt class="xref docutils literal"><span class="pre">KeyError</span></tt></a> but also a <a title="werkzeug.exceptions.BadRequest" class="reference internal" href="#werkzeug.exceptions.BadRequest"><tt class="xref docutils literal"><span class="pre">BadRequest</span></tt></a>
+raised which behaves like a <tt class="xref py py-exc docutils literal"><span class="pre">KeyError</span></tt> but also a <a title="werkzeug.exceptions.BadRequest" class="reference internal" href="#werkzeug.exceptions.BadRequest"><tt class="xref py py-exc docutils literal"><span class="pre">BadRequest</span></tt></a>
 exception.</p>
 </div>
 <div class="section" id="simple-aborting">
 <h2>Simple Aborting<a class="headerlink" href="#simple-aborting" title="Permalink to this headline">¶</a></h2>
 <p>Sometimes it&#8217;s convenient to just raise an exception by the error code,
 without importing the exception and looking up the name etc.  For this
-purpose there is the <tt class="xref docutils literal"><span class="pre">abort()</span></tt> function.</p>
+purpose there is the <tt class="xref py py-func docutils literal"><span class="pre">abort()</span></tt> function.</p>
 <p>It can be passed a WSGI application or a status code.  If a status code
 is given it&#8217;s looked up in the list of exceptions from above and will
 raise that exception, if passed a WSGI application it will wrap it in
@@ -342,8 +346,8 @@ a WSGI application it will be raised in a proxy exception.</p>
 <p>As you can see from the list above not all status codes are available as
 errors.  Especially redirects and ather non 200 status codes that
 represent do not represent errors are missing.  For redirects you can use
-the <tt class="xref docutils literal"><span class="pre">redirect()</span></tt> function from the utilities.</p>
-<p>If you want to add an error yourself you can subclass <a title="werkzeug.exceptions.HTTPException" class="reference internal" href="#werkzeug.exceptions.HTTPException"><tt class="xref docutils literal"><span class="pre">HTTPException</span></tt></a>:</p>
+the <tt class="xref py py-func docutils literal"><span class="pre">redirect()</span></tt> function from the utilities.</p>
+<p>If you want to add an error yourself you can subclass <a title="werkzeug.exceptions.HTTPException" class="reference internal" href="#werkzeug.exceptions.HTTPException"><tt class="xref py py-exc docutils literal"><span class="pre">HTTPException</span></tt></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">werkzeug.exceptions</span> <span class="kn">import</span> <span class="n">HTTPException</span>
 
 <span class="k">class</span> <span class="nc">PaymentRequred</span><span class="p">(</span><span class="n">HTTPException</span><span class="p">):</span>
@@ -353,13 +357,13 @@ the <tt class="xref docutils literal"><span class="pre">redirect()</span></tt> f
 </div>
 <p>This is the minimal code you need for your own exception.  If you want to
 add more logic to the errors you can override the
-<tt class="xref docutils literal"><span class="pre">get_description()</span></tt>, <tt class="xref docutils literal"><span class="pre">get_body()</span></tt>,
-<tt class="xref docutils literal"><span class="pre">get_headers()</span></tt> and <a title="werkzeug.exceptions.HTTPException.get_response" class="reference internal" href="#werkzeug.exceptions.HTTPException.get_response"><tt class="xref docutils literal"><span class="pre">get_response()</span></tt></a>
+<tt class="xref py py-meth docutils literal"><span class="pre">get_description()</span></tt>, <tt class="xref py py-meth docutils literal"><span class="pre">get_body()</span></tt>,
+<tt class="xref py py-meth docutils literal"><span class="pre">get_headers()</span></tt> and <a title="werkzeug.exceptions.HTTPException.get_response" class="reference internal" href="#werkzeug.exceptions.HTTPException.get_response"><tt class="xref py py-meth docutils literal"><span class="pre">get_response()</span></tt></a>
 methods.  In any case you should have a look at the sourcecode of the
 exceptions module.</p>
 <p>You can override the default description in the constructor with the
 <cite>description</cite> parameter (it&#8217;s the first argument for all exceptions
-except of the <a title="werkzeug.exceptions.MethodNotAllowed" class="reference internal" href="#werkzeug.exceptions.MethodNotAllowed"><tt class="xref docutils literal"><span class="pre">MethodNotAllowed</span></tt></a> which accepts a list of allowed methods
+except of the <a title="werkzeug.exceptions.MethodNotAllowed" class="reference internal" href="#werkzeug.exceptions.MethodNotAllowed"><tt class="xref py py-exc docutils literal"><span class="pre">MethodNotAllowed</span></tt></a> which accepts a list of allowed methods
 as first argument):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">raise</span> <span class="n">BadRequest</span><span class="p">(</span><span class="s">&#39;Request failed because X was not present&#39;</span><span class="p">)</span>
 </pre></div>
