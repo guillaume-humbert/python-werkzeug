@@ -4,7 +4,7 @@
     ~~~~~~~~~~~~~~~~~~~~~~~
 
     This module implements a `IterIO` that converts an iterator into a stream
-    object and the other way round.  Converting streams into interators
+    object and the other way round.  Converting streams into iterators
     requires the `greenlet`_ module.
 
 
@@ -25,7 +25,9 @@
     constructor on the other hand is not an stream object but an iterator::
 
         def foo(stream):
-            stream.write("something")
+            stream.write("some")
+            stream.write("thing")
+            stream.flush()
             stream.write("otherthing")
         iterator = IterIO(foo)
         print iterator.next()       # prints something
@@ -125,11 +127,15 @@ class IterI(IterIO):
 
     def __new__(cls, func):
         if greenlet is None:
-            raise RuntimeError('IterI requires greenlets')
+            raise RuntimeError('IterI requires greenlet support')
         stream = object.__new__(cls)
         stream.__init__(greenlet.getcurrent())
 
-        g = greenlet(lambda: func(stream), stream._parent)
+        def run():
+            func(stream)
+            stream.flush()
+
+        g = greenlet(run, stream._parent)
         while 1:
             rv = g.switch()
             if not rv:
@@ -138,19 +144,19 @@ class IterI(IterIO):
 
     def __init__(self, parent):
         self._parent = parent
+        self._buffer = []
         self.closed = False
         self.pos = 0
 
     def close(self):
         if not self.closed:
             self.closed = True
-            self._parent.throw(ExecutionStop)
 
     def write(self, s):
         if self.closed:
             raise ValueError('I/O operation on closed file')
         self.pos += len(s)
-        self._parent.switch((s,))
+        self._buffer.append(s)
 
     def writelines(slf, list):
         self.write(''.join(list))
@@ -158,6 +164,9 @@ class IterI(IterIO):
     def flush(self):
         if self.closed:
             raise ValueError('I/O operation on closed file')
+        data = ''.join(self._buffer)
+        self._buffer = []
+        self._parent.switch((data,))
 
 
 class IterO(IterIO):

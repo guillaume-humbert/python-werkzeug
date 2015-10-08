@@ -211,12 +211,15 @@ def get_frame_info(tb, context_lines=7, simple=False):
     variables = tb.tb_frame.f_locals
 
     # get filename
-    fn = tb.tb_frame.f_globals.get('__file__')
-    if not fn:
-        fn = os.path.realpath(inspect.getsourcefile(tb) or
-                              inspect.getfile(tb))
-    if fn[-4:] in ('.pyc', '.pyo'):
-        fn = fn[:-1]
+    if simple:
+        fn = tb.tb_frame.f_code.co_filename
+    else:
+        fn = tb.tb_frame.f_globals.get('__file__')
+        if not fn:
+            fn = os.path.realpath(inspect.getsourcefile(tb) or
+                                  inspect.getfile(tb))
+        if fn[-4:] in ('.pyc', '.pyo'):
+            fn = fn[:-1]
 
     # module name
     modname = tb.tb_frame.f_globals.get('__name__')
@@ -229,8 +232,8 @@ def get_frame_info(tb, context_lines=7, simple=False):
     pre_context, post_context = [], []
     context_line = raw_context_line = context_lineno = None
     try:
-        if not loader is None:
-            source = loader.get_source(modname)
+        if not loader is None and hasattr(loader, 'get_source'):
+            source = loader.get_source(modname) or ''
         else:
             source = file(fn).read()
     except:

@@ -24,58 +24,79 @@
     time of the files.  It sessions are stored in the database the new()
     method should add an expiration timestamp for the session.
 
+    For better flexibility it's recommended to not use the middleware but the
+    store and session object directly in the application dispatching::
+
+        session_store = FilesystemSessionStore()
+
+        def application(environ, start_response):
+            request = Request(environ)
+            sid = request.cookie.get('cookie_name')
+            if sid is None:
+                request.session = session_store.new()
+            else:
+                request.session = session_store.get(sid)
+            response = get_the_response_object(request)
+            if request.session.should_save:
+                session_store.save(request.session)
+                response.set_cookie('cookie_name', request.session.sid)
+            return response(environ, start_response)
+
 
     :copyright: 2007 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
 import re
+import os
 from os import path, unlink
 from time import time
-from random import Random
+from random import Random, random
 try:
     from hashlib import sha1
 except ImportError:
     from sha import new as sha1
 from cPickle import dump, load, HIGHEST_PROTOCOL
-from Cookie import SimpleCookie, Morsel
-from werkzeug.utils import ClosingIterator
+from werkzeug.utils import ClosingIterator, dump_cookie, parse_cookie
 
 
 _sha1_re = re.compile(r'^[a-fA-F0-9]{40}$')
 
 
-class Session(dict):
-    """
-    Subclass of a dict that keeps track of direct object changes.  Changes
-    in mutable structures are not tracked, for those you have to set
-    `modified` to `True` by hand.
-    """
+def _urandom():
+    if hasattr(os, 'urandom'):
+        return os.urandom(30)
+    return random()
 
-    __slots__ = ('modified', 'sid', 'new')
 
-    def __init__(self, data, sid, new=False):
-        dict.__init__(self, data)
+def generate_key(salt=None):
+    return sha1('%s%s%s' % (salt, time(), _urandom())).hexdigest()
+
+
+class ModificationTrackingDict(dict):
+    __slots__ = ('modified',)
+
+    def __init__(self, *args, **kwargs):
+        dict.__init__(self, *args, **kwargs)
         self.modified = False
-        self.sid = sid
-        self.new = new
 
     def __repr__(self):
         return '<%s %s%s>' % (
             self.__class__.__name__,
-            dict.__repr__(self),
-            self.should_save and '*' or ''
+            dict.__repr__(self)
         )
 
-    def should_save(self):
-        """True if the session should be saved."""
-        return self.modified or self.new
-    should_save = property(should_save)
-
     def copy(self):
-        """Create a flat copy of the session."""
-        result = self.__class__(dict(self), self.sid, self.new)
-        result.modified = self.modified
+        """Create a flat copy of the dict."""
+        missing = object()
+        result = object.__new__(self.__class__)
+        for name in self.__slots__:
+            val = getattr(self, name, missing)
+            if val is not missing:
+                setattr(result, name, val)
         return result
+
+    def __copy__(self):
+        return self.copy()
 
     def call_with_modification(f):
         def oncall(self, *args, **kw):
@@ -101,6 +122,32 @@ class Session(dict):
     del call_with_modification
 
 
+class Session(ModificationTrackingDict):
+    """
+    Subclass of a dict that keeps track of direct object changes.  Changes
+    in mutable structures are not tracked, for those you have to set
+    `modified` to `True` by hand.
+    """
+    __slots__ = ModificationTrackingDict.__slots__ + ('sid', 'new')
+
+    def __init__(self, data, sid, new=False):
+        ModificationTrackingDict.__init__(self, data)
+        self.sid = sid
+        self.new = new
+
+    def __repr__(self):
+        return '<%s %s%s>' % (
+            self.__class__.__name__,
+            dict.__repr__(self),
+            self.should_save and '*' or ''
+        )
+
+    def should_save(self):
+        """True if the session should be saved."""
+        return self.modified or self.new
+    should_save = property(should_save)
+
+
 class SessionStore(object):
     """
     Baseclass for all session stores.  The Werkzeug contrib module does not
@@ -119,8 +166,7 @@ class SessionStore(object):
 
     def generate_key(self, salt=None):
         """Simple function that generates a new session key."""
-        return sha1('%s|%s|%s' % (Random(salt).random(), time(),
-                                  salt)).hexdigest()
+        return generate_key(salt)
 
     def new(self):
         """Generate a new session."""
@@ -197,45 +243,48 @@ class SessionMiddleware(object):
     the WSGI environ.  It automatically sets cookies and restores sessions.
 
     However a middleware is not the preferred solution because it won't be as
-    fast as sessions managed by the application itself.
+    fast as sessions managed by the application itself and will put a key into
+    the WSGI environment only relevant for the application which is against
+    the concept of WSGI.
     """
 
     def __init__(self, app, store, cookie_name='session_id',
-                 cookie_age=None, cookie_path=None, cookie_domain=None,
-                 cookie_secure=None, environ_key='werkzeug.session'):
+                 cookie_age=None, cookie_expires=None, cookie_path='/',
+                 cookie_domain=None, cookie_secure=None,
+                 cookie_httponly=False, environ_key='werkzeug.session'):
+        """
+        The cookie parameters are the same as for the `dump_cookie` function
+        just prefixed with "cookie_".  Additionally "max_age" is "cookie_age"
+        for backwards compatibility.
+        """
         self.app = app
         self.store = store
         self.cookie_name = cookie_name
         self.cookie_age = cookie_age
+        self.cookie_expires = cookie_expires
         self.cookie_path = cookie_path
         self.cookie_domain = cookie_domain
         self.cookie_secure = cookie_secure
+        self.cookie_httponly = cookie_httponly
         self.environ_key = environ_key
 
     def __call__(self, environ, start_response):
-        cookie = SimpleCookie(environ.get('HTTP_COOKIE', ''))
-        morsel = cookie.get(self.cookie_name, None)
-        if morsel is None:
+        cookie = parse_cookie(environ.get('HTTP_COOKIE', ''))
+        sid = cookie.get(self.cookie_name, None)
+        if sid is None:
             session = self.store.new()
         else:
-            session = self.store.get(morsel.value)
+            session = self.store.get(sid)
         environ[self.environ_key] = session
 
         def injecting_start_response(status, headers, exc_info=None):
             if session.should_save:
-                morsel = Morsel()
-                morsel.key = self.cookie_name
-                morsel.coded_value = session.sid
-                if self.cookie_age is not None:
-                    morsel['max-age'] = self.cookie_age
-                    morsel['expires'] = cookie_date(time() + self.cookie_age)
-                if self.cookie_domain is not None:
-                    morsel['domain'] = self.cookie_domain
-                if self.cookie_path is not None:
-                    morsel['path'] = self.cookie_path
-                if self.cookie_secure is not None:
-                    morsel['secure'] = self.cookie_secure
-                headers.append(tuple(str(morsel).split(':', 1)))
+                self.store.save(session)
+                headers.append(('Set-Cookie', dump_cookie(self.cookie_name,
+                                session.sid, self.cookie_age,
+                                self.cookie_expires, self.cookie_path,
+                                self.cookie_domain, self.cookie_secure,
+                                self.cookie_httponly)))
             return start_response(status, headers, exc_info)
         return ClosingIterator(self.app(environ, injecting_start_response),
                                lambda: self.store.save_if_modified(session))
