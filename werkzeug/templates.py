@@ -123,7 +123,7 @@ r"""
     variables it won't execute under Python 2.3.
 
 
-    :copyright: 2006-2008 by Armin Ronacher, Ka-Ping Yee.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD License.
 """
 import sys
@@ -497,7 +497,12 @@ class Template(object):
         value will be the rendered template.
         """
         ns = self.default_context.copy()
-        ns.update(dict(*args, **kwargs))
+        if len(args) == 1 and isinstance(args[0], utils.MultiDict):
+            ns.update(args[0].to_dict(flat=True))
+        else:
+            ns.update(dict(*args))
+        if kwargs:
+            ns.update(kwargs)
         context = Context(ns, self.encoding, self.errors)
         if sys.version_info < (2, 4):
             exec self.code in context.runtime, ns

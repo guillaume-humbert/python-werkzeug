@@ -3,10 +3,11 @@
     werkzeug.templates test
     ~~~~~~~~~~~~~~~~~~~~~~~
 
-    :copyright: 2007 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD license.
 """
 from py.test import raises
+from werkzeug.utils import MultiDict
 from werkzeug.templates import Template
 
 
@@ -87,3 +88,11 @@ def test_unicode():
 def test_nl_trimp():
     t = Template('<% if 1 %>1<% endif %>\n2')
     assert t.render() == '12'
+
+
+def test_multidict():
+    t = Template('$a|$b')
+    assert t.render(MultiDict(dict(
+        a=[1, 2],
+        b=2
+    ))) == '1|2'

@@ -91,11 +91,10 @@
     method is raised.
 
 
-    :copyright: 2007-2008 by Armin Ronacher, Leif K-Brooks,
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
                              Thomas Johansson.
     :license: BSD, see LICENSE for more details.
 """
-import sys
 import re
 from urlparse import urljoin
 from itertools import izip
@@ -609,7 +608,9 @@ class Rule(RuleFactory):
         for key in set(values) - processed:
             query_vars[key] = unicode(values[key])
         if query_vars:
-            url += '?' + url_encode(query_vars, self.map.charset)
+            url += '?' + url_encode(query_vars, self.map.charset,
+                                    sort=self.map.sort_parameters,
+                                    key=self.map.sort_key)
 
         return subdomain, url
 
@@ -873,7 +874,7 @@ class Map(object):
 
     def __init__(self, rules=None, default_subdomain='', charset='utf-8',
                  strict_slashes=True, redirect_defaults=True,
-                 converters=None):
+                 converters=None, sort_parameters=False, sort_key=None):
         """Initializes the new URL map.
 
         :param rules: sequence of url rules for this map.
@@ -887,6 +888,11 @@ class Map(object):
         :param converters: A dict of converters that adds additional converters
                            to the list of converters. If you redefine one
                            converter this will override the original one.
+        :param sort_parameters: If set to `True` the url parameters are sorted.
+                                See `url_encode` for more details.
+        :param sort_key: The sort key function for `url_encode`.
+
+        *new in Werkzeug 0.5* `sort_parameters` and `sort_key` was added.
         """
         self._rules = []
         self._rules_by_endpoint = {}
@@ -900,6 +906,9 @@ class Map(object):
         self.converters = DEFAULT_CONVERTERS.copy()
         if converters:
             self.converters.update(converters)
+
+        self.sort_parameters = sort_parameters
+        self.sort_key = sort_key
 
         for rulefactory in rules or ():
             self.add(rulefactory)
@@ -998,7 +1007,8 @@ class Map(object):
                    in (('https', '443'), ('http', '80')):
                     server_name += ':' + environ['SERVER_PORT']
         elif subdomain is None:
-            cur_server_name = environ['SERVER_NAME'].split('.')
+            cur_server_name = environ.get('HTTP_HOST',
+                environ['SERVER_NAME']).split(':', 1)[0].split('.')
             real_server_name = server_name.split(':', 1)[0].split('.')
             offset = -len(real_server_name)
             if cur_server_name[offset:] != real_server_name:

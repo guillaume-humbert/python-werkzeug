@@ -13,7 +13,7 @@
     module.
 
 
-    :copyright: 2007-2008 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 import re
@@ -29,13 +29,19 @@ try:
     frozenset = frozenset
 except NameError:
     from sets import Set as set, ImmutableSet as frozenset
-from werkzeug._internal import _patch_wrapper, _UpdateDict, HTTP_STATUS_CODES
+from werkzeug._internal import _UpdateDict, HTTP_STATUS_CODES
 
 
 _accept_re = re.compile(r'([^\s;,]+)(?:[^,]*?;\s*q=(\d*(?:\.\d+)?))?')
 _token_chars = frozenset("!#$%&'*+-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                          '^_`abcdefghijklmnopqrstuvwxyz|~')
 _etag_re = re.compile(r'([Ww]/)?(?:"(.*?)"|(.*?))(?:\s*,\s*|$)')
+
+_entity_headers = frozenset([
+    'allow', 'content-encoding', 'content-language', 'content-length',
+    'content-location', 'content-md5', 'content-range', 'content-type',
+    'expires', 'last-modified'
+])
 
 
 class Accept(list):
@@ -255,16 +261,32 @@ class CacheControl(_UpdateDict):
 
     `no_cache`, `no_store`, `max_age`, `max_stale`, `min_fresh`,
     `no_transform`, `only_if_cached`, `public`, `private`, `must_revalidate`,
-    `proxy_revalidate`, and `s_maxage`"""
+    `proxy_revalidate`, and `s_maxage`
 
-    def cache_property(key, default, type):
+    The behavior of this class changed slightly from 0.3 to 0.4.  Since 0.4
+    setting `no_cache` or `private` to boolean `True` will set the implicit
+    none-value which is ``*``:
+
+    >>> cc = CacheControl()
+    >>> cc.no_cache = True
+    >>> cc
+    <CacheControl 'no-cache'>
+    >>> cc.no_cache
+    '*'
+    >>> cc.no_cache = None
+    >>> cc
+    <CacheControl ''>
+    """
+
+    def cache_property(key, empty, type):
         """Return a new property object for a cache header.  Useful if you
         want to add support for a cache extension in a subclass."""
-        return property(lambda x: x._get_cache_value(key, default, type),
+        return property(lambda x: x._get_cache_value(key, empty, type),
                         lambda x, v: x._set_cache_value(key, v, type),
+                        lambda x: x._del_cache_value(key),
                         'accessor for %r' % key)
 
-    no_cache = cache_property('no-cache', '*', bool)
+    no_cache = cache_property('no-cache', '*', None)
     no_store = cache_property('no-store', None, bool)
     max_age = cache_property('max-age', -1, int)
     max_stale = cache_property('max-stale', '*', int)
@@ -281,14 +303,14 @@ class CacheControl(_UpdateDict):
         _UpdateDict.__init__(self, values or (), on_update)
         self.provided = values is not None
 
-    def _get_cache_value(self, key, default, type):
+    def _get_cache_value(self, key, empty, type):
         """Used internally be the accessor properties."""
         if type is bool:
             return key in self
         if key in self:
             value = self[key]
             if value is None:
-                return default
+                return empty
             elif type is not None:
                 try:
                     value = type(value)
@@ -304,10 +326,16 @@ class CacheControl(_UpdateDict):
             else:
                 self.pop(key, None)
         else:
-            if value is not None:
-                self[key] = value
+            if value is None:
+                self.pop(key)
+            elif value is True:
+                self[key] = None
             else:
-                self.pop(key, None)
+                self[key] = value
+
+    def _del_cache_value(self, key):
+        if key in self:
+            del self[key]
 
     def to_header(self):
         """Convert the stored values into a cache control header."""
@@ -453,7 +481,7 @@ class Authorization(dict):
         """Indicates what "quality of protection" the client has applied to
         the message for HTTP digest auth."""
         def on_update(header_set):
-            if not header_set and name in self:
+            if not header_set and 'qop' in self:
                 del self['qop']
             elif header_set:
                 self['qop'] = header_set.to_header()
@@ -832,3 +860,11 @@ def is_resource_modified(environ, etag=None, data=None, last_modified=None):
             unmodified = if_none_match.contains_raw(etag)
 
     return not unmodified
+
+
+def remove_entity_headers(headers):
+    """Remove all entity headers from a list or `Headers` object.  This
+    operation works in-place.
+    """
+    headers[:] = [(key, value) for key, value in headers if
+                  key.lower() not in _entity_headers]

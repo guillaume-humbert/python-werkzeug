@@ -5,8 +5,8 @@
 
     Various utilities.
 
-    :copyright: Copyright 2008 by Armin Ronacher.
-    :license: GNU GPL.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
+    :license: BSD, see LICENSE for more details.
 """
 import re
 

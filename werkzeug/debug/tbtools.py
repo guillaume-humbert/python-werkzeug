@@ -5,7 +5,7 @@
 
     This module provides various traceback related utility functions.
 
-    :copyright: Copyright 2008 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD.
 """
 import re
@@ -142,8 +142,6 @@ class Traceback(object):
         from xmlrpclib import ServerProxy
         srv = ServerProxy('http://paste.pocoo.org/xmlrpc/')
         return srv.pastes.newPaste('pytb', self.plaintext)
-        return '{"url": "http://paste.pocoo.org/show/%d/", "id": %d}' % \
-               (paste_id, paste_id)
 
     def render_summary(self, include_title=True):
         """Render the traceback for the interactive console."""

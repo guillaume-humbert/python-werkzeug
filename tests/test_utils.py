@@ -3,7 +3,7 @@
     werkzeug.utils test
     ~~~~~~~~~~~~~~~~~~~
 
-    :copyright: 2007 by Georg Brandl, Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD license.
 """
 import sys
@@ -160,6 +160,18 @@ def test_headers():
         ('Content-Type', 'foo/bar'),
         ('X-Foo', 'bar')
     ]
+    assert str(headers) == (
+        "Content-Type: foo/bar\r\n"
+        "X-Foo: bar\r\n"
+        "\r\n")
+    assert str(Headers()) == "\r\n"
+
+    # extended add
+    headers.add('Content-Disposition', 'attachment', filename='foo')
+    assert headers['Content-Disposition'] == 'attachment; filename="foo"'
+
+    headers.add('x', 'y', z='"')
+    assert headers['x'] == r'y; z="\""'
 
     # defaults
     headers = Headers({
@@ -171,9 +183,22 @@ def test_headers():
     assert headers.get('x-Bar') == '1'
     assert headers.get('Content-Type') == 'text/plain'
 
+    assert headers.setdefault('X-Foo', 'nope') == 'bar'
+    assert headers.setdefault('X-Bar', 'nope') == '1'
+    assert headers.setdefault('X-Baz', 'quux') == 'quux'
+    assert headers.setdefault('X-Baz', 'nope') == 'quux'
+    headers.pop('X-Baz')
+
     # type conversion
     assert headers.get('x-bar', type=int) == 1
     assert headers.getlist('x-bar', type=int) == [1, 2]
+
+    # list like operations
+    assert headers[0] == ('Content-Type', 'text/plain')
+    assert headers[:1] == Headers([('Content-Type', 'text/plain')])
+    del headers[:2]
+    del headers[-1]
+    assert headers == Headers([('X-Bar', '2')])
 
     # copying
     a = Headers([('foo', 'bar')])
@@ -181,6 +206,11 @@ def test_headers():
     a.add('foo', 'baz')
     assert a.getlist('foo') == ['bar', 'baz']
     assert b.getlist('foo') == ['bar']
+
+    headers = Headers([('a', 1)])
+    assert headers.pop('a') == 1
+    assert headers.pop('b', 2) == 2
+    raises(KeyError, 'headers.pop("c")')
 
 
 def test_cached_property():
@@ -244,6 +274,12 @@ def test_quoting():
     assert url_encode({'a': None, 'b': 'foo bar'}) == 'b=foo+bar'
     assert url_fix(u'http://de.wikipedia.org/wiki/Elf (Begriffsklärung)') == \
            'http://de.wikipedia.org/wiki/Elf%20%28Begriffskl%C3%A4rung%29'
+
+
+def test_sorted_url_encode():
+    assert url_encode({"a": 42, "b": 23, 1: 1, 2: 2}, sort=True) == '1=1&2=2&a=42&b=23'
+    assert url_encode({'A': 1, 'a': 2, 'B': 3, 'b': 4}, sort=True,
+                      key=lambda x: x[0].lower()) == 'A=1&a=2&B=3&b=4'
 
 
 test_href_tool = '>>> from werkzeug import Href\n\n' + Href.__doc__
@@ -462,3 +498,45 @@ def test_validate_arguments():
            validate_arguments, take_none, (1,), {}, drop_extra=False)
     raises(ArgumentValidationError,
            validate_arguments, take_none, (), {'a': 1}, drop_extra=False)
+
+def test_parse_form_data_put_without_content():
+    '''A PUT without a Content-Type header returns empty data
+
+    Both rfc1945 and rfc2616 (1.0 and 1.1) say "Any HTTP/[1.0/1.1] message
+    containing an entity-body SHOULD include a Content-Type header field
+    defining the media type of that body."  In the case where either
+    headers are omitted, parse_form_data should still work.
+    '''
+    env = create_environ('/foo', 'http://example.org/')
+    del env['CONTENT_TYPE']
+    del env['CONTENT_LENGTH']
+
+    stream, form, files = parse_form_data(env)
+    assert stream.read() == ""
+    assert len(form) == 0
+    assert len(files) == 0
+
+
+def test_header_set_duplication_bug():
+    headers = Headers([
+        ('Content-Type', 'text/html'),
+        ('Foo', 'bar'),
+        ('Blub', 'blah')
+    ])
+    headers['blub'] = 'hehe'
+    headers['blafasel'] = 'humm'
+    assert headers == Headers([
+        ('Content-Type', 'text/html'),
+        ('Foo', 'bar'),
+        ('blub', 'hehe'),
+        ('blafasel', 'humm')
+    ])
+
+
+def test_append_slash_redirect():
+    def app(env, sr):
+        return append_slash_redirect(env)(env, sr)
+    client = Client(app, BaseResponse)
+    response = client.get('foo', base_url='http://example.org/app')
+    assert response.status_code == 301
+    assert response.headers['Location'] == 'http://example.org/app/foo/'

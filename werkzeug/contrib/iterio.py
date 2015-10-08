@@ -37,12 +37,12 @@
 
     .. _greenlet: http://codespeak.net/py/dist/greenlet.html
 
-    :copyright: 2007 by Armin Ronacher.
+    :copyright: (c) 2009 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 try:
     from py.magic import greenlet
-except (RuntimeError, ImportError):
+except:
     greenlet = None
 
 
@@ -158,7 +158,7 @@ class IterI(IterIO):
         self.pos += len(s)
         self._buffer.append(s)
 
-    def writelines(slf, list):
+    def writelines(self, list):
         self.write(''.join(list))
 
     def flush(self):

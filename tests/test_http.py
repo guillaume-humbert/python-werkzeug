@@ -8,6 +8,7 @@
 from datetime import datetime
 from py.test import raises
 from werkzeug.http import *
+from werkzeug.utils import http_date, Headers
 
 
 def test_accept():
@@ -52,6 +53,17 @@ def test_cache_control_header():
     cc = parse_cache_control_header('private, community="UCI"')
     assert cc.private
     assert cc['community'] == 'UCI'
+
+    c = CacheControl()
+    assert c.no_cache is None
+    assert c.private is None
+    c.no_cache = True
+    assert c.no_cache == '*'
+    c.private = True
+    assert c.private == '*'
+    del c.private
+    assert c.private is None
+    assert c.to_header() == 'no-cache'
 
 
 def test_authorization_header():
@@ -120,3 +132,15 @@ def test_parse_date():
     assert parse_date('Sunday, 06-Nov-94 08:49:37 GMT') == datetime(1994, 11, 6, 8, 49, 37)
     assert parse_date(' Sun Nov  6 08:49:37 1994') == datetime(1994, 11, 6, 8, 49, 37)
     assert parse_date('foo') is None
+
+
+def test_remove_entity_headers():
+    now = http_date()
+    headers1 = [('Date', now), ('Content-Type', 'text/html'), ('Content-Length', '0')]
+    headers2 = Headers(headers1)
+
+    remove_entity_headers(headers1)
+    assert headers1 == [('Date', now)]
+
+    remove_entity_headers(headers2)
+    assert headers2 == Headers([('Date', now)])
