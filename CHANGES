@@ -1,12 +1,183 @@
 Werkzeug Changelog
 ==================
 
-Version 1.0
+Version 0.8.1
+-------------
+
+(bugfix release, released on September 30th 2011)
+
+- Fixed an issue with the memcache not working properly.
+- Fixed an issue for Python 2.7.1 and higher that broke
+  copying of multidicts with :func:`copy.copy`.
+- Changed hashing methodology of immutable ordered multi dicts
+  for a potential problem with alternative Python implementations.
+
+Version 0.8
 -----------
-(first 1.0 release, release date to be announced)
+
+Released on September 29th 2011, codename Lötkolben
+
+- Removed data structure specific KeyErrors for a general
+  purpose :exc:`~werkzeug.exceptions.BadRequestKeyError`.
+- Documented :meth:`werkzeug.wrappers.BaseRequest._load_form_data`.
+- The routing system now also accepts strings instead of
+  dictionaries for the `query_args` parameter since we're only
+  passing them through for redirects.
+- Werkzeug now automatically sets the content length immediately when
+  the :attr:`~werkzeug.wrappers.BaseResponse.data` attribute is set
+  for efficiency and simplicity reasons.
+- The routing system will now normalize server names to lowercase.
+- The routing system will no longer raise ValueErrors in case the
+  configuration for the server name was incorrect.  This should make
+  deployment much easier because you can ignore that factor now.
+- Fixed a bug with parsing HTTP digest headers.  It rejected headers
+  with missing nc and nonce params.
+- Proxy fix now also updates wsgi.url_scheme based on X-Forwarded-Proto.
+- Added support for key prefixes to the redis cache.
+- Added the ability to supress some auto corrections in the wrappers
+  that are now controlled via `autocorrect_location_header` and
+  `automatically_set_content_length` on the response objects.
+- Werkzeug now uses a new method to check that the length of incoming
+  data is complete and will raise IO errors by itself if the server
+  fails to do so.
+- :func:`~werkzeug.wsgi.make_line_iter` now requires a limit that is
+  not higher than the length the stream can provide.
+- Refactored form parsing into a form parser class that makes it possible
+  to hook into individual parts of the parsing process for debugging and
+  extending.
+- For conditional responses the content length is no longer set when it
+  is already there and added if missing.
+- Immutable datastructures are hashable now.
+- Headers datastructure no longer allows newlines in values to avoid
+  header injection attacks.
+- Made it possible through subclassing to select a different remote
+  addr in the proxy fix.
+- Added stream based URL decoding.  This reduces memory usage on large
+  transmitted form data that is URL decoded since Werkzeug will no longer
+  load all the unparsed data into memory.
+- Memcache client now no longer uses the buggy cmemcache module and
+  supports pylibmc.  GAE is not tried automatically and the dedicated
+  class is no longer necessary.
+- Redis cache now properly serializes data.
+- Removed support for Python 2.4
+
+Version 0.7.2
+-------------
+
+(bugfix release, released on September 30th 2011)
+
+- Fixed a CSRF problem with the debugger.
+- The debugger is now generating private pastes on lodgeit.
+- If URL maps are now bound to environments the query arguments
+  are properly decoded from it for redirects.
+
+Version 0.7.1
+-------------
+
+(bugfix release, released on July 26th 2011)
+
+- Fixed a problem with newer versions of IPython.
+- Disabled pyinotify based reloader which does not work reliably.
+
+Version 0.7
+-----------
+
+Released on July 24th 2011, codename Schraubschlüssel
+
+- Add support for python-libmemcached to the Werkzeug cache abstraction
+  layer.
+- Improved :func:`url_decode` and :func:`url_encode` performance.
+- Fixed an issue where the SharedDataMiddleware could cause an
+  internal server error on weird paths when loading via pkg_resources.
+- Fixed an URL generation bug that caused URLs to be invalid if a
+  generated component contains a colon.
+- :func:`werkzeug.import_string` now works with partially set up
+  packages properly.
+- Disabled automatic socket swiching for IPv6 on the development
+  server due to problems it caused.
+- Werkzeug no longer overrides the Date header when creating a
+  conditional HTTP response.
+- The routing system provides a method to retrieve the matching
+  methods for a given path.
+- The routing system now accepts a parameter to change the encoding
+  error behaviour.
+- The local manager can now accept custom ident functions in the
+  constructor that are forwarded to the wrapped local objects.
+- url_unquote_plus now accepts unicode strings again.
+- Fixed an issue with the filesystem session support's prune
+  function and concurrent usage.
+- Fixed a problem with external URL generation discarding the port.
+- Added support for pylibmc to the Werkzeug cache abstraction layer.
+- Fixed an issue with the new multipart parser that happened when
+  a linebreak happend to be on the chunk limit.
+- Cookies are now set properly if ports are in use.  A runtime error
+  is raised if one tries to set a cookie for a domain without a dot.
+- Fixed an issue with Template.from_file not working for file
+  descriptors.
+- Reloader can now use inotify to track reloads.  This requires the
+  pyinotify library to be installed.
+- Werkzeug debugger can now submit to custom lodgeit installations.
+- redirect function's status code assertion now allows 201 to be used
+  as redirection code.  While it's not a real redirect, it shares
+  enough with redirects for the function to still be useful.
+- Fixed securecookie for pypy.
+- Fixed `ValueErrors` being raised on calls to `best_match` on
+  `MIMEAccept` objects when invalid user data was supplied.
+- Deprecated `werkzeug.contrib.kickstart` and `werkzeug.contrib.testtools`
+- URL routing now can be passed the URL arguments to keep them for
+  redirects.  In the future matching on URL arguments might also be
+  possible.
+- Header encoding changed from utf-8 to latin1 to support a port to
+  Python 3.  Bytestrings passed to the object stay untouched which
+  makes it possible to have utf-8 cookies.  This is a part where
+  the Python 3 version will later change in that it will always
+  operate on latin1 values.
+- Fixed a bug in the form parser that caused the last character to
+  be dropped off if certain values in multipart data is used.
+- Multipart parser now looks at the part-individual content type
+  header to override the global charset.
+- Introduced mimetype and mimetype_params attribute for the file
+  storage object.
+- Changed FileStorage filename fallback logic to skip special filenames
+  that Python uses for marking special files like stdin.
+- Introduced more HTTP exception classes.
+- `call_on_close` now can be used as a decorator.
+- Support for redis as cache backend.
+- Added `BaseRequest.scheme`.
+- Support for the RFC 5789 PATCH method.
+- New custom routing parser and better ordering.
+- Removed support for `is_behind_proxy`.  Use a WSGI middleware
+  instead that rewrites the `REMOTE_ADDR` according to your setup.
+  Also see the :class:`werkzeug.contrib.fixers.ProxyFix` for
+  a drop-in replacement.
+- Added cookie forging support to the test client.
+- Added support for host based matching in the routing system.
+- Switched from the default 'ignore' to the better 'replace'
+  unicode error handling mode.
+- The builtin server now adds a function named 'werkzeug.server.shutdown'
+  into the WSGI env to initiate a shutdown.  This currently only works
+  in Python 2.6 and later.
+- Headers are now assumed to be latin1 for better compatibility with
+  Python 3 once we have support.
+- Added :func:`werkzeug.security.safe_join`.
+- Added `accept_json` property analogous to `accept_html` on the
+  :class:`werkzeug.datastructures.MIMEAccept`.
+- :func:`werkzeug.utils.import_string` now fails with much better
+  error messages that pinpoint to the problem.
+- Added support for parsing of the `If-Range` header
+  (:func:`werkzeug.http.parse_if_range_header` and
+  :class:`werkzeug.datastructures.IfRange`).
+- Added support for parsing of the `Range` header
+  (:func:`werkzeug.http.parse_range_header` and
+  :class:`werkzeug.datastructures.Range`).
+- Added support for parsing of the `Content-Range` header of respones
+  and provided an accessor object for it
+  (:func:`werkzeug.http.parse_content_range_header` and
+  :class:`werkzeug.datastructures.ContentRange`).
 
 Version 0.6.2
 -------------
+
 (bugfix release, released on April 23th 2010)
 
 - renamed the attribute `implicit_seqence_conversion` attribute of the
@@ -14,6 +185,7 @@ Version 0.6.2
 
 Version 0.6.1
 -------------
+
 (bugfix release, released on April 13th 2010)
 
 - heavily improved local objects.  Should pick up standalone greenlet
@@ -39,7 +211,8 @@ Version 0.6.1
 
 Version 0.6
 -----------
-(codename Hammer, released on Feb 19th 2010)
+
+Released on Feb 19th 2010, codename Hammer.
 
 - removed pending deprecations
 - sys.path is now printed from the testapp.
@@ -143,7 +316,8 @@ Version 0.5.1
 
 Version 0.5
 -----------
-(codename Schlagbohrer, released on April 24th 2009)
+
+Released on April 24th, codename Schlagbohrer.
 
 - requires Python 2.4 now
 - fixed a bug in :class:`~contrib.IterIO`
@@ -205,6 +379,7 @@ Version 0.5
 
 Version 0.4.1
 -------------
+
 (Bugfix release, released on January 11th 2009)
 
 - `werkzeug.contrib.cache.Memcached` accepts now objects that
@@ -232,7 +407,8 @@ Version 0.4.1
 
 Version 0.4
 -----------
-(codename Schraubenzieher, released on November 23rd 2008)
+
+Released on November 23rd 2008, codename Schraubenzieher.
 
 - `Client` supports an empty `data` argument now.
 - fixed a bug in `Response.application` that made it impossible to use it
@@ -265,7 +441,8 @@ Version 0.4
 
 Version 0.3.1
 -------------
-(released on June 24th 2008)
+
+(bugfix release, released on June 24th 2008)
 
 - fixed a security problem with `werkzeug.contrib.SecureCookie`.
   More details available in the `release announcement`_.
@@ -274,7 +451,8 @@ Version 0.3.1
 
 Version 0.3
 -----------
-(codename EUR325CAT6, released on June 14th 2008)
+
+Released on June 14th 2008, codename EUR325CAT6.
 
 - added support for redirecting in url routing.
 - added `Authorization` and `AuthorizationMixin`
@@ -314,7 +492,8 @@ Version 0.3
 
 Version 0.2
 -----------
-(codename Faustkeil, released Feb 14th 2008)
+
+Released Feb 14th 2008, codename Faustkeil.
 
 - Added `AnyConverter` to the routing system.
 - Added `werkzeug.contrib.securecookie`
@@ -358,6 +537,7 @@ Version 0.2
 
 Version 0.1
 -----------
-(codename Wictorinoxger, released Dec 9th 2007)
+
+Released on Dec 9th 2007, codename Wictorinoxger.
 
 - Initial release

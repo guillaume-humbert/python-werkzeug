@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: Werkzeug
-Version: 0.6.2
+Version: 0.8.1
 Summary: The Swiss Army knife of Python web development
 Home-page: http://werkzeug.pocoo.org/
 Author: Armin Ronacher
@@ -36,14 +36,14 @@ Description:
         -   request and response objects
         
         -   various utility functions for dealing with HTTP headers such as
-        `Accept` and `Cache-Control` headers.
+            `Accept` and `Cache-Control` headers.
         
         -   thread local objects with proper cleanup at request end
         
         -   an interactive debugger
         
         -   A simple WSGI server with support for threading and forking
-        with an automatic reloader.
+            with an automatic reloader.
         
         -   a flexible URL routing system with REST support.
         
@@ -53,8 +53,12 @@ Description:
         Development Version
         -------------------
         
-        The `Werkzeug tip <http://dev.pocoo.org/hg/werkzeug-main/archive/tip.zip#egg=Werkzeug-dev>`_
-        is installable via `easy_install` with ``easy_install Werkzeug==dev``.
+        The Werkzeug development version can be installed by cloning the git
+        repository from `github`_::
+        
+            git clone git@github.com:mitsuhiko/werkzeug.git
+        
+        .. _github: http://github.com/mitsuhiko/werkzeug
         
 Platform: any
 Classifier: Development Status :: 5 - Production/Stable

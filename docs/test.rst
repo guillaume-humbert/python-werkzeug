@@ -2,7 +2,7 @@
 Test Utilities
 ==============
 
-.. module:: werkzeug
+.. module:: werkzeug.test
 
 Quite often you want to unittest your application or just check the output
 from an interactive python session.  In theory that is pretty simple because
@@ -33,13 +33,15 @@ wrapper returns a tuple.  Because response objects have the same signature,
 you can use them as response wrapper, ideally by subclassing them and hooking
 in test functionality.
 
->>> from werkzeug import Client, BaseResponse, test_app
+>>> from werkzeug.test import Client
+>>> from werkzeug.testapp import test_app
+>>> from werkzeug.wrappers import BaseResponse
 >>> c = Client(test_app, BaseResponse)
 >>> resp = c.get('/')
 >>> resp.status_code
 200
 >>> resp.headers
-Headers([('Content-Type', 'text/html; charset=utf-8')])
+Headers([('Content-Type', 'text/html; charset=utf-8'), ('Content-Length', '8339')])
 >>> resp.data.splitlines()[0]
 '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
 
@@ -50,7 +52,7 @@ Or without a wrapper defined:
 >>> status
 '200 OK'
 >>> headers
-[('Content-Type', 'text/html; charset=utf-8')]
+[('Content-Type', 'text/html; charset=utf-8'), ('Content-Length', '8339')]
 >>> ''.join(app_iter).splitlines()[0]
 '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
 
@@ -67,7 +69,7 @@ and request objects.
 The following example creates a WSGI environment with one uploaded file
 and a form field:
 
->>> from werkzeug import EnvironBuilder
+>>> from werkzeug.test import EnvironBuilder
 >>> from StringIO import StringIO
 >>> builder = EnvironBuilder(method='POST', data={'foo': 'this is some text',
 ...      'file': (StringIO('my file contents'), 'test.txt')})
@@ -76,7 +78,7 @@ and a form field:
 The resulting environment is a regular WSGI environment that can be used for
 further processing:
 
->>> from werkzeug import Request
+>>> from werkzeug.wrappers import Request
 >>> req = Request(env)
 >>> req.form['foo']
 u'this is some text'

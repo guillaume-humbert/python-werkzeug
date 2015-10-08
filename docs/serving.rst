@@ -2,7 +2,7 @@
 Serving WSGI Applications
 =========================
 
-.. module:: werkzeug
+.. module:: werkzeug.serving
 
 There are many ways to serve a WSGI application.  While you're developing it,
 you usually don't want to have a full-blown webserver like Apache up and
@@ -15,7 +15,7 @@ application using the builtin server::
     #!/usr/bin/env python
     # -*- coding: utf-8 -*-
 
-    from werkzeug import run_simple
+    from werkzeug.serving import run_simple
     from myproject import make_app
 
     app = make_app(...)
@@ -59,6 +59,22 @@ Save the changes and after a while you should be able to access the
 development server on these host names as well.  You can use the
 :ref:`routing` system to dispatch between different hosts or parse
 :attr:`request.host` yourself.
+
+Shutting Down The Server
+------------------------
+
+.. versionadded:: 0.7
+
+Starting with Werkzeug 0.7 the development server provides a way to shut
+down the server after a request.  This currently only works with Python
+2.6 and later and will only work with the development server.  To initiate
+the shutdown you have to call a function named
+``'werkzeug.server.shutdown'`` in the WSGI environment::
+
+    def shutdown_server(environ):
+        if not 'werkzeug.server.shutdown' in environ:
+            raise RuntimeError('Not running the development server')
+        environ['werkzeug.server.shutdown']()
 
 Troubleshooting
 ---------------

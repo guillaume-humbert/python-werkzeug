@@ -2,13 +2,11 @@
 Data Structures
 ===============
 
-.. module:: werkzeug
+.. module:: werkzeug.datastructures
 
 Werkzeug provides some subclasses of common Python objects to extend them
 with additional features.  Some of them are used to make them immutable, others
 are used to change some semantics to better work with HTTP.
-
-You can import all these objects directly from :mod:`werkzeug`.
 
 General Purpose
 ===============
@@ -64,7 +62,7 @@ HTTP Related
    :members:
 
 .. autoclass:: MIMEAccept
-   :members: accept_html, accept_xhtml
+   :members: accept_html, accept_xhtml, accept_json
 
 .. autoclass:: CharsetAccept
 
@@ -99,6 +97,15 @@ HTTP Related
    :members:
 
 .. autoclass:: WWWAuthenticate
+   :members:
+
+.. autoclass:: IfRange
+   :members:
+
+.. autoclass:: Range
+   :members:
+
+.. autoclass:: ContentRange
    :members:
 
 

@@ -2,39 +2,13 @@
 Utilities
 =========
 
-.. module:: werkzeug
-
-You can import all these objects directly from :mod:`werkzeug`.
-
-
-URL Helpers
-===========
-
-.. autoclass:: Href
-
-.. autofunction:: url_decode
-
-.. autofunction:: url_encode
-
-.. autofunction:: url_quote
-
-.. autofunction:: url_quote_plus
-
-.. autofunction:: url_unquote
-
-.. autofunction:: url_unquote_plus
-
-.. autofunction:: url_fix
-
-.. autofunction:: uri_to_iri
-
-.. autofunction:: iri_to_uri
-
-.. autofunction:: extract_path_info
+Various utility functions shipped with Werkzeug.
 
 
 HTML Helpers
 ============
+
+.. module:: werkzeug.utils
 
 .. autoclass:: HTMLBuilder
 
@@ -45,9 +19,6 @@ HTML Helpers
 
 General Helpers
 ===============
-
-.. autoclass:: UserAgent
-   :members:
 
 .. autoclass:: cached_property
    :members:
@@ -75,11 +46,56 @@ General Helpers
 .. autofunction:: bind_arguments
 
 
+URL Helpers
+===========
+
+.. module:: werkzeug.urls
+
+.. autoclass:: Href
+
+.. autofunction:: url_decode
+
+.. autofunction:: url_decode_stream
+
+.. autofunction:: url_encode
+
+.. autofunction:: url_encode_stream
+
+.. autofunction:: url_quote
+
+.. autofunction:: url_quote_plus
+
+.. autofunction:: url_unquote
+
+.. autofunction:: url_unquote_plus
+
+.. autofunction:: url_fix
+
+.. autofunction:: uri_to_iri
+
+.. autofunction:: iri_to_uri
+
+
+UserAgent Parsing
+=================
+
+.. module:: werkzeug.useragents
+
+.. autoclass:: UserAgent
+   :members:
+
+
 Security Helpers
 ================
+
+.. module:: werkzeug.security
 
 .. versionadded:: 0.6.1
 
 .. autofunction:: generate_password_hash
 
 .. autofunction:: check_password_hash
+
+.. autofunction:: safe_str_cmp
+
+.. autofunction:: safe_join

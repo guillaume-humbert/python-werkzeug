@@ -24,6 +24,8 @@ The following error classes exist in Werkzeug:
 
 .. autoexception:: RequestTimeout
 
+.. autoexception:: Conflict
+
 .. autoexception:: Gone
 
 .. autoexception:: LengthRequired
@@ -35,6 +37,12 @@ The following error classes exist in Werkzeug:
 .. autoexception:: RequestURITooLarge
 
 .. autoexception:: UnsupportedMediaType
+
+.. autoexception:: RequestedRangeNotSatisfiable
+
+.. autoexception:: ExpectationFailed
+
+.. autoexception:: ImATeapot
 
 .. autoexception:: InternalServerError
 
@@ -48,6 +56,8 @@ The following error classes exist in Werkzeug:
 
    This exception is used to signal unicode decode errors of request
    data.  For more information see the :ref:`unicode` chapter.
+
+.. autoexception:: ClientDisconnected
 
 
 Baseclass
@@ -90,15 +100,17 @@ Sometimes it's convenient to just raise an exception by the error code,
 without importing the exception and looking up the name etc.  For this
 purpose there is the :func:`abort` function.
 
-It can be passed a WSGI application or a status code.  If a status code
-is given it's looked up in the list of exceptions from above and will
-raise that exception, if passed a WSGI application it will wrap it in
-a proxy WSGI exception and raise that::
+.. function:: abort(status)
 
-    abort(404)
-    abort(Response('Hello World'))
+   It can be passed a WSGI application or a status code.  If a status code
+   is given it's looked up in the list of exceptions from above and will
+   raise that exception, if passed a WSGI application it will wrap it in
+   a proxy WSGI exception and raise that::
 
-If you want to use this functionality with custom excetions you can
+       abort(404)
+       abort(Response('Hello World'))
+
+If you want to use this functionality with custom exceptions you can
 create an instance of the aborter class:
 
 .. autoclass:: Aborter
