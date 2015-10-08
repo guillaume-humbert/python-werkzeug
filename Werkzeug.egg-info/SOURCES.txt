@@ -3,6 +3,7 @@ CHANGES
 LICENSE
 MANIFEST.in
 Makefile
+README.rst
 setup.cfg
 setup.py
 Werkzeug.egg-info/PKG-INFO
@@ -10,10 +11,8 @@ Werkzeug.egg-info/SOURCES.txt
 Werkzeug.egg-info/dependency_links.txt
 Werkzeug.egg-info/not-zip-safe
 Werkzeug.egg-info/top_level.txt
-artwork/.DS_Store
 artwork/logo.png
 artwork/logo.svg
-docs/.DS_Store
 docs/Makefile
 docs/changes.rst
 docs/conf.py
@@ -31,12 +30,11 @@ docs/logo.pdf
 docs/make.bat
 docs/makearchive.py
 docs/middlewares.rst
+docs/python3.rst
 docs/quickstart.rst
 docs/request_data.rst
 docs/routing.rst
-docs/script.rst
 docs/serving.rst
-docs/templates.rst
 docs/terms.rst
 docs/test.rst
 docs/transition.rst
@@ -47,7 +45,6 @@ docs/werkzeugext.py
 docs/werkzeugstyle.sty
 docs/wrappers.rst
 docs/wsgi.rst
-docs/_static/.DS_Store
 docs/_static/background.png
 docs/_static/codebackground.png
 docs/_static/contents.png
@@ -199,6 +196,7 @@ examples/simplewiki/templates/recent_changes.html
 examples/webpylike/example.py
 examples/webpylike/webpylike.py
 werkzeug/__init__.py
+werkzeug/_compat.py
 werkzeug/_internal.py
 werkzeug/datastructures.py
 werkzeug/exceptions.py
@@ -210,7 +208,6 @@ werkzeug/routing.py
 werkzeug/script.py
 werkzeug/security.py
 werkzeug/serving.py
-werkzeug/templates.py
 werkzeug/test.py
 werkzeug/testapp.py
 werkzeug/urls.py
@@ -224,7 +221,6 @@ werkzeug/contrib/cache.py
 werkzeug/contrib/fixers.py
 werkzeug/contrib/iterio.py
 werkzeug/contrib/jsrouting.py
-werkzeug/contrib/kickstart.py
 werkzeug/contrib/limiter.py
 werkzeug/contrib/lint.py
 werkzeug/contrib/profiler.py
