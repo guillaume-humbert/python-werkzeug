@@ -1,5 +1,6 @@
-python-werkzeug (0.10.4+dfsg1-2) UNRELEASED; urgency=medium
+python-werkzeug (0.11.9+dfsg1-1) UNRELEASED; urgency=medium
 
+  * New upstream release
   * Fixed VCS URL (https)
 
  -- Ondřej Nový <novy@ondrej.org>  Tue, 29 Mar 2016 22:27:44 +0200
