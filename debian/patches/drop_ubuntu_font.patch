@@ -1,4 +1,4 @@
-From 4b15261d20b1d541f82b6ee57dd46dfcd245d3dc Mon Sep 17 00:00:00 2001
+From 8d81a77e2700129548d236e0d43cd399b52822d9 Mon Sep 17 00:00:00 2001
 From: SVN-Git Migration <python-modules-team@lists.alioth.debian.org>
 Date: Thu, 8 Oct 2015 13:25:38 -0700
 Subject: drop_ubuntu_font
@@ -9,7 +9,7 @@ Patch-Name: drop_ubuntu_font.patch
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/werkzeug/debug/shared/style.css b/werkzeug/debug/shared/style.css
-index 53a107e..5c6c9c4 100644
+index 8833d01..6340a49 100644
 --- a/werkzeug/debug/shared/style.css
 +++ b/werkzeug/debug/shared/style.css
 @@ -1,9 +1,7 @@

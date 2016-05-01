@@ -11,6 +11,7 @@
 import pytest
 
 import time
+import copy
 from threading import Thread
 
 from werkzeug import local
@@ -20,6 +21,7 @@ def test_basic_local():
     l = local.Local()
     l.foo = 0
     values = []
+
     def value_setter(idx):
         time.sleep(0.01 * idx)
         l.foo = idx
@@ -40,6 +42,7 @@ def test_basic_local():
 
     local.release_local(l)
 
+
 def test_local_release():
     l = local.Local()
     l.foo = 42
@@ -50,6 +53,7 @@ def test_local_release():
     ls.push(42)
     local.release_local(ls)
     assert ls.top is None
+
 
 def test_local_proxy():
     foo = []
@@ -62,6 +66,7 @@ def test_local_proxy():
     assert foo[0] == 42
     foo += [1]
     assert list(foo) == [42, 1, 2, 3, 1]
+
 
 def test_local_proxy_operations_math():
     foo = 2
@@ -79,6 +84,7 @@ def test_local_proxy_operations_math():
     assert ls % 2 == 0
     assert 2 % ls == 0
 
+
 def test_local_proxy_operations_strings():
     foo = "foo"
     ls = local.LocalProxy(lambda: foo)
@@ -88,6 +94,7 @@ def test_local_proxy_operations_strings():
 
     foo = "foo %s"
     assert ls % ("bar",) == "foo bar"
+
 
 def test_local_stack():
     ident = local.get_ident()
@@ -118,6 +125,7 @@ def test_local_stack():
 
     assert ident not in ls._local.__storage__
 
+
 def test_local_proxies_with_callables():
     foo = 42
     ls = local.LocalProxy(lambda: foo)
@@ -127,11 +135,12 @@ def test_local_proxies_with_callables():
     assert ls == [23, 42]
     assert foo == [23, 42]
 
+
 def test_custom_idents():
     ident = 0
     l = local.Local()
     stack = local.LocalStack()
-    mgr = local.LocalManager([l, stack], ident_func=lambda: ident)
+    local.LocalManager([l, stack], ident_func=lambda: ident)
 
     l.foo = 42
     stack.push({'foo': 42})
@@ -148,3 +157,27 @@ def test_custom_idents():
     assert stack.top['foo'] == 23
     stack.pop()
     assert stack.top is None
+
+
+def test_deepcopy_on_proxy():
+    class Foo(object):
+        attr = 42
+
+        def __copy__(self):
+            return self
+
+        def __deepcopy__(self, memo):
+            return self
+    f = Foo()
+    p = local.LocalProxy(lambda: f)
+    assert p.attr == 42
+    assert copy.deepcopy(p) is f
+    assert copy.copy(p) is f
+
+    a = []
+    p2 = local.LocalProxy(lambda: [a])
+    assert copy.copy(p2) == [a]
+    assert copy.copy(p2)[0] is a
+
+    assert copy.deepcopy(p2) == [a]
+    assert copy.deepcopy(p2)[0] is not a

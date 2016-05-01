@@ -4,6 +4,9 @@
 Python 3 Notes
 ==============
 
+Since version 0.9, Werkzeug supports Python 3.3+ in addition to versions 2.6
+and 2.7. Older Python 3 versions such as 3.2 or 3.1 are not supported.
+
 This part of the documentation outlines special information required to
 use Werkzeug and WSGI on Python 3.
 
@@ -25,7 +28,7 @@ encoded strings.
 
 There are two different kinds of strings in the WSGI environ on Python 3:
 
--   unicode strings restricted to latin1 values.  These are the used for
+-   unicode strings restricted to latin1 values.  These are used for
     HTTP headers and a few other things.
 -   unicode strings carrying binary payload, roundtripped through latin1
     values.  This is usually referred as “WSGI encoding dance” throughout
