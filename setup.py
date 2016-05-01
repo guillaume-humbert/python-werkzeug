@@ -53,10 +53,19 @@ repository from `github`_::
 
 .. _github: http://github.com/mitsuhiko/werkzeug
 """
+import ast
+import re
 try:
     from setuptools import setup, Command
 except ImportError:
     from distutils.core import setup, Command
+
+
+_version_re = re.compile(r'__version__\s+=\s+(.*)')
+
+with open('werkzeug/__init__.py', 'rb') as f:
+    version = str(ast.literal_eval(_version_re.search(
+        f.read().decode('utf-8')).group(1)))
 
 
 class TestCommand(Command):
@@ -64,6 +73,7 @@ class TestCommand(Command):
 
     def initialize_options(self):
         pass
+
     def finalize_options(self):
         pass
 
@@ -74,7 +84,7 @@ class TestCommand(Command):
 
 setup(
     name='Werkzeug',
-    version='0.10.4',
+    version=version,
     url='http://werkzeug.pocoo.org/',
     license='BSD',
     author='Armin Ronacher',
@@ -88,7 +98,13 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],

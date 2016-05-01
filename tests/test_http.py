@@ -37,16 +37,16 @@ class TestHTTPUtility(object):
                                      'image/png,*/*;q=0.5',
                                      datastructures.MIMEAccept)
         pytest.raises(ValueError, lambda: a['missing'])
-        assert a['image/png'] ==  1
-        assert a['text/plain'] ==  0.8
-        assert a['foo/bar'] ==  0.5
+        assert a['image/png'] == 1
+        assert a['text/plain'] == 0.8
+        assert a['foo/bar'] == 0.5
         assert a['application/foo;quiet=no; bar=baz'] == 0.6
-        assert a[a.find('foo/bar')] ==  ('*/*', 0.5)
+        assert a[a.find('foo/bar')] == ('*/*', 0.5)
 
     def test_accept_matches(self):
         a = http.parse_accept_header('text/xml,application/xml,application/xhtml+xml,'
-                                    'text/html;q=0.9,text/plain;q=0.8,'
-                                    'image/png', datastructures.MIMEAccept)
+                                     'text/html;q=0.9,text/plain;q=0.8,'
+                                     'image/png', datastructures.MIMEAccept)
         assert a.best_match(['text/html', 'application/xhtml+xml']) == \
             'application/xhtml+xml'
         assert a.best_match(['text/html']) == 'text/html'
@@ -65,7 +65,7 @@ class TestHTTPUtility(object):
     def test_language_accept(self):
         a = http.parse_accept_header('de-AT,de;q=0.8,en;q=0.5',
                                      datastructures.LanguageAccept)
-        assert a.best ==  'de-AT'
+        assert a.best == 'de-AT'
         assert 'de_AT' in a
         assert 'en' in a
         assert a['de-at'] == 1
@@ -179,26 +179,27 @@ class TestHTTPUtility(object):
 
     def test_etags(self):
         assert http.quote_etag('foo') == '"foo"'
-        assert http.quote_etag('foo', True) == 'w/"foo"'
+        assert http.quote_etag('foo', True) == 'W/"foo"'
         assert http.unquote_etag('"foo"') == ('foo', False)
-        assert http.unquote_etag('w/"foo"') == ('foo', True)
-        es = http.parse_etags('"foo", "bar", w/"baz", blar')
+        assert http.unquote_etag('W/"foo"') == ('foo', True)
+        es = http.parse_etags('"foo", "bar", W/"baz", blar')
         assert sorted(es) == ['bar', 'blar', 'foo']
         assert 'foo' in es
         assert 'baz' not in es
         assert es.contains_weak('baz')
         assert 'blar' in es
-        assert es.contains_raw('w/"baz"')
+        assert es.contains_raw('W/"baz"')
         assert es.contains_raw('"foo"')
-        assert sorted(es.to_header().split(', ')) == ['"bar"', '"blar"', '"foo"', 'w/"baz"']
+        assert sorted(es.to_header().split(', ')) == ['"bar"', '"blar"', '"foo"', 'W/"baz"']
 
     def test_etags_nonzero(self):
-        etags = http.parse_etags('w/"foo"')
+        etags = http.parse_etags('W/"foo"')
         assert bool(etags)
-        assert etags.contains_raw('w/"foo"')
+        assert etags.contains_raw('W/"foo"')
 
     def test_parse_date(self):
-        assert http.parse_date('Sun, 06 Nov 1994 08:49:37 GMT    ') == datetime(1994, 11, 6, 8, 49, 37)
+        assert http.parse_date('Sun, 06 Nov 1994 08:49:37 GMT    ') == datetime(
+            1994, 11, 6, 8, 49, 37)
         assert http.parse_date('Sunday, 06-Nov-94 08:49:37 GMT') == datetime(1994, 11, 6, 8, 49, 37)
         assert http.parse_date(' Sun Nov  6 08:49:37 1994') == datetime(1994, 11, 6, 8, 49, 37)
         assert http.parse_date('foo') is None
@@ -231,6 +232,10 @@ class TestHTTPUtility(object):
         assert headers2 == datastructures.Headers([('Foo', 'bar')])
 
     def test_parse_options_header(self):
+        assert http.parse_options_header(None) == \
+            ('', {})
+        assert http.parse_options_header("") == \
+            ('', {})
         assert http.parse_options_header(r'something; foo="other\"thing"') == \
             ('something', {'foo': 'other"thing'})
         assert http.parse_options_header(r'something; foo="other\"thing"; meh=42') == \
@@ -241,8 +246,25 @@ class TestHTTPUtility(object):
             ('something', {'foo': 'other;thing', 'meh': '42', 'bleh': None})
         assert http.parse_options_header('something; foo="otherthing"; meh=; bleh') == \
             ('something', {'foo': 'otherthing', 'meh': None, 'bleh': None})
-
-
+        # Issue #404
+        assert http.parse_options_header('multipart/form-data; name="foo bar"; '
+                                         'filename="bar foo"') == \
+            ('multipart/form-data', {'name': 'foo bar', 'filename': 'bar foo'})
+        # Examples from RFC
+        assert http.parse_options_header('audio/*; q=0.2, audio/basic') == \
+            ('audio/*', {'q': '0.2'})
+        assert http.parse_options_header('audio/*; q=0.2, audio/basic', multiple=True) == \
+            ('audio/*', {'q': '0.2'}, "audio/basic", {})
+        assert http.parse_options_header(
+            'text/plain; q=0.5, text/html\n        '
+            'text/x-dvi; q=0.8, text/x-c',
+            multiple=True) == \
+            ('text/plain', {'q': '0.5'}, "text/html", {},
+             "text/x-dvi", {'q': '0.8'}, "text/x-c", {})
+        assert http.parse_options_header('text/plain; q=0.5, text/html\n'
+                                         '        '
+                                         'text/x-dvi; q=0.8, text/x-c') == \
+            ('text/plain', {'q': '0.5'})
 
     def test_dump_options_header(self):
         assert http.dump_options_header('foo', {'bar': 42}) == \
@@ -266,15 +288,15 @@ class TestHTTPUtility(object):
 
         # etagify from data
         pytest.raises(TypeError, http.is_resource_modified, env,
-                           data='42', etag='23')
+                      data='42', etag='23')
         env['HTTP_IF_NONE_MATCH'] = http.generate_etag(b'awesome')
         assert not http.is_resource_modified(env, data=b'awesome')
 
         env['HTTP_IF_MODIFIED_SINCE'] = http.http_date(datetime(2008, 1, 1, 12, 30))
         assert not http.is_resource_modified(env,
-            last_modified=datetime(2008, 1, 1, 12, 00))
+                                             last_modified=datetime(2008, 1, 1, 12, 00))
         assert http.is_resource_modified(env,
-            last_modified=datetime(2008, 1, 1, 13, 00))
+                                         last_modified=datetime(2008, 1, 1, 13, 00))
 
     def test_date_formatting(self):
         assert http.cookie_date(0) == 'Thu, 01-Jan-1970 00:00:00 GMT'
@@ -285,7 +307,7 @@ class TestHTTPUtility(object):
     def test_cookies(self):
         strict_eq(
             dict(http.parse_cookie('dismiss-top=6; CP=null*; PHPSESSID=0a539d42abc001cd'
-                              'c762809248d4beed; a=42; b="\\\";"')),
+                                   'c762809248d4beed; a=42; b="\\\";"')),
             {
                 'CP':           u'null*',
                 'PHPSESSID':    u'0a539d42abc001cdc762809248d4beed',
@@ -301,7 +323,7 @@ class TestHTTPUtility(object):
                                            'Path=/', 'foo="bar baz blub"'])
 
         strict_eq(dict(http.parse_cookie('fo234{=bar; blub=Blah')),
-                                 {'fo234{': u'bar', 'blub': u'Blah'})
+                  {'fo234{': u'bar', 'blub': u'Blah'})
 
     def test_cookie_quoting(self):
         val = http.dump_cookie("foo", "?foo")
@@ -309,7 +331,7 @@ class TestHTTPUtility(object):
         strict_eq(dict(http.parse_cookie(val)), {'foo': u'?foo'})
 
         strict_eq(dict(http.parse_cookie(r'foo="foo\054bar"')),
-                                 {'foo': u'foo,bar'})
+                  {'foo': u'foo,bar'})
 
     def test_cookie_domain_resolving(self):
         val = http.dump_cookie('foo', 'bar', domain=u'\N{SNOWMAN}.com')
@@ -358,7 +380,7 @@ class TestRange(object):
         assert rv.to_header() == '"Test"'
 
         # weak information is dropped
-        rv = http.parse_if_range_header('w/"Test"')
+        rv = http.parse_if_range_header('W/"Test"')
         assert rv.etag == 'Test'
         assert rv.date is None
         assert rv.to_header() == '"Test"'
@@ -439,7 +461,7 @@ class TestRegression(object):
     def test_best_match_works(self):
         # was a bug in 0.6
         rv = http.parse_accept_header('foo=,application/xml,application/xhtml+xml,'
-                                     'text/html;q=0.9,text/plain;q=0.8,'
-                                     'image/png,*/*;q=0.5',
-                                     datastructures.MIMEAccept).best_match(['foo/bar'])
+                                      'text/html;q=0.9,text/plain;q=0.8,'
+                                      'image/png,*/*;q=0.5',
+                                      datastructures.MIMEAccept).best_match(['foo/bar'])
         assert rv == 'foo/bar'
