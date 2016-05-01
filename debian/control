@@ -63,8 +63,8 @@ Section: doc
 Architecture: all
 Priority: extra
 Depends: ${misc:Depends}, ${sphinxdoc:Depends}
-Conflicts: python-werkzeug (<< 0.9.3+dfsg-2)
 Replaces: python-werkzeug (<< 0.9.3+dfsg-2)
+Breaks: python-werkzeug (<< 0.9.3+dfsg-2)
 Description: documentation for the werkzeug Python library (docs)
  Werkzeug is a lightweight library for interfacing with WSGI. It features
  request and response objects, an interactive debugging system and a powerful
