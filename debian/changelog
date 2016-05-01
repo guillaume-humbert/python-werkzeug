@@ -3,7 +3,9 @@ python-werkzeug (0.11.9+dfsg1-1) UNRELEASED; urgency=medium
   * New upstream release
   * Fixed VCS URL (https)
   * d/watch: Moved from pypi to github, which contains Werkzeug theme
-  * d/copyright: Fixed Files-Excluded for new upstream release
+  * d/copyright
+    - Fixed Files-Excluded for new upstream release
+    - Added myself to Debian part
   * Added AUTHORS file to all binary packages
   * Added myself as uploader
   * Standards-Version is 3.9.8 now (no change)

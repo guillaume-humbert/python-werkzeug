@@ -39,6 +39,7 @@ License: BSD-3-clause
 
 Files: debian/*
 Copyright: Copyright 2009, Noah Slater <nslater@tumbolia.org>
+           2016, Ondřej Nový <novy@ondrej.org>
 License: GAP
  Copying and distribution of this package, with or without modification, are
  permitted in any medium without royalty provided the copyright notice and this
