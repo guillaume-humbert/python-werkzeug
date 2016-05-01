@@ -10,6 +10,7 @@ python-werkzeug (0.11.9+dfsg1-1) UNRELEASED; urgency=medium
   * Added myself as uploader
   * Standards-Version is 3.9.8 now (no change)
   * X-Python-Version bumped to 2.6
+  * Changed description of Py2/Py3/docs packages to distinguish between them
 
  -- Ondřej Nový <novy@ondrej.org>  Tue, 29 Mar 2016 22:27:44 +0200
 
