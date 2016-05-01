@@ -5,6 +5,7 @@ python-werkzeug (0.11.9+dfsg1-1) UNRELEASED; urgency=medium
   * d/watch: Moved from pypi to github, which contains Werkzeug theme
   * d/copyright: Fixed Files-Excluded for new upstream release
   * Added AUTHORS file to all binary packages
+  * Added myself as uploader
 
  -- Ondřej Nový <novy@ondrej.org>  Tue, 29 Mar 2016 22:27:44 +0200
 

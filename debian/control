@@ -2,7 +2,8 @@ Source: python-werkzeug
 Section: python
 Priority: optional
 Maintainer: Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
-Uploaders: Piotr Ożarowski <piotr@debian.org>
+Uploaders: Piotr Ożarowski <piotr@debian.org>,
+           Ondřej Nový <novy@ondrej.org>,
 Standards-Version: 3.9.6
 Build-Depends: debhelper (>= 9), dh-python, python-sphinx (>= 1.0.7+dfsg-1~),
  python-all, python3-all,
