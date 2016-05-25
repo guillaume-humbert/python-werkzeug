@@ -1,6 +1,16 @@
 Werkzeug Changelog
 ==================
 
+Version 0.11.10
+---------------
+
+Released on May 24th 2016.
+
+- Fixed a bug that occurs when running on Python 2.6 and using a broken locale.
+  See pull request #912.
+- Fixed a crash when running the debugger on Google App Engine. See issue #925.
+- Fixed an issue with multipart parsing that could cause memory exhaustion.
+
 Version 0.11.9
 --------------
 
