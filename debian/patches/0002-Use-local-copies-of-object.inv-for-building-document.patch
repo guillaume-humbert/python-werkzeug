@@ -1,0 +1,21 @@
+From e5ee65d2f4999de8d9c7481983dfc40bcd1ea90c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ond=C5=99ej=20Nov=C3=BD?= <onovy@debian.org>
+Date: Mon, 11 Jul 2016 07:11:44 +0200
+Subject: Use local copies of object.inv for building documentation
+
+---
+ docs/conf.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/docs/conf.py b/docs/conf.py
+index e2d4e0d..cbbbbb6 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -209,6 +209,5 @@ latex_use_modindex = False
+ 
+ # Example configuration for intersphinx: refer to the Python standard library.
+ intersphinx_mapping = {
+-    'http://docs.python.org/dev': None,
+-    'http://www.sqlalchemy.org/docs/05': None
++    'py': ('/usr/share/doc/python-doc/html', None),
+ }
