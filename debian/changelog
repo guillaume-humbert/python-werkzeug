@@ -1,11 +1,11 @@
-python-werkzeug (0.11.10+dfsg1-2) UNRELEASED; urgency=medium
+python-werkzeug (0.11.10+dfsg1-2) unstable; urgency=medium
 
   * d/{control,copyright}: Use my @debian.org email address
   * Use local copies of object.inv for building documentation
     (Closes: #830612)
   * Removed pre-wheezy versioned depends
 
- -- Ondřej Nový <onovy@debian.org>  Mon, 20 Jun 2016 20:13:11 +0200
+ -- Ondřej Nový <onovy@debian.org>  Mon, 11 Jul 2016 07:30:48 +0200
 
 python-werkzeug (0.11.10+dfsg1-1) unstable; urgency=medium
 
