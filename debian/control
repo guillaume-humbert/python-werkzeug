@@ -5,9 +5,9 @@ Maintainer: Python Modules Packaging Team <python-modules-team@lists.alioth.debi
 Uploaders: Piotr Ożarowski <piotr@debian.org>,
            Ondřej Nový <onovy@debian.org>,
 Standards-Version: 3.9.8
-Build-Depends: debhelper (>= 9), dh-python, python-sphinx (>= 1.0.7+dfsg-1~),
+Build-Depends: debhelper (>= 9), dh-python, python-sphinx,
  python-all, python3-all,
- python-setuptools (>= 0.6b3), python3-setuptools (>= 0.6b3),
+ python-setuptools, python3-setuptools,
  python-doc,
 # for tests:
  python-pytest, python3-pytest,
@@ -27,7 +27,7 @@ Testsuite: autopkgtest-pkg-python
 Package: python-werkzeug
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery
-Recommends: python-simplejson | python (>= 2.6), python-openssl, python-pyinotify
+Recommends: python-openssl, python-pyinotify
 Suggests: ipython, python-genshi, python-pkg-resources, python-lxml,
  python-greenlet, python-redis, python-pylibmc | python-memcache,
  python-werkzeug-doc
@@ -45,7 +45,7 @@ Description: collection of utilities for WSGI applications (Python 2.x)
 Package: python3-werkzeug
 Architecture: all
 Depends: ${python3:Depends}, ${misc:Depends}, libjs-jquery
-Recommends: python3-simplejson | python3, python3-openssl, python3-pyinotify
+Recommends: python3-openssl, python3-pyinotify
 Suggests: ipython3, python3-pkg-resources, python3-lxml,
  python-werkzeug-doc
 Description: collection of utilities for WSGI applications (Python 3.x)
