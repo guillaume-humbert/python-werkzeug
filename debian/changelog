@@ -1,9 +1,9 @@
-python-werkzeug (0.11.13+dfsg1-1) UNRELEASED; urgency=medium
+python-werkzeug (0.11.13+dfsg1-1) unstable; urgency=medium
 
   * New upstream release
   * Bumped debhelper version to 10
 
- -- Ondřej Nový <onovy@debian.org>  Mon, 07 Nov 2016 23:18:53 +0100
+ -- Ondřej Nový <onovy@debian.org>  Wed, 28 Dec 2016 22:39:18 +0100
 
 python-werkzeug (0.11.11+dfsg1-1) unstable; urgency=medium
 
