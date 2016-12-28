@@ -2,10 +2,10 @@
 df03a8cc321ef56204b87125beb9bf21d0015cc6
 df03a8cc321ef56204b87125beb9bf21d0015cc6
 e2b21c202c14d81967c2ccb8b4ce5e63d61406b8
-e2b21c202c14d81967c2ccb8b4ce5e63d61406b8
-python-werkzeug_0.11.11+dfsg1.orig.tar.gz
-3dd7a6091744adb8e2fb1ae8ba4dd8eb5007372e
-1086362
+a596b49313fe62d3b1d7d1cf64e76bb14db0339a
+python-werkzeug_0.11.13+dfsg1.orig.tar.gz
+3a6cd8af71d3fefc5a96c0f3205958679fcc8da0
+1086682
 debianTag="debian/%e%v"
 patchedTag="patched/%e%v"
 upstreamTag="upstream/%e%u"
