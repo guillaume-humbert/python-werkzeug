@@ -1,6 +1,23 @@
 Werkzeug Changelog
 ==================
 
+Version 0.11.13
+---------------
+
+Released on December 26th 2016.
+
+- Correct fix for the reloader issuer on certain Windows installations.
+
+Version 0.11.12
+---------------
+
+Released on December 26th 2016.
+
+- Fix more bugs in multidicts regarding empty lists. See ``#1000``.
+- Add some docstrings to some `EnvironBuilder` properties that were previously
+  unintentionally missing.
+- Added a workaround for the reloader on windows.
+
 Version 0.11.11
 ---------------
 
