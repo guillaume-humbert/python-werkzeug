@@ -1,4 +1,4 @@
-From c7489c5d0f0b722089060a16d7f422c6c7881385 Mon Sep 17 00:00:00 2001
+From b08d6505830e166da703715d450782a5d627917b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Ond=C5=99ej=20Nov=C3=BD?= <onovy@debian.org>
 Date: Mon, 11 Jul 2016 07:11:44 +0200
 Subject: Use local copies of object.inv for building documentation
