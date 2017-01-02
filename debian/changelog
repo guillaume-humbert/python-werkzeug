@@ -1,3 +1,9 @@
+python-werkzeug (0.11.15+dfsg1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Ondřej Nový <onovy@debian.org>  Mon, 02 Jan 2017 11:08:13 +0100
+
 python-werkzeug (0.11.13+dfsg1-1) unstable; urgency=medium
 
   * New upstream release
