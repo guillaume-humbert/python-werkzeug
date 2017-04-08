@@ -1,10 +1,10 @@
-python-werkzeug (0.12.1+dfsg1-1) UNRELEASED; urgency=medium
+python-werkzeug (0.12.1+dfsg1-1) experimental; urgency=medium
 
   * New upstream release
   * Add python{,3}-termcolor and python{,3}-watchdog to Suggests
   * d/copyright: Bump copyright years
 
- -- Ondřej Nový <onovy@debian.org>  Sat, 08 Apr 2017 13:25:27 +0200
+ -- Ondřej Nový <onovy@debian.org>  Sat, 08 Apr 2017 13:45:45 +0200
 
 python-werkzeug (0.11.15+dfsg1-1) unstable; urgency=medium
 
