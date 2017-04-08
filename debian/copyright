@@ -7,7 +7,7 @@ Files-Excluded: werkzeug/debug/shared/ubuntu.ttf
                 werkzeug/debug/shared/jquery.js
 
 Files: *
-Copyright: Copyright 2009-2016, the Werkzeug Team, see AUTHORS for more details.
+Copyright: Copyright 2009-2017, the Werkzeug Team, see AUTHORS for more details.
 License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are
@@ -39,7 +39,7 @@ License: BSD-3-clause
 
 Files: debian/*
 Copyright: Copyright 2009, Noah Slater <nslater@tumbolia.org>
-           2016, Ondřej Nový <onovy@debian.org>
+           2016-2017, Ondřej Nový <onovy@debian.org>
 License: GAP
  Copying and distribution of this package, with or without modification, are
  permitted in any medium without royalty provided the copyright notice and this
