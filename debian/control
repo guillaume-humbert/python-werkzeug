@@ -30,7 +30,7 @@ Depends: ${python:Depends}, ${misc:Depends}, libjs-jquery
 Recommends: python-openssl, python-pyinotify
 Suggests: ipython, python-genshi, python-pkg-resources, python-lxml,
  python-greenlet, python-redis, python-pylibmc | python-memcache,
- python-werkzeug-doc
+ python-termcolor, python-watchdog, python-werkzeug-doc
 Description: collection of utilities for WSGI applications (Python 2.x)
  The Web Server Gateway Interface (WSGI) is a standard interface between web
  server software and web applications written in Python.
@@ -47,7 +47,7 @@ Architecture: all
 Depends: ${python3:Depends}, ${misc:Depends}, libjs-jquery
 Recommends: python3-openssl, python3-pyinotify
 Suggests: ipython3, python3-pkg-resources, python3-lxml,
- python-werkzeug-doc
+ python3-termcolor, python3-watchdog, python-werkzeug-doc
 Description: collection of utilities for WSGI applications (Python 3.x)
  The Web Server Gateway Interface (WSGI) is a standard interface between web
  server software and web applications written in Python.
