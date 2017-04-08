@@ -60,6 +60,51 @@ def test_basic_routing():
     assert excinfo.value.new_url == 'http://example.org/bar/?foo=bar'
 
 
+def test_strict_slashes_redirect():
+    map = r.Map([
+        r.Rule('/bar/', endpoint='get', methods=["GET"]),
+        r.Rule('/bar', endpoint='post', methods=["POST"]),
+    ])
+    adapter = map.bind('example.org', '/')
+
+    # Check if the actual routes works
+    assert adapter.match('/bar/', method='GET') == ('get', {})
+    assert adapter.match('/bar', method='POST') == ('post', {})
+
+    # Check if exceptions are correct
+    pytest.raises(r.RequestRedirect, adapter.match, '/bar', method='GET')
+    pytest.raises(r.MethodNotAllowed, adapter.match, '/bar/', method='POST')
+
+    # Check differently defined order
+    map = r.Map([
+        r.Rule('/bar', endpoint='post', methods=["POST"]),
+        r.Rule('/bar/', endpoint='get', methods=["GET"]),
+    ])
+    adapter = map.bind('example.org', '/')
+
+    # Check if the actual routes works
+    assert adapter.match('/bar/', method='GET') == ('get', {})
+    assert adapter.match('/bar', method='POST') == ('post', {})
+
+    # Check if exceptions are correct
+    pytest.raises(r.RequestRedirect, adapter.match, '/bar', method='GET')
+    pytest.raises(r.MethodNotAllowed, adapter.match, '/bar/', method='POST')
+
+    # Check what happens when only slash route is defined
+    map = r.Map([
+        r.Rule('/bar/', endpoint='get', methods=["GET"]),
+    ])
+    adapter = map.bind('example.org', '/')
+
+    # Check if the actual routes works
+    assert adapter.match('/bar/', method='GET') == ('get', {})
+
+    # Check if exceptions are correct
+    pytest.raises(r.RequestRedirect, adapter.match, '/bar', method='GET')
+    pytest.raises(r.MethodNotAllowed, adapter.match, '/bar/', method='POST')
+    pytest.raises(r.MethodNotAllowed, adapter.match, '/bar', method='POST')
+
+
 def test_environ_defaults():
     environ = create_environ("/foo")
     strict_eq(environ["PATH_INFO"], '/foo')
@@ -313,6 +358,12 @@ def test_rule_emptying():
     assert rule.__dict__ != rule2.__dict__
 
 
+def test_rule_unhashable():
+    rule = r.Rule('/foo', {'meh': 'muh'}, 'x', ['POST'],
+                  False, 'x', True, None)
+    pytest.raises(TypeError, hash, rule)
+
+
 def test_rule_templates():
     testcase = r.RuleTemplate([
         r.Submount(
@@ -446,7 +497,7 @@ def test_uuid_converter():
 
 def test_converter_with_tuples():
     '''
-    Regression test for https://github.com/mitsuhiko/werkzeug/issues/709
+    Regression test for https://github.com/pallets/werkzeug/issues/709
     '''
     class TwoValueConverter(r.BaseConverter):
 
@@ -519,6 +570,11 @@ def test_implicit_head():
     assert adapter.match('/get', method='HEAD') == ('a', {})
     pytest.raises(r.MethodNotAllowed, adapter.match,
                   '/post', method='HEAD')
+
+
+def test_pass_str_as_router_methods():
+    with pytest.raises(TypeError):
+        r.Rule('/get', methods='GET')
 
 
 def test_protocol_joining_bug():
