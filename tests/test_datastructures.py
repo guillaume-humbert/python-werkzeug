@@ -395,6 +395,38 @@ class TestMultiDict(_MutableMultiDictTests):
         assert list(zip(iterkeys(md), iterlistvalues(md))) == \
             list(iterlists(md))
 
+    @pytest.mark.skipif(not PY2, reason='viewmethods work only for the 2-nd version.')
+    def test_view_methods(self):
+        mapping = [('a', 'b'), ('a', 'c')]
+        md = self.storage_class(mapping)
+
+        vi = md.viewitems()
+        vk = md.viewkeys()
+        vv = md.viewvalues()
+
+        assert list(vi) == list(md.items())
+        assert list(vk) == list(md.keys())
+        assert list(vv) == list(md.values())
+
+        md['k'] = 'n'
+
+        assert list(vi) == list(md.items())
+        assert list(vk) == list(md.keys())
+        assert list(vv) == list(md.values())
+
+    @pytest.mark.skipif(not PY2, reason='viewmethods work only for the 2-nd version.')
+    def test_viewitems_with_multi(self):
+        mapping = [('a', 'b'), ('a', 'c')]
+        md = self.storage_class(mapping)
+
+        vi = md.viewitems(multi=True)
+
+        assert list(vi) == list(md.items(multi=True))
+
+        md['k'] = 'n'
+
+        assert list(vi) == list(md.items(multi=True))
+
     def test_getitem_raise_badrequestkeyerror_for_empty_list_value(self):
         mapping = [('a', 'b'), ('a', 'c')]
         md = self.storage_class(mapping)
@@ -493,6 +525,11 @@ class TestOrderedMultiDict(_MutableMultiDictTests):
 
         with pytest.raises(BadRequestKeyError):
             d.popitemlist()
+
+        # Unhashable
+        d = self.storage_class()
+        d.add('foo', 23)
+        pytest.raises(TypeError, hash, d)
 
     def test_iterables(self):
         a = datastructures.MultiDict((("key_a", "value_a"),))
@@ -927,3 +964,15 @@ class TestFileStorage(object):
     def test_mimetype_always_lowercase(self):
         file_storage = self.storage_class(content_type='APPLICATION/JSON')
         assert file_storage.mimetype == 'application/json'
+
+    def test_bytes_proper_sentinel(self):
+        # ensure we iterate over new lines and don't enter into an infinite loop
+        import io
+        unicode_storage = self.storage_class(io.StringIO(u"one\ntwo"))
+        for idx, line in enumerate(unicode_storage):
+            assert idx < 2
+        assert idx == 1
+        binary_storage = self.storage_class(io.BytesIO(b"one\ntwo"))
+        for idx, line in enumerate(binary_storage):
+            assert idx < 2
+        assert idx == 1

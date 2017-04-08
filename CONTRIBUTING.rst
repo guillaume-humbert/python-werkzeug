@@ -25,6 +25,10 @@ Reporting issues
 Submitting patches
 ==================
 
+- Please do not use pull requests as a way to suggest behavior changes. Open an
+  issue for discussion first. This helps keeping the discussions of concept and
+  implementation separate.
+
 - Include tests if your patch is supposed to solve a bug, and explain
   clearly under which circumstances the bug happens. Make sure the test fails
   without your patch.
@@ -32,12 +36,14 @@ Submitting patches
 - Try to follow `PEP8 <http://legacy.python.org/dev/peps/pep-0008/>`_, but you
   may ignore the line-length-limit if following it would make the code uglier.
 
+- Add an entry to ``CHANGES`` and your name to ``AUTHORS``.
+
 
 Running the testsuite
 ---------------------
 
 You probably want to set up a `virtualenv
-<http://virtualenv.readthedocs.org/en/latest/index.html>`_.
+<https://virtualenv.readthedocs.io/en/latest/index.html>`_.
 
 Werkzeug must be installed for all tests to pass::
 

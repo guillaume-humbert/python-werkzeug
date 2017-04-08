@@ -8,6 +8,8 @@
     :copyright: (c) 2014 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
+import os
+
 import pytest
 
 import pickle
@@ -18,8 +20,8 @@ from werkzeug._compat import iteritems
 from tests import strict_eq
 
 from werkzeug import wrappers
-from werkzeug.exceptions import SecurityError
-from werkzeug.wsgi import LimitedStream
+from werkzeug.exceptions import SecurityError, RequestedRangeNotSatisfiable
+from werkzeug.wsgi import LimitedStream, wrap_file
 from werkzeug.datastructures import MultiDict, ImmutableOrderedMultiDict, \
     ImmutableList, ImmutableTypeConversionDict, CharsetAccept, \
     MIMEAccept, LanguageAccept, Accept, CombinedMultiDict
@@ -229,7 +231,8 @@ def test_base_response():
 
     # set cookie
     response = wrappers.BaseResponse()
-    response.set_cookie('foo', 'bar', 60, 0, '/blub', 'example.org')
+    response.set_cookie('foo', value='bar', max_age=60, expires=0,
+                        path='/blub', domain='example.org')
     strict_eq(response.headers.to_wsgi_list(), [
         ('Content-Type', 'text/plain; charset=utf-8'),
         ('Set-Cookie', 'foo=bar; Domain=example.org; Expires=Thu, '
@@ -383,7 +386,38 @@ def test_user_agent_mixin():
         ('Mozilla/5.0 (SymbianOS/9.3; Series60/3.2 NokiaE5-00/101.003; '
          'Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) '
          'NokiaBrowser/7.3.1.35 Mobile Safari/533.4 3gpp-gba',
-         'safari', 'symbian', '533.4', None)
+         'safari', 'symbian', '533.4', None),
+        ('Mozilla/5.0 (X11; OpenBSD amd64; rv:45.0) Gecko/20100101 Firefox/45.0',
+         'firefox', 'openbsd', '45.0', None),
+        ('Mozilla/5.0 (X11; NetBSD amd64; rv:45.0) Gecko/20100101 Firefox/45.0',
+         'firefox', 'netbsd', '45.0', None),
+        ('Mozilla/5.0 (X11; FreeBSD amd64) AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/48.0.2564.103 Safari/537.36',
+         'chrome', 'freebsd', '48.0.2564.103', None),
+        ('Mozilla/5.0 (X11; FreeBSD amd64; rv:45.0) Gecko/20100101 Firefox/45.0',
+         'firefox', 'freebsd', '45.0', None),
+        ('Mozilla/5.0 (X11; U; NetBSD amd64; en-US; rv:) Gecko/20150921 SeaMonkey/1.1.18',
+         'seamonkey', 'netbsd', '1.1.18', 'en-US'),
+        ('Mozilla/5.0 (Windows; U; Windows NT 6.2; WOW64; rv:1.8.0.7) '
+         'Gecko/20110321 MultiZilla/4.33.2.6a SeaMonkey/8.6.55',
+         'seamonkey', 'windows', '8.6.55', None),
+        ('Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20120427 Firefox/12.0 SeaMonkey/2.9',
+         'seamonkey', 'linux', '2.9', None),
+        ('Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)',
+         'baidu', None, '2.0', None),
+        ('Mozilla/5.0 (X11; SunOS i86pc; rv:38.0) Gecko/20100101 Firefox/38.0',
+         'firefox', 'solaris', '38.0', None),
+        ('Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101 Firefox/38.0 Iceweasel/38.7.1',
+         'firefox', 'linux', '38.0', None),
+        ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/50.0.2661.75 Safari/537.36',
+         'chrome', 'windows', '50.0.2661.75', None),
+        ('Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)',
+         'bing', None, '2.0', None),
+        ('Mozilla/5.0 (X11; DragonFly x86_64) AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/47.0.2526.106 Safari/537.36', 'chrome', 'dragonflybsd', '47.0.2526.106', None),
+        ('Mozilla/5.0 (X11; U; DragonFly i386; de; rv:1.9.1) Gecko/20090720 Firefox/3.5.1',
+         'firefox', 'dragonflybsd', '3.5.1', 'de')
 
     ]
     for ua, browser, platform, version, lang in user_agents:
@@ -507,6 +541,83 @@ def test_etag_response_mixin():
     assert response.content_length == 999
 
 
+def test_range_request_basic():
+    env = create_environ()
+    response = wrappers.Response('Hello World')
+    env['HTTP_RANGE'] = 'bytes=0-4'
+    response.make_conditional(env, accept_ranges=True, complete_length=11)
+    assert response.status_code == 206
+    assert response.headers['Accept-Ranges'] == 'bytes'
+    assert response.headers['Content-Range'] == 'bytes 0-4/11'
+    assert response.headers['Content-Length'] == '5'
+    assert response.data == b'Hello'
+
+
+def test_range_request_out_of_bound():
+    env = create_environ()
+    response = wrappers.Response('Hello World')
+    env['HTTP_RANGE'] = 'bytes=6-666'
+    response.make_conditional(env, accept_ranges=True, complete_length=11)
+    assert response.status_code == 206
+    assert response.headers['Accept-Ranges'] == 'bytes'
+    assert response.headers['Content-Range'] == 'bytes 6-10/11'
+    assert response.headers['Content-Length'] == '5'
+    assert response.data == b'World'
+
+
+def test_range_request_with_file():
+    env = create_environ()
+    resources = os.path.join(os.path.dirname(__file__), 'res')
+    fname = os.path.join(resources, 'test.txt')
+    with open(fname, 'rb') as f:
+        fcontent = f.read()
+    with open(fname, 'rb') as f:
+        response = wrappers.Response(wrap_file(env, f))
+        env['HTTP_RANGE'] = 'bytes=0-0'
+        response.make_conditional(env, accept_ranges=True, complete_length=len(fcontent))
+        assert response.status_code == 206
+        assert response.headers['Accept-Ranges'] == 'bytes'
+        assert response.headers['Content-Range'] == 'bytes 0-0/%d' % len(fcontent)
+        assert response.headers['Content-Length'] == '1'
+        assert response.data == fcontent[:1]
+
+
+def test_range_request_with_complete_file():
+    env = create_environ()
+    resources = os.path.join(os.path.dirname(__file__), 'res')
+    fname = os.path.join(resources, 'test.txt')
+    with open(fname, 'rb') as f:
+        fcontent = f.read()
+    with open(fname, 'rb') as f:
+        fsize = os.path.getsize(fname)
+        response = wrappers.Response(wrap_file(env, f))
+        env['HTTP_RANGE'] = 'bytes=0-%d' % (fsize - 1)
+        response.make_conditional(env, accept_ranges=True,
+                                  complete_length=fsize)
+        assert response.status_code == 200
+        assert response.headers['Accept-Ranges'] == 'bytes'
+        assert 'Content-Range' not in response.headers
+        assert response.headers['Content-Length'] == str(fsize)
+        assert response.data == fcontent
+
+
+def test_range_request_without_complete_length():
+    env = create_environ()
+    response = wrappers.Response('Hello World')
+    env['HTTP_RANGE'] = 'bytes=-'
+    response.make_conditional(env, accept_ranges=True, complete_length=None)
+    assert response.status_code == 200
+    assert response.data == b'Hello World'
+
+
+def test_invalid_range_request():
+    env = create_environ()
+    response = wrappers.Response('Hello World')
+    env['HTTP_RANGE'] = 'bytes=-'
+    with pytest.raises(RequestedRangeNotSatisfiable):
+        response.make_conditional(env, accept_ranges=True, complete_length=11)
+
+
 def test_etag_response_mixin_freezing():
     class WithFreeze(wrappers.ETagResponseMixin, wrappers.BaseResponse):
         pass
@@ -537,7 +648,7 @@ def test_authenticate_mixin():
 
 
 def test_authenticate_mixin_quoted_qop():
-    # Example taken from https://github.com/mitsuhiko/werkzeug/issues/633
+    # Example taken from https://github.com/pallets/werkzeug/issues/633
     resp = wrappers.Response()
     resp.www_authenticate.set_digest('REALM', 'NONCE', qop=("auth", "auth-int"))
 
@@ -975,3 +1086,40 @@ def test_modified_url_encoding():
 def test_request_method_case_sensitivity():
     req = wrappers.Request({'REQUEST_METHOD': 'get'})
     assert req.method == 'GET'
+
+
+class TestSetCookie(object):
+    """Tests for :meth:`werkzeug.wrappers.BaseResponse.set_cookie`."""
+
+    def test_secure(self):
+        response = wrappers.BaseResponse()
+        response.set_cookie('foo', value='bar', max_age=60, expires=0,
+                            path='/blub', domain='example.org', secure=True)
+        strict_eq(response.headers.to_wsgi_list(), [
+            ('Content-Type', 'text/plain; charset=utf-8'),
+            ('Set-Cookie', 'foo=bar; Domain=example.org; Expires=Thu, '
+             '01-Jan-1970 00:00:00 GMT; Max-Age=60; Secure; Path=/blub')
+        ])
+
+    def test_httponly(self):
+        response = wrappers.BaseResponse()
+        response.set_cookie('foo', value='bar', max_age=60, expires=0,
+                            path='/blub', domain='example.org', secure=False,
+                            httponly=True)
+        strict_eq(response.headers.to_wsgi_list(), [
+            ('Content-Type', 'text/plain; charset=utf-8'),
+            ('Set-Cookie', 'foo=bar; Domain=example.org; Expires=Thu, '
+             '01-Jan-1970 00:00:00 GMT; Max-Age=60; HttpOnly; Path=/blub')
+        ])
+
+    def test_secure_and_httponly(self):
+        response = wrappers.BaseResponse()
+        response.set_cookie('foo', value='bar', max_age=60, expires=0,
+                            path='/blub', domain='example.org', secure=True,
+                            httponly=True)
+        strict_eq(response.headers.to_wsgi_list(), [
+            ('Content-Type', 'text/plain; charset=utf-8'),
+            ('Set-Cookie', 'foo=bar; Domain=example.org; Expires=Thu, '
+             '01-Jan-1970 00:00:00 GMT; Max-Age=60; Secure; HttpOnly; '
+             'Path=/blub')
+        ])

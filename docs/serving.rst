@@ -56,7 +56,8 @@ Since version 0.10, there are two backends the reloader supports: ``stat`` and
 
 - The ``watchdog`` backend uses filesystem events, and is much faster than
   ``stat``. It requires the `watchdog <https://pypi.python.org/pypi/watchdog>`_
-  module to be installed.
+  module to be installed. The recommended way to achieve this is to add
+  ``Werkzeug[watchdog]`` to your requirements file.
 
 If ``watchdog`` is installed and available it will automatically be used
 instead of the builtin ``stat`` reloader.
@@ -70,6 +71,12 @@ polling and ``'watchdog'`` forces it to the watchdog backend.
     Some edge cases, like modules that failed to import correctly, are not
     handled by the stat reloader for performance reasons. The watchdog reloader
     monitors such files too.
+
+Colored Logging
+---------------
+Werkzeug is able to color the output of request logs when ran from a terminal, just install the `termcolor
+<https://pypi.python.org/pypi/termcolor>`_ package. Windows users need to install `colorama
+<https://pypi.python.org/pypi/colorama>`_ in addition to termcolor for this to work. 
 
 Virtual Hosts
 -------------
@@ -120,8 +127,8 @@ Troubleshooting
 On operating systems that support ipv6 and have it configured such as modern
 Linux systems, OS X 10.4 or higher as well as Windows Vista some browsers can
 be painfully slow if accessing your local server.  The reason for this is that
-sometimes "localhost" is configured to be available on both ipv4 and ipv6 socktes
-and some browsers will try to access ipv6 first and then ivp4.
+sometimes "localhost" is configured to be available on both ipv4 and ipv6 sockets
+and some browsers will try to access ipv6 first and then ipv4.
 
 At the current time the integrated webserver does not support ipv6 and ipv4 at
 the same time and for better portability ipv4 is the default.
