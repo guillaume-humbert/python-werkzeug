@@ -8,13 +8,14 @@
     :copyright: (c) 2014 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
+import contextlib
 import os
 
 import pytest
 
 import pickle
 from io import BytesIO
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug._compat import iteritems
 
 from tests import strict_eq
@@ -292,6 +293,15 @@ def test_response_status_codes():
     response.status = 'wtf'
     strict_eq(response.status_code, 0)
     strict_eq(response.status, '0 wtf')
+
+    # invalid status codes
+    with pytest.raises(ValueError) as empty_string_error:
+        wrappers.BaseResponse(None, '')
+    assert 'Empty status argument' in str(empty_string_error)
+
+    with pytest.raises(TypeError) as invalid_type_error:
+        wrappers.BaseResponse(None, tuple())
+    assert 'Invalid status argument' in str(invalid_type_error)
 
 
 def test_type_forcing():
@@ -687,10 +697,17 @@ def test_common_response_descriptors_mixin():
     response.content_length = '42'
     assert response.content_length == 42
 
-    for attr in 'date', 'age', 'expires':
+    for attr in 'date', 'expires':
         assert getattr(response, attr) is None
         setattr(response, attr, now)
         assert getattr(response, attr) == now
+
+    assert response.age is None
+    age_td = timedelta(days=1, minutes=3, seconds=5)
+    response.age = age_td
+    assert response.age == age_td
+    response.age = 42
+    assert response.age == timedelta(seconds=42)
 
     assert response.retry_after is None
     response.retry_after = now
@@ -857,6 +874,11 @@ def test_response_freeze():
     resp.freeze()
     assert resp.response == [b'foo', b'bar']
     assert resp.headers['content-length'] == '6'
+
+
+def test_response_content_length_uses_encode():
+    r = wrappers.Response(u'你好')
+    assert r.calculate_content_length() == 6
 
 
 def test_other_method_payload():
@@ -1086,6 +1108,35 @@ def test_modified_url_encoding():
 def test_request_method_case_sensitivity():
     req = wrappers.Request({'REQUEST_METHOD': 'get'})
     assert req.method == 'GET'
+
+
+def test_is_xhr_warning():
+    req = wrappers.Request.from_values()
+
+    with pytest.warns(DeprecationWarning) as record:
+        req.is_xhr
+
+    assert len(record) == 1
+    assert 'Request.is_xhr is deprecated' in str(record[0].message)
+
+
+def test_write_length():
+    response = wrappers.Response()
+    length = response.stream.write(b'bar')
+    assert length == 3
+
+
+def test_stream_zip():
+    import zipfile
+
+    response = wrappers.Response()
+    with contextlib.closing(zipfile.ZipFile(response.stream, mode='w')) as z:
+        z.writestr("foo", b"bar")
+
+    buffer = BytesIO(response.get_data())
+    with contextlib.closing(zipfile.ZipFile(buffer, mode='r')) as z:
+        assert z.namelist() == ['foo']
+        assert z.read('foo') == b'bar'
 
 
 class TestSetCookie(object):
