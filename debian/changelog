@@ -3,6 +3,7 @@ python-werkzeug (0.13+dfsg1-1) unstable; urgency=medium
   * New upstream release
   * Remove Priority: extra which is deprecated
   * Standards-Version is 4.1.2 now
+  * d/copyright: Fixed for new release
 
  -- Ondřej Nový <onovy@debian.org>  Sat, 09 Dec 2017 14:17:13 +0100
 
