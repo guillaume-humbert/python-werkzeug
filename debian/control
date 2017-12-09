@@ -62,7 +62,6 @@ Description: collection of utilities for WSGI applications (Python 3.x)
 Package: python-werkzeug-doc
 Section: doc
 Architecture: all
-Priority: extra
 Depends: ${misc:Depends}, ${sphinxdoc:Depends}
 Replaces: python-werkzeug (<< 0.9.3+dfsg-2)
 Breaks: python-werkzeug (<< 0.9.3+dfsg-2)
