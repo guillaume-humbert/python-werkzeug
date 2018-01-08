@@ -28,7 +28,7 @@ override_dh_auto_test:
 
 override_dh_auto_install:
 	dh_auto_install
-	make documentation
+	PYTHONPATH=. sphinx-build -b html docs/ debian/python-werkzeug-doc/usr/share/doc/python-werkzeug-doc/html/
 
 override_dh_fixperms:
 	find debian/ -name '*\.png' -exec chmod -x '{}' \;
