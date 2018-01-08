@@ -1,6 +1,56 @@
 Werkzeug Changelog
 ==================
 
+Version 0.14.1
+--------------
+
+Released on December 31st 2017
+
+- Resolved a regression with status code handling in the integrated
+  development server.
+
+Version 0.14
+------------
+
+Released on December 31st 2017
+
+- HTTP exceptions are now automatically caught by
+  ``Request.application``.
+- Added support for edge as browser.
+- Added support for platforms that lack ``SpooledTemporaryFile``.
+- Add support for etag handling through if-match
+- Added support for the SameSite cookie attribute.
+- Added ``werkzeug.wsgi.ProxyMiddleware``
+- Implemented ``has`` for ``NullCache``
+- ``get_multi`` on cache clients now returns lists all the time.
+- Improved the watchdog observer shutdown for the reloader to not crash
+  on exit on older Python versions.
+- Added support for ``filename*`` filename attributes according to
+  RFC 2231
+- Resolved an issue where machine ID for the reloader PIN was not
+  read accurately on windows.
+- Added a workaround for syntax errors in init files in the reloader.
+- Added support for using the reloader with console scripts on windows.
+- The built-in HTTP server will no longer close a connection in cases
+  where no HTTP body is expected (204, 204, HEAD requests etc.)
+- The ``EnvironHeaders`` object now skips over empty content type and
+  lengths if they are set to falsy values.
+- Werkzeug will no longer send the content-length header on 1xx or
+  204/304 responses.
+- Cookie values are now also permitted to include slashes and equal
+  signs without quoting.
+- Relaxed the regex for the routing converter arguments.
+- If cookies are sent without values they are now assumed to have an
+  empty value and the parser accepts this.  Previously this could have
+  corrupted cookies that followed the value.
+- The test ``Client`` and ``EnvironBuilder`` now support mimetypes like
+  the request object does.
+- Added support for static weights in URL rules.
+- Better handle some more complex reloader scenarios where sys.path
+  contained non directory paths.
+- ``EnvironHeaders`` no longer raises weird errors if non string keys
+  are passed to it.
+
 
 Version 0.13
 ------------
@@ -53,7 +103,6 @@ Released on December 7th 2017
 .. _#1198: https://github.com/pallets/werkzeug/pull/1198
 .. _#1205: https://github.com/pallets/werkzeug/pull/1205
 .. _#1208: https://github.com/pallets/werkzeug/pull/1208
-
 
 Version 0.12.2
 --------------
@@ -122,6 +171,9 @@ Released on March 10th 2017
 - Color run_simple's terminal output based on HTTP codes ``#1013``.
 - Fix self-XSS in debugger console, see ``#1031``.
 - Fix IPython 5.x shell support, see ``#1033``.
+- Change Accept datastructure to sort by specificity first, allowing for more
+  accurate results when using ``best_match`` for mime types (for example in
+  ``requests.accept_mimetypes.best_match``)
 
 Version 0.11.16
 ---------------
