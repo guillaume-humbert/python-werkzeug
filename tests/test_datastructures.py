@@ -771,6 +771,24 @@ class TestEnvironHeaders(object):
         ]
         assert not self.storage_class({'wsgi.version': (1, 0)})
         assert len(self.storage_class({'wsgi.version': (1, 0)})) == 0
+        assert 42 not in headers
+
+    def test_skip_empty_special_vars(self):
+        env = {
+            'HTTP_X_FOO':               '42',
+            'CONTENT_TYPE':             '',
+            'CONTENT_LENGTH':           '',
+        }
+        headers = self.storage_class(env)
+        assert dict(headers) == {'X-Foo': '42'}
+
+        env = {
+            'HTTP_X_FOO':               '42',
+            'CONTENT_TYPE':             '',
+            'CONTENT_LENGTH':           '0',
+        }
+        headers = self.storage_class(env)
+        assert dict(headers) == {'X-Foo': '42', 'Content-Length': '0'}
 
     def test_return_type_is_unicode(self):
         # environ contains native strings; we return unicode
@@ -966,7 +984,14 @@ class TestAccept(object):
             'asterisk'
         assert accept.best_match(['star'], default=None) is None
 
-    @pytest.mark.skipif(True, reason='Werkzeug doesn\'t respect specificity.')
+    def test_accept_keep_order(self):
+        accept = self.storage_class([('*', 1)])
+        assert accept.best_match(["alice", "bob"]) == "alice"
+        assert accept.best_match(["bob", "alice"]) == "bob"
+        accept = self.storage_class([('alice', 1), ('bob', 1)])
+        assert accept.best_match(["alice", "bob"]) == "alice"
+        assert accept.best_match(["bob", "alice"]) == "bob"
+
     def test_accept_wildcard_specificity(self):
         accept = self.storage_class([('asterisk', 0), ('star', 0.5), ('*', 1)])
         assert accept.best_match(['star', 'asterisk'], default=None) == 'star'
@@ -974,6 +999,25 @@ class TestAccept(object):
         assert accept.best_match(['asterisk', 'times'], default=None) == \
             'times'
         assert accept.best_match(['asterisk'], default=None) is None
+
+
+class TestMIMEAccept(object):
+    storage_class = datastructures.MIMEAccept
+
+    def test_accept_wildcard_subtype(self):
+        accept = self.storage_class([('text/*', 1)])
+        assert accept.best_match(['text/html'], default=None) == 'text/html'
+        assert accept.best_match(['image/png', 'text/plain']) == 'text/plain'
+        assert accept.best_match(['image/png'], default=None) is None
+
+    def test_accept_wildcard_specificity(self):
+        accept = self.storage_class([('*/*', 1), ('text/html', 1)])
+        assert accept.best_match(['image/png', 'text/html']) == 'text/html'
+        assert accept.best_match(['image/png', 'text/plain']) == 'image/png'
+        accept = self.storage_class([('*/*', 1), ('text/html', 1),
+                                     ('image/*', 1)])
+        assert accept.best_match(['image/png', 'text/html']) == 'text/html'
+        assert accept.best_match(['text/plain', 'image/png']) == 'image/png'
 
 
 class TestFileStorage(object):

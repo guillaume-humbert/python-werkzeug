@@ -380,6 +380,22 @@ class TestHTTPUtility(object):
         strict_eq(dict(http.parse_cookie('fo234{=bar; blub=Blah')),
                   {'fo234{': u'bar', 'blub': u'Blah'})
 
+        strict_eq(http.dump_cookie('key', 'xxx/'), 'key=xxx/; Path=/')
+        strict_eq(http.dump_cookie('key', 'xxx='), 'key=xxx=; Path=/')
+
+    def test_bad_cookies(self):
+        strict_eq(
+            dict(http.parse_cookie('first=IamTheFirst ; a=1; oops ; a=2 ;'
+                                   'second = andMeTwo;')),
+            {
+                'first': u'IamTheFirst',
+                'a': u'1',
+                'a': u'2',
+                'oops': u'',
+                'second': u'andMeTwo',
+            }
+        )
+
     def test_cookie_quoting(self):
         val = http.dump_cookie("foo", "?foo")
         strict_eq(val, 'foo="?foo"; Path=/')
@@ -439,6 +455,15 @@ class TestHTTPUtility(object):
         assert len(recwarn) == 1
         w = recwarn.pop()
         assert 'the limit is 512 bytes' in str(w.message)
+
+    @pytest.mark.parametrize('input, expected', [
+        ('strict', 'foo=bar; Path=/; SameSite=Strict'),
+        ('lax', 'foo=bar; Path=/; SameSite=Lax'),
+        (None, 'foo=bar; Path=/'),
+    ])
+    def test_cookie_samesite_attribute(self, input, expected):
+        val = http.dump_cookie('foo', 'bar', samesite=input)
+        strict_eq(val, expected)
 
 
 class TestRange(object):
