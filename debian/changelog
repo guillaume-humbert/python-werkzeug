@@ -1,10 +1,10 @@
-python-werkzeug (0.14.1+dfsg1-1) UNRELEASED; urgency=medium
+python-werkzeug (0.14.1+dfsg1-1) unstable; urgency=medium
 
   * New upstream release
   * Don't reset http{,s}_proxy, pybuild sets it correctly
   * Use Python 3 version of Sphinx for building docs
 
- -- Ondřej Nový <onovy@debian.org>  Sat, 09 Dec 2017 20:04:09 +0100
+ -- Ondřej Nový <onovy@debian.org>  Tue, 09 Jan 2018 14:37:11 +0100
 
 python-werkzeug (0.13+dfsg1-1) unstable; urgency=medium
 
