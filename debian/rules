@@ -38,6 +38,3 @@ override_dh_installdocs:
 	dh_installdocs
 
 	dh_installdocs -A AUTHORS
-
-override_dh_missing:
-	dh_missing --fail-missing
