@@ -1,4 +1,4 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Werkzeug
 Upstream-Contact: Armin Ronacher <armin.ronacher@active-4.com>
 Upstream-Source: http://werkzeug.pocoo.org/download
