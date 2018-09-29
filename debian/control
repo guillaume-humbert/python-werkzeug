@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
 Uploaders: Piotr Ożarowski <piotr@debian.org>,
            Ondřej Nový <onovy@debian.org>,
-Standards-Version: 4.1.3
+Standards-Version: 4.2.1
 Build-Depends: debhelper (>= 11.1.4~), dh-python, python3-sphinx,
  python-all, python3-all,
  python-setuptools, python3-setuptools,
