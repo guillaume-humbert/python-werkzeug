@@ -35,6 +35,9 @@ override_dh_fixperms:
 	dh_fixperms
 
 override_dh_installdocs:
-	dh_installdocs
+	dh_installdocs --doc-main-package=python-werkzeug-doc -ppython-werkzeug-doc
 
 	dh_installdocs -A AUTHORS
+
+override_dh_installexamples:
+	dh_installexamples --doc-main-package=python-werkzeug-doc -ppython-werkzeug-doc
