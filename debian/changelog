@@ -1,9 +1,9 @@
-python-werkzeug (0.14.1+dfsg1-3) UNRELEASED; urgency=medium
+python-werkzeug (0.14.1+dfsg1-3) unstable; urgency=medium
 
   * Move documentation back to /usr/share/python-werkzeug-doc and keep
     symlinks from /usr/share/python{,3}-werkzeug/ (Closes: #910211)
 
- -- Ondřej Nový <onovy@debian.org>  Fri, 05 Oct 2018 10:19:08 +0200
+ -- Ondřej Nový <onovy@debian.org>  Fri, 05 Oct 2018 10:20:18 +0200
 
 python-werkzeug (0.14.1+dfsg1-2) unstable; urgency=medium
 
