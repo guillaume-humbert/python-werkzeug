@@ -1,0 +1,130 @@
+From 7a4e8b834ee81aeeaa5dd0458b3986d33bb69de8 Mon Sep 17 00:00:00 2001
+From: Adam Williamson <awilliam@redhat.com>
+Date: Wed, 9 May 2018 15:50:50 -0700
+Subject: [PATCH] Skip tests that use 'xprocess' fixture when not installed
+Origin: https://github.com/pallets/werkzeug/commit/7a4e8b834ee81aeeaa5dd0458b3986d33bb69de8
+
+There's a trick in conftest.py intended to allow tests to use
+a fixture named 'subprocess', which will be the 'xprocess'
+fixture if that's available, or will cause the test to be
+skipped it it's not available. Some tests, however, just use
+the 'xprocess' fixture directly, so all those tests fail if
+it is not available.
+
+We don't really need this 'subprocess' fixture at all, it
+turns out - we can just do the same trick directly on the
+'xprocess' fixture, so all tests can use that directly (and
+also there's no confusion between this wrapper fixture and the
+commonly-used Python module called...subprocess). This
+simplifies things and makes the whole test suite run OK when
+xprocess isn't available.
+
+I noticed this when trying to run the test suite during build
+of the Fedora package - xprocess isn't packaged for Fedora yet,
+so there's no way to run the tests that use it unfortunately.
+
+Signed-off-by: Adam Williamson <awilliam@redhat.com>
+---
+ tests/conftest.py                 | 12 ++++--------
+ tests/contrib/cache/test_cache.py | 12 ++++++------
+ 2 files changed, 10 insertions(+), 14 deletions(-)
+
+--- a/tests/conftest.py
++++ b/tests/conftest.py
+@@ -27,12 +27,8 @@
+     __import__('pytest_xprocess')
+ except ImportError:
+     @pytest.fixture(scope='session')
+-    def subprocess():
++    def xprocess():
+         pytest.skip('pytest-xprocess not installed.')
+-else:
+-    @pytest.fixture(scope='session')
+-    def subprocess(xprocess):
+-        return xprocess
+ 
+ 
+ port_generator = count(13220)
+@@ -117,7 +113,7 @@
+ 
+ 
+ @pytest.fixture
+-def dev_server(tmpdir, subprocess, request, monkeypatch):
++def dev_server(tmpdir, xprocess, request, monkeypatch):
+     '''Run werkzeug.serving.run_simple in its own process.
+ 
+     :param application: String for the module that will be created. The module
+@@ -144,7 +140,7 @@
+             url_base = 'http://localhost:{0}'.format(port)
+ 
+         info = _ServerInfo(
+-            subprocess,
++            xprocess,
+             'localhost:{0}'.format(port),
+             url_base,
+             port
+@@ -154,7 +150,7 @@
+             args = [sys.executable, __file__, str(tmpdir)]
+             return lambda: 'pid=%s' % info.request_pid(), args
+ 
+-        subprocess.ensure('dev_server', preparefunc, restart=True)
++        xprocess.ensure('dev_server', preparefunc, restart=True)
+ 
+         def teardown():
+             # Killing the process group that runs the server, not just the
+--- a/tests/contrib/cache/test_cache.py
++++ b/tests/contrib/cache/test_cache.py
+@@ -221,7 +221,7 @@
+     _guaranteed_deletes = True
+ 
+     @pytest.fixture(scope='class', autouse=True)
+-    def requirements(self, subprocess):
++    def requirements(self, xprocess):
+         if redis is None:
+             pytest.skip('Python package "redis" is not installed.')
+ 
+@@ -229,7 +229,7 @@
+             return '[Rr]eady to accept connections', ['redis-server']
+ 
+         try:
+-            subprocess.ensure('redis_server', prepare)
++            xprocess.ensure('redis_server', prepare)
+         except IOError as e:
+             # xprocess raises FileNotFoundError
+             if e.errno == errno.ENOENT:
+@@ -238,7 +238,7 @@
+                 raise
+ 
+         yield
+-        subprocess.getinfo('redis_server').terminate()
++        xprocess.getinfo('redis_server').terminate()
+ 
+     @pytest.fixture(params=(None, False, True))
+     def make_cache(self, request):
+@@ -272,7 +272,7 @@
+     _can_use_fast_sleep = False
+ 
+     @pytest.fixture(scope='class', autouse=True)
+-    def requirements(self, subprocess):
++    def requirements(self, xprocess):
+         if memcache is None:
+             pytest.skip(
+                 'Python package for memcache is not installed. Need one of '
+@@ -283,7 +283,7 @@
+             return '', ['memcached']
+ 
+         try:
+-            subprocess.ensure('memcached', prepare)
++            xprocess.ensure('memcached', prepare)
+         except IOError as e:
+             # xprocess raises FileNotFoundError
+             if e.errno == errno.ENOENT:
+@@ -292,7 +292,7 @@
+                 raise
+ 
+         yield
+-        subprocess.getinfo('memcached').terminate()
++        xprocess.getinfo('memcached').terminate()
+ 
+     @pytest.fixture
+     def make_cache(self):

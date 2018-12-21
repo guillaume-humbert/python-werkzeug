@@ -1,3 +1,9 @@
+python-werkzeug (0.14.1+dfsg1-4) UNRELEASED; urgency=medium
+
+  * Don't run xprocess tests without xprocess (Closes: #915776)
+
+ -- Ondřej Nový <onovy@debian.org>  Fri, 21 Dec 2018 21:01:36 +0100
+
 python-werkzeug (0.14.1+dfsg1-3) unstable; urgency=medium
 
   * Move documentation back to /usr/share/python-werkzeug-doc and keep
