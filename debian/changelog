@@ -1,8 +1,8 @@
-python-werkzeug (0.14.1+dfsg1-4) UNRELEASED; urgency=medium
+python-werkzeug (0.14.1+dfsg1-4) unstable; urgency=medium
 
   * Don't run xprocess tests without xprocess (Closes: #915776)
 
- -- Ondřej Nový <onovy@debian.org>  Fri, 21 Dec 2018 21:01:36 +0100
+ -- Ondřej Nový <onovy@debian.org>  Fri, 21 Dec 2018 21:02:47 +0100
 
 python-werkzeug (0.14.1+dfsg1-3) unstable; urgency=medium
 
