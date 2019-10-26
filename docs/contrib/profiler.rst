@@ -1,11 +1,9 @@
-=========================
 WSGI Application Profiler
 =========================
 
-.. automodule:: werkzeug.contrib.profiler
+.. warning::
+    ``werkzeug.contrib.profiler`` has moved to
+    :mod:`werkzeug.middleware.profiler`. The old import is deprecated as
+    of version 0.15 and will be removed in version 1.0.
 
-.. autoclass:: MergeStream
-
-.. autoclass:: ProfilerMiddleware
-
-.. autofunction:: make_action
+.. autoclass:: werkzeug.contrib.profiler.MergeStream

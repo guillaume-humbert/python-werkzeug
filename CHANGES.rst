@@ -1,5 +1,380 @@
-Werkzeug Changelog
-==================
+.. currentmodule:: werkzeug
+
+Version 0.16.0
+--------------
+
+Released 2019-09-19
+
+-   Deprecate most top-level attributes provided by the ``werkzeug``
+    module in favor of direct imports. The deprecated imports will be
+    removed in version 1.0.
+
+    For example, instead of ``import werkzeug; werkzeug.url_quote``, do
+    ``from werkzeug.urls import url_quote``. A deprecation warning will
+    show the correct import to use. ``werkzeug.exceptions`` and
+    ``werkzeug.routing`` should also be imported instead of accessed,
+    but for technical reasons can't show a warning.
+
+    :issue:`2`, :pr:`1640`
+
+
+Version 0.15.6
+--------------
+
+Released 2019-09-04
+
+-   Work around a bug in pip that caused the reloader to fail on
+    Windows when the script was an entry point. This fixes the issue
+    with Flask's `flask run` command failing with "No module named
+    Scripts\flask". :issue:`1614`
+-   ``ProxyFix`` trusts the ``X-Forwarded-Proto`` header by default.
+    :issue:`1630`
+-   The deprecated ``num_proxies`` argument to ``ProxyFix`` sets
+    ``x_for``, ``x_proto``, and ``x_host`` to match 0.14 behavior. This
+    is intended to make intermediate upgrades less disruptive, but the
+    argument will still be removed in 1.0. :issue:`1630`
+
+
+Version 0.15.5
+--------------
+
+Released 2019-07-17
+
+-   Fix a ``TypeError`` due to changes to ``ast.Module`` in Python 3.8.
+    :issue:`1551`
+-   Fix a C assertion failure in debug builds of some Python 2.7
+    releases. :issue:`1553`
+-   :class:`~exceptions.BadRequestKeyError` adds the ``KeyError``
+    message to the description if ``e.show_exception`` is set to
+    ``True``. This is a more secure default than the original 0.15.0
+    behavior and makes it easier to control without losing information.
+    :pr:`1592`
+-   Upgrade the debugger to jQuery 3.4.1. :issue:`1581`
+-   Work around an issue in some external debuggers that caused the
+    reloader to fail. :issue:`1607`
+-   Work around an issue where the reloader couldn't introspect a
+    setuptools script installed as an egg. :issue:`1600`
+-   The reloader will use ``sys.executable`` even if the script is
+    marked executable, reverting a behavior intended for NixOS
+    introduced in 0.15. The reloader should no longer cause
+    ``OSError: [Errno 8] Exec format error``. :issue:`1482`,
+    :issue:`1580`
+-   ``SharedDataMiddleware`` safely handles paths with Windows drive
+    names. :issue:`1589`
+
+
+Version 0.15.4
+--------------
+
+Released 2019-05-14
+
+-   Fix a ``SyntaxError`` on Python 2.7.5. (:issue:`1544`)
+
+
+Version 0.15.3
+--------------
+
+Released 2019-05-14
+
+-   Properly handle multi-line header folding in development server in
+    Python 2.7. (:issue:`1080`)
+-   Restore the ``response`` argument to :exc:`~exceptions.Unauthorized`.
+    (:pr:`1527`)
+-   :exc:`~exceptions.Unauthorized` doesn't add the ``WWW-Authenticate``
+    header if ``www_authenticate`` is not given. (:issue:`1516`)
+-   The default URL converter correctly encodes bytes to string rather
+    than representing them with ``b''``. (:issue:`1502`)
+-   Fix the filename format string in
+    :class:`~middleware.profiler.ProfilerMiddleware` to correctly handle
+    float values. (:issue:`1511`)
+-   Update :class:`~middleware.lint.LintMiddleware` to work on Python 3.
+    (:issue:`1510`)
+-   The debugger detects cycles in chained exceptions and does not time
+    out in that case. (:issue:`1536`)
+-   When running the development server in Docker, the debugger security
+    pin is now unique per container.
+
+
+Version 0.15.2
+--------------
+
+Released 2019-04-02
+
+-   ``Rule`` code generation uses a filename that coverage will ignore.
+    The previous value, "generated", was causing coverage to fail.
+    (:issue:`1487`)
+-   The test client removes the cookie header if there are no persisted
+    cookies. This fixes an issue introduced in 0.15.0 where the cookies
+    from the original request were used for redirects, causing functions
+    such as logout to fail. (:issue:`1491`)
+-   The test client copies the environ before passing it to the app, to
+    prevent in-place modifications from affecting redirect requests.
+    (:issue:`1498`)
+-   The ``"werkzeug"`` logger only adds a handler if there is no handler
+    configured for its level in the logging chain. This avoids double
+    logging if other code configures logging first. (:issue:`1492`)
+
+
+Version 0.15.1
+--------------
+
+Released 2019-03-21
+
+-   :exc:`~exceptions.Unauthorized` takes ``description`` as the first
+    argument, restoring previous behavior. The new ``www_authenticate``
+    argument is listed second. (:issue:`1483`)
+
+
+Version 0.15.0
+--------------
+
+Released 2019-03-19
+
+-   Building URLs is ~7x faster. Each :class:`~routing.Rule` compiles
+    an optimized function for building itself. (:pr:`1281`)
+-   :meth:`MapAdapter.build() <routing.MapAdapter.build>` can be passed
+    a :class:`~datastructures.MultiDict` to represent multiple values
+    for a key. It already did this when passing a dict with a list
+    value. (:pr:`724`)
+-   ``path_info`` defaults to ``'/'`` for
+    :meth:`Map.bind() <routing.Map.bind>`. (:issue:`740`, :pr:`768`,
+    :pr:`1316`)
+-   Change ``RequestRedirect`` code from 301 to 308, preserving the verb
+    and request body (form data) during redirect. (:pr:`1342`)
+-   ``int`` and ``float`` converters in URL rules will handle negative
+    values if passed the ``signed=True`` parameter. For example,
+    ``/jump/<int(signed=True):count>``. (:pr:`1355`)
+-   ``Location`` autocorrection in :func:`Response.get_wsgi_headers()
+    <wrappers.BaseResponse.get_wsgi_headers>` is relative to the current
+    path rather than the root path. (:issue:`693`, :pr:`718`,
+    :pr:`1315`)
+-   412 responses once again include entity headers and an error message
+    in the body. They were originally omitted when implementing
+    ``If-Match`` (:pr:`1233`), but the spec doesn't seem to disallow it.
+    (:issue:`1231`, :pr:`1255`)
+-   The Content-Length header is removed for 1xx and 204 responses. This
+    fixes a previous change where no body would be sent, but the header
+    would still be present. The new behavior matches RFC 7230.
+    (:pr:`1294`)
+-   :class:`~exceptions.Unauthorized` takes a ``www_authenticate``
+    parameter to set the ``WWW-Authenticate`` header for the response,
+    which is technically required for a valid 401 response.
+    (:issue:`772`, :pr:`795`)
+-   Add support for status code 424 :exc:`~exceptions.FailedDependency`.
+    (:pr:`1358`)
+-   :func:`http.parse_cookie` ignores empty segments rather than
+    producing a cookie with no key or value. (:issue:`1245`, :pr:`1301`)
+-   :func:`~http.parse_authorization_header` (and
+    :class:`~datastructures.Authorization`,
+    :attr:`~wrappers.Request.authorization`) treats the authorization
+    header as UTF-8. On Python 2, basic auth username and password are
+    ``unicode``. (:pr:`1325`)
+-   :func:`~http.parse_options_header` understands :rfc:`2231` parameter
+    continuations. (:pr:`1417`)
+-   :func:`~urls.uri_to_iri` does not unquote ASCII characters in the
+    unreserved class, such as space, and leaves invalid bytes quoted
+    when decoding. :func:`~urls.iri_to_uri` does not quote reserved
+    characters. See :rfc:`3987` for these character classes.
+    (:pr:`1433`)
+-   ``get_content_type`` appends a charset for any mimetype that ends
+    with ``+xml``, not just those that start with ``application/``.
+    Known text types such as ``application/javascript`` are also given
+    charsets. (:pr:`1439`)
+-   Clean up ``werkzeug.security`` module, remove outdated hashlib
+    support. (:pr:`1282`)
+-   In :func:`~security.generate_password_hash`, PBKDF2 uses 150000
+    iterations by default, increased from 50000. (:pr:`1377`)
+-   :class:`~wsgi.ClosingIterator` calls ``close`` on the wrapped
+    *iterable*, not the internal iterator. This doesn't affect objects
+    where ``__iter__`` returned ``self``. For other objects, the method
+    was not called before. (:issue:`1259`, :pr:`1260`)
+-   Bytes may be used as keys in :class:`~datastructures.Headers`, they
+    will be decoded as Latin-1 like values are. (:pr:`1346`)
+-   :class:`~datastructures.Range` validates that list of range tuples
+    passed to it would produce a valid ``Range`` header. (:pr:`1412`)
+-   :class:`~datastructures.FileStorage` looks up attributes on
+    ``stream._file`` if they don't exist on ``stream``, working around
+    an issue where :func:`tempfile.SpooledTemporaryFile` didn't
+    implement all of :class:`io.IOBase`. See
+    https://github.com/python/cpython/pull/3249. (:pr:`1409`)
+-   :class:`CombinedMultiDict.copy() <datastructures.CombinedMultiDict>`
+    returns a shallow mutable copy as a
+    :class:`~datastructures.MultiDict`. The copy no longer reflects
+    changes to the combined dicts, but is more generally useful.
+    (:pr:`1420`)
+-   The version of jQuery used by the debugger is updated to 3.3.1.
+    (:pr:`1390`)
+-   The debugger correctly renders long ``markupsafe.Markup`` instances.
+    (:pr:`1393`)
+-   The debugger can serve resources when Werkzeug is installed as a
+    zip file. ``DebuggedApplication.get_resource`` uses
+    ``pkgutil.get_data``. (:pr:`1401`)
+-   The debugger and server log support Python 3's chained exceptions.
+    (:pr:`1396`)
+-   The interactive debugger highlights frames that come from user code
+    to make them easy to pick out in a long stack trace. Note that if an
+    env was created with virtualenv instead of venv, the debugger may
+    incorrectly classify some frames. (:pr:`1421`)
+-   Clicking the error message at the top of the interactive debugger
+    will jump down to the bottom of the traceback. (:pr:`1422`)
+-   When generating a PIN, the debugger will ignore a ``KeyError``
+    raised when the current UID doesn't have an associated username,
+    which can happen in Docker. (:issue:`1471`)
+-   :class:`~exceptions.BadRequestKeyError` adds the ``KeyError``
+    message to the description, making it clearer what caused the 400
+    error. Frameworks like Flask can omit this information in production
+    by setting ``e.args = ()``. (:pr:`1395`)
+-   If a nested ``ImportError`` occurs from :func:`~utils.import_string`
+    the traceback mentions the nested import. Removes an untested code
+    path for handling "modules not yet set up by the parent."
+    (:pr:`735`)
+-   Triggering a reload while using a tool such as PDB no longer hides
+    input. (:pr:`1318`)
+-   The reloader will not prepend the Python executable to the command
+    line if the Python file is marked executable. This allows the
+    reloader to work on NixOS. (:pr:`1242`)
+-   Fix an issue where ``sys.path`` would change between reloads when
+    running with ``python -m app``. The reloader can detect that a
+    module was run with "-m" and reconstructs that instead of the file
+    path in ``sys.argv`` when reloading. (:pr:`1416`)
+-   The dev server can bind to a Unix socket by passing a hostname like
+    ``unix://app.socket``. (:pr:`209`, :pr:`1019`)
+-   Server uses ``IPPROTO_TCP`` constant instead of ``SOL_TCP`` for
+    Jython compatibility. (:pr:`1375`)
+-   When using an adhoc SSL cert with :func:`~serving.run_simple`, the
+    cert is shown as self-signed rather than signed by an invalid
+    authority. (:pr:`1430`)
+-   The development server logs the unquoted IRI rather than the raw
+    request line, to make it easier to work with Unicode in request
+    paths during development. (:issue:`1115`)
+-   The development server recognizes ``ConnectionError`` on Python 3 to
+    silence client disconnects, and does not silence other ``OSErrors``
+    that may have been raised inside the application. (:pr:`1418`)
+-   The environ keys ``REQUEST_URI`` and ``RAW_URI`` contain the raw
+    path before it was percent-decoded. This is non-standard, but many
+    WSGI servers add them. Middleware could replace ``PATH_INFO`` with
+    this to route based on the raw value. (:pr:`1419`)
+-   :class:`~test.EnvironBuilder` doesn't set ``CONTENT_TYPE`` or
+    ``CONTENT_LENGTH`` in the environ if they aren't set. Previously
+    these used default values if they weren't set. Now it's possible to
+    distinguish between empty and unset values. (:pr:`1308`)
+-   The test client raises a ``ValueError`` if a query string argument
+    would overwrite a query string in the path. (:pr:`1338`)
+-   :class:`test.EnvironBuilder` and :class:`test.Client` take a
+    ``json`` argument instead of manually passing ``data`` and
+    ``content_type``. This is serialized using the
+    :meth:`test.EnvironBuilder.json_dumps` method. (:pr:`1404`)
+-   :class:`test.Client` redirect handling is rewritten. (:pr:`1402`)
+
+    -   The redirect environ is copied from the initial request environ.
+    -   Script root and path are correctly distinguished when
+        redirecting to a path under the root.
+    -   The HEAD method is not changed to GET.
+    -   307 and 308 codes preserve the method and body. All others
+        ignore the body and related headers.
+    -   Headers are passed to the new request for all codes, following
+        what browsers do.
+    -   :class:`test.EnvironBuilder` sets the content type and length
+        headers in addition to the WSGI keys when detecting them from
+        the data.
+    -   Intermediate response bodies are iterated over even when
+        ``buffered=False`` to ensure iterator middleware can run cleanup
+        code safely. Only the last response is not buffered. (:pr:`988`)
+
+-   :class:`~test.EnvironBuilder`, :class:`~datastructures.FileStorage`,
+    and :func:`wsgi.get_input_stream` no longer share a global
+    ``_empty_stream`` instance. This improves test isolation by
+    preventing cases where closing the stream in one request would
+    affect other usages. (:pr:`1340`)
+-   The default :attr:`SecureCookie.serialization_method
+    <contrib.securecookie.SecureCookie.serialization_method>` will
+    change from :mod:`pickle` to :mod:`json` in 1.0. To upgrade existing
+    tokens, override :meth:`~contrib.securecookie.SecureCookie.unquote`
+    to try ``pickle`` if ``json`` fails. (:pr:`1413`)
+-   ``CGIRootFix`` no longer modifies ``PATH_INFO`` for very old
+    versions of Lighttpd. ``LighttpdCGIRootFix`` was renamed to
+    ``CGIRootFix`` in 0.9. Both are deprecated and will be removed in
+    version 1.0. (:pr:`1141`)
+-   :class:`werkzeug.wrappers.json.JSONMixin` has been replaced with
+    Flask's implementation. Check the docs for the full API.
+    (:pr:`1445`)
+-   The :doc:`contrib modules </contrib/index>` are deprecated and will
+    either be moved into ``werkzeug`` core or removed completely in
+    version 1.0. Some modules that already issued deprecation warnings
+    have been removed. Be sure to run or test your code with
+    ``python -W default::DeprecationWarning`` to catch any deprecated
+    code you're using. (:issue:`4`)
+
+    -   ``LintMiddleware`` has moved to :mod:`werkzeug.middleware.lint`.
+    -   ``ProfilerMiddleware`` has moved to
+        :mod:`werkzeug.middleware.profiler`.
+    -   ``ProxyFix`` has moved to :mod:`werkzeug.middleware.proxy_fix`.
+    -   ``JSONRequestMixin`` has moved to :mod:`werkzeug.wrappers.json`.
+    -   ``cache`` has been extracted into a separate project,
+        `cachelib <https://github.com/pallets/cachelib>`_. The version
+        in Werkzeug is deprecated.
+    -   ``securecookie`` and ``sessions`` have been extracted into a
+        separate project,
+        `secure-cookie <https://github.com/pallets/secure-cookie>`_. The
+        version in Werkzeug is deprecated.
+    -   Everything in ``fixers``, except ``ProxyFix``, is deprecated.
+    -   Everything in ``wrappers``, except ``JSONMixin``, is deprecated.
+    -   ``atom`` is deprecated. This did not fit in with the rest of
+        Werkzeug, and is better served by a dedicated library in the
+        community.
+    -   ``jsrouting`` is removed. Set URLs when rendering templates
+        or JSON responses instead.
+    -   ``limiter`` is removed. Its specific use is handled by Werkzeug
+        directly, but stream limiting is better handled by the WSGI
+        server in general.
+    -   ``testtools`` is removed. It did not offer significant benefit
+        over the default test client.
+    -   ``iterio`` is deprecated.
+
+-   :func:`wsgi.get_host` no longer looks at ``X-Forwarded-For``. Use
+    :class:`~middleware.proxy_fix.ProxyFix` to handle that.
+    (:issue:`609`, :pr:`1303`)
+-   :class:`~middleware.proxy_fix.ProxyFix` is refactored to support
+    more headers, multiple values, and more secure configuration.
+
+    -   Each header supports multiple values. The trusted number of
+        proxies is configured separately for each header. The
+        ``num_proxies`` argument is deprecated. (:pr:`1314`)
+    -   Sets ``SERVER_NAME`` and ``SERVER_PORT`` based on
+        ``X-Forwarded-Host``. (:pr:`1314`)
+    -   Sets ``SERVER_PORT`` and modifies ``HTTP_HOST`` based on
+        ``X-Forwarded-Port``. (:issue:`1023`, :pr:`1304`)
+    -   Sets ``SCRIPT_NAME`` based on ``X-Forwarded-Prefix``.
+        (:issue:`1237`)
+    -   The original WSGI environment values are stored in the
+        ``werkzeug.proxy_fix.orig`` key, a dict. The individual keys
+        ``werkzeug.proxy_fix.orig_remote_addr``,
+        ``werkzeug.proxy_fix.orig_wsgi_url_scheme``, and
+        ``werkzeug.proxy_fix.orig_http_host`` are deprecated.
+
+-   Middleware from ``werkzeug.wsgi`` has moved to separate modules
+    under ``werkzeug.middleware``, along with the middleware moved from
+    ``werkzeug.contrib``. The old ``werkzeug.wsgi`` imports are
+    deprecated and will be removed in version 1.0. (:pr:`1452`)
+
+    -   ``werkzeug.wsgi.DispatcherMiddleware`` has moved to
+        :class:`werkzeug.middleware.dispatcher.DispatcherMiddleware`.
+    -   ``werkzeug.wsgi.ProxyMiddleware`` as moved to
+        :class:`werkzeug.middleware.http_proxy.ProxyMiddleware`.
+    -   ``werkzeug.wsgi.SharedDataMiddleware`` has moved to
+        :class:`werkzeug.middleware.shared_data.SharedDataMiddleware`.
+
+-   :class:`~middleware.http_proxy.ProxyMiddleware` proxies the query
+    string. (:pr:`1252`)
+-   The filenames generated by
+    :class:`~middleware.profiler.ProfilerMiddleware` can be customized.
+    (:issue:`1283`)
+-   The ``werkzeug.wrappers`` module has been converted to a package,
+    and its various classes have been organized into separate modules.
+    Any previously documented classes, understood to be the existing
+    public API, are still importable from ``werkzeug.wrappers``, or may
+    be imported from their specific modules. (:pr:`1456`)
+
 
 Version 0.14.1
 --------------
@@ -59,50 +434,38 @@ Released on December 7th 2017
 
 - **Deprecate support for Python 2.6 and 3.3.** CI tests will not run
   for these versions, and support will be dropped completely in the next
-  version. (`pallets/meta#24`_)
-- Raise ``TypeError`` when port is not an integer. (`#1088`_)
-- Fully deprecate ``werkzeug.script``. Use `Click`_ instead. (`#1090`_)
+  version. (:issue:`pallets/meta#24`)
+- Raise ``TypeError`` when port is not an integer. (:pr:`1088`)
+- Fully deprecate ``werkzeug.script``. Use `Click`_ instead.
+  (:pr:`1090`)
 - ``response.age`` is parsed as a ``timedelta``. Previously, it was
   incorrectly treated as a ``datetime``. The header value is an integer
-  number of seconds, not a date string. (`#414`_)
+  number of seconds, not a date string. (:pr:`414`)
 - Fix a bug in ``TypeConversionDict`` where errors are not propagated
-  when using the converter. (`#1102`_)
+  when using the converter. (:issue:`1102`)
 - ``Authorization.qop`` is a string instead of a set, to comply with
-  RFC 2617. (`#984`_)
+  RFC 2617. (:pr:`984`)
 - An exception is raised when an encoded cookie is larger than, by
   default, 4093 bytes. Browsers may silently ignore cookies larger than
   this. ``BaseResponse`` has a new attribute ``max_cookie_size`` and
   ``dump_cookie`` has a new argument ``max_size`` to configure this.
-  (`#780`_, `#1109`_)
+  (:pr:`780`, :pr:`1109`)
 - Fix a TypeError in ``werkzeug.contrib.lint.GuardedIterator.close``.
-  (`#1116`_)
+  (:pr:`1116`)
 - ``BaseResponse.calculate_content_length`` now correctly works for
   Unicode responses on Python 3. It first encodes using
-  ``iter_encoded``. (`#705`_)
+  ``iter_encoded``. (:issue:`705`)
 - Secure cookie contrib works with string secret key on Python 3.
-  (`#1205`_)
+  (:pr:`1205`)
 - Shared data middleware accepts a list instead of a dict of static
-  locations to preserve lookup order. (`#1197`_)
+  locations to preserve lookup order. (:pr:`1197`)
 - HTTP header values without encoding can contain single quotes.
-  (`#1208`_)
+  (:pr:`1208`)
 - The built-in dev server supports receiving requests with chunked
-  transfer encoding. (`#1198`_)
+  transfer encoding. (:pr:`1198`)
 
-.. _Click: https://www.palletsprojects.com/p/click/
-.. _pallets/meta#24: https://github.com/pallets/meta/issues/24
-.. _#414: https://github.com/pallets/werkzeug/pull/414
-.. _#705: https://github.com/pallets/werkzeug/pull/705
-.. _#780: https://github.com/pallets/werkzeug/pull/780
-.. _#984: https://github.com/pallets/werkzeug/pull/984
-.. _#1088: https://github.com/pallets/werkzeug/pull/1088
-.. _#1090: https://github.com/pallets/werkzeug/pull/1090
-.. _#1102: https://github.com/pallets/werkzeug/pull/1102
-.. _#1109: https://github.com/pallets/werkzeug/pull/1109
-.. _#1116: https://github.com/pallets/werkzeug/pull/1116
-.. _#1197: https://github.com/pallets/werkzeug/pull/1197
-.. _#1198: https://github.com/pallets/werkzeug/pull/1198
-.. _#1205: https://github.com/pallets/werkzeug/pull/1205
-.. _#1208: https://github.com/pallets/werkzeug/pull/1208
+.. _Click: https://palletsprojects.com/p/click/
+
 
 Version 0.12.2
 --------------
@@ -1190,9 +1553,7 @@ Version 0.3.1
 (bugfix release, released on June 24th 2008)
 
 - fixed a security problem with `werkzeug.contrib.SecureCookie`.
-  More details available in the `release announcement`_.
 
-.. _release announcement: http://lucumr.pocoo.org/cogitations/2008/06/24/werkzeug-031-released/
 
 Version 0.3
 -----------
