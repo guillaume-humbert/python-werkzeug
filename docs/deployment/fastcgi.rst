@@ -18,7 +18,7 @@ First you need to create the FastCGI server file.  Let's call it
     #!/usr/bin/python
     from flup.server.fcgi import WSGIServer
     from yourapplication import make_app
-    
+
     if __name__ == '__main__':
         application = make_app()
         WSGIServer(application).run()
@@ -65,14 +65,10 @@ A basic FastCGI configuration for lighttpd looks like this::
         "^(/.*)$" => "/yourapplication.fcgi$1"
 
 Remember to enable the FastCGI, alias and rewrite modules. This configuration
-binds the application to `/yourapplication`.  If you want the application to
-work in the URL root you have to work around a lighttpd bug with the
-:class:`~werkzeug.contrib.fixers.LighttpdCGIRootFix` middleware.
+binds the application to `/yourapplication`.
 
-Make sure to apply it only if you are mounting the application the URL
-root. Also, see the Lighty docs for more information on `FastCGI and Python
-<http://redmine.lighttpd.net/wiki/lighttpd/Docs:ModFastCGI>`_ (note that
-explicitly passing a socket to run() is no longer necessary).
+See the Lighty docs for more information on `FastCGI and Python
+<https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_ModFastCGI>`_.
 
 Configuring nginx
 =================
@@ -137,6 +133,6 @@ path.  Common problems are:
     web server.
 -   different python interpreters being used.
 
-.. _lighttpd: http://www.lighttpd.net/
-.. _nginx: http://nginx.net/
-.. _flup: http://trac.saddi.com/flup
+.. _lighttpd: https://www.lighttpd.net/
+.. _nginx: https://nginx.org/
+.. _flup: https://pypi.org/project/flup/

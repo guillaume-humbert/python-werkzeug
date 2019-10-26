@@ -3,7 +3,7 @@
 Dealing with Request Data
 =========================
 
-.. module:: werkzeug
+.. currentmodule:: werkzeug
 
 The most important rule about web development is "Do not trust the user".
 This is especially true for incoming request data on the input stream.
@@ -98,19 +98,25 @@ How to extend Parsing?
 ----------------------
 
 Modern web applications transmit a lot more than multipart form data or
-url encoded data.  Extending the parsing capabilities by subclassing
-the :class:`BaseRequest` is simple.  The following example implements
-parsing for incoming JSON data::
+url encoded data. To extend the capabilities, subclass :class:`BaseRequest`
+or :class:`Request` and add or extend methods.
+
+There is already a mixin that provides JSON parsing::
+
+    from werkzeug.wrappers import Request
+    from werkzeug.wrappers.json import JSONMixin
+
+    class JSONRequest(JSONMixin, Request):
+        pass
+
+The basic implementation of that looks like::
 
     from werkzeug.utils import cached_property
     from werkzeug.wrappers import Request
-    from simplejson import loads
+    import simplejson as json
 
     class JSONRequest(Request):
-        # accept up to 4MB of transmitted data.
-        max_content_length = 1024 * 1024 * 4
-
         @cached_property
         def json(self):
-            if self.headers.get('content-type') == 'application/json':
-                return loads(self.data)
+            if self.mimetype == "application/json":
+                return json.loads(self.data)

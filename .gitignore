@@ -1,7 +1,7 @@
 MANIFEST
 build
 dist
-*.egg-info
+/src/Werkzeug.egg-info
 *.pyc
 *.pyo
 env
@@ -19,3 +19,4 @@ htmlcov
 .hypothesis
 test_uwsgi_failed
 .idea
+.pytest_cache/

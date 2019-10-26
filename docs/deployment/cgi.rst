@@ -10,7 +10,7 @@ This is also the way you can use a Werkzeug application on Google's
 `AppEngine`_, there however the execution does happen in a CGI-like
 environment.  The application's performance is unaffected because of that.
 
-.. _AppEngine: http://code.google.com/appengine/
+.. _AppEngine: https://cloud.google.com/appengine/
 
 Creating a `.cgi` file
 ======================
@@ -32,10 +32,10 @@ Server Setup
 ============
 
 Usually there are two ways to configure the server.  Either just copy the
-`.cgi` into a `cgi-bin` (and use `mod_rerwite` or something similar to
+`.cgi` into a `cgi-bin` (and use `mod_rewrite` or something similar to
 rewrite the URL) or let the server point to the file directly.
 
-In Apache for example you can put a like like this into the config:
+In Apache for example you can put something like this into the config:
 
 .. sourcecode:: apache
 
