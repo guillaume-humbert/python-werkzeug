@@ -1,3 +1,1 @@
-drop_ubuntu_font.patch
-0002-Use-local-copies-of-object.inv-for-building-document.patch
-xprocess-skip.patch
+0001-Skip-windows-specific-test.patch

@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Python Modules Packaging Team <python-modules-team@lists.alioth.debian.org>
 Uploaders: Piotr Ożarowski <piotr@debian.org>,
            Ondřej Nový <onovy@debian.org>,
-Standards-Version: 4.2.1
+Standards-Version: 4.1.4
 Build-Depends: debhelper (>= 11.1.4~), dh-python, python3-sphinx,
  python-all, python3-all,
  python-setuptools, python3-setuptools,
@@ -56,17 +56,3 @@ Description: collection of utilities for WSGI applications (Python 3.x)
  middleware to easily create a custom application framework.
  .
  This package contains the Python 3.x module.
-
-Package: python-werkzeug-doc
-Section: doc
-Architecture: all
-Depends: ${misc:Depends}, ${sphinxdoc:Depends}
-Replaces: python-werkzeug (<< 0.9.3+dfsg-2)
-Breaks: python-werkzeug (<< 0.9.3+dfsg-2)
-Description: documentation for the werkzeug Python library (docs)
- Werkzeug is a lightweight library for interfacing with WSGI. It features
- request and response objects, an interactive debugging system and a powerful
- URI dispatcher. Combine with your choice of third party libraries and
- middleware to easily create a custom application framework.
- .
- This package provides the Sphinx generated documentation for Werkzeug.

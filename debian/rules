@@ -1,21 +1,13 @@
 #!/usr/bin/make -f
 
-# Copyright 2009, Noah Slater <nslater@tumbolia.org>
-
-# Copying and distribution of this file, with or without modification, are
-# permitted in any medium without royalty provided the copyright notice and this
-# notice are preserved.
-
 export PYBUILD_NAME=werkzeug
 export PYBUILD_TEST_PYTEST=1
 
 %:
-	dh $@ --with python2,python3,sphinxdoc --buildsystem pybuild
+	dh $@ --with python2,python3 --buildsystem pybuild
 
 override_dh_auto_clean:
-	make -C docs clean
-	rm -rf build Werkzeug.egg-info/
-	#find $(CURDIR) \( -name '\._*' -o -name '\.DS_Store' \) -delete
+	rm -rf build src/Werkzeug.egg-info/ .pybuild 
 	dh_auto_clean
 
 override_dh_auto_test:
@@ -24,18 +16,7 @@ override_dh_auto_test:
 		trap "kill $$! || true" EXIT; \
 		LC_ALL=C.UTF-8 dh_auto_test; \
 
-override_dh_auto_install:
-	dh_auto_install
-	PYTHONPATH=. python3 -m sphinx -b html docs/ debian/python-werkzeug-doc/usr/share/doc/python-werkzeug-doc/html/
-
 override_dh_fixperms:
 	find debian/ -name '*\.png' -exec chmod -x '{}' \;
 	dh_fixperms
 
-override_dh_installdocs:
-	dh_installdocs --doc-main-package=python-werkzeug-doc -ppython-werkzeug-doc
-
-	dh_installdocs -A AUTHORS
-
-override_dh_installexamples:
-	dh_installexamples --doc-main-package=python-werkzeug-doc -ppython-werkzeug-doc
